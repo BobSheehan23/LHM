@@ -1,0 +1,48 @@
+# LHM - Lighthouse Macro Repository Requirements
+# Complete Python dependencies for all analysis tools
+
+# Core Data Science & Analysis
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+
+# Financial Data & APIs
+yfinance>=0.2.12
+fredapi>=0.5.0
+quandl>=3.7.0
+alpha_vantage>=2.3.1
+
+# Jupyter & Development
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipywidgets>=8.0.0
+notebook>=6.5.0
+
+# Data Processing & IO
+openpyxl>=3.1.0
+xlsxwriter>=3.1.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Time Series & Econometrics
+statsmodels>=0.14.0
+arch>=5.5.0
+
+# Visualization Enhancement
+kaleido>=0.2.1
+plotly-dash>=2.10.0
+
+# Environment & Configuration
+python-dotenv>=1.0.0
+
+# Optional: Advanced Analysis
+# Uncomment as needed for specific analysis
+# lightgbm>=3.3.0
+# xgboost>=1.7.0
+# tensorflow>=2.13.0
+# torch>=2.0.0

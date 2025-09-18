@@ -1,0 +1,14 @@
+# Ignore environment files
+.env
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore local data directories
+/equilend_daily/
+*.csv
+*.html
+
+# Ignore OS-specific files
+.DS_Store
