@@ -1,0 +1,60 @@
+# Core data science and analysis
+pandas
+numpy
+python-docx
+oracledb
+
+# Environment variable management
+python-dotenv
+
+EquiLend Securities Finance Models - Dependencies
+Core Data Science
+numpy
+pandas
+scipy
+
+Machine Learning & Time Series
+scikit-learn
+xgboost
+lightgbm
+catboost
+
+Time Series Specific
+statsmodels
+pmdarima
+prophet
+arch
+pykalman
+
+API and Data Sources
+requests
+fredapi
+yfinance
+
+Database Connectivity
+sqlalchemy
+cx_oracle
+oracledb
+psycopg2-binary
+pymysql
+
+Environment Management
+python-dotenv
+
+Document Processing
+python-docx
+openpyxl
+
+Jupyter and Visualization
+jupyter
+matplotlib
+seaborn
+plotly
+bokeh
+
+Development Tools
+pytest
+black
+flake8
+pre-commit
+add these too the environment you already set up in one of the earlier convos
