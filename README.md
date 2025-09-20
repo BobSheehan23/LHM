@@ -60,11 +60,6 @@ Common data sources include:
 - Line thickness ~3, watermark "LHM" bottom-right
 - Match axes at zero when appropriate
 
-## Privacy & Security
-- **Confidential**: Treat all repository contents as confidential
-- **No Client Data**: Never commit proprietary client information
-- **Data Classification**: When unsure, ask for confirmation before proceeding
-
 ## Contributing
 This is an internal repository. Follow the established coding standards and ensure all data remains confidential.
 
