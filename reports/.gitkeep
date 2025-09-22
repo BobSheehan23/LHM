@@ -3,8 +3,5 @@
 This directory contains draft outputs and research reports for Lighthouse Macro.
 
 ## Guidelines
-- Export final versions to main Lighthouse Macro repository
-- Keep drafts and working documents here
+- Export final versions to main Lighthouse Macro repository as well as save them here.
 - Maintain confidentiality - no client names or sensitive information
-
-Note: Actual report files are excluded from git for confidentiality.
