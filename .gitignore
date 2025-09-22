@@ -87,12 +87,3 @@ temp/
 *.log
 logs/
 
-# Charts with sensitive data (keep template charts)
-charts/*
-!charts/.gitkeep
-!charts/templates/
-
-# Reports with sensitive data
-reports/*
-!reports/.gitkeep
-!reports/templates/
