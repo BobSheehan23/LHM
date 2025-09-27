@@ -57,7 +57,7 @@ Common data sources include:
 - No gridlines, all spines visible
 - Right axis primary for single series
 - Color palette: Ocean Blue, Deep Sunset Orange, Neon Carolina Blue, Neon Magenta, Medium-Light Gray
-- Line thickness ~3, watermark "LHM" bottom-right
+- Line thickness ~3, watermark "MACRO, ILLUMINATED." bottom-right
 - Match axes at zero when appropriate
 
 ## Contributing
