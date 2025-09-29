@@ -7,7 +7,7 @@ This directory contains exported figures and visualizations.
 - Right axis is primary
 - Color palette: Ocean Blue, Deep Sunset Orange, Neon Carolina Blue, Neon Magenta, Medium-Light Gray
 - Line thickness ~3
-- Watermark "LHM" bottom-right (never overlap data)
+- Watermark "MACRO, ILLUMINATED" bottom-right (never overlap data)
 - Axes matched at zero when appropriate
 
 Note: Actual chart files are excluded from git for confidentiality.
