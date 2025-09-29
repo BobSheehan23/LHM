@@ -60,6 +60,14 @@ Common data sources include:
 - Line thickness ~3, watermark "MACRO, ILLUMINATED." bottom-right
 - Match axes at zero when appropriate
 
+## Repository Consolidation
+
+**Considering consolidating multiple repositories into LHM?** 
+
+See [`docs/repository-consolidation-analysis.md`](docs/repository-consolidation-analysis.md) for detailed analysis and recommendations on integrating your external repositories into this monorepo structure.
+
+**TL;DR:** Selective consolidation of macro research-specific repositories (FRED MCP, SEC EDGAR MCP, Daily Digest, etc.) is recommended, while keeping generic development tools separate.
+
 ## Contributing
 This is an internal repository. Follow the established coding standards and ensure all data remains confidential.
 
