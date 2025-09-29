@@ -16,7 +16,7 @@ LHM is the internal, single source of truth for Lighthouse Macro. It contains co
 - Color palette: Ocean Blue, Deep Sunset Orange, Neon Carolina Blue, Neon Magenta, Medium-Light Gray.
 - Line thickness ~3; longest history available.
 - Axes matched at zero; independently scaled (linear/log/stdev ranges) for clarity.
-- Labels clear, no overlaps. Watermark "LHM" bottom-right (never overlap data).
+- Labels clear, no overlaps. Watermark "MACRO, ILLUMINATED." bottom-right (never overlap data).
 
 ## Project Structure (recommended)
 - `/data/` (raw, external, interim, processed) — never commit proprietary client data.
