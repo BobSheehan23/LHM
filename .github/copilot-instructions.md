@@ -9,13 +9,10 @@ LHM is the internal, single source of truth for Lighthouse Macro. It contains co
 - Python by default (pandas, numpy, matplotlib; statsmodels/pyarrow optional).
 - Deliver runnable code first; add minimal context after.
 
-## Data/Privacy
-- Treat all contents as confidential. Do not include client names, deal info, or EquiLend references.
-- When unsure about data classification, halt and ask for confirmation with file path.
+
 
 ## Charting Standards
 - No gridlines. All four spines visible. Right axis is primary.
-- Dual axis when >1 series unless all series are indexed to 100.
 - Color palette: Ocean Blue, Deep Sunset Orange, Neon Carolina Blue, Neon Magenta, Medium-Light Gray.
 - Line thickness ~3; longest history available.
 - Axes matched at zero; independently scaled (linear/log/stdev ranges) for clarity.
@@ -30,12 +27,4 @@ LHM is the internal, single source of truth for Lighthouse Macro. It contains co
 - `/configs/` (YAML/JSON configs, credentials via env vars only)
 - `/tests/`
 
-## Coding Standards
-- Deterministic outputs: set random seeds when relevant.
-- Use type hints; small, pure functions; docstrings with params/returns.
-- File I/O via environment variables or config files; never hardcode secrets.
-- Include quick tests or sample inputs for utilities.
-
-## Interaction Guidance
-- If a request is ambiguous, ask one targeted clarification and then proceed.
-- Prefer structured outputs (tables/JSON/YAML). Keep prose minimal.
+##
