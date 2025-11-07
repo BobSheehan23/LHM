@@ -73,3 +73,19 @@ This is an internal repository. Follow the established coding standards and ensu
 
 ## License
 Internal use only. All rights reserved.
+
+## FRED Data Platform Skeleton
+
+The repository now includes an initial scaffolding for the planned FRED
+indicator ingestion system. Relevant entry points:
+
+- `configs/fred_series_catalog.template.yaml` – template for mapping
+  stakeholder categories to FRED series identifiers.
+- `src/lhm/config/series_catalog.py` – loader utilities for the catalog.
+- `src/lhm/clients/fred_client.py` – stubbed API client to be expanded in
+  the next phase.
+- `src/lhm/pipelines/daily_refresh.py` – shell for the daily refresh
+  pipeline coordinating ingestion and persistence.
+
+Refer to `docs/fred_data_platform.md` for additional context and the
+roadmap for completing the ingestion workflow.
