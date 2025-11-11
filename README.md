@@ -29,7 +29,8 @@ LHM/
 ### Prerequisites
 - Python 3.8+
 - Jupyter Lab/Notebook
-- Required packages: pandas, numpy, matplotlib
+- Required packages: pandas, numpy, matplotlib, PyYAML
+- Optional for Parquet export: `pyarrow` or `fastparquet`
 
 ### Installation
 ```bash
@@ -73,3 +74,30 @@ This is an internal repository. Follow the established coding standards and ensu
 
 ## License
 Internal use only. All rights reserved.
+
+## FRED Data Platform
+
+The monorepo now ships with an end-to-end ingestion stack capable of
+maintaining hundreds of FRED indicators on a rolling basis.
+
+Key entry points:
+
+- `configs/fred_catalog_sources.yaml` – tag-based recipe for generating
+  category-specific indicator catalogs directly from FRED.
+- `configs/fred_series_catalog.yaml` – materialised catalog consumed by
+  the ingestion pipeline. Regenerate with `python -m lhm.catalog.generate`
+  after supplying a FRED API key.
+- `src/lhm/config/series_catalog.py` – loader utilities for the catalog
+  format.
+- `src/lhm/clients/fred_client.py` – fully functional HTTP client with
+  rate limiting, metadata retrieval, tag search, and observation pulls.
+- `src/lhm/pipelines/daily_refresh.py` – orchestrates refresh cycles,
+  persists results, and records metadata for each series.
+- `src/lhm/storage/filesystem.py` – pluggable storage backend capable of
+  writing Parquet, CSV, or JSON datasets to disk.
+- `src/lhm/cli.py` – command line interface for triggering the pipeline.
+- `src/lhm/catalog/generate.py` – helper CLI for expanding the catalog
+  using the tag configuration.
+
+Refer to `docs/fred_data_platform.md` for the detailed architecture and
+operational guidance.

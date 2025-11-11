@@ -1,0 +1,21 @@
+# Generated catalog placeholder. Run `python -m lhm.catalog.generate` to
+# populate this file using the tag configuration in
+# `configs/fred_catalog_sources.yaml` once a FRED API key is available.
+categories:
+  gdp:
+    - series_id: GDP
+      title: Gross Domestic Product, Billions of Dollars, Quarterly, SAAR
+      frequency: Quarterly
+      units: Billions of Dollars
+      seasonal_adjustment: Seasonally Adjusted Annual Rate
+      notes: Placeholder entry demonstrating the schema; regenerate via the catalog generator for the full list.
+  labor: []
+  prices: []
+  health: []
+  money: []
+  trade: []
+  government: []
+  business: []
+  consumer: []
+  housing: []
+  taxes: []

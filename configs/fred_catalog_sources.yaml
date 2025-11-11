@@ -1,0 +1,39 @@
+# Mapping from stakeholder categories to FRED tags used for catalog generation.
+#
+# Each category lists one or more FRED tags. The catalog generator will pull the
+# most popular series associated with the intersection of those tags to build
+# the curated indicator list.
+categories:
+  gdp:
+    tags: [gdp]
+    limit: 80
+  labor:
+    tags: [employment, unemployment]
+    limit: 80
+  prices:
+    tags: [inflation]
+    limit: 80
+  health:
+    tags: [health]
+    limit: 80
+  money:
+    tags: [money, monetary]
+    limit: 80
+  trade:
+    tags: [trade]
+    limit: 80
+  government:
+    tags: [government]
+    limit: 80
+  business:
+    tags: [business]
+    limit: 80
+  consumer:
+    tags: [consumer]
+    limit: 80
+  housing:
+    tags: [housing]
+    limit: 80
+  taxes:
+    tags: [taxes]
+    limit: 80

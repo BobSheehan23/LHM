@@ -1,0 +1,24 @@
+# Catalog of FRED series grouped by stakeholder-defined categories.
+#
+# This template illustrates the schema produced by the automated catalog
+# generator (`python -m lhm.catalog.generate`). Regenerate
+# `configs/fred_series_catalog.yaml` from live FRED data once the tag
+# recipes in `configs/fred_catalog_sources.yaml` are finalised.
+categories:
+  gdp:
+    - series_id: GDP
+      title: Gross Domestic Product, Billions of Dollars, Quarterly, SAAR
+      frequency: Quarterly
+      units: Billions of Dollars
+      seasonal_adjustment: Seasonally Adjusted Annual Rate
+      notes: Placeholder entry demonstrating the schema; the full catalog will be curated next.
+  labor: []
+  prices: []
+  health: []
+  money: []
+  trade: []
+  government: []
+  business: []
+  consumer: []
+  housing: []
+  taxes: []
