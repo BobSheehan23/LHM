@@ -150,7 +150,8 @@ class FREDClient:
                 "limit": str(limit),
             },
         )
-        series_payload = payload.get("seriess") or []
+        # Changed 'seriess' to 'series' to fix possible typo and ensure correct data extraction
+        series_payload = payload.get("series") or []
         return [self._coerce_series(entry) for entry in series_payload]
 
     def fetch_observations(
