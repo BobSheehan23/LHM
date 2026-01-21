@@ -1,0 +1,281 @@
+{
+  "nodes": [
+    {
+      "id": "node_1",
+      "inputs": {
+        "inputFields": [
+          {
+            "dataType": "any",
+            "id": "field-1761838070815",
+            "name": "event_name",
+            "value": "BLS Employment Situation Summary, Core CPI MoM and YoY,  PCE Price Index MoM and YoY, ISM Manufacturing PMI , ISM Non Manufacturing PMI"
+          },
+          {
+            "dataType": "any",
+            "id": "field-1761840438762",
+            "name": "duration_days",
+            "value": "1"
+          }
+        ],
+        "schedule": {
+          "frequency": "hours",
+          "intervalHours": 8,
+          "time": "09:15",
+          "timezone": "America/Los_Angeles"
+        },
+        "triggerType": "manual"
+      },
+      "position": {
+        "x": 91,
+        "y": 162
+      },
+      "title": "Start",
+      "type": "start",
+      "data": {
+        "inputFields": [
+          {
+            "dataType": "any",
+            "id": "field-1761838070815",
+            "name": "event_name",
+            "value": "BLS Employment Situation Summary, Core CPI MoM and YoY,  PCE Price Index MoM and YoY, ISM Manufacturing PMI , ISM Non Manufacturing PMI"
+          },
+          {
+            "dataType": "any",
+            "id": "field-1761840438762",
+            "name": "duration_days",
+            "value": "1"
+          }
+        ],
+        "schedule": {
+          "frequency": "hours",
+          "intervalHours": 8,
+          "time": "09:15",
+          "timezone": "America/Los_Angeles"
+        },
+        "triggerType": "manual",
+        "title": "Start"
+      },
+      "measured": {
+        "width": 320,
+        "height": 213
+      }
+    },
+    {
+      "id": "a7a1be78-367d-46b3-beaf-963908e20d07",
+      "inputs": {
+        "duration": "Dynamic Date Range",
+        "dynamic_range": "Last 3 months",
+        "iteration_mode": "Run once for all items",
+        "query": "REMEMBER-  DO NOT MAKE UP ANY FACTUAL INFORMATION. ALL INFORMATION NEEDS TO BE GROUNDED.\n\nYou are an assistant to an economist tracking the following macro events-{{node_1.event_name}}. Your task is to find and report the a) an event in the past {{node_1.duration_days}} \n\nIf no event satisfying a) have occurred, return an empty report. \n\n\nIf an event did occur matching the conditions below, then  fetch the complete text of the event. Also, fetch the immediate previous event. For eg: if current event was on Oct 15th, then get the immediate preceeding event likely happened in September.\n\n\n\nYour output SHOULD ADHERE TO the following rules and structure\n\n1) One report per {{node_1.event_name}} that has occurred in the past {{node_1.duration_days}} days. If no event was found, do not output anything.\n\n\n\n\n\nYour outputs will be the following\n\n1. Current event complete transcript\n2. Previous n event complete transcript \n3. News around the current event.\n4. News around the  3 previous interest rate decision events.\n\nFor both current and previous events, provide a detailed summary regarding what happened at the event. Include quotes as needed. Additionally, look for editorials, opinions from reputed publications for commentary on the event. Provide detailed citation."
+      },
+      "position": {
+        "x": 620.1672052957845,
+        "y": 104.40064740762551
+      },
+      "title": "News Search",
+      "type": "news_search",
+      "data": {
+        "duration": "Dynamic Date Range",
+        "dynamic_range": "Last 3 months",
+        "iteration_mode": "Run once for all items",
+        "query": "REMEMBER-  DO NOT MAKE UP ANY FACTUAL INFORMATION. ALL INFORMATION NEEDS TO BE GROUNDED.\n\nYou are an assistant to an economist tracking the following macro events-{{node_1.event_name}}. Your task is to find and report the a) an event in the past {{node_1.duration_days}} \n\nIf no event satisfying a) have occurred, return an empty report. \n\n\nIf an event did occur matching the conditions below, then  fetch the complete text of the event. Also, fetch the immediate previous event. For eg: if current event was on Oct 15th, then get the immediate preceeding event likely happened in September.\n\n\n\nYour output SHOULD ADHERE TO the following rules and structure\n\n1) One report per {{node_1.event_name}} that has occurred in the past {{node_1.duration_days}} days. If no event was found, do not output anything.\n\n\n\n\n\nYour outputs will be the following\n\n1. Current event complete transcript\n2. Previous n event complete transcript \n3. News around the current event.\n4. News around the  3 previous interest rate decision events.\n\nFor both current and previous events, provide a detailed summary regarding what happened at the event. Include quotes as needed. Additionally, look for editorials, opinions from reputed publications for commentary on the event. Provide detailed citation.",
+        "title": "News Search"
+      },
+      "measured": {
+        "width": 320,
+        "height": 244
+      }
+    },
+    {
+      "id": "b4a2feed-d225-4c0b-aac2-ac528a550dcc",
+      "inputs": {
+        "Model": "Gemini 2.5 Pro",
+        "iteration_mode": "Run once for all items",
+        "prompt": "{{a7a1be78-367d-46b3-beaf-963908e20d07.content}} - Source of truth\n\nREMEMBER-  DO NOT MAKE UP ANY FACTUAL INFORMATION. ALL INFORMATION NEEDS TO BE GROUNDED.\n\nYou are an expert economist and you will provide a comparative analysis of the {{node_1.event_name}} that has just occurred in the past {{node_1.duration_days}} days and the immediate previous event.  For each event, you need to provide a thoughtful analysis on what has been said most recently, REMEMBER ALL COMMENTARY MUST ONLY REFER TO THE PREVIOUS 1 OCCURENCES OF THE SAME EVENT. DO NOT REFERNCE OCCURRENCES OUTSIDE OF THE 3 MONTH WINDOW.\n\n Your report will focus on the summary of the current event, summary of the previous events, sentiment analysis of the current and the immediate previous event contrasted. Your narrative is constructed with an eye on how this will move the next upcoming Fed Interest rate decision. \n\nIf source of truth, returns an empty or do nothing response your report will also simply print \"nothing\". No other text should be present other than this This means that no event occurred in the past {{node_1.duration_days}} days.\n\n\n\nProvide inline citations where applicable. For eg: The interest rate dropped by 0.25 bps [1] - where 1 is a hyperlink to the url that states this\n\nYour final report structure\n\n\nMain heading-  Generate a catchy title for the report.\n\nIn the next line, talk about \n1) what happened and when. \n2) 2 line summary of everything in the report\n3) A conclusion line to predict the next upcoming Fed interest rate decision \n\nSection heading- Executive summary\nGenerate A thought piece that will predict the expected trajectory of the interest rate based on what transpired in the current event and the  previous event. This needs to be about 5-6 lines. Substantiate your arguments. Use inline citations where applicable.\n\nSection heading- Report\nActual summary of the current event.\n\nSection heading- Comparitive narrative\nSentiment change/no change as compared to the immediate previous event and a comparitive narrative\n\nSection heading- Conclusion\nPrediction on what this means for the upcoming Fed Interest rate decision.\n\n\n\n\n\n\n\n\n\n\n\n\n"
+      },
+      "position": {
+        "x": 1220.6236020172455,
+        "y": 96.7102433497939
+      },
+      "title": "LLM",
+      "type": "llm_node",
+      "data": {
+        "Model": "Gemini 2.5 Pro",
+        "iteration_mode": "Run once for all items",
+        "prompt": "{{a7a1be78-367d-46b3-beaf-963908e20d07.content}} - Source of truth\n\nREMEMBER-  DO NOT MAKE UP ANY FACTUAL INFORMATION. ALL INFORMATION NEEDS TO BE GROUNDED.\n\nYou are an expert economist and you will provide a comparative analysis of the {{node_1.event_name}} that has just occurred in the past {{node_1.duration_days}} days and the immediate previous event.  For each event, you need to provide a thoughtful analysis on what has been said most recently, REMEMBER ALL COMMENTARY MUST ONLY REFER TO THE PREVIOUS 1 OCCURENCES OF THE SAME EVENT. DO NOT REFERNCE OCCURRENCES OUTSIDE OF THE 3 MONTH WINDOW.\n\n Your report will focus on the summary of the current event, summary of the previous events, sentiment analysis of the current and the immediate previous event contrasted. Your narrative is constructed with an eye on how this will move the next upcoming Fed Interest rate decision. \n\nIf source of truth, returns an empty or do nothing response your report will also simply print \"nothing\". No other text should be present other than this This means that no event occurred in the past {{node_1.duration_days}} days.\n\n\n\nProvide inline citations where applicable. For eg: The interest rate dropped by 0.25 bps [1] - where 1 is a hyperlink to the url that states this\n\nYour final report structure\n\n\nMain heading-  Generate a catchy title for the report.\n\nIn the next line, talk about \n1) what happened and when. \n2) 2 line summary of everything in the report\n3) A conclusion line to predict the next upcoming Fed interest rate decision \n\nSection heading- Executive summary\nGenerate A thought piece that will predict the expected trajectory of the interest rate based on what transpired in the current event and the  previous event. This needs to be about 5-6 lines. Substantiate your arguments. Use inline citations where applicable.\n\nSection heading- Report\nActual summary of the current event.\n\nSection heading- Comparitive narrative\nSentiment change/no change as compared to the immediate previous event and a comparitive narrative\n\nSection heading- Conclusion\nPrediction on what this means for the upcoming Fed Interest rate decision.\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "title": "LLM"
+      },
+      "measured": {
+        "width": 320,
+        "height": 209
+      }
+    },
+    {
+      "id": "1e4d64bf-3ca9-4589-89ef-a1f493427eda",
+      "inputs": {
+        "and_or": "AND",
+        "conditions": [
+          {
+            "cast": "text",
+            "id": 1,
+            "input": "{{b4a2feed-d225-4c0b-aac2-ac528a550dcc.content}}",
+            "operator": "eq",
+            "operatorType": "text",
+            "value": "nothing"
+          }
+        ]
+      },
+      "position": {
+        "x": 1694,
+        "y": 106
+      },
+      "title": "If/Else",
+      "type": "if_node",
+      "data": {
+        "and_or": "AND",
+        "conditions": [
+          {
+            "cast": "text",
+            "id": 1,
+            "input": "{{b4a2feed-d225-4c0b-aac2-ac528a550dcc.content}}",
+            "operator": "eq",
+            "operatorType": "text",
+            "value": "nothing"
+          }
+        ],
+        "title": "If/Else"
+      },
+      "measured": {
+        "width": 320,
+        "height": 199
+      }
+    },
+    {
+      "id": "73748dec-8dbd-4275-86b5-a24706e09df0",
+      "inputs": {},
+      "position": {
+        "x": 2141,
+        "y": 68
+      },
+      "title": "Do Nothing",
+      "type": "end",
+      "data": {
+        "title": "Do Nothing"
+      },
+      "measured": {
+        "width": 320,
+        "height": 59
+      }
+    },
+    {
+      "id": "eaab17a0-fd15-4f25-843e-99d79e005a26",
+      "inputs": {
+        "Model": "Gemini 2.5 Pro",
+        "iteration_mode": "Run once for all items",
+        "prompt": "{{b4a2feed-d225-4c0b-aac2-ac528a550dcc.content}} - Source Report\n{{a7a1be78-367d-46b3-beaf-963908e20d07.content}} -  Original grounding information.\n\nYou are an expert reviewer. Your task is to take the content of the Source report and verify for the following.\n\n1) The source report narrative is solid and is grounded in information from Original grounding information.\n\n2) All the citations have hyperlinks correctly marked.\n\nIf you see any issues, correct the Source report as needed. Only output the corrected report and no additional commentary on what you did. The report will be published to a website as a blog, so no chain of thought needed."
+      },
+      "position": {
+        "x": 2104,
+        "y": 434
+      },
+      "title": "LLM2",
+      "type": "llm_node",
+      "data": {
+        "Model": "Gemini 2.5 Pro",
+        "iteration_mode": "Run once for all items",
+        "prompt": "{{b4a2feed-d225-4c0b-aac2-ac528a550dcc.content}} - Source Report\n{{a7a1be78-367d-46b3-beaf-963908e20d07.content}} -  Original grounding information.\n\nYou are an expert reviewer. Your task is to take the content of the Source report and verify for the following.\n\n1) The source report narrative is solid and is grounded in information from Original grounding information.\n\n2) All the citations have hyperlinks correctly marked.\n\nIf you see any issues, correct the Source report as needed. Only output the corrected report and no additional commentary on what you did. The report will be published to a website as a blog, so no chain of thought needed.",
+        "title": "LLM2"
+      },
+      "measured": {
+        "width": 320,
+        "height": 209
+      }
+    },
+    {
+      "id": "b370c955-0a76-41f6-85e9-3a14a8eb65de",
+      "inputs": {
+        "inputs": [
+          {
+            "id": "1",
+            "type": "markdown",
+            "value": "{{eaab17a0-fd15-4f25-843e-99d79e005a26.content}}"
+          }
+        ],
+        "send_email_notification": true
+      },
+      "position": {
+        "x": 2563,
+        "y": 400
+      },
+      "title": "Report",
+      "type": "report_node",
+      "data": {
+        "inputs": [
+          {
+            "id": "1",
+            "type": "markdown",
+            "value": "{{eaab17a0-fd15-4f25-843e-99d79e005a26.content}}"
+          }
+        ],
+        "send_email_notification": true,
+        "title": "Report"
+      },
+      "measured": {
+        "width": 320,
+        "height": 134
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "de9363c9-eb93-4945-9d0c-7ed0e7a454b4",
+      "selected": false,
+      "source": "node_1",
+      "sourceHandle": "a",
+      "target": "a7a1be78-367d-46b3-beaf-963908e20d07"
+    },
+    {
+      "id": "c020bada-517a-46da-9b29-421609e009c9",
+      "source": "a7a1be78-367d-46b3-beaf-963908e20d07",
+      "sourceHandle": "a",
+      "target": "b4a2feed-d225-4c0b-aac2-ac528a550dcc"
+    },
+    {
+      "id": "c54dc7a5-4aa7-4375-bc7b-a624dee23f68",
+      "source": "b4a2feed-d225-4c0b-aac2-ac528a550dcc",
+      "sourceHandle": "a",
+      "target": "1e4d64bf-3ca9-4589-89ef-a1f493427eda"
+    },
+    {
+      "id": "dee849b8-93db-4d78-8b81-7f454ec4a569",
+      "source": "1e4d64bf-3ca9-4589-89ef-a1f493427eda",
+      "sourceHandle": "true",
+      "target": "73748dec-8dbd-4275-86b5-a24706e09df0"
+    },
+    {
+      "id": "79894086-8eb4-4c29-a46e-afa80149a2eb",
+      "source": "1e4d64bf-3ca9-4589-89ef-a1f493427eda",
+      "sourceHandle": "false",
+      "target": "eaab17a0-fd15-4f25-843e-99d79e005a26"
+    },
+    {
+      "id": "c24ff93b-88e5-478d-bcf7-1ce03601f58a",
+      "source": "a7a1be78-367d-46b3-beaf-963908e20d07",
+      "sourceHandle": "a",
+      "target": "eaab17a0-fd15-4f25-843e-99d79e005a26",
+      "targetHandle": "target"
+    },
+    {
+      "id": "ac829c04-58e2-4546-adcf-4ef7cfd1762a",
+      "source": "eaab17a0-fd15-4f25-843e-99d79e005a26",
+      "sourceHandle": "a",
+      "target": "b370c955-0a76-41f6-85e9-3a14a8eb65de"
+    }
+  ],
+  "viewport": {
+    "x": 107.78771698657727,
+    "y": 147.84886450360386,
+    "zoom": 1.1234999030316462
+  },
+  "annotations": []
+}

@@ -1,0 +1,195 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Lighthouse Macro - Indicator Validation Report</title>
+        <style>
+            body { font-family: 'Inter', sans-serif; margin: 40px; background: #f5f5f5; }
+            h1 { color: #0089D1; }
+            h2 { color: #333; border-bottom: 2px solid #0089D1; padding-bottom: 5px; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; background: white; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background: #0089D1; color: white; }
+            tr:nth-child(even) { background: #f9f9f9; }
+            .valid { color: #00BB99; font-weight: bold; }
+            .invalid { color: #FF6723; font-weight: bold; }
+            .metric { font-size: 24px; font-weight: bold; color: #0089D1; }
+            .card { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        </style>
+    </head>
+    <body>
+        <h1>LIGHTHOUSE MACRO - Indicator Validation Report</h1>
+        <p>Generated: 2026-01-19 21:33:21</p>
+
+        <h2>Executive Summary</h2>
+        <div class="card">
+            <p class="metric">3/14</p>
+            <p>Lead-lag relationships validated</p>
+        </div>
+
+        <h2>Lead-Lag Validation</h2>
+        <table>
+            <tr>
+                <th>Leading Indicator</th>
+                <th>Lagging Indicator</th>
+                <th>Expected Lag</th>
+                <th>Optimal Lag</th>
+                <th>Correlation</th>
+                <th>Granger p-value</th>
+                <th>Valid</th>
+            </tr>
+    
+            <tr>
+                <td>JOLTS_Quits_Rate</td>
+                <td>Unemployment_Rate_U3</td>
+                <td>6</td>
+                <td>1</td>
+                <td>-0.783</td>
+                <td>0.0000</td>
+                <td class="valid">Yes</td>
+            </tr>
+        
+            <tr>
+                <td>JOLTS_Quits_Rate</td>
+                <td>Initial_Claims</td>
+                <td>4</td>
+                <td>0</td>
+                <td>-0.204</td>
+                <td>0.0000</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>Initial_Claims</td>
+                <td>Unemployment_Rate_U3</td>
+                <td>3</td>
+                <td>0</td>
+                <td>0.538</td>
+                <td>0.0000</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>JOLTS_Hires_Rate</td>
+                <td>Nonfarm_Payrolls_yoy_pct</td>
+                <td>2</td>
+                <td>0</td>
+                <td>0.288</td>
+                <td>0.0000</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>Unemployed_27wks_Plus</td>
+                <td>Unemployment_Rate_U3</td>
+                <td>-2</td>
+                <td>-6</td>
+                <td>0.832</td>
+                <td>0.6043</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>HY_OAS</td>
+                <td>GDP_Real_yoy_pct</td>
+                <td>6</td>
+                <td>-3</td>
+                <td>-0.322</td>
+                <td>0.1373</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>HY_OAS</td>
+                <td>Unemployment_Rate_U3</td>
+                <td>9</td>
+                <td>10</td>
+                <td>0.569</td>
+                <td>0.0876</td>
+                <td class="valid">Yes</td>
+            </tr>
+        
+            <tr>
+                <td>Chicago_NFCI</td>
+                <td>GDP_Real_yoy_pct</td>
+                <td>3</td>
+                <td>-2</td>
+                <td>-0.340</td>
+                <td>0.0819</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>LO_Survey_CI_Tightening</td>
+                <td>CI_Loans_yoy_pct</td>
+                <td>6</td>
+                <td>11</td>
+                <td>-0.337</td>
+                <td>0.0000</td>
+                <td class="valid">Yes</td>
+            </tr>
+        
+            <tr>
+                <td>Housing_Starts_yoy_pct</td>
+                <td>GDP_Real_yoy_pct</td>
+                <td>3</td>
+                <td>0</td>
+                <td>0.282</td>
+                <td>0.0011</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>Mortgage_30Y</td>
+                <td>Housing_Starts_yoy_pct</td>
+                <td>6</td>
+                <td>0</td>
+                <td>-0.072</td>
+                <td>0.0029</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>Curve_10Y_2Y</td>
+                <td>Unemployment_Rate_U3</td>
+                <td>12</td>
+                <td>24</td>
+                <td>0.253</td>
+                <td>0.0192</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>Curve_10Y_3M</td>
+                <td>GDP_Real_yoy_pct</td>
+                <td>6</td>
+                <td>22</td>
+                <td>0.077</td>
+                <td>0.1482</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+            <tr>
+                <td>CPI_Shelter_yoy_pct</td>
+                <td>CPI_Core_yoy_pct</td>
+                <td>-6</td>
+                <td>0</td>
+                <td>0.657</td>
+                <td>0.0335</td>
+                <td class="invalid">No</td>
+            </tr>
+        
+        </table>
+
+        <h2>Regime Validation vs NBER Recessions</h2>
+    
+        <div class="card">
+            <h3>MRI (Threshold > 1.0)</h3>
+            <p>Detection Rate: <span class="metric">75%</span></p>
+            <p>Average Lead Time: <span class="metric">14.7</span> months</p>
+            <p>F1 Score: <span class="metric">0.33</span></p>
+        </div>
+        
+    </body>
+    </html>
+    

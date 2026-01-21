@@ -1,0 +1,1138 @@
+"""
+LIGHTHOUSE MACRO - MASTER DATABASE
+===================================
+One database. All sources. Zero headaches.
+
+Sources: FRED + BLS + BEA + NY Fed + OFR
+Storage: SQLite with smart incremental updates
+Output: Single source of truth for all Lighthouse analysis
+
+Run daily at 06:00 ET via launchd
+"""
+
+import requests
+import pandas as pd
+import sqlite3
+import time
+from datetime import datetime
+from pathlib import Path
+
+# ==========================================
+# CONFIGURATION
+# ==========================================
+
+DB_PATH = Path("/Users/bob/Desktop/HorizonJan2026_LiveData/Lighthouse_Master.db")
+
+API_KEYS = {
+    "FRED": "11893c506c07b3b8647bf16cf60586e8",
+    "BLS": "2e66aeb26c664d4fbc862de06d1f8899",
+    "BEA": "4401D40D-4047-414F-B4FE-D441E96F8DE8"
+}
+
+# ==========================================
+# FRED CONFIGURATION
+# ==========================================
+
+# Category IDs for auto-discovery (top 50 by popularity per category)
+FRED_CATEGORIES = {
+    "Employment_Situation": 32440,
+    "CPI_Urban_Consumers": 9,
+    "Industrial_Production": 32262,
+    "Treasury_Rates": 115,
+    "Money_Banking": 24,
+    "Producer_Price_Index": 32263,
+    "Employment_Cost_Index": 3,
+    "Exchange_Rates": 94,
+    "Regional_Fed_Surveys": 32266,
+    "Housing": 97,
+    "GDP_National_Accounts": 106,
+    "Personal_Income": 110,
+    "Consumer_Credit": 22,
+    "Interest_Rates": 114,
+    "Business_Lending": 100,
+}
+
+# Curated high-priority series (always included even if not in top 50)
+FRED_CURATED = {
+    # Labor Market
+    "UNRATE": "Unemployment Rate U3",
+    "U6RATE": "Unemployment Rate U6",
+    "CIVPART": "Labor Force Participation",
+    "PAYEMS": "Total Nonfarm Payrolls",
+    "ICSA": "Initial Jobless Claims",
+    "CCSA": "Continued Claims",
+    "JTS1000JOR": "JOLTS Job Openings Rate",
+    "JTS1000QUR": "JOLTS Quits Rate",
+    "JTS1000HIR": "JOLTS Hires Rate",
+
+    # Inflation
+    "CPIAUCSL": "CPI All Urban Consumers",
+    "CPILFESL": "Core CPI",
+    "PCEPI": "PCE Price Index",
+    "PCEPILFE": "Core PCE",
+    "MEDCPIM158SFRBCLE": "Median CPI",
+    "CORESTICKM159SFRBATL": "Sticky Core CPI",
+
+    # Growth & Activity
+    "GDP": "Nominal GDP",
+    "GDPC1": "Real GDP",
+    "INDPRO": "Industrial Production",
+    "RSAFS": "Retail Sales",
+    "UMCSENT": "Consumer Sentiment",
+
+    # Rates & Yields
+    "FEDFUNDS": "Fed Funds Rate",
+    "DGS1": "1Y Treasury",
+    "DGS2": "2Y Treasury",
+    "DGS5": "5Y Treasury",
+    "DGS10": "10Y Treasury",
+    "DGS30": "30Y Treasury",
+    "T10Y2Y": "10Y-2Y Spread",
+    "T10Y3M": "10Y-3M Spread",
+    "MORTGAGE30US": "30Y Mortgage Rate",
+
+    # Credit Spreads
+    "BAMLH0A0HYM2": "HY OAS Spread",
+    "BAMLC0A0CM": "IG OAS Spread",
+
+    # Money & Liquidity
+    "M2SL": "M2 Money Supply",
+    "WALCL": "Fed Balance Sheet",
+    "RRPONTSYD": "RRP Usage",
+    "TOTRESNS": "Bank Reserves",
+
+    # Housing
+    "HOUST": "Housing Starts",
+    "PERMIT": "Building Permits",
+    "CSUSHPINSA": "Case-Shiller Home Prices",
+    "MSPUS": "Median Home Price",
+
+    # Consumer
+    "TOTALSL": "Consumer Credit",
+    "PSAVERT": "Personal Saving Rate",
+    "TDSP": "Household Debt Service Ratio",
+
+    # Fiscal
+    "GFDEBTN": "Federal Debt",
+    "GFDEGDQ188S": "Debt to GDP",
+
+    # Delinquencies
+    "DRALACBS": "All Loan Delinquency Rate",
+    "DRSFRMACBS": "Mortgage Delinquency Rate",
+    "DRCCLACBS": "Credit Card Delinquency Rate",
+
+    # Volatility
+    "VIXCLS": "VIX",
+
+    # Commodities
+    "DCOILWTICO": "WTI Crude",
+    "DTWEXBGS": "Trade Weighted Dollar",
+
+    # Labor Demographics (Granular)
+    "LNS14000003": "Unemployment Rate White",
+    "LNS14000006": "Unemployment Rate Black",
+    "LNS14000009": "Unemployment Rate Hispanic",
+    "LNS14000012": "Unemployment Rate Men 20+",
+    "LNS14000013": "Unemployment Rate Women 20+",
+    "LNS14000024": "Unemployment Rate 16-19",
+    "LNS14000025": "Unemployment Rate 20-24",
+    "LNS14000036": "Unemployment Rate 25-54",
+    "LNS14024230": "Unemployment Rate 55+",
+    "LNS11300002": "LFPR Men",
+    "LNS11300003": "LFPR Women",
+    "LNS11300060": "LFPR Prime Age 25-54",
+    "LNS12032194": "Part Time for Economic Reasons",
+    "UEMPMEAN": "Mean Duration Unemployment Weeks",
+    "UEMP27OV": "Unemployed 27 Weeks and Over",
+    "U1RATE": "Unemployment Rate U1 (15+ weeks)",
+    "U2RATE": "Unemployment Rate U2 (Job Losers)",
+
+    # CPI Components (Granular)
+    "CUSR0000SAH1": "CPI Shelter",
+    "CUSR0000SAH2": "CPI Fuel Utilities",
+    "CUSR0000SAM1": "CPI Medical Care Services",
+    "CUSR0000SAM2": "CPI Medical Care Commodities",
+    "CUSR0000SAS4": "CPI Transportation Services",
+    "CUSR0000SETB01": "CPI Gasoline",
+    "CUSR0000SETA02": "CPI Used Cars Trucks",
+    "CUSR0000SETA01": "CPI New Vehicles",
+    "CUSR0000SEHA": "CPI Rent Primary Residence",
+    "CUSR0000SEHC": "CPI Owners Equivalent Rent",
+    "CUSR0000SAF11": "CPI Food at Home",
+    "CUSR0000SEFV": "CPI Food Away from Home",
+
+    # PCE Components (Granular)
+    "DGDSRG3M086SBEA": "PCE Goods",
+    "DSERRG3M086SBEA": "PCE Services",
+    "PCEDG": "PCE Durable Goods",
+    "PCEND": "PCE Nondurable Goods",
+    "PCES": "PCE Services",
+
+    # Financial Conditions
+    "NFCI": "Chicago Fed NFCI",
+    "ANFCI": "Adjusted NFCI",
+    "STLFSI4": "St Louis Fed FSI",
+
+    # More Credit/Lending
+    "DRTSCILM": "Loan Officer Survey C&I Tightening",
+    "DRTSCLCC": "Loan Officer Survey Credit Card Tightening",
+    "TOTCI": "Commercial Industrial Loans",
+    "CONSUMER": "Consumer Loans at Banks",
+    "BUSLOANS": "Business Loans at Banks",
+    "REALLN": "Real Estate Loans at Banks",
+
+    # Treasury Auctions / Dealers
+    "WTREGEN": "Treasury General Account",
+    "H41RESPPALDKNWW": "Fed RRP Outstanding",
+
+    # Additional Yield Curve
+    "DGS1MO": "1M Treasury",
+    "DGS3MO": "3M Treasury",
+    "DGS6MO": "6M Treasury",
+    "T10YFF": "10Y minus Fed Funds",
+    "T5YFF": "5Y minus Fed Funds",
+
+    # Real Rates
+    "DFII5": "5Y TIPS Yield",
+    "DFII10": "10Y TIPS Yield",
+    "T5YIFR": "5Y Forward Inflation Expectation",
+    "T10YIE": "10Y Breakeven Inflation",
+    "T5YIE": "5Y Breakeven Inflation",
+
+    # Term Premium
+    "THREEFYTP10": "10Y Term Premium ACM",
+
+    # ===== GAP FILLERS =====
+
+    # ISM / PMI (Business Surveys)
+    "MANEMP": "ISM Manufacturing Employment",
+    "NAPM": "ISM Manufacturing PMI",
+    "NAPMNOI": "ISM Manufacturing New Orders",
+    "NAPMII": "ISM Manufacturing Inventories",
+    "NAPMPRI": "ISM Manufacturing Prices",
+    "NAPMSDI": "ISM Manufacturing Supplier Deliveries",
+    "NAPMPI": "ISM Manufacturing Production",
+    "NMFCI": "ISM Non-Manufacturing Composite",
+    "NMFBAI": "ISM Non-Manufacturing Business Activity",
+    "NMFNOI": "ISM Non-Manufacturing New Orders",
+
+    # NFIB Small Business
+    "NFIB": "NFIB Small Business Optimism",
+
+    # Regional Fed Surveys
+    "GACDISA066MSFRBNY": "Empire State Manufacturing",
+    "GACDFSA066MSFRBPHI": "Philly Fed Manufacturing",
+    "CFNAIMA3": "Chicago Fed National Activity",
+    "KCFSI": "Kansas City Fed FSI",
+    "DFXARC1M027SBEA": "Dallas Fed Manufacturing",
+
+    # Durable Goods Orders
+    "DGORDER": "Durable Goods Orders",
+    "ADXTNO": "Durable Goods Orders Ex Transportation",
+    "NEWORDER": "Manufacturers New Orders Total",
+    "AMTMNO": "Manufacturers Total New Orders",
+    "ACDGNO": "Durable Goods Orders Ex Defense",
+    "ANDENO": "Nondefense Capital Goods Orders Ex Aircraft",
+    "AMDMNO": "Durable Manufacturers New Orders",
+    "AMNMNO": "Nondurable Manufacturers New Orders",
+
+    # Trade Balance & Trade
+    "BOPGSTB": "Trade Balance Goods and Services",
+    "BOPGTB": "Trade Balance Goods Only",
+    "BOPTEXP": "Exports Goods and Services",
+    "BOPTIMP": "Imports Goods and Services",
+    "IMPGS": "Real Imports Goods Services",
+    "EXPGS": "Real Exports Goods Services",
+    "IR": "Import Price Index",
+    "IQ": "Export Price Index",
+    "NETEXP": "Net Exports",
+
+    # Freight & Logistics
+    "RAILFRTCARLOADSD11": "Rail Freight Carloads",
+    "TSIFRGHT": "Transportation Services Index Freight",
+    "TSITTL": "Transportation Services Index Total",
+    "FRGSHPUSM649NCIS": "Cass Freight Shipments Index",
+    "LOADFAC": "Air Revenue Passenger Load Factor",
+
+    # Auto/Vehicle Sales
+    "ALTSALES": "Light Vehicle Sales Total",
+    "LAUTOSA": "Light Autos Sales",
+    "LTOTALNSA": "Light Trucks Sales",
+    "HTRUCKSSAAR": "Heavy Truck Sales",
+    "TOTALSA": "Total Vehicle Sales",
+    "AISRSA": "Auto Inventory Sales Ratio",
+
+    # Retail Sales Detail
+    "RSXFS": "Retail Sales Ex Food Services",
+    "RSMVPD": "Retail Sales Motor Vehicles Parts",
+    "RSFSDP": "Retail Sales Food Services Drinking",
+    "RSGASS": "Retail Sales Gasoline Stations",
+    "RSBMGESD": "Retail Sales Building Materials",
+    "RSGCSN": "Retail Sales General Merchandise",
+    "RSNSR": "Retail Sales Nonstore Retailers",
+    "RSHPCS": "Retail Sales Health Personal Care",
+    "RSSGHBMS": "Retail Sales Sporting Goods Hobby",
+    "RSFHFS": "Retail Sales Furniture Home Furnish",
+    "RSEAS": "Retail Sales Electronics Appliances",
+    "RSCCAS": "Retail Sales Clothing Accessories",
+
+    # Housing Detail
+    "HSN1F": "New Home Sales",
+    "NHSPSTOT": "New Home Sales Price Total",
+    "MSACSR": "Months Supply New Houses",
+    "HOSINVUSM495N": "Housing Inventory Total",
+    "EXHOSLUSM495S": "Existing Home Sales",
+    "PERMIT1": "Building Permits Single Family",
+    "COMPUTSA": "Housing Units Completed",
+    "UNDCONTSA": "Housing Units Under Construction",
+    "MORTGAGE15US": "15Y Mortgage Rate",
+    "RHORUSQ156N": "Homeownership Rate",
+    "FIXHAI": "Housing Affordability Index",
+
+    # Government/Fiscal
+    "MTSDS133FMS": "Federal Budget Balance",
+    "MTSO133FMS": "Federal Outlays Monthly",
+    "MTSR133FMS": "Federal Receipts Monthly",
+    "FYFSD": "Federal Surplus Deficit Annual",
+    "FGEXPND": "Federal Expenditures",
+    "FGRECPT": "Federal Receipts",
+    "W068RCQ027SBEA": "Govt Consumption Expenditures",
+    "A091RC1Q027SBEA": "Federal Defense Spending",
+    "A822RL1Q225SBEA": "Real Govt Spending Growth",
+
+    # Inventories
+    "ISRATIO": "Inventory Sales Ratio Total",
+    "MNFCTRIRSA": "Manufacturers Inventory Sales Ratio",
+    "MRTSIR4423USS": "Retail Inventory Sales Ratio",
+    "WHLSLRIRSA": "Wholesale Inventory Sales Ratio",
+    "BUSINV": "Total Business Inventories",
+    "RETAILIMSA": "Retail Inventories Ex Autos",
+
+    # Productivity/Unit Labor
+    "OPHNFB": "Nonfarm Business Output Per Hour",
+    "PRS85006092": "Nonfarm Unit Labor Costs",
+    "ULCNFB": "Unit Labor Costs Nonfarm Business",
+    "COMPNFB": "Nonfarm Business Compensation Per Hour",
+    "HOANBS": "Nonfarm Business Hours Worked",
+
+    # Additional Wages
+    "CES0500000003": "Average Hourly Earnings Total Private",
+    "AHETPI": "Average Hourly Earnings Production",
+    "LES1252881600Q": "Median Usual Weekly Earnings",
+    "ECIWAG": "Employment Cost Index Wages Salaries",
+    "ECIALLCIV": "Employment Cost Index Total",
+}
+
+# ==========================================
+# BLS CONFIGURATION
+# ==========================================
+
+BLS_SERIES = {
+    # Employment by Sector
+    "CES0000000001": "Jobs_Total_Nonfarm",
+    "CES1000000001": "Jobs_Mining_Logging",
+    "CES2000000001": "Jobs_Construction",
+    "CES3000000001": "Jobs_Manufacturing",
+    "CES4000000001": "Jobs_Trade_Transport_Utilities",
+    "CES5000000001": "Jobs_Information",
+    "CES5500000001": "Jobs_Financial_Activities",
+    "CES6000000001": "Jobs_Professional_Business",
+    "CES6500000001": "Jobs_Education_Health",
+    "CES7000000001": "Jobs_Leisure_Hospitality",
+    "CES8000000001": "Jobs_Other_Services",
+    "CES9000000001": "Jobs_Government",
+
+    # Unemployment Detail
+    "LNS14000000": "Unemployment_Rate_U3",
+    "LNS13327709": "Unemployment_Rate_U6",
+    "LNS11300000": "Labor_Force_Participation",
+    "LNS12300000": "Employment_Population_Ratio",
+    "LNS11300060": "Prime_Age_LFPR_25_54",
+
+    # JOLTS
+    "JTS000000000000000JOR": "JOLTS_Openings_Rate",
+    "JTS000000000000000HIR": "JOLTS_Hires_Rate",
+    "JTS000000000000000QUR": "JOLTS_Quits_Rate",
+    "JTS000000000000000TSR": "JOLTS_Separations_Rate",
+
+    # Prices
+    "CUUR0000SA0": "CPI_Headline_NSA",
+    "CUUR0000SA0L1E": "CPI_Core_NSA",
+    "CUUR0000SA0E": "CPI_Energy_NSA",
+    "CUUR0000SAH1": "CPI_Shelter_NSA",
+    "CUUR0000SAS": "CPI_Services_NSA",
+    "CUUR0000SAF1": "CPI_Food_NSA",
+    "WPSFD4": "PPI_Final_Demand",
+    "WPUFD49104": "PPI_Core",
+
+    # Wages
+    "CES0500000003": "Avg_Hourly_Earnings_Private",
+    "CES0500000008": "Avg_Hourly_Earnings_Production",
+}
+
+# ==========================================
+# BEA CONFIGURATION
+# ==========================================
+
+BEA_TABLES = [
+    {"table": "T10105", "dataset": "NIPA", "desc": "GDP_Components"},
+    {"table": "T10101", "dataset": "NIPA", "desc": "Real_GDP_Growth"},
+    {"table": "T20100", "dataset": "NIPA", "desc": "Personal_Income"},
+    {"table": "T20305", "dataset": "NIPA", "desc": "PCE_Components"},
+    {"table": "T11200", "dataset": "NIPA", "desc": "Corporate_Profits"},
+    {"table": "T11000", "dataset": "NIPA", "desc": "GDI"},
+    {"table": "T30100", "dataset": "NIPA", "desc": "Govt_Receipts_Expenditures"},
+    {"table": "T20304", "dataset": "NIPA", "desc": "PCE_Price_Index"},
+    {"table": "T10104", "dataset": "NIPA", "desc": "GDP_Price_Index"},
+]
+
+# ==========================================
+# NY FED CONFIGURATION (No API key needed)
+# ==========================================
+
+NYFED_RATES = {
+    # Reference Rates - the core plumbing rates
+    "SOFR": "Secured Overnight Financing Rate",
+    "EFFR": "Effective Federal Funds Rate",
+    "OBFR": "Overnight Bank Funding Rate",
+    "TGCR": "Tri-Party General Collateral Rate",
+    "BGCR": "Broad General Collateral Rate",
+}
+
+# OFR Series from Short-term Funding Monitor (No API key needed)
+OFR_SERIES = {
+    # Reference Rates (via OFR API)
+    "FNYR-SOFR-A": "OFR_SOFR",
+    "FNYR-EFFR-A": "OFR_EFFR",
+    "FNYR-OBFR-A": "OFR_OBFR",
+    "FNYR-TGCR-A": "OFR_TGCR",
+    "FNYR-BGCR-A": "OFR_BGCR",
+
+    # Money Market Funds
+    "MMF-MMF_TOT-M": "MMF_Total_Assets",
+    "MMF-MMF_RP_TOT-M": "MMF_Repo_Total",
+    "MMF-MMF_RP_wFR-M": "MMF_Repo_with_Fed",
+    "MMF-MMF_T_TOT-M": "MMF_Treasury_Total",
+
+    # Primary Dealer Repo/RRP
+    "NYPD-PD_RP_TOT-A": "PD_Repo_Total",
+    "NYPD-PD_RRP_TOT-A": "PD_ReverseRepo_Total",
+    "NYPD-PD_RP_T_TOT-A": "PD_Repo_Treasury_Total",
+}
+
+
+# ==========================================
+# DATABASE SCHEMA
+# ==========================================
+
+def init_db():
+    """Initialize the master database with unified schema."""
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+
+    # Master observations table - the single source of truth
+    c.execute('''CREATE TABLE IF NOT EXISTS observations (
+        series_id TEXT,
+        date TEXT,
+        value REAL,
+        PRIMARY KEY (series_id, date)
+    )''')
+
+    # Series metadata
+    c.execute('''CREATE TABLE IF NOT EXISTS series_meta (
+        series_id TEXT PRIMARY KEY,
+        title TEXT,
+        source TEXT,
+        category TEXT,
+        frequency TEXT,
+        units TEXT,
+        last_updated TEXT,
+        last_fetched TEXT
+    )''')
+
+    # Update log for tracking
+    c.execute('''CREATE TABLE IF NOT EXISTS update_log (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        timestamp TEXT,
+        source TEXT,
+        series_updated INTEGER,
+        observations_added INTEGER,
+        duration_seconds REAL
+    )''')
+
+    # Indexes for fast queries
+    c.execute('CREATE INDEX IF NOT EXISTS idx_obs_series ON observations(series_id)')
+    c.execute('CREATE INDEX IF NOT EXISTS idx_obs_date ON observations(date)')
+    c.execute('CREATE INDEX IF NOT EXISTS idx_meta_source ON series_meta(source)')
+    c.execute('CREATE INDEX IF NOT EXISTS idx_meta_category ON series_meta(category)')
+
+    conn.commit()
+    conn.close()
+    print(f"Database initialized: {DB_PATH}")
+
+
+# ==========================================
+# FRED FETCHER
+# ==========================================
+
+def fetch_fred_category(category_id, category_name, conn, limit=50):
+    """Discover and fetch top series from a FRED category."""
+    c = conn.cursor()
+    updated = 0
+    obs_added = 0
+
+    # Discover series in category
+    url = "https://api.stlouisfed.org/fred/category/series"
+    params = {
+        "category_id": category_id,
+        "api_key": API_KEYS["FRED"],
+        "file_type": "json",
+        "limit": limit,
+        "order_by": "popularity",
+        "sort_order": "desc"
+    }
+
+    try:
+        r = requests.get(url, params=params, timeout=30)
+        data = r.json()
+
+        if "seriess" not in data:
+            return 0, 0
+
+        for s in data["seriess"]:
+            series_id = s["id"]
+            api_updated = s.get("last_updated", "")
+
+            # Check if we need to update
+            c.execute("SELECT last_updated FROM series_meta WHERE series_id = ?", (series_id,))
+            row = c.fetchone()
+            local_updated = row[0] if row else "1900-01-01"
+
+            if row and local_updated >= api_updated:
+                continue  # Skip - already current
+
+            # Fetch observations
+            obs_url = "https://api.stlouisfed.org/fred/series/observations"
+            obs_params = {
+                "series_id": series_id,
+                "api_key": API_KEYS["FRED"],
+                "file_type": "json"
+            }
+
+            obs_r = requests.get(obs_url, params=obs_params, timeout=30)
+            obs_data = obs_r.json()
+
+            if "observations" in obs_data:
+                obs_list = [(series_id, o["date"], float(o["value"]))
+                           for o in obs_data["observations"] if o["value"] != "."]
+
+                if obs_list:
+                    c.executemany("INSERT OR REPLACE INTO observations VALUES (?,?,?)", obs_list)
+
+                    # Update metadata
+                    c.execute("""INSERT OR REPLACE INTO series_meta
+                                (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                VALUES (?,?,?,?,?,?,?,?)""",
+                             (series_id, s.get("title", ""), "FRED", category_name,
+                              s.get("frequency", ""), s.get("units", ""),
+                              api_updated, datetime.now().isoformat()))
+
+                    updated += 1
+                    obs_added += len(obs_list)
+
+            time.sleep(0.1)  # Rate limiting
+
+    except Exception as e:
+        print(f"   Error fetching category {category_name}: {e}")
+
+    return updated, obs_added
+
+
+def fetch_fred_curated(conn):
+    """Fetch curated high-priority FRED series."""
+    c = conn.cursor()
+    updated = 0
+    obs_added = 0
+
+    for series_id, title in FRED_CURATED.items():
+        # Check last update
+        c.execute("SELECT last_fetched FROM series_meta WHERE series_id = ?", (series_id,))
+        row = c.fetchone()
+
+        # Fetch observations
+        url = "https://api.stlouisfed.org/fred/series/observations"
+        params = {
+            "series_id": series_id,
+            "api_key": API_KEYS["FRED"],
+            "file_type": "json"
+        }
+
+        try:
+            r = requests.get(url, params=params, timeout=30)
+            data = r.json()
+
+            if "observations" in data:
+                obs_list = [(series_id, o["date"], float(o["value"]))
+                           for o in data["observations"] if o["value"] != "."]
+
+                if obs_list:
+                    c.executemany("INSERT OR REPLACE INTO observations VALUES (?,?,?)", obs_list)
+
+                    c.execute("""INSERT OR REPLACE INTO series_meta
+                                (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                VALUES (?,?,?,?,?,?,?,?)""",
+                             (series_id, title, "FRED", "Curated", "", "",
+                              datetime.now().isoformat(), datetime.now().isoformat()))
+
+                    updated += 1
+                    obs_added += len(obs_list)
+
+        except Exception as e:
+            print(f"   Error fetching {series_id}: {e}")
+
+        time.sleep(0.1)
+
+    return updated, obs_added
+
+
+def fetch_all_fred(conn):
+    """Fetch all FRED data: categories + curated."""
+    print("\n--- FRED: Category Discovery ---")
+    total_updated = 0
+    total_obs = 0
+
+    for cat_name, cat_id in FRED_CATEGORIES.items():
+        print(f"   {cat_name}...", end=" ")
+        updated, obs = fetch_fred_category(cat_id, cat_name, conn)
+        print(f"{updated} series, {obs:,} obs")
+        total_updated += updated
+        total_obs += obs
+        conn.commit()
+        time.sleep(0.3)
+
+    print("\n--- FRED: Curated Series ---")
+    updated, obs = fetch_fred_curated(conn)
+    print(f"   {updated} series, {obs:,} obs")
+    total_updated += updated
+    total_obs += obs
+    conn.commit()
+
+    return total_updated, total_obs
+
+
+# ==========================================
+# BLS FETCHER
+# ==========================================
+
+def fetch_all_bls(conn, start_year=1990):
+    """Fetch all BLS series with 20-year chunking."""
+    print("\n--- BLS: Labor & Prices ---")
+    c = conn.cursor()
+    total_obs = 0
+
+    current_year = datetime.now().year
+    intervals = [(start, min(start + 19, current_year))
+                 for start in range(start_year, current_year + 1, 20)]
+
+    series_ids = list(BLS_SERIES.keys())
+
+    for start_yr, end_yr in intervals:
+        print(f"   {start_yr}-{end_yr}...", end=" ")
+
+        payload = {
+            "seriesid": series_ids,
+            "startyear": str(start_yr),
+            "endyear": str(end_yr),
+            "registrationkey": API_KEYS["BLS"]
+        }
+
+        try:
+            r = requests.post("https://api.bls.gov/publicAPI/v2/timeseries/data/",
+                            json=payload, timeout=60)
+
+            if r.status_code == 200:
+                data = r.json()
+                if data.get("status") == "REQUEST_SUCCEEDED":
+                    chunk_obs = 0
+                    for s in data["Results"]["series"]:
+                        series_id = s["seriesID"]
+                        title = BLS_SERIES.get(series_id, series_id)
+
+                        for item in s["data"]:
+                            if item["value"] not in ["", "."]:
+                                # Convert period to date
+                                period = item["period"]
+                                if period.startswith("M"):
+                                    month = period[1:]
+                                    date_str = f"{item['year']}-{month}-01"
+                                elif period.startswith("Q"):
+                                    q_map = {"Q01": "01", "Q02": "04", "Q03": "07", "Q04": "10"}
+                                    month = q_map.get(period, "01")
+                                    date_str = f"{item['year']}-{month}-01"
+                                else:
+                                    date_str = f"{item['year']}-01-01"
+
+                                try:
+                                    value = float(item["value"])
+                                    c.execute("INSERT OR REPLACE INTO observations VALUES (?,?,?)",
+                                             (f"BLS_{series_id}", date_str, value))
+                                    chunk_obs += 1
+                                except ValueError:
+                                    pass
+
+                        # Update metadata
+                        c.execute("""INSERT OR REPLACE INTO series_meta
+                                    (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                    VALUES (?,?,?,?,?,?,?,?)""",
+                                 (f"BLS_{series_id}", title, "BLS", "Labor_Prices", "Monthly", "",
+                                  datetime.now().isoformat(), datetime.now().isoformat()))
+
+                    print(f"{chunk_obs:,} obs")
+                    total_obs += chunk_obs
+                    conn.commit()
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+        time.sleep(0.5)
+
+    return len(BLS_SERIES), total_obs
+
+
+# ==========================================
+# BEA FETCHER
+# ==========================================
+
+def fetch_all_bea(conn, start_year=2000):
+    """Fetch all BEA NIPA tables."""
+    print("\n--- BEA: National Accounts ---")
+    c = conn.cursor()
+    total_obs = 0
+
+    years = ",".join([str(y) for y in range(start_year, datetime.now().year + 1)])
+
+    for table_info in BEA_TABLES:
+        print(f"   {table_info['desc']}...", end=" ")
+
+        params = {
+            "UserID": API_KEYS["BEA"],
+            "Method": "GetData",
+            "DatasetName": table_info["dataset"],
+            "TableName": table_info["table"],
+            "Frequency": "Q",
+            "Year": years,
+            "ResultFormat": "JSON"
+        }
+
+        try:
+            r = requests.get("https://apps.bea.gov/api/data/", params=params, timeout=60)
+
+            if r.status_code == 200:
+                data = r.json()
+                if "BEAAPI" in data and "Results" in data["BEAAPI"]:
+                    rows = data["BEAAPI"]["Results"].get("Data", [])
+                    table_obs = 0
+
+                    for row in rows:
+                        tp = row.get("TimePeriod", "")
+                        if "Q" in tp:
+                            q_map = {"Q1": "01", "Q2": "04", "Q3": "07", "Q4": "10"}
+                            quarter = tp[-2:]
+                            month = q_map.get(quarter, "01")
+                            date_str = f"{tp[:4]}-{month}-01"
+                        else:
+                            date_str = f"{tp}-01-01"
+
+                        # Create unique series ID
+                        line_desc = row.get("LineDescription", "Unknown")
+                        series_id = f"BEA_{table_info['desc']}_{line_desc}".replace(" ", "_")[:100]
+
+                        try:
+                            value_str = row.get("DataValue", "").replace(",", "")
+                            value = float(value_str)
+                            c.execute("INSERT OR REPLACE INTO observations VALUES (?,?,?)",
+                                     (series_id, date_str, value))
+                            table_obs += 1
+
+                            # Metadata
+                            c.execute("""INSERT OR REPLACE INTO series_meta
+                                        (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                        VALUES (?,?,?,?,?,?,?,?)""",
+                                     (series_id, line_desc, "BEA", table_info["desc"], "Quarterly", "",
+                                      datetime.now().isoformat(), datetime.now().isoformat()))
+                        except (ValueError, TypeError):
+                            pass
+
+                    print(f"{table_obs:,} obs")
+                    total_obs += table_obs
+                    conn.commit()
+                else:
+                    print("No data")
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+        time.sleep(0.5)
+
+    return len(BEA_TABLES), total_obs
+
+
+# ==========================================
+# NY FED FETCHER (No API key needed)
+# ==========================================
+
+def fetch_all_nyfed(conn, start_date="2018-04-03"):
+    """Fetch NY Fed reference rates (SOFR, EFFR, OBFR, TGCR, BGCR)."""
+    print("\n--- NY Fed: Reference Rates ---")
+    c = conn.cursor()
+    total_obs = 0
+
+    # NY Fed Markets API - get all historical rates
+    url = f"https://markets.newyorkfed.org/api/rates/all/search.json?startDate={start_date}"
+
+    try:
+        print(f"   Fetching from {start_date}...", end=" ")
+        r = requests.get(url, timeout=60)
+
+        if r.status_code == 200:
+            data = r.json()
+
+            if "refRates" in data:
+                for item in data["refRates"]:
+                    rate_type = item.get("type", "")
+                    if rate_type in NYFED_RATES:
+                        date_str = item.get("effectiveDate", "")
+                        rate = item.get("percentRate")
+
+                        if rate is not None and date_str:
+                            series_id = f"NYFED_{rate_type}"
+                            c.execute("INSERT OR REPLACE INTO observations VALUES (?,?,?)",
+                                     (series_id, date_str, float(rate)))
+                            total_obs += 1
+
+                            # Also store volume if available
+                            volume = item.get("volumeInBillions")
+                            if volume is not None:
+                                vol_series_id = f"NYFED_{rate_type}_Volume"
+                                c.execute("INSERT OR REPLACE INTO observations VALUES (?,?,?)",
+                                         (vol_series_id, date_str, float(volume)))
+                                total_obs += 1
+
+                # Update metadata for each rate type
+                for rate_type, title in NYFED_RATES.items():
+                    c.execute("""INSERT OR REPLACE INTO series_meta
+                                (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                VALUES (?,?,?,?,?,?,?,?)""",
+                             (f"NYFED_{rate_type}", title, "NYFED", "Reference_Rates", "Daily", "Percent",
+                              datetime.now().isoformat(), datetime.now().isoformat()))
+
+                    c.execute("""INSERT OR REPLACE INTO series_meta
+                                (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                VALUES (?,?,?,?,?,?,?,?)""",
+                             (f"NYFED_{rate_type}_Volume", f"{title} Volume", "NYFED", "Reference_Rates", "Daily", "Billions USD",
+                              datetime.now().isoformat(), datetime.now().isoformat()))
+
+                conn.commit()
+                print(f"{total_obs:,} obs")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return len(NYFED_RATES) * 2, total_obs  # *2 for rate + volume
+
+
+# ==========================================
+# OFR FETCHER (No API key needed)
+# ==========================================
+
+def fetch_all_ofr(conn):
+    """Fetch OFR Short-term Funding Monitor data + Financial Stress Index."""
+    print("\n--- OFR: Short-term Funding Monitor ---")
+    c = conn.cursor()
+    total_obs = 0
+    series_count = 0
+
+    # Fetch each series from OFR API
+    for mnemonic, title in OFR_SERIES.items():
+        print(f"   {title}...", end=" ")
+
+        url = f"https://data.financialresearch.gov/v1/series/timeseries/?mnemonic={mnemonic}"
+
+        try:
+            r = requests.get(url, timeout=30)
+            if r.status_code == 200:
+                data = r.json()
+                obs_count = 0
+
+                for item in data:
+                    if isinstance(item, list) and len(item) >= 2:
+                        date_str = item[0]
+                        value = item[1]
+                        if value is not None:
+                            c.execute("INSERT OR REPLACE INTO observations VALUES (?,?,?)",
+                                     (f"OFR_{mnemonic}", date_str, float(value)))
+                            obs_count += 1
+
+                if obs_count > 0:
+                    c.execute("""INSERT OR REPLACE INTO series_meta
+                                (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                VALUES (?,?,?,?,?,?,?,?)""",
+                             (f"OFR_{mnemonic}", title, "OFR", "Short_Term_Funding", "Daily", "",
+                              datetime.now().isoformat(), datetime.now().isoformat()))
+                    series_count += 1
+                    total_obs += obs_count
+                    print(f"{obs_count:,} obs")
+                else:
+                    print("no data")
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+        time.sleep(0.2)
+
+    conn.commit()
+
+    # Fetch OFR Financial Stress Index (CSV download)
+    print("\n--- OFR: Financial Stress Index ---")
+    fsi_url = "https://www.financialresearch.gov/financial-stress-index/data/fsi.csv"
+
+    try:
+        print(f"   Fetching FSI...", end=" ")
+        r = requests.get(fsi_url, timeout=30)
+
+        if r.status_code == 200:
+            from io import StringIO
+            df = pd.read_csv(StringIO(r.text))
+
+            fsi_series = {
+                "OFR FSI": "OFR_FSI",
+                "Credit": "OFR_FSI_Credit",
+                "Equity valuation": "OFR_FSI_Equity",
+                "Safe assets": "OFR_FSI_SafeAssets",
+                "Funding": "OFR_FSI_Funding",
+                "Volatility": "OFR_FSI_Volatility",
+                "United States": "OFR_FSI_US",
+                "Other advanced economies": "OFR_FSI_AdvancedEcon",
+                "Emerging markets": "OFR_FSI_EmergingMkts",
+            }
+
+            fsi_obs = 0
+            for col, series_id in fsi_series.items():
+                if col in df.columns:
+                    for _, row in df.iterrows():
+                        if pd.notna(row[col]):
+                            c.execute("INSERT OR REPLACE INTO observations VALUES (?,?,?)",
+                                     (series_id, row["Date"], float(row[col])))
+                            fsi_obs += 1
+
+                    c.execute("""INSERT OR REPLACE INTO series_meta
+                                (series_id, title, source, category, frequency, units, last_updated, last_fetched)
+                                VALUES (?,?,?,?,?,?,?,?)""",
+                             (series_id, f"Financial Stress Index - {col}", "OFR", "Financial_Stress", "Daily", "Index",
+                              datetime.now().isoformat(), datetime.now().isoformat()))
+                    series_count += 1
+
+            total_obs += fsi_obs
+            conn.commit()
+            print(f"{fsi_obs:,} obs ({len(fsi_series)} components)")
+
+    except Exception as e:
+        print(f"Error fetching FSI: {e}")
+
+    return series_count, total_obs
+
+
+# ==========================================
+# MAIN UPDATE ROUTINE
+# ==========================================
+
+def run_daily_update():
+    """Master update routine - run this daily."""
+    start_time = time.time()
+
+    print("=" * 70)
+    print("LIGHTHOUSE MACRO - MASTER DATABASE UPDATE")
+    print(f"Database: {DB_PATH}")
+    print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("=" * 70)
+
+    init_db()
+    conn = sqlite3.connect(DB_PATH)
+
+    # Fetch all sources
+    fred_series, fred_obs = fetch_all_fred(conn)
+    bls_series, bls_obs = fetch_all_bls(conn)
+    bea_series, bea_obs = fetch_all_bea(conn)
+    nyfed_series, nyfed_obs = fetch_all_nyfed(conn)
+    ofr_series, ofr_obs = fetch_all_ofr(conn)
+
+    # Log the update
+    duration = time.time() - start_time
+    c = conn.cursor()
+    c.execute("""INSERT INTO update_log (timestamp, source, series_updated, observations_added, duration_seconds)
+                VALUES (?,?,?,?,?)""",
+             (datetime.now().isoformat(), "ALL",
+              fred_series + bls_series + bea_series + nyfed_series + ofr_series,
+              fred_obs + bls_obs + bea_obs + nyfed_obs + ofr_obs, duration))
+    conn.commit()
+
+    # Summary
+    print("\n" + "=" * 70)
+    print("UPDATE COMPLETE")
+    print("=" * 70)
+
+    # Database stats
+    total_obs = conn.execute("SELECT COUNT(*) FROM observations").fetchone()[0]
+    total_series = conn.execute("SELECT COUNT(*) FROM series_meta").fetchone()[0]
+    date_range = conn.execute("SELECT MIN(date), MAX(date) FROM observations").fetchone()
+
+    print(f"\nDatabase Statistics:")
+    print(f"  Total Observations: {total_obs:,}")
+    print(f"  Total Series: {total_series}")
+    print(f"  Date Range: {date_range[0]} to {date_range[1]}")
+    print(f"  Duration: {duration:.1f} seconds")
+
+    print(f"\nThis Update:")
+    print(f"  FRED:  {fred_series} series, {fred_obs:,} observations")
+    print(f"  BLS:   {bls_series} series, {bls_obs:,} observations")
+    print(f"  BEA:   {bea_series} series, {bea_obs:,} observations")
+    print(f"  NYFED: {nyfed_series} series, {nyfed_obs:,} observations")
+    print(f"  OFR:   {ofr_series} series, {ofr_obs:,} observations")
+
+    # By source
+    print(f"\nBy Source:")
+    source_stats = pd.read_sql("""
+        SELECT source, COUNT(DISTINCT series_id) as series,
+               (SELECT COUNT(*) FROM observations o
+                WHERE o.series_id IN (SELECT series_id FROM series_meta sm WHERE sm.source = series_meta.source)) as obs
+        FROM series_meta
+        GROUP BY source
+    """, conn)
+    print(source_stats.to_string(index=False))
+
+    conn.close()
+    print("=" * 70)
+
+    return total_series, total_obs
+
+
+# ==========================================
+# QUERY HELPERS
+# ==========================================
+
+def get_series(series_id, start_date=None, end_date=None):
+    """Query a specific series from the database."""
+    conn = sqlite3.connect(DB_PATH)
+
+    query = "SELECT date, value FROM observations WHERE series_id = ?"
+    params = [series_id]
+
+    if start_date:
+        query += " AND date >= ?"
+        params.append(start_date)
+    if end_date:
+        query += " AND date <= ?"
+        params.append(end_date)
+
+    query += " ORDER BY date"
+
+    df = pd.read_sql(query, conn, params=params)
+    df["date"] = pd.to_datetime(df["date"])
+    conn.close()
+    return df
+
+
+def search_series(keyword):
+    """Search for series by keyword in title."""
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql("""
+        SELECT series_id, title, source, category
+        FROM series_meta
+        WHERE title LIKE ? OR series_id LIKE ?
+        ORDER BY source, category
+    """, conn, params=[f"%{keyword}%", f"%{keyword}%"])
+    conn.close()
+    return df
+
+
+def get_category(category):
+    """Get all series in a category."""
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql("""
+        SELECT series_id, title, source
+        FROM series_meta
+        WHERE category = ?
+        ORDER BY title
+    """, conn, params=[category])
+    conn.close()
+    return df
+
+
+def export_wide(output_path=None, start_date="2000-01-01"):
+    """Export all data to wide-format CSV."""
+    if output_path is None:
+        output_path = DB_PATH.parent / "Lighthouse_Master_Wide.csv"
+
+    conn = sqlite3.connect(DB_PATH)
+
+    df = pd.read_sql(f"""
+        SELECT o.date, m.title, o.value
+        FROM observations o
+        JOIN series_meta m ON o.series_id = m.series_id
+        WHERE o.date >= '{start_date}'
+        ORDER BY o.date
+    """, conn)
+
+    df_wide = df.pivot_table(index="date", columns="title", values="value")
+    df_wide.to_csv(output_path)
+
+    print(f"Exported to: {output_path}")
+    print(f"Shape: {df_wide.shape[0]} rows x {df_wide.shape[1]} columns")
+
+    conn.close()
+    return output_path
+
+
+def get_stats():
+    """Print database statistics."""
+    conn = sqlite3.connect(DB_PATH)
+
+    print("\n--- Lighthouse Master Database ---")
+
+    total_obs = conn.execute("SELECT COUNT(*) FROM observations").fetchone()[0]
+    total_series = conn.execute("SELECT COUNT(*) FROM series_meta").fetchone()[0]
+    print(f"Total Observations: {total_obs:,}")
+    print(f"Total Series: {total_series}")
+
+    date_range = conn.execute("SELECT MIN(date), MAX(date) FROM observations").fetchone()
+    print(f"Date Range: {date_range[0]} to {date_range[1]}")
+
+    print("\nBy Source:")
+    by_source = pd.read_sql("""
+        SELECT source, COUNT(*) as series FROM series_meta GROUP BY source
+    """, conn)
+    print(by_source.to_string(index=False))
+
+    print("\nBy Category:")
+    by_cat = pd.read_sql("""
+        SELECT category, COUNT(*) as series FROM series_meta GROUP BY category ORDER BY series DESC LIMIT 15
+    """, conn)
+    print(by_cat.to_string(index=False))
+
+    print("\nRecent Updates:")
+    updates = pd.read_sql("""
+        SELECT timestamp, source, series_updated, observations_added, duration_seconds
+        FROM update_log ORDER BY id DESC LIMIT 5
+    """, conn)
+    print(updates.to_string(index=False))
+
+    conn.close()
+
+
+# ==========================================
+# MAIN
+# ==========================================
+
+if __name__ == "__main__":
+    run_daily_update()
+    get_stats()

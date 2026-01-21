@@ -1,0 +1,226 @@
+# HORIZON 2026 - CHART CORRECTION CHEAT SHEET
+# For processing remaining 30-45 charts in next session
+# December 22, 2025
+
+## ═══════════════════════════════════════════════════════════════════════════
+## DEFINITIVE DATA VALUES (As of Dec 19, 2025)
+## ═══════════════════════════════════════════════════════════════════════════
+
+### Proprietary Indicators
+LFI (Labor Fragility Index):      -0.63σ   (September 2025)
+LCI (Liquidity Cushion Index):    -0.91σ   (Q1 2025)
+CLG (Credit-Labor Gap):            +0.16σ   (December 2025)
+MRI (Macro Risk Index):            -0.33σ   (Current)
+
+### Market Data
+SOFR-EFFR Spread:                  +2 bps   (Dec 18)
+HY OAS (High Yield Spread):        295 bps  (Dec 18)
+IG Spread:                         varies by rating
+AAA Spread:                        varies
+
+RRP Balance:                       $3.05B   (Dec 19)
+Fed Reserves:                      Current through Oct 2025
+Fed Balance Sheet:                 $6.5T (approx)
+
+### Rates & Yields
+10Y Treasury:                      4.12%    (Dec 18)
+2Y Treasury:                       varies
+30Y Treasury:                      varies
+10Y-2Y Spread:                     +66 bps  (Dec 18)
+Curve Status:                      STEEPENING
+
+### Equity & Volatility
+SPX:                               6,834    (Dec 19)
+VIX:                               16.87    (Dec 18)
+Mag 7 Performance:                 Varies by stock
+
+### Labor Market
+Unemployment Rate:                 4.6%     (November 2025)
+Quits Rate:                        1.8%     (October 2025)
+Hires Rate:                        3.2%     (October 2025)
+Participation Rate:                Current through Nov
+
+## ═══════════════════════════════════════════════════════════════════════════
+## CORRECTION MAPPING (For chart_replacer_v2.py)
+## ═══════════════════════════════════════════════════════════════════════════
+
+### Session 1 Corrections Applied:
+chart_03: "295"        # Credit Spread Waterfall: HY 298 → 295
+chart_04: "+0.16σ"     # Credit-Labor Gap: -0.28σ → +0.16σ
+chart_13: "-0.63σ"     # Labor Fragility Index: added annotation
+chart_19: "-0.63σ"     # LFI Alternative: 0.13σ → -0.63σ
+
+### Likely Corrections for Session 2 (30-45 charts):
+
+# Any chart showing:
+"LFI: -0.9σ" or "LFI: +0.13σ" or "LFI: 0.024σ"  →  "-0.63σ"
+"LCI: -1.6σ" or "LCI: -0.86σ" or "LCI: -1.056σ" →  "-0.91σ"
+"CLG: -0.82σ" or "CLG: -0.28σ" or "CLG: -1.0σ"  →  "+0.16σ"
+"HY: 298" or "HY OAS: 298"                       →  "295"
+"SOFR-EFFR: 9 bps" or "SOFR-EFFR: +9"           →  "2 bps"
+"10Y-2Y: 67 bps"                                 →  "66 bps" (close enough)
+
+## ═══════════════════════════════════════════════════════════════════════════
+## NARRATIVE IMPLICATIONS
+## ═══════════════════════════════════════════════════════════════════════════
+
+### CLG SIGN FLIP: CRITICAL NARRATIVE CHANGE
+OLD (-0.82σ): "Credit markets dangerously complacent, spreads too tight"
+NEW (+0.16σ): "Credit markets have repriced to match labor reality"
+
+This changes the thesis from:
+❌ "Markets are mispricing labor risk"
+✅ "Markets have corrected, but system fragile due to liquidity depletion"
+
+### Key Narrative Points:
+- LFI negative = Labor market STILL FIRM (not fragile)
+- LCI negative = Liquidity cushion EXHAUSTED
+- CLG positive = Credit spreads NOW MATCH labor conditions
+- RRP at $3B = Buffer GONE, system running on fumes
+
+## ═══════════════════════════════════════════════════════════════════════════
+## CHART CATEGORIES TO EXPECT
+## ═══════════════════════════════════════════════════════════════════════════
+
+### Pillar 1: Macro Dynamics (15-20 charts likely)
+- Labor market (quits, hires, unemployment, participation)
+- Consumer (savings depletion, credit, retail sales)
+- Housing (starts, sales, prices, mortgages)
+- Inflation (CPI, PCE, breakevens)
+- GDP & productivity
+
+### Pillar 2: Monetary Mechanics (15-20 charts likely)
+- Fed balance sheet (RRP, reserves, TGA)
+- Rates & yields (Treasury curve, spreads)
+- Credit architecture (delinquencies, lending standards)
+- Liquidity metrics (LCI, repo stress)
+- Money supply (M2, velocity)
+
+### Pillar 3: Market Technicals (10-15 charts likely)
+- Equity indices (SPX, Nasdaq, Russell)
+- Sector performance (XLK, XLF, XLE, etc.)
+- Volatility (VIX, realized vol)
+- Cross-asset correlations
+- Positioning indicators
+
+### Composite Indicators (5-10 charts likely)
+- MRI (Macro Risk Index)
+- LFI (Labor Fragility Index)
+- CLG (Credit-Labor Gap)
+- Financial stress composites
+- Leading indicators
+
+## ═══════════════════════════════════════════════════════════════════════════
+## DUPLICATE DETECTION CHECKLIST
+## ═══════════════════════════════════════════════════════════════════════════
+
+Watch for these duplicate patterns:
+
+1. **Same indicator, different time horizons**
+   - LFI: Full history (2000-2026) vs Recent (2020-2026)
+   - RRP: Long-term drawdown vs Recent spike
+
+2. **Same data, different visualizations**
+   - Credit spreads: Waterfall vs Time series vs Spread chart
+   - Treasury curve: Line chart vs Shape analysis vs Spread matrix
+
+3. **Alternative calculations of same indicator**
+   - CLG: Version A vs Version B
+   - LFI: Standard vs Alternative methodology
+
+4. **Overlapping time series**
+   - Fed Balance Sheet: Components vs Total
+   - Sector ETFs: Individual vs Composite
+
+### Deduplication Priority:
+✅ KEEP: Chart with most current data + best visual clarity
+❌ REMOVE: Older versions or redundant visualizations
+
+## ═══════════════════════════════════════════════════════════════════════════
+## USING chart_replacer_v2.py IN NEXT SESSION
+## ═══════════════════════════════════════════════════════════════════════════
+
+### Step 1: Upload charts to new session
+"I have 30-45 more HORIZON 2026 charts to process. 
+Use the chart_replacer_v2.py script from previous session."
+
+### Step 2: Claude will:
+- Copy charts to working directory
+- Identify which need corrections
+- Apply automated replacements
+- Flag duplicates
+
+### Step 3: Manual Review
+- Check corrected charts for quality
+- Confirm duplicate removal decisions
+- Verify final 50-chart master list
+
+### Step 4: Package for HORIZON 2026
+- All 50 charts data-validated
+- Organized by Three Pillars
+- Ready for report assembly
+
+## ═══════════════════════════════════════════════════════════════════════════
+## EXPECTED PROCESSING TIME
+## ═══════════════════════════════════════════════════════════════════════════
+
+30 charts:  ~20-25 minutes
+35 charts:  ~25-30 minutes
+40 charts:  ~30-35 minutes
+45 charts:  ~35-40 minutes
+
+Total with deduplication & QA: ~45-60 minutes
+
+## ═══════════════════════════════════════════════════════════════════════════
+## FINAL CHART COUNT TARGET
+## ═══════════════════════════════════════════════════════════════════════════
+
+Current:    19 charts validated (Session 1)
+Remaining:  30-45 charts to process (Session 2)
+Duplicates: -5 to -15 charts (estimated)
+───────────────────────────────────────────
+TARGET:     ~50 UNIQUE DATA-VALIDATED CHARTS
+
+## ═══════════════════════════════════════════════════════════════════════════
+## DATA FRESHNESS CONSTRAINTS (Important!)
+## ═══════════════════════════════════════════════════════════════════════════
+
+### Why Some Data is "Old":
+
+**LFI (September 2025):**
+- Requires: JOLTS (quits/hires) + Unemployment
+- JOLTS released ~6 weeks after reference month
+- October unemployment data MISSING in FRED (gap between Sep → Nov)
+- Therefore: September is LATEST POSSIBLE
+
+**LCI (Q1 2025):**
+- Requires: RRP + Reserves + GDP
+- GDP is quarterly, reported with lag
+- Q3 2025 GDP released Dec 19 but NOT IN FRED YET (1-2 day lag)
+- Q2 2025 GDP is latest currently available in FRED
+- NOTE: May update to Q3 by Dec 20-23
+
+**Recommendation for Report:**
+Add footnote: "Proprietary indicators calculated using latest available government data. 
+JOLTS and GDP data subject to 4-8 week reporting lags."
+
+## ═══════════════════════════════════════════════════════════════════════════
+## QUALITY CONTROL CHECKLIST
+## ═══════════════════════════════════════════════════════════════════════════
+
+For each corrected chart, verify:
+✓ Annotation value matches cheat sheet
+✓ Magenta color preserved (#FF2389)
+✓ Font size/style matches original
+✓ No artifacts from erasure
+✓ Chart title/axis labels intact
+✓ LIGHTHOUSE MACRO watermark present
+✓ Background color consistent
+
+## ═══════════════════════════════════════════════════════════════════════════
+## END OF CHEAT SHEET
+## ═══════════════════════════════════════════════════════════════════════════
+
+Last updated: December 22, 2025
+Session 1 completed: 19 charts validated
+Next session: Process 30-45 charts → Final output: ~50 charts for HORIZON 2026

@@ -1,0 +1,9 @@
+datasets:
+  fred_us_macro:
+    source: "FRED"
+    loader: "lighthouse_data.collect.fred.update_fred_raw"
+    storage: "data/raw/fred/fred_raw.parquet"
+  crypto_raw:
+    source: "Multi-API"
+    loader: "lighthouse_data.collect.crypto.update_crypto_raw"
+    storage: "data/raw/crypto/crypto_raw.parquet"

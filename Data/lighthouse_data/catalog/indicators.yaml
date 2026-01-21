@@ -1,0 +1,10 @@
+indicators:
+  LCI:
+    description: "Liquidity Cushion Index"
+    function: "lighthouse_data.indicators.core.compute_lci"
+  MRI:
+    description: "Macro Risk Index"
+    function: "lighthouse_data.indicators.core.compute_mri"
+  Stablecoin_Momentum:
+    description: "Crypto M2 Proxy"
+    function: "lighthouse_data.indicators.core.compute_stablecoin_momentum"

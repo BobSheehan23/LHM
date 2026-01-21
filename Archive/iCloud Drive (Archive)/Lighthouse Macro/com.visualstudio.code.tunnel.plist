@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Label</key>
+<string>com.visualstudio.code.tunnel</string>
+<key>LimitLoadToSessionType</key>
+<string>Aqua</string>
+<key>ProgramArguments</key>
+<array>
+<string>/private/var/folders/33/64_0zrkd36b33g2xx85347_h0000gn/T/AppTranslocation/9338E737-7F29-4113-9029-DC7934D1DEBF/d/Visual Studio Code.app/Contents/Resources/app/bin/code-tunnel</string>
+<string>--verbose</string><string>--cli-data-dir</string><string>/Users/cayleysheehan/.vscode/cli</string><string>tunnel</string><string>service</string><string>internal-run</string>
+</array>
+<key>KeepAlive</key>
+<true/>
+<key>StandardErrorPath</key>
+<string>/Users/cayleysheehan/.vscode/cli/tunnel-service.log</string>
+<key>StandardOutPath</key>
+<string>/Users/cayleysheehan/.vscode/cli/tunnel-service.log</string>
+</dict>
+</plist>

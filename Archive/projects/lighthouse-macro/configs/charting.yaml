@@ -1,0 +1,62 @@
+# Lighthouse Macro — Charting Standards
+
+# Color Palette - Cotton candy sky, dusk, ocean cloudless day, sea green
+colors:
+  ocean_blue: "#0089d1"      # Ocean on cloudless day
+  dusk_orange: "#E8530E"     # Dusk orange
+  carolina_blue: "#00D4FF"   # Cotton candy sky (vibrant cyan)
+  neon_magenta: "#FF0090"    # Cotton candy sky (hot magenta)
+  sea_green: "#00CBA9"       # Sea green / turquoise
+  light_gray: "#D3D3D3"      # Neutral background
+  signal_green: "#00FF7F"    # Positive signal
+  signal_red: "#FF3333"      # Negative signal
+
+# Style Standards
+style:
+  line_width: 2.5
+  figure_width: 12
+  figure_height: 7
+  dpi: 300
+  grid: false
+  spines: all  # All four spines visible
+  primary_axis: right
+
+# Typography
+typography:
+  font_family: "Arial"
+  title_size: 16
+  label_size: 12
+  tick_size: 10
+  watermark_size: 14
+
+# Watermarks
+watermarks:
+  top_left:
+    text: "LIGHTHOUSE MACRO"
+    position: [0.02, 0.98]
+    ha: "left"
+    va: "top"
+    alpha: 0.6
+
+  bottom_right:
+    text: "MACRO, ILLUMINATED."
+    position: [0.98, 0.02]
+    ha: "right"
+    va: "bottom"
+    alpha: 0.6
+
+# Axis Configuration
+axes:
+  align_zero: true  # When logical
+  scale_options:
+    - linear
+    - log
+    - stdev
+
+# Export Settings
+export:
+  formats:
+    - png
+    - svg
+  default_format: png
+  include_metadata: true

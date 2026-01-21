@@ -1,0 +1,82 @@
+[project]
+name = "lighthouse-macro"
+version = "0.1.0"
+description = "Institutional-grade macro intelligence pipeline for Lighthouse Macro"
+authors = [{name = "Bob Sheehan", email = "bob@lighthousemacro.com"}]
+requires-python = ">=3.11"
+dependencies = [
+    # Data collection
+    "requests>=2.31.0",
+    "httpx>=0.25.0",
+    "beautifulsoup4>=4.12.0",
+    "playwright>=1.40.0",
+
+    # Data processing
+    "pandas>=2.1.0",
+    "polars>=0.19.0",
+    "numpy>=1.26.0",
+    "scipy>=1.11.0",
+
+    # AI
+    "anthropic>=0.18.0",
+    "openai>=1.12.0",
+    "google-generativeai>=0.3.0",
+
+    # Visualization
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "plotly>=5.18.0",
+
+    # Configuration
+    "pyyaml>=6.0.1",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.5.0",
+
+    # Scheduling
+    "schedule>=1.2.0",
+    "apscheduler>=3.10.0",
+
+    # Storage
+    "pyarrow>=14.0.0",
+    "sqlalchemy>=2.0.0",
+
+    # CLI
+    "click>=8.1.0",
+    "rich>=13.7.0",
+    "pyperclip>=1.8.2",
+
+    # Publishing
+    "tweepy>=4.14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.11.0",
+    "ruff>=0.1.6",
+    "mypy>=1.7.0",
+    "ipython>=8.18.0",
+    "jupyter>=1.0.0",
+]
+
+[project.scripts]
+lhm = "cli:cli"
+
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

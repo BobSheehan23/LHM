@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lighthouse Macro | Collateral Fragility Dashboard</title>
+<style>
+body { font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:#FFFFFF; color:#111827; margin: 24px; }
+h1 { color:#005F99; margin-bottom: 4px; }
+h2 { font-size: 22px; }
+p { font-size: 14px; line-height: 1.5; }
+</style>
+</head>
+<body><h1>Collateral Fragility | 10-Chart Dashboard</h1>
+<p>This dashboard refocuses on indicators relevant to collateral tightness and funding conditions across U.S. money and Treasury markets. Each section describes the metric, why it matters, interpretation guidance, the latest reading, and cross-asset implications.</p>
+<p style="color:#6B7280; font-size:12px;">Data primarily from FRED/Federal Reserve and U.S. Treasury where available. For auction dynamics, dealer positions, and fails, please consult FRBNY/Treasury/SIFMA and reporting from WSJ, FT, Bloomberg, and Reuters.</p><section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">Overnight Reverse Repo Facility Usage</h2>
+<img src="charts_lighthouse_cf/01_on_rrp.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: Daily take-up at the Fed's Overnight Reverse Repo Facility (ON RRP).</p>
+<p><strong>Why we care</strong>: Elevated balances may indicate excess cash seeking safe collateral and can coincide with bill scarcity dynamics.</p>
+<p><strong>How to interpret</strong>: Rising usage can suggest collateral absorption by the Fed and a preference for secured placements. Declines may coincide with more collateral or higher private repo rates.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-08-18 is 38.24. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Shifts can relate to changes in bill supply, TGA levels, and secured funding conditions.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED H.4.1 (Federal Reserve) - RRPONTSYD. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">Treasury General Account (TGA) Balance</h2>
+<img src="charts_lighthouse_cf/02_tga.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: The Treasury's cash balance at the Federal Reserve.</p>
+<p><strong>Why we care</strong>: Large changes in the TGA can withdraw or add reserves to the banking system, influencing collateral availability and repo conditions.</p>
+<p><strong>How to interpret</strong>: Rising TGA can drain reserves; falling TGA adds reserves. Quick swings can align with bill issuance and tax dates.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-08-13 is 504.304. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Interactions with ON RRP and reserves can affect secured funding and liquidity premia.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: U.S. Treasury / FRED - WTREGEN. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">SOFR vs Effective Fed Funds</h2>
+<img src="charts_lighthouse_cf/03_sofr_effr.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: Comparison of Secured Overnight Financing Rate and Effective Federal Funds Rate.</p>
+<p><strong>Why we care</strong>: Relative levels can reflect tightness in secured funding versus unsecured funding conditions.</p>
+<p><strong>How to interpret</strong>: SOFR trading above EFFR can indicate collateral-driven tightness; below can reflect ample collateral/liquidity.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-07-01 is 4.44. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Secured funding levels may link to specials activity and Treasury collateral dynamics.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED (Federal Reserve) - SOFR, FEDFUNDS. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">SOFR minus Interest on Reserve Balances</h2>
+<img src="charts_lighthouse_cf/04_sofr_iorb_spread.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: Spread between the secured overnight funding rate and the Fed's administered IORB rate.</p>
+<p><strong>Why we care</strong>: A negative spread can indicate relative ease in secured markets; a positive spread may signal funding tightness or collateral scarcity.</p>
+<p><strong>How to interpret</strong>: Monitor deviations from typical ranges; sustained positives may indicate pressure in repo markets.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-08-15 is -0.04. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Changes can be associated with ON RRP dynamics and collateral demand.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED (Federal Reserve) - SOFR, IORB. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">Bill Richness Proxy: 3M T-bill minus SOFR</h2>
+<img src="charts_lighthouse_cf/05_tb3m_minus_sofr.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: Difference between 3-month Treasury bill yield and SOFR (monthly average).</p>
+<p><strong>Why we care</strong>: Bills trading rich to SOFR can be a sign of elevated collateral demand or scarcity.</p>
+<p><strong>How to interpret</strong>: Positive spreads suggest bills yielding more than SOFR; negative spreads may indicate rich bill pricing relative to secured funding.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-07-01 is -0.0868. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Linked to ON RRP usage, TGA swings, and issuance mix.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED - TB3MS, SOFR. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">Yield Curve: 10Y minus 3M Treasury</h2>
+<img src="charts_lighthouse_cf/06_10y_minus_3m.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: Term structure slope between 10-year and 3-month Treasury rates.</p>
+<p><strong>Why we care</strong>: Curve shape can influence collateral preferences and hedge costs; inversions often pair with tighter funding conditions.</p>
+<p><strong>How to interpret</strong>: Inversions may coincide with higher demand for on-the-run collateral and richer bills.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-07-01 is 0.1418. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Interacts with repo demand, futures basis, and liquidity premia.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED - DGS10, TB3MS. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">Federal Reserve Balance Sheet (Total Assets)</h2>
+<img src="charts_lighthouse_cf/07_walcl.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: Total assets on the Federal Reserve's balance sheet.</p>
+<p><strong>Why we care</strong>: QE/QT alters the supply of reserves and collateral dynamics, potentially affecting repo conditions.</p>
+<p><strong>How to interpret</strong>: Balance sheet declines (QT) can coincide with lower reserves and tighter funding in some regimes.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-08-13 is 6643615.0. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Relates to ON RRP usage, TGA moves, and Treasury issuance absorption.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED H.4.1 - WALCL. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">Reserve Balances with Federal Reserve Banks</h2>
+<img src="charts_lighthouse_cf/08_wresbal.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: Aggregate reserve balances held by depository institutions at the Fed.</p>
+<p><strong>Why we care</strong>: Reserves levels influence money market conditions and availability of balance sheet to intermediate collateral.</p>
+<p><strong>How to interpret</strong>: Falling reserves may align with tighter conditions; rising reserves with easing.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-08-13 is 3320.05. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Connects to TGA, ON RRP, and repo spreads.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED H.4.1 - WRESBAL. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">10-Year U.S. Treasury Yield (Benchmark Collateral)</h2>
+<img src="charts_lighthouse_cf/09_dgs10.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: On-the-run 10-year Treasury yield from FRED.</p>
+<p><strong>Why we care</strong>: Benchmark collateral pricing and volatility affect specialness and funding costs.</p>
+<p><strong>How to interpret</strong>: Large yield moves can accompany shifts in liquidity premia and futures basis.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-08-15 is 4.33. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Interacts with curve shape, repo specialness, and hedging flows.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED - DGS10. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section>
+<section style="margin-bottom:32px;">
+<h2 style="color:#005F99; margin-bottom:6px;">Cross-Asset Stress Proxy: VIX</h2>
+<img src="charts_lighthouse_cf/10_vix.png" style="width:100%; max-width:950px; border:1.5px solid #E5E5E0;" />
+<div style="margin-top:10px;">
+<p><strong>What it is</strong>: CBOE Volatility Index (equity volatility) as a general risk sentiment gauge.</p>
+<p><strong>Why we care</strong>: Collateral market tightness sometimes coincides with broader risk aversion and volatility spikes.</p>
+<p><strong>How to interpret</strong>: Elevated VIX can co-occur with funding strains; subdued VIX may mask plumbing stress that appears in repo.</p>
+<p><strong>Latest value / interpretation</strong>: Latest reading on 2025-08-15 is 15.09. Levels and changes may be informative for collateral and funding conditions.</p>
+<p><strong>Cross-asset implications</strong>: Consider alongside SOFR spreads and ON RRP usage.</p>
+<p style="color:#6B7280; font-size:12px; margin-top:6px;">Source: FRED - VIXCLS. Additional context: WSJ/FT/Bloomberg/Reuters as noted in commentary.</p>
+</div>
+</section><hr style="margin-top:24px; margin-bottom:8px; border: none; border-top: 1px solid #E5E5E0;" />
+<p style="color:#9CA3AF; font-size:12px;">Source: FRED, Federal Reserve, U.S. Treasury</p>
+</body>
+</html>

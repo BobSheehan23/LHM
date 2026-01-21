@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lighthouse Macro - XRP Short Thesis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --ocean: #0089D1;
+            --dusk: #FF6723;
+            --sky: #00D4FF;
+            --venus: #FF2389;
+            --sea: #00BB99;
+            --dark: #333333;
+            --light: #F5F5F5;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            line-height: 1.5;
+            background: white;
+        }
+        .page {
+            width: 8.5in;
+            min-height: 5.5in;
+            margin: 0 auto;
+            padding: 0.4in;
+            background: white;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.15in;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        .header-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 16pt;
+            color: var(--ocean);
+        }
+        .header-text .tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 8pt;
+            color: var(--dark);
+            letter-spacing: 1px;
+        }
+        .date {
+            font-size: 9pt;
+            color: #666;
+        }
+        .accent-bar {
+            height: 4px;
+            background: linear-gradient(to right, var(--ocean) 65%, var(--dusk) 35%);
+            margin-bottom: 0.2in;
+        }
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.15in;
+        }
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20pt;
+            color: var(--venus);
+        }
+        .verdict {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12pt;
+            color: white;
+            background: var(--venus);
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+        .thesis-box {
+            background: var(--dark);
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 0.15in;
+            font-size: 11pt;
+        }
+        .thesis-box strong {
+            color: var(--sky);
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 0.15in;
+        }
+        .metric-card {
+            background: var(--light);
+            padding: 12px;
+            text-align: center;
+            border-top: 3px solid var(--venus);
+        }
+        .metric-card .label {
+            font-size: 8pt;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        .metric-card .value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14pt;
+            font-weight: 700;
+            color: var(--venus);
+        }
+        .metric-card .note {
+            font-size: 7pt;
+            color: #999;
+            margin-top: 2px;
+        }
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11pt;
+            color: var(--ocean);
+            margin: 0.12in 0 0.08in 0;
+            padding-bottom: 3px;
+            border-bottom: 2px solid var(--ocean);
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 0.15in;
+        }
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9pt;
+        }
+        .score-table th {
+            background: var(--dark);
+            color: white;
+            padding: 6px 8px;
+            text-align: left;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        .score-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .score-table tr:nth-child(even) {
+            background: var(--light);
+        }
+        .check { color: var(--sea); font-weight: 700; }
+        .fail { color: var(--venus); font-weight: 700; }
+        .checklist {
+            font-size: 9pt;
+            background: rgba(255,35,137,0.05);
+            border: 2px solid var(--venus);
+            padding: 12px 15px;
+        }
+        .checklist-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt;
+            color: var(--venus);
+            margin-bottom: 8px;
+        }
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            margin-bottom: 4px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .checklist li::before {
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+        }
+        .checklist li.yes::before {
+            content: "✓";
+            color: var(--sea);
+        }
+        .checklist li.no::before {
+            content: "✗";
+            color: var(--venus);
+        }
+        .trade-box {
+            background: var(--ocean);
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 0.12in;
+        }
+        .trade-box h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11pt;
+            margin-bottom: 10px;
+            color: var(--sky);
+        }
+        .trade-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            font-size: 9pt;
+        }
+        .trade-grid strong {
+            display: block;
+            color: var(--sky);
+            margin-bottom: 2px;
+        }
+        .footer {
+            margin-top: 0.15in;
+            padding-top: 8px;
+            border-top: 2px solid var(--ocean);
+            display: flex;
+            justify-content: space-between;
+            font-size: 8pt;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="header-left">
+                <div class="header-text">
+                    <h1>LIGHTHOUSE MACRO</h1>
+                    <div class="tagline">MACRO, ILLUMINATED.</div>
+                </div>
+            </div>
+            <div class="date">January 20, 2026</div>
+        </div>
+
+        <div class="accent-bar"></div>
+
+        <div class="title-row">
+            <div class="page-title">XRP ($XRPUSD) SHORT THESIS</div>
+            <div class="verdict">TECHNICAL BOOK SHORT</div>
+        </div>
+
+        <div class="thesis-box">
+            <strong>The Setup:</strong> Full downtrend structure with bearish Z-RoC divergence and relative strength breaking to new lows. Price made lower highs while momentum made lower highs. RS panel is RED and accelerating lower vs Crypto30. Trigger is breakdown below $1.84 rectangle support.
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="label">Price</div>
+                <div class="value">$1.89</div>
+                <div class="note">Below both MAs</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">50d MA</div>
+                <div class="value">$2.00</div>
+                <div class="note">Falling</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">200d MA</div>
+                <div class="value">$2.56</div>
+                <div class="note">Resistance</div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Z-RoC</div>
+                <div class="value">+0.72</div>
+                <div class="note">Declining, diverging</div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <h3>TECHNICAL BOOK SCORE (SHORTS)</h3>
+                <table class="score-table">
+                    <tr>
+                        <th>Component</th>
+                        <th>Condition</th>
+                        <th>Score</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Trend Structure</strong></td>
+                        <td>Price < 50d < 200d, both falling</td>
+                        <td><span class="check">4/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Relative Strength</strong></td>
+                        <td>RED, new lows, slope negative</td>
+                        <td><span class="check">4/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Momentum</strong></td>
+                        <td>Z-RoC declining + bearish divergence</td>
+                        <td><span class="check">3/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TOTAL</strong></td>
+                        <td>Minimum threshold: 8/12</td>
+                        <td><strong>11/12</strong></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <div class="checklist">
+                    <div class="checklist-title">SHORT ENTRY CHECKLIST</div>
+                    <ul>
+                        <li class="yes">Price < 50d < 200d (both falling)</li>
+                        <li class="yes">Z-RoC declining with bearish divergence</li>
+                        <li class="yes">RS RED on 63d AND 252d</li>
+                        <li class="yes">Clear breakdown pattern</li>
+                        <li class="yes">Not extended (< 10% below 50d)</li>
+                    </ul>
+                    <p style="margin-top: 10px; font-size: 8pt; color: var(--sea);"><strong>Status:</strong> All conditions met. Entry on break below $1.84.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="trade-box">
+            <h4>TRADE PARAMETERS</h4>
+            <div class="trade-grid">
+                <div>
+                    <strong>Entry Trigger</strong>
+                    Break below $1.84
+                </div>
+                <div>
+                    <strong>Position Size</strong>
+                    5% max (Technical Book)
+                </div>
+                <div>
+                    <strong>Stop Loss</strong>
+                    Close above $2.00 (50d MA)
+                </div>
+                <div>
+                    <strong>Hard Stop</strong>
+                    8% adverse move
+                </div>
+            </div>
+        </div>
+
+        <h3>KEY OBSERVATIONS</h3>
+        <ul style="font-size: 9pt; padding-left: 20px; margin-bottom: 0.1in;">
+            <li><strong>Bearish Divergence:</strong> Price rallied into January, Z-RoC peaked at +1.64 (Jan 8) and has made lower highs since. Momentum bleeding before price confirms.</li>
+            <li><strong>Relative Strength Breakdown:</strong> RS panel breaking to new lows vs Crypto30. XRP underperforming the broader crypto market and accelerating lower.</li>
+            <li><strong>Structure:</strong> Lower highs, lower lows. Death Cross active. Full downtrend in every way.</li>
+            <li><strong>Trigger:</strong> The $1.84 level is rectangle support. Breakdown completes the pattern and initiates the short.</li>
+        </ul>
+
+        <div class="footer">
+            <div><strong>Bob Sheehan, CFA, CMT</strong> | Founder & CIO | bob@lighthousemacro.com</div>
+            <div>LighthouseMacro.com | @LHMacro</div>
+        </div>
+    </div>
+</body>
+</html>

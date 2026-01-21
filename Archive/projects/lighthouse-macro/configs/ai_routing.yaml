@@ -1,0 +1,151 @@
+# Lighthouse Macro — AI Model Routing Logic
+
+# Task-based model selection
+routing:
+  data_extraction:
+    model: gpt-4-turbo
+    provider: openai
+    reason: "Fast, structured output, token-efficient for extraction tasks"
+    temperature: 0.1
+
+  narrative_synthesis:
+    model: claude-sonnet-4
+    provider: anthropic
+    reason: "Deep reasoning, nuanced writing, maintains voice consistency"
+    temperature: 0.7
+
+  code_generation:
+    model: claude-sonnet-4
+    provider: anthropic
+    reason: "Superior code quality, reproducibility, debuggability"
+    temperature: 0.3
+
+  quick_summary:
+    model: gpt-4-turbo
+    provider: openai
+    reason: "Speed and cost-efficiency for short summaries"
+    temperature: 0.5
+
+  chart_analysis:
+    model: claude-sonnet-4
+    provider: anthropic
+    reason: "Visual reasoning, technical pattern recognition"
+    temperature: 0.4
+
+  research_ideation:
+    model: claude-sonnet-4
+    provider: anthropic
+    reason: "Creative synthesis, cross-domain connection"
+    temperature: 0.8
+
+  fact_checking:
+    model: gpt-4-turbo
+    provider: openai
+    reason: "Structured verification, low latency"
+    temperature: 0.0
+
+  web_research:
+    model: llama-3.1-sonar-large-128k-online
+    provider: perplexity
+    reason: "Real-time web access, cited sources, current events"
+    temperature: 0.3
+
+  real_time_analysis:
+    model: grok-beta
+    provider: grok
+    reason: "X/Twitter integration, real-time sentiment, fast inference"
+    temperature: 0.5
+
+  multimodal_analysis:
+    model: gemini-2.0-flash-exp
+    provider: gemini
+    reason: "Fast multimodal processing, vision + text, long context"
+    temperature: 0.4
+
+# Workflow-specific routing
+workflows:
+  beacon:  # Sunday long-form narrative
+    stages:
+      - task: data_collection
+        model: gpt-4-turbo
+      - task: initial_analysis
+        model: claude-sonnet-4
+      - task: narrative_draft
+        model: claude-sonnet-4
+      - task: fact_check
+        model: gpt-4-turbo
+      - task: final_polish
+        model: claude-sonnet-4
+
+  beam:  # Tuesday/Thursday chart + paragraph
+    stages:
+      - task: chart_generation
+        model: claude-sonnet-4
+      - task: insight_extraction
+        model: claude-sonnet-4
+      - task: paragraph_draft
+        model: claude-sonnet-4
+
+  chartbook:  # Friday 50+ charts
+    stages:
+      - task: bulk_chart_generation
+        model: gpt-4-turbo  # Faster for batch operations
+      - task: annotation
+        model: claude-sonnet-4
+
+  horizon:  # First Monday forward outlook
+    stages:
+      - task: data_synthesis
+        model: claude-sonnet-4
+      - task: scenario_analysis
+        model: claude-sonnet-4
+      - task: outlook_draft
+        model: claude-sonnet-4
+
+# Model-specific settings
+models:
+  claude-sonnet-4:
+    max_tokens: 4096
+    top_p: 1.0
+    system_prompt: |
+      You are an AI research assistant for Lighthouse Macro, supporting Bob Sheehan's institutional-grade macro research.
+
+      Principles:
+      - Never approximate or fabricate data
+      - Code-first, reproducible research
+      - Clarity over complexity
+      - Empirically valid, interpretable, falsifiable
+
+      Voice:
+      - Quick, clever humor when appropriate
+      - Encouraging, empathetic, forward-thinking
+      - Humble in uncertainty
+      - Write like a human, avoid AI tells
+
+  gpt-4-turbo:
+    max_tokens: 2048
+    top_p: 0.95
+    system_prompt: |
+      You are a data extraction and analysis assistant for Lighthouse Macro.
+      Focus on accuracy, speed, and structured output.
+
+  grok-beta:
+    max_tokens: 2048
+    top_p: 0.95
+    system_prompt: |
+      You are analyzing real-time market sentiment and social data for Lighthouse Macro.
+      Focus on rapid synthesis and actionable insights from current information.
+
+  llama-3.1-sonar-large-128k-online:
+    max_tokens: 2048
+    top_p: 0.9
+    system_prompt: |
+      You are conducting web research for Lighthouse Macro.
+      Provide cited, verified information with sources. Focus on recent developments and data.
+
+  gemini-2.0-flash-exp:
+    max_tokens: 2048
+    top_p: 0.95
+    system_prompt: |
+      You are analyzing charts, documents, and multimodal content for Lighthouse Macro.
+      Provide detailed technical analysis with precise observations.

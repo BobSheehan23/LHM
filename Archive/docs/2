@@ -1,0 +1,10 @@
+Reporting-MTA: dns; googlemail.com
+Received-From-MTA: dns; bobsheehan23@gmail.com
+Arrival-Date: Thu, 04 Sep 2025 14:56:25 -0700 (PDT)
+X-Original-Message-ID: <5ufvpqn1h206992+229ji+g@mail.gmail.com>
+
+Final-Recipient: rfc822; bobsheehan23@google.com
+Action: failed
+Status: 5.1.3
+Diagnostic-Code: smtp; The email account that you tried to reach does not exist. Please try double-checking the recipient's email address for typos or unnecessary spaces. For more information, go to https://support.google.com/mail/?p=NoSuchUser
+Last-Attempt-Date: Thu, 04 Sep 2025 14:56:27 -0700 (PDT)

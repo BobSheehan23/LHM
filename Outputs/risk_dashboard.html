@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lighthouse Macro Risk Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ocean: #0089D1;
+            --dusk: #FF6723;
+            --sky: #00D4FF;
+            --venus: #FF2389;
+            --sea: #00BB99;
+            --doldrums: #D3D6D9;
+            --starboard: #00FF00;
+            --port: #FF0000;
+            --bg-dark: #0a1628;
+            --bg-card: #0f2140;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --border: #1e3a5f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--ocean);
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--ocean);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .header .date {
+            font-family: 'Source Code Pro', monospace;
+            color: var(--sky);
+            font-size: 0.9rem;
+        }
+
+        .regime-banner {
+            background: linear-gradient(135deg, #FF238922, #FF238911);
+            border: 2px solid #FF2389;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .regime-banner h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            color: #FF2389;
+            margin-bottom: 1rem;
+        }
+
+        .regime-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .regime-stat {
+            text-align: center;
+        }
+
+        .regime-stat .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .regime-stat .value {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .card-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ocean);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .probability-breakdown {
+            margin-bottom: 1rem;
+        }
+
+        .prob-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .prob-row.base {
+            color: var(--text-secondary);
+        }
+
+        .prob-row.premium {
+            color: var(--dusk);
+        }
+
+        .prob-row.total {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--venus);
+            border-top: 1px dashed var(--border);
+            padding-top: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .prob-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .prob-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .trigger-list {
+            list-style: none;
+        }
+
+        .trigger-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 35, 137, 0.1);
+            border-left: 3px solid var(--venus);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .trigger-item .flag {
+            font-family: 'Source Code Pro', monospace;
+            font-weight: 600;
+            color: var(--venus);
+            font-size: 0.85rem;
+        }
+
+        .trigger-item .desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .rmp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .rmp-item {
+            background: rgba(0, 137, 209, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+        }
+
+        .rmp-item .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .rmp-item .value {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--sky);
+        }
+
+        .rmp-runway {
+            grid-column: span 2;
+            text-align: center;
+            background: rgba(0, 187, 153, 0.15);
+            border: 1px solid var(--sea);
+        }
+
+        .rmp-runway .value {
+            font-size: 1.5rem;
+            color: var(--sea);
+        }
+
+        .thesis-box {
+            background: linear-gradient(135deg, rgba(0, 137, 209, 0.1), rgba(255, 103, 35, 0.1));
+            border: 1px solid var(--ocean);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .thesis-box h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ocean);
+            margin-bottom: 1rem;
+        }
+
+        .thesis-box p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .thesis-box p strong {
+            color: var(--text-primary);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-list {
+            list-style: none;
+        }
+
+        .action-item {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .action-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.75rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .action-item.dont::before {
+            background: var(--venus);
+        }
+
+        .action-item.do::before {
+            background: var(--sea);
+        }
+
+        .invalidation-list {
+            list-style: none;
+        }
+
+        .invalidation-item {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .invalidation-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--sky);
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 2px solid var(--ocean);
+        }
+
+        .footer .tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: var(--ocean);
+            letter-spacing: 0.2em;
+        }
+
+        .footer .timestamp {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(0, 137, 209, 0.3);
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <h1>LIGHTHOUSE MACRO</h1>
+            <div class="subtitle">Risk Assessment Dashboard</div>
+            <div class="date">As of 2026-01-16</div>
+        </header>
+
+        <div class="regime-banner">
+            <h2>🔴 REGIME: PRE CRISIS 🔴</h2>
+            <div class="regime-stats">
+                <div class="regime-stat">
+                    <div class="label">Warning Level</div>
+                    <div class="value" style="color: #FF2389">RED</div>
+                </div>
+                <div class="regime-stat">
+                    <div class="label">Model Agreement</div>
+                    <div class="value" style="color: var(--dusk)">SEVERE_DIVERGE</div>
+                </div>
+                <div class="regime-stat">
+                    <div class="label">Confidence</div>
+                    <div class="value">LOW</div>
+                </div>
+                <div class="regime-stat">
+                    <div class="label">Allocation</div>
+                    <div class="value" style="color: var(--venus)">0.15x</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">Probability Decomposition</div>
+                <div class="probability-breakdown">
+                    <div class="prob-row base">
+                        <span>Base Recession Probability (12-mo)</span>
+                        <span>19.5%</span>
+                    </div>
+                    <div class="prob-row premium">
+                        <span>+ Discontinuity Premium</span>
+                        <span>+50.0%</span>
+                    </div>
+                    <div class="prob-row total">
+                        <span>ADJUSTED PROBABILITY</span>
+                        <span>69.5%</span>
+                    </div>
+                </div>
+                <div class="prob-bar">
+                    <div class="prob-bar-fill" style="width: 69.49%; background: linear-gradient(90deg, var(--dusk), var(--venus))"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Critical Warning Triggers</div>
+                <ul class="trigger-list">
+                    
+                    <li class="trigger-item">
+                        <div class="flag">🚨 RRP_DEPLETED</div>
+                        <div class="desc">ON RRP below $100B - primary shock absorber exhausted</div>
+                    </li>
+                    
+                    <li class="trigger-item">
+                        <div class="flag">🚨 RRP_CRITICAL</div>
+                        <div class="desc">ON RRP below $250B - buffer severely depleted</div>
+                    </li>
+                    
+                    <li class="trigger-item">
+                        <div class="flag">🚨 RESERVES_BUFFER_THIN</div>
+                        <div class="desc">Bank reserves buffer < $200B above LCLOR</div>
+                    </li>
+                    
+                    <li class="trigger-item">
+                        <div class="flag">🚨 CLG_MISPRICED</div>
+                        <div class="desc">Credit-Labor Gap < -1.0 - spreads ignoring labor fragility</div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem">
+            <div class="card-header">Fed Reserve Management (RMP) Assessment</div>
+            <div class="rmp-grid">
+                <div class="rmp-item">
+                    <div class="label">Current Reserves</div>
+                    <div class="value">$2,879B</div>
+                </div>
+                <div class="rmp-item">
+                    <div class="label">LCLOR Threshold</div>
+                    <div class="value">$2,800B</div>
+                </div>
+                <div class="rmp-item">
+                    <div class="label">Organic Drain</div>
+                    <div class="value">$63B/mo</div>
+                </div>
+                <div class="rmp-item">
+                    <div class="label">RMP Offset</div>
+                    <div class="value">-$59B/mo</div>
+                </div>
+                <div class="rmp-item">
+                    <div class="label">Net Drain Rate</div>
+                    <div class="value">$4.2B/mo</div>
+                </div>
+                <div class="rmp-item">
+                    <div class="label">Risk Modifier</div>
+                    <div class="value" style="color: var(--sea)">-10%</div>
+                </div>
+                <div class="rmp-item rmp-runway">
+                    <div class="label">Runway to LCLOR</div>
+                    <div class="value">19 months</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="thesis-box">
+            <h3>The Hollow Rally Thesis</h3>
+            <p>Base probability (<strong>19.5%</strong>) reflects gradual deterioration in macro fundamentals. But this undersells the true risk.</p>
+            <p><strong>Buffers are exhausted.</strong> RRP depleted below $100B. Reserves within $80B of LCLOR. The shock absorbers that smoothed previous corrections are gone.</p>
+            <p><strong>Credit is mispricing labor fragility.</strong> The Credit-Labor Gap sits below -1.0, meaning HY spreads are tight relative to where labor dynamics suggest they should be.</p>
+            <p>The ensemble model adds a <strong>+50% discontinuity premium</strong> to capture this hidden fragility. Liquidity still exists. But it no longer absorbs risk. It transmits it.</p>
+        </div>
+
+        <div class="two-col">
+            <div class="card">
+                <div class="card-header">Positioning Guidance</div>
+                <ul class="action-list">
+                    <li class="action-item dont">Max defensive: 0.15x allocation multiplier</li>
+                    <li class="action-item dont">No new longs until buffer rebuilds</li>
+                    <li class="action-item do">Cash is an active position</li>
+                    <li class="action-item do">Daily monitoring of funding stress indicators</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Invalidation Conditions</div>
+                <ul class="invalidation-list">
+                    <li class="invalidation-item">Quits rate rebounds above 2.3%</li><li class="invalidation-item">RRP rebuilds above $250B</li><li class="invalidation-item">Initial claims sustained below 225K</li><li class="invalidation-item">HY spreads widen to >400bps (risk priced)</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="tagline">MACRO, ILLUMINATED.</div>
+            <div class="timestamp">Generated 2026-01-20 02:20:29</div>
+        </footer>
+    </div>
+
+    <div class="watermark">LIGHTHOUSE MACRO</div>
+</body>
+</html>

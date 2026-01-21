@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lighthouse Master Database - Infrastructure Audit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ocean: #0089D1;
+            --dusk: #FF6723;
+            --sky: #00D4FF;
+            --venus: #FF2389;
+            --sea: #00BB99;
+            --doldrums: #D3D6D9;
+            --dark: #333333;
+            --light: #F5F5F5;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            line-height: 1.5;
+            background: white;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 12pt;
+            color: var(--ocean);
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 28pt;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 11pt;
+            color: var(--dusk);
+            margin-bottom: 20px;
+        }
+
+        /* Accent Bar */
+        .accent-bar {
+            height: 4px;
+            background: linear-gradient(to right, var(--ocean) 65%, var(--dusk) 65%);
+            margin-bottom: 25px;
+        }
+
+        /* Intro */
+        .intro {
+            font-size: 11pt;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .intro code {
+            font-family: 'Source Code Pro', monospace;
+            background: var(--light);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10pt;
+        }
+
+        /* Section Headers */
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14pt;
+            color: var(--ocean);
+            margin: 30px 0 15px 0;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: var(--light);
+            padding: 20px;
+            text-align: center;
+            border-top: 4px solid var(--ocean);
+        }
+
+        .stat-value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28pt;
+            font-weight: 700;
+            color: var(--ocean);
+        }
+
+        .stat-label {
+            font-size: 10pt;
+            color: var(--dark);
+            margin-top: 5px;
+        }
+
+        /* Coverage Table */
+        .coverage-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12pt;
+            color: var(--dusk);
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+            margin-bottom: 25px;
+        }
+
+        th {
+            background: var(--ocean);
+            color: white;
+            padding: 10px 15px;
+            text-align: left;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--doldrums);
+        }
+
+        td code {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 9pt;
+        }
+
+        tr:nth-child(even) {
+            background: var(--light);
+        }
+
+        /* Source Breakdown */
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .source-box {
+            background: var(--light);
+            padding: 15px;
+            text-align: center;
+            border-left: 3px solid var(--ocean);
+        }
+
+        .source-box .name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 11pt;
+            color: var(--dark);
+        }
+
+        .source-box .count {
+            font-size: 18pt;
+            font-weight: 700;
+            color: var(--ocean);
+            margin: 5px 0;
+        }
+
+        .source-box .label {
+            font-size: 8pt;
+            color: #666;
+        }
+
+        /* Category Table */
+        .cat-table th:first-child {
+            width: 50%;
+        }
+
+        /* Proprietary Section */
+        .prop-box {
+            background: var(--dark);
+            color: white;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .prop-box h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12pt;
+            color: var(--sky);
+            margin-bottom: 10px;
+        }
+
+        .prop-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            font-size: 9pt;
+        }
+
+        .prop-item {
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            text-align: center;
+            border-radius: 3px;
+        }
+
+        .prop-item strong {
+            color: var(--sky);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px solid var(--ocean);
+            font-size: 9pt;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-right {
+            color: var(--ocean);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-label">LIGHTHOUSE MACRO</div>
+        <h1>Lighthouse Master Database</h1>
+        <div class="subtitle">Infrastructure Audit | January 20, 2026</div>
+
+        <div class="accent-bar"></div>
+
+        <p class="intro">
+            The <code>Lighthouse_Master.db</code> is the backbone of our analytical infrastructure: raw data transformed into actionable signals. This audit identifies what we have, what's working, and the critical gaps blocking full framework implementation.
+        </p>
+
+        <h2>Database at a Glance</h2>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-value">1.78M</div>
+                <div class="stat-label">Observations</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">1,094</div>
+                <div class="stat-label">Unique Series</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Data Sources</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">41</div>
+                <div class="stat-label">Proprietary Indices</div>
+            </div>
+        </div>
+
+        <div class="coverage-header">Coverage Timeline</div>
+        <table>
+            <tr>
+                <th>Table</th>
+                <th>Earliest</th>
+                <th>Latest</th>
+                <th>Records</th>
+            </tr>
+            <tr>
+                <td><code>observations</code></td>
+                <td>1854-10-01</td>
+                <td>2035-10-01</td>
+                <td>1,783,634</td>
+            </tr>
+            <tr>
+                <td><code>series_meta</code></td>
+                <td>—</td>
+                <td>—</td>
+                <td>1,094</td>
+            </tr>
+            <tr>
+                <td><code>update_log</code></td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+            </tr>
+        </table>
+
+        <h2>Data Sources</h2>
+        <div class="source-grid">
+            <div class="source-box">
+                <div class="name">FRED</div>
+                <div class="count">765</div>
+                <div class="label">series</div>
+            </div>
+            <div class="source-box">
+                <div class="name">BEA</div>
+                <div class="count">267</div>
+                <div class="label">series</div>
+            </div>
+            <div class="source-box">
+                <div class="name">BLS</div>
+                <div class="count">31</div>
+                <div class="label">series</div>
+            </div>
+            <div class="source-box">
+                <div class="name">OFR</div>
+                <div class="count">21</div>
+                <div class="label">series</div>
+            </div>
+            <div class="source-box">
+                <div class="name">NYFED</div>
+                <div class="count">10</div>
+                <div class="label">series</div>
+            </div>
+        </div>
+
+        <h2>Series by Category</h2>
+        <table class="cat-table">
+            <tr>
+                <th>Category</th>
+                <th>Series Count</th>
+            </tr>
+            <tr>
+                <td>PCE Components</td>
+                <td>200+</td>
+            </tr>
+            <tr>
+                <td>GDP National Accounts</td>
+                <td>150+</td>
+            </tr>
+            <tr>
+                <td>Interest Rates / Treasury</td>
+                <td>100+</td>
+            </tr>
+            <tr>
+                <td>Employment & Labor</td>
+                <td>80+</td>
+            </tr>
+            <tr>
+                <td>Housing</td>
+                <td>50+</td>
+            </tr>
+            <tr>
+                <td>Financial Stress / Funding</td>
+                <td>40+</td>
+            </tr>
+            <tr>
+                <td>Regional Fed Surveys</td>
+                <td>30+</td>
+            </tr>
+            <tr>
+                <td>Other (CPI, Industrial Prod, etc.)</td>
+                <td>400+</td>
+            </tr>
+        </table>
+
+        <div class="prop-box">
+            <h3>Proprietary Indices (41 Total)</h3>
+            <div class="prop-grid">
+                <div class="prop-item"><strong>LPI</strong> Labor Pressure</div>
+                <div class="prop-item"><strong>LFI</strong> Labor Fragility</div>
+                <div class="prop-item"><strong>PCI</strong> Price Conditions</div>
+                <div class="prop-item"><strong>GCI</strong> Growth Conditions</div>
+                <div class="prop-item"><strong>HCI</strong> Housing Conditions</div>
+                <div class="prop-item"><strong>CCI</strong> Consumer Conditions</div>
+                <div class="prop-item"><strong>BCI</strong> Business Conditions</div>
+                <div class="prop-item"><strong>TCI</strong> Trade Conditions</div>
+                <div class="prop-item"><strong>FCI</strong> Financial Conditions</div>
+                <div class="prop-item"><strong>LCI</strong> Liquidity Cushion</div>
+                <div class="prop-item"><strong>MSI</strong> Market Structure</div>
+                <div class="prop-item"><strong>SPI</strong> Sentiment & Positioning</div>
+                <div class="prop-item"><strong>MRI</strong> Macro Risk Index</div>
+                <div class="prop-item"><strong>CLG</strong> Credit-Labor Gap</div>
+                <div class="prop-item"><strong>SBD</strong> Structure-Breadth Div</div>
+                <div class="prop-item"><strong>SSD</strong> Sentiment-Structure Div</div>
+            </div>
+            <p style="font-size: 8pt; margin-top: 12px; opacity: 0.7;">+ 25 additional sub-indices, z-scores, and derived metrics</p>
+        </div>
+
+        <div class="footer">
+            <div>Last updated: January 20, 2026 | Generated from Lighthouse_Master.db</div>
+            <div class="footer-right">LIGHTHOUSE MACRO | MACRO, ILLUMINATED.</div>
+        </div>
+    </div>
+</body>
+</html>

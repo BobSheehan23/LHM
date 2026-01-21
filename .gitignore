@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Data files (large, regenerated daily)
+Data/databases/*.db
+Data/databases/*.db-journal
+*.csv
+*.parquet
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
+credentials*.json
+
+# Temp files
+*.tmp
+*.log
+*.bak
+
+# Large files
+*.zip
+*.tar.gz
+Charts/*.png
+Charts/*.jpg
+Images/
+
+# Claude Code
+.claude/

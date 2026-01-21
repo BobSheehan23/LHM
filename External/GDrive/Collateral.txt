@@ -1,0 +1,24 @@
+Collateral Fragility
+The Stablecoin Footprint in U.S. Treasury Markets
+The Shifting Sands of Safe Assets
+U.S. Treasuries have long been the bedrock of global finance. However, a structural shift is underway. Traditional buyers are stepping back, dealer capacity is strained, and a new, volatile force has entered the market: stablecoin issuers. Now holding over $182 billion in T-bills, their crypto-linked demand introduces unprecedented fragility to the world's "safest" asset. This infographic visualizes the key stress points and emerging risks.
+A Fractured Buyer Base
+The traditional Treasury buyer base is eroding. Foreign central banks' share has dropped from 33% to 25%, while stablecoins have rapidly grown to become significant holders, creating a more fragmented and less predictable demand structure.
+Dealers Under Pressure
+Primary dealers, the market's essential shock absorbers, are nearing their regulatory limits. With SLR utilization hitting ~95%, their ability to absorb new Treasury issuance is severely constrained, increasing the risk of auction failures.
+Auction Stress Signals
+Weak demand is becoming chronic. The share of Treasury auctions "tailing"—where the yield is higher than expected—has more than doubled since 2020. This is a direct signal that natural buyers are faltering.
+A Divided Curve
+A stark divergence is splitting the market. T-bill auctions remain robust, buoyed by stablecoin demand, while longer-dated bonds see waning interest. This technical strength in the front end masks fundamental weakness elsewhere.
+Volatility Spillover Risk
+Treasury and crypto volatility exist in different universes. However, with stablecoins creating a direct link, shocks in the highly volatile crypto market now have a clear transmission channel to the core of the financial system.
+Stablecoins' Growing Footprint
+In just a few years, stablecoin issuers have gone from a negligible presence to holding an estimated 3% of the entire $6 trillion T-bill market. This demand is procyclical and tied to crypto market sentiment.
+Collateral Stress Rising
+Our Collateral Shortage Index, blending repo fails and dealer stress metrics, is trending higher, echoing patterns seen before the 2019 repo crisis. This signals growing mechanical funding constraints in the market.
+Crypto's Influence on Funding
+Repo market liquidity is now correlated with crypto flows. As stablecoin inflows increase, so does repo market stress. The plumbing of the financial system is now linked to digital asset sentiment.
+The Supply-Demand Imbalance
+Projected Treasury issuance continues to outpace the demand from natural, price-insensitive buyers. This widening gap suggests yields may need to rise to attract more price-sensitive investors to clear the market.
+Conclusion: A New Regime
+The Treasury market is no longer a monolithic safe haven. The emergence of stablecoins, combined with dealer constraints and surging supply, has forged a new, more fragile reality. Investors must now monitor crypto flows as a key indicator of funding market health and prepare for a higher baseline of volatility. Collateral fragility is the new battleground.

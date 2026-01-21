@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lighthouse Master Database Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ocean: #0089D1;
+            --dusk: #FF6723;
+            --sky: #00D4FF;
+            --venus: #FF2389;
+            --sea: #00BB99;
+            --doldrums: #D3D6D9;
+            --starboard: #00FF00;
+            --port: #FF0000;
+            --dark: #333333;
+            --light: #F5F5F5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background: #fff;
+            line-height: 1.6;
+            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--ocean);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--ocean);
+            margin-bottom: 16px;
+        }
+
+        .accent-bar {
+            height: 4px;
+            background: linear-gradient(90deg, var(--ocean) 0%, var(--ocean) 66%, var(--dusk) 66%, var(--dusk) 100%);
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--dark);
+            margin: 32px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--ocean);
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--ocean);
+            margin: 24px 0 12px 0;
+        }
+
+        p { margin-bottom: 16px; }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .stat-box {
+            background: var(--light);
+            border: 2px solid var(--ocean);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--ocean);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--dark);
+            margin-top: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        th {
+            background: var(--ocean);
+            color: white;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--doldrums);
+        }
+
+        tr:nth-child(even) { background: var(--light); }
+
+        .status-ok { color: var(--sea); font-weight: 600; }
+        .status-partial { color: var(--dusk); font-weight: 600; }
+        .status-missing { color: var(--port); font-weight: 600; }
+        .status-critical { color: var(--venus); font-weight: 700; }
+
+        .gap-section {
+            background: #FFF5F5;
+            border: 2px solid var(--dusk);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .gap-section h3 {
+            color: var(--dusk);
+            margin-top: 0;
+        }
+
+        .priority-high {
+            display: inline-block;
+            background: var(--venus);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        .priority-medium {
+            display: inline-block;
+            background: var(--dusk);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        ul {
+            margin: 12px 0 12px 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            font-family: 'Source Code Pro', monospace;
+            background: var(--light);
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+
+        .footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--doldrums);
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer-contact {
+            font-weight: 500;
+        }
+
+        .watermark-top {
+            position: fixed;
+            top: 20px;
+            left: 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            color: var(--ocean);
+            opacity: 0.15;
+            letter-spacing: 1px;
+        }
+
+        .watermark-bottom {
+            position: fixed;
+            bottom: 20px;
+            right: 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            color: var(--ocean);
+            opacity: 0.15;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark-top">LIGHTHOUSE MACRO</div>
+    <div class="watermark-bottom">MACRO, ILLUMINATED.</div>
+
+    <div class="header">
+        <div class="logo-text">LIGHTHOUSE MACRO</div>
+        <h1>Lighthouse Master Database</h1>
+        <div class="subtitle">Infrastructure Audit | January 15, 2026</div>
+        <div class="accent-bar"></div>
+    </div>
+
+    <p>The <code>Lighthouse_Master.db</code> is the backbone of our analytical infrastructure—raw data transformed into actionable signals. This audit identifies what we have, what's working, and the critical gaps blocking full framework implementation.</p>
+
+    <h2>Database at a Glance</h2>
+
+    <div class="stat-grid">
+        <div class="stat-box">
+            <div class="stat-value">1.77M</div>
+            <div class="stat-label">Observations</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value">1,073</div>
+            <div class="stat-label">Unique Series</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Data Sources</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Proprietary Indices</div>
+        </div>
+    </div>
+
+    <h3>Coverage Timeline</h3>
+    <table>
+        <tr>
+            <th>Table</th>
+            <th>Earliest</th>
+            <th>Latest</th>
+            <th>Records</th>
+        </tr>
+        <tr>
+            <td><code>observations</code></td>
+            <td>1854-10-01</td>
+            <td>2035-10-01</td>
+            <td>1,773,545</td>
+        </tr>
+        <tr>
+            <td><code>horizon_dataset</code></td>
+            <td>1919-01-01</td>
+            <td>2026-01-09</td>
+            <td>39,091</td>
+        </tr>
+        <tr>
+            <td><code>lighthouse_indices</code></td>
+            <td>2026-01-12</td>
+            <td>2026-01-12</td>
+            <td>8</td>
+        </tr>
+    </table>
+
+    <h3>Source Breakdown</h3>
+    <table>
+        <tr>
+            <th>Source</th>
+            <th>Series Count</th>
+            <th>Coverage</th>
+        </tr>
+        <tr>
+            <td>FRED (Federal Reserve Economic Data)</td>
+            <td>744</td>
+            <td class="status-ok">✓ Primary source, comprehensive</td>
+        </tr>
+        <tr>
+            <td>BEA (Bureau of Economic Analysis)</td>
+            <td>267</td>
+            <td class="status-ok">✓ GDP, PCE, national accounts</td>
+        </tr>
+        <tr>
+            <td>BLS (Bureau of Labor Statistics)</td>
+            <td>31</td>
+            <td class="status-ok">✓ JOLTS, labor prices</td>
+        </tr>
+        <tr>
+            <td>OFR (Office of Financial Research)</td>
+            <td>21</td>
+            <td class="status-ok">✓ FSI, funding rates</td>
+        </tr>
+        <tr>
+            <td>NY Fed</td>
+            <td>10</td>
+            <td class="status-partial">⚠ Reference rates only</td>
+        </tr>
+    </table>
+
+    <h2>Proprietary Indices Status</h2>
+
+    <table>
+        <tr>
+            <th>Index</th>
+            <th>Description</th>
+            <th>History</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td><strong>LFI</strong></td>
+            <td>Labor Fragility Index</td>
+            <td>1 obs (2026-01-12)</td>
+            <td class="status-partial">⚠ Point-in-time only</td>
+        </tr>
+        <tr>
+            <td><strong>LCI</strong></td>
+            <td>Liquidity Cushion Index</td>
+            <td>1 obs (2026-01-12)</td>
+            <td class="status-partial">⚠ Point-in-time only</td>
+        </tr>
+        <tr>
+            <td><strong>CLG</strong></td>
+            <td>Credit-Labor Gap</td>
+            <td>1 obs (2026-01-12)</td>
+            <td class="status-partial">⚠ Point-in-time only</td>
+        </tr>
+        <tr>
+            <td><strong>MRI</strong></td>
+            <td>Macro Risk Index (Master Composite)</td>
+            <td>1 obs (2026-01-12)</td>
+            <td class="status-partial">⚠ Point-in-time only</td>
+        </tr>
+        <tr>
+            <td><strong>SLI</strong></td>
+            <td>Stablecoin Liquidity Impulse</td>
+            <td>1 obs (2026-01-12)</td>
+            <td class="status-partial">⚠ Point-in-time only</td>
+        </tr>
+    </table>
+
+    <p><strong>Issue:</strong> All proprietary indices have only single-point snapshots. No historical backfill means no backtesting, no regime analysis, no historical context for current readings.</p>
+
+    <h2>Pillar Coverage Assessment</h2>
+
+    <table>
+        <tr>
+            <th>Pillar</th>
+            <th>Key Series</th>
+            <th>Status</th>
+            <th>Gap</th>
+        </tr>
+        <tr>
+            <td><strong>1. Labor</strong></td>
+            <td>JOLTS (Quits, Hires, Openings), Claims, U-rates</td>
+            <td class="status-ok">✓ Good</td>
+            <td>Missing: Temp Help Services, Atlanta Fed Wage Tracker</td>
+        </tr>
+        <tr>
+            <td><strong>2. Prices</strong></td>
+            <td>CPI components, PCE, Breakevens, Sticky CPI</td>
+            <td class="status-ok">✓ Good</td>
+            <td>Missing: 5Y5Y Forward Inflation, Zillow Rent Index</td>
+        </tr>
+        <tr>
+            <td><strong>3. Growth</strong></td>
+            <td>GDP, IP, Regional Fed surveys</td>
+            <td class="status-partial">⚠ Partial</td>
+            <td>Missing: ISM Manufacturing PMI, ISM Services PMI</td>
+        </tr>
+        <tr>
+            <td><strong>4. Housing</strong></td>
+            <td>Starts, Permits, Case-Shiller, Mortgage rates</td>
+            <td class="status-partial">⚠ Partial</td>
+            <td>Missing: NAHB Index, MBA Purchase Index</td>
+        </tr>
+        <tr>
+            <td><strong>5. Consumer</strong></td>
+            <td>PCE, Retail Sales, UMich Sentiment, Delinquencies</td>
+            <td class="status-partial">⚠ Partial</td>
+            <td>Missing: CB Consumer Confidence, CB Expectations</td>
+        </tr>
+        <tr>
+            <td><strong>6. Business</strong></td>
+            <td>Durable goods, Capex orders</td>
+            <td class="status-missing">✗ Major Gap</td>
+            <td>Missing: NFIB Optimism, ISM PMIs, Inventory/Sales</td>
+        </tr>
+        <tr>
+            <td><strong>7. Trade</strong></td>
+            <td>Trade balance, Exchange rates</td>
+            <td class="status-partial">⚠ Partial</td>
+            <td>Missing: Import Price Index, NY Fed GSCPI</td>
+        </tr>
+        <tr>
+            <td><strong>8. Government</strong></td>
+            <td>Some fiscal data</td>
+            <td class="status-partial">⚠ Partial</td>
+            <td>Missing: Deficit/GDP, Interest/Outlays, Quarterly Issuance</td>
+        </tr>
+        <tr>
+            <td><strong>9. Financial</strong></td>
+            <td>HY/IG OAS, Treasury curve, NFCI, SLOOS</td>
+            <td class="status-ok">✓ Good</td>
+            <td>Minor: VIX not in series_meta</td>
+        </tr>
+        <tr>
+            <td><strong>10. Plumbing</strong></td>
+            <td>RRP, Reserves, SOFR, EFFR, TGA</td>
+            <td class="status-partial">⚠ Partial</td>
+            <td>Missing: IORB, GCF-TPR spread, Dealer positions</td>
+        </tr>
+    </table>
+
+    <div class="gap-section">
+        <h3>🔴 Critical Gaps Blocking Framework</h3>
+
+        <h4>1. No Historical Index Backfill <span class="priority-high">HIGH</span></h4>
+        <p>LFI, LCI, CLG, MRI all have single-point values. Without history:</p>
+        <ul>
+            <li>Can't backtest signals against market outcomes</li>
+            <li>Can't establish regime thresholds empirically</li>
+            <li>Can't show "this is the worst LFI since 2008" context</li>
+        </ul>
+        <p><strong>Fix:</strong> Run <code>compute_all_indicators()</code> across full historical range and populate <code>lighthouse_indices</code> table.</p>
+
+        <h4>2. Missing ISM PMI Data <span class="priority-high">HIGH</span></h4>
+        <p>ISM Manufacturing (49.3) and ISM Services (54.1) are referenced constantly in analysis but not in database. Only <code>MANEMP</code> (ISM Manufacturing Employment) exists.</p>
+        <p><strong>Fix:</strong> ISM data requires subscription or scraping. Consider ISM via FRED (<code>NAPM</code>, <code>NAPMNOI</code>) or third-party API.</p>
+
+        <h4>3. Missing NFIB Small Business Optimism <span class="priority-high">HIGH</span></h4>
+        <p>NFIB Optimism (89.4, "lowest since 2012") is a core BCI input but absent from database.</p>
+        <p><strong>Fix:</strong> FRED series <code>NFIB</code> or direct from NFIB survey.</p>
+
+        <h4>4. No Stablecoin/Crypto Data <span class="priority-medium">MEDIUM</span></h4>
+        <p>SLI (Stablecoin Liquidity Impulse) exists as index but no underlying stablecoin market cap series. Critical for the crypto-Treasury transmission thesis.</p>
+        <p><strong>Fix:</strong> Integrate CoinGecko, DefiLlama, or Glassnode API for USDT/USDC market cap.</p>
+
+        <h4>5. Missing Temp Help Services <span class="priority-medium">MEDIUM</span></h4>
+        <p>Temp Help YoY% (-7.1%) is a core labor canary but <code>TEMPHELPS</code> not found in series_meta.</p>
+        <p><strong>Fix:</strong> FRED series <code>TEMPHELPS</code> (Temporary Help Services employment).</p>
+
+        <h4>6. Missing 5Y5Y Forward Inflation <span class="priority-medium">MEDIUM</span></h4>
+        <p>Fed's preferred inflation expectations anchor. Have 5Y and 10Y breakevens but not the 5Y5Y forward.</p>
+        <p><strong>Fix:</strong> FRED series <code>T5YIFR</code> (5-Year, 5-Year Forward Inflation Expectation Rate).</p>
+    </div>
+
+    <h2>What's Working Well</h2>
+
+    <ul>
+        <li><strong>Core labor data:</strong> JOLTS rates (quits, hires, openings), claims, unemployment rates all present</li>
+        <li><strong>Inflation components:</strong> CPI breakdown (shelter, food, energy, services), PCE, sticky CPI</li>
+        <li><strong>Credit spreads:</strong> HY OAS, IG OAS with full history</li>
+        <li><strong>Financial conditions:</strong> NFCI, Adjusted NFCI, OFR FSI components</li>
+        <li><strong>Treasury curve:</strong> Full curve from 1M to 30Y plus TIPS</li>
+        <li><strong>Plumbing basics:</strong> RRP, Reserves, SOFR, EFFR, TGA all present</li>
+        <li><strong>Delinquencies:</strong> Comprehensive breakdown by loan type</li>
+        <li><strong>horizon_dataset:</strong> ~300 pre-computed transformations (YoY, MoM, z-scores)</li>
+    </ul>
+
+    <h2>Recommended Priority Actions</h2>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Action</th>
+            <th>Impact</th>
+            <th>Effort</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Backfill proprietary indices (LFI, LCI, MRI, CLG) to 2000</td>
+            <td class="status-critical">Critical</td>
+            <td>Medium</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Add ISM Manufacturing + Services PMI</td>
+            <td class="status-critical">Critical</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Add NFIB Small Business Optimism</td>
+            <td class="status-critical">Critical</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Add TEMPHELPS (Temp Help Services)</td>
+            <td class="status-missing">High</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Add T5YIFR (5Y5Y Forward Inflation)</td>
+            <td class="status-missing">High</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Add CB Consumer Confidence + Expectations</td>
+            <td class="status-partial">Medium</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Integrate stablecoin market cap data</td>
+            <td class="status-partial">Medium</td>
+            <td>Medium</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Add NAHB Housing Market Index</td>
+            <td class="status-partial">Medium</td>
+            <td>Low</td>
+        </tr>
+    </table>
+
+    <h2>Bottom Line</h2>
+
+    <p>The database is <strong>~75% complete</strong> for the 10-Pillar framework. The core foundation is solid—labor flows, inflation components, credit spreads, plumbing metrics all present. But we're missing critical survey data (ISM, NFIB, Conference Board) that's referenced constantly in analysis, and our proprietary indices have no historical depth.</p>
+
+    <p>The highest-leverage fix is <strong>backfilling the proprietary indices</strong>. Right now we can say "LFI is +0.93" but we can't say "that's the highest since 2008." Context requires history.</p>
+
+    <p>Second priority: <strong>ISM and NFIB</strong>. These are quoted in every Beacon and Horizon. Having them computed externally and pasted in defeats the purpose of the infrastructure.</p>
+
+    <div class="footer">
+        <p class="footer-contact">Bob Sheehan, CFA, CMT | Founder & Chief Investment Officer</p>
+        <p>Lighthouse Macro | LighthouseMacro.com | @LHMacro</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+# Lighthouse Macro — Data Series Taxonomy
+# Organized by Three Pillars
+
+macro_dynamics:
+  gdp_output:
+    - GDP          # Gross Domestic Product
+    - GDPC1        # Real GDP
+    - GDPPOT       # Potential GDP
+    - GDPDEF       # GDP Deflator
+    - PAYEMS       # Nonfarm Payrolls
+    - UNRATE       # Unemployment Rate
+    - CIVPART      # Labor Force Participation Rate
+    - EMRATIO      # Employment-Population Ratio
+
+  inflation:
+    - CPIAUCSL     # CPI All Urban Consumers
+    - CPILFESL     # CPI Less Food & Energy
+    - PCEPI        # PCE Price Index
+    - PCEPILFE     # Core PCE
+    - CPIMEDSL     # Median CPI
+    - CPITRNSL     # Trimmed Mean CPI
+    - PPIACO       # Producer Price Index
+
+  housing:
+    - HOUST        # Housing Starts
+    - PERMIT       # Building Permits
+    - MSPUS        # Median Sales Price
+    - MORTGAGE30US # 30-Year Mortgage Rate
+    - RHORUSQ156N  # Homeownership Rate
+
+  trade:
+    - BOPGSTB      # Trade Balance
+    - EXPGS        # Exports
+    - IMPGS        # Imports
+    - DTWEXBGS     # Trade Weighted Dollar Index
+
+  capex_investment:
+    - PNFI         # Nonresidential Fixed Investment
+    - GPDIC1       # Private Fixed Investment
+    - PCEC96       # Real Personal Consumption
+
+monetary_mechanics:
+  fed_balance_sheet:
+    - WALCL        # Fed Total Assets
+    - WSHOSHO      # Securities Held Outright
+    - WTREGEN      # Treasury General Account (TGA)
+    - RRPONTSYD    # Reverse Repos
+    - WRESBAL      # Reserve Balances
+
+  rates_term_structure:
+    - DGS2         # 2-Year Treasury
+    - DGS5         # 5-Year Treasury
+    - DGS10        # 10-Year Treasury
+    - DGS30        # 30-Year Treasury
+    - DFEDTARU     # Fed Funds Target (Upper)
+    - DFEDTARL     # Fed Funds Target (Lower)
+    - SOFR         # Secured Overnight Financing Rate
+    - T10Y2Y       # 10Y-2Y Spread
+    - T10Y3M       # 10Y-3M Spread
+
+  credit_money:
+    - M2SL         # M2 Money Supply
+    - TOTCI        # Commercial & Industrial Loans
+    - CONSUMER     # Consumer Loans
+    - REALLN       # Real Estate Loans
+    - BUSLOANS     # Business Loans
+    - DRTSCILM     # Delinquency Rate: C&I Loans
+
+  repo_collateral:
+    - REPO         # Repo Rate
+    - IORB         # Interest on Reserve Balances
+    - BGAP         # Bank Prime Loan Rate
+
+market_technicals:
+  equity_indices:
+    - SP500        # S&P 500
+    - NASDAQCOM    # NASDAQ Composite
+    - DJIA         # Dow Jones
+    - VIXCLS       # VIX
+
+  credit_spreads:
+    - BAMLH0A0HYM2 # High Yield Spread
+    - BAMLC0A4CBBB # BBB Corporate Spread
+    - MORTGAGE30US # Mortgage Spread (vs 10Y)
+    - T10Y2Y       # Yield Curve
+
+  flows_positioning:
+    - DEXUSEU      # USD/EUR
+    - DEXCHUS      # USD/CNY
+    - DEXJPUS      # USD/JPY
+    - DTWEXBGS     # Broad Dollar Index
+
+# Default transformations by pillar
+default_transformations:
+  macro_dynamics:
+    - yoy
+    - ma_12m
+    - zscore_24m
+
+  monetary_mechanics:
+    - mom
+    - diff
+    - rolling_corr
+
+  market_technicals:
+    - pct_change
+    - zscore_12m
+    - rolling_vol

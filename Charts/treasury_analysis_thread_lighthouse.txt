@@ -1,0 +1,42 @@
+
+🧵 UPDATED TWITTER THREAD - TREASURY MARKET ANALYSIS
+
+**Tweet 1:**
+What's happening in the Treasury market is a signal that the foundation of demand, especially at the long end of the curve, is weakening. Yesterday's 10-year auction tailed 1.125 basis points - the first tail in six months. The government expected 4.244% but had to pay 4.255% to clear $42 billion. Foreign buyers stepped back, with indirect bidders taking only 63.8% versus recent averages near 70%. Primary dealers absorbed just 16%, but that's 16% they don't want to hold.
+
+[Chart: 10y_auction_tail_lighthouse.png]
+
+**Tweet 2:**
+The bigger issue is who's buying and who's not. Foreign central banks, long the reliable backbone of Treasury demand, have been stepping back. Institutional investors are cautious. That leaves primary dealers and domestic banks to pick up the slack. But these aren't natural buyers. They're intermediaries who are being forced to absorb more and more supply just to keep the auctions from failing outright. And that's a problem, because it creates a fragile foundation.
+
+[Chart: foreign_vs_dealer_demand_lighthouse.png]
+
+**Tweet 3:**
+Contrast that with the front end of the curve, where demand remains strong. Treasury bills are flying off the shelves. But that's not confidence - it's technical. Bills are the best collateral in the system, and collateral demand is sky high. Banks, funds, and counterparties need bills to grease the wheels of repo, FX swaps, and derivative markets. That need for pristine collateral creates persistent demand at the short end that has nothing to do with confidence in long-term U.S. fiscal policy.
+
+**Tweet 4:**
+Adding to that is the rise of stablecoin issuers as major buyers of T-bills. As of August 2025, the top four stablecoin issuers - Tether, Circle, Paxos, and First Digital - collectively hold over $180 billion in Treasury securities, with Tether alone accounting for more than $125 billion. These firms are required to back their digital dollar tokens with ultra-safe, ultra-liquid assets, typically T-bills maturing in 90 days or less.
+
+[Chart: stablecoin_treasury_holdings_lighthouse.png]
+
+**Tweet 5:**
+Their demand is large, but it's concentrated, regulatory-driven, and highly reactive to crypto market dynamics. If flows reverse or regulations change, that demand could vanish quickly. So while the front end looks strong, it's not the kind of strength that supports the broader Treasury complex. It's narrow and functional. The long end is where the real stress is building.
+
+**Tweet 6:**
+US 10-year Treasury Auction results from August 6:
+
+The auction didn't go well. With a 1.1bp tail (first in 6 months), weak 2.32x bid-to-cover, and foreign demand dropping to 63.8%, we're seeing cracks in the foundation. Primary dealers took only 16% - they're not natural buyers but intermediaries being forced to warehouse risk. Direct bidders at 19.4% include stablecoin issuers who now hold $180B+ in T-bills. The perpetual flywheel between crypto and Treasury markets is accelerating.
+
+[Chart: aug6_auction_results_lighthouse.png]
+
+**Tweet 7:**
+Looking ahead, the highest conviction outcome is a continued breakdown in long-end market confidence. If the Fed cuts rates, it could spark fears of inflation and fiscal monetization, driving long yields even higher. If the Fed holds, the pressure on domestic banks and dealers will mount. Either way, something eventually breaks.
+
+**Tweet 8:**
+The real risk is that weak auctions become routine. That the market starts treating Treasuries not as the world's safest asset but just another risk needing a premium. And once that shift in perception takes hold, there's no easy way back. With over $1.5 trillion in net issuance coming in the second half of 2025, this imbalance is only going to get worse.
+
+Charts available at:
+- https://julius.ai/files/10y_auction_tail_lighthouse.png
+- https://julius.ai/files/aug6_auction_results_lighthouse.png
+- https://julius.ai/files/foreign_vs_dealer_demand_lighthouse.png
+- https://julius.ai/files/stablecoin_treasury_holdings_lighthouse.png
