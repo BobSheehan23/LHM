@@ -18,7 +18,7 @@ This file provides guidance to Claude Code when working in this repository.
 
 ## Voice & Tone (The "Bob" Cadence)
 
-**Mix:** 60% Institutional Rigor / 40% "Real Bob" / 0% AI Fluff
+**Mix:** 80% Institutional Rigor / 20% "Real Bob" / 0% AI Fluff
 
 **Deadpan & Dry:** Skeptical, irreverent, data-driven. Humor is subtle: "The labor data softened. Again. I wasn't consulted."
 
@@ -27,15 +27,18 @@ This file provides guidance to Claude Code when working in this repository.
 **The "No-AI" Rule:**
 - No robotic transitions ("In conclusion," "It is important to note")
 - No over-excited adjectives ("Skyrocketing," "Plummeting")
+- No emdashes. Use parentheses, commas, periods, colons, or ellipses instead
 - Short sentences control rhythm
 - Commas > Semicolons
 
 **The Vibe:** "I'm not mad, just disappointed in the data." The adult in the room watching the market throw furniture.
 
-**Standard Sign-Off:**
-> That's our view from The Watch. Until next time, we'll be sure to keep the light on...
+**Standard Sign-Off (Existing Readers):**
+> That's our view from The Watch. Until next time, we'll be sure to keep the light on....
 
-**CTA:** "Join The Watch."
+**CTA (New Readers):** Join The Watch.
+
+**RETIRED:** "Why navigate in darkness? The Watch awaits." (too overwrought)
 
 ---
 
@@ -188,6 +191,20 @@ Single-page summaries. Clean, scannable, high information density.
 
 ---
 
+## Content Strategy
+
+### Substack Tags (Top of Funnel, Max 5)
+Economics, Finance, Macro, Investing, Markets
+
+### 12-Pillar Educational Series
+One post per pillar. Each post structure:
+1. **What it is** — Definition and components
+2. **Why it matters** — Connection to cycle, market implications
+3. **How to track it** — Key indicators, data sources, frequency
+4. **Invalidation** — What would make us wrong
+
+---
+
 ## Data Philosophy
 
 **Granularity Over Headlines:** We almost never want a single series on a chart. We want what's happening under the surface—how A and B are interacting. Decompose, don't summarize. Show the components, the flows, the relationships.
@@ -198,9 +215,17 @@ Single-page summaries. Clean, scannable, high information density.
 
 ## Analytical Framework (Regime & Transmission)
 
+### Nomenclature
+
+**Pillars** = Inputs (12 diagnostic categories)
+**Engines** = Processors (3 synthesis layers)
+
+"Twelve pillars across three engines." Pillars feed into engines.
+
 ### Core Philosophy
 
 - **Flows > Stocks:** Analyze rates of change (Quits, Hires) over static levels (Unemployment Rate). Flows lead; stocks lag.
+- **Labor Anchors the Cycle:** Labor flows lead (quits, hires, temp help). Labor stocks lag (unemployment rate). "Labor connects everything else."
 - **Liquidity Transmission:** Liquidity transmits mechanically: RRP → Reserves → Dealer Balance Sheets → Repo → Risk Assets
 - **The "Last Mile":** Inflation sticking at 3% is structural regime change. The buffer (RRP) is gone. Small bumps now cause big damage.
 

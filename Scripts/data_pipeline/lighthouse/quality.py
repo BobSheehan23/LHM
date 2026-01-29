@@ -82,17 +82,21 @@ def check_staleness(
     today = datetime.now()
     days_since = (today - last_date).days
 
-    # Determine expected update frequency
-    if frequency in ["D", "Daily"]:
+    # Determine expected update frequency based on series cadence
+    freq_upper = (frequency or "").upper()
+    if freq_upper in ["D", "DAILY"]:
         stale_threshold = QUALITY_CONFIG["stale_days_daily"]
-    elif frequency in ["W", "Weekly"]:
-        stale_threshold = 14
-    elif frequency in ["M", "Monthly"]:
+    elif freq_upper in ["W", "WEEKLY"]:
+        stale_threshold = QUALITY_CONFIG["stale_days_weekly"]
+    elif freq_upper in ["M", "MONTHLY"]:
         stale_threshold = QUALITY_CONFIG["stale_days_monthly"]
-    elif frequency in ["Q", "Quarterly"]:
-        stale_threshold = 120
+    elif freq_upper in ["Q", "QUARTERLY"]:
+        stale_threshold = QUALITY_CONFIG["stale_days_quarterly"]
+    elif freq_upper in ["A", "ANNUAL", "ANNUALLY", "Y", "YEARLY"]:
+        stale_threshold = QUALITY_CONFIG["stale_days_annual"]
     else:
-        stale_threshold = 45  # Default
+        # Default to monthly threshold for unknown frequencies
+        stale_threshold = QUALITY_CONFIG["stale_days_monthly"]
 
     if days_since > stale_threshold:
         return f"{series_id}: Stale ({days_since} days since last update, threshold: {stale_threshold})"

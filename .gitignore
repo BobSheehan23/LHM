@@ -12,8 +12,18 @@ env/
 # Data files (large, regenerated daily)
 Data/databases/*.db
 Data/databases/*.db-journal
-*.csv
+Data/databases/backups/
+Data/*.db
+Data/raw/
+Data/curated/
+Data/processed/
+Data/indicators/
+Data/csv/
 *.parquet
+
+# Archive & Working (large, not tracked)
+Archive/
+Working/
 
 # IDE
 .vscode/
@@ -29,10 +39,10 @@ Thumbs.db
 .env
 *.key
 credentials*.json
+stripe_backup_code*
 
 # Temp files
 *.tmp
-*.log
 *.bak
 
 # Large files
@@ -41,6 +51,7 @@ credentials*.json
 Charts/*.png
 Charts/*.jpg
 Images/
+Outputs/
 
 # Claude Code
 .claude/

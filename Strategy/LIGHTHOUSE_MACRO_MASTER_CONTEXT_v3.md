@@ -22,6 +22,19 @@
 - Position Sizing & Conviction System
 - The Perfect Setup (6-Element Configuration)
 
+### SECTION 2B: ON-CHAIN ANALYTICS FRAMEWORK
+- Token Fundamental Framework (Three Pillars)
+- LHM Sector Taxonomy
+- 24-Point Scoring System
+- Crypto Indices (SLI, CFI, CDI, CVI, CTI)
+- Protocol Tier System
+
+### SECTION 2C: THE TWO BOOKS FRAMEWORK
+- Core Book (Macro + Fundamental + Technical)
+- Technical Overlay Book (Pure Price Structure)
+- Position Sizing by Book
+- Direction Logic (Long or Short)
+
 ### SECTION 3: PROPRIETARY INDICATORS CODEX
 - 41 Custom Measurements & Indices
 - Pillar Composite Indices (LPI, PCI, GCI, HCI, CCI, BCI, TCI, GCI-Gov, FCI, LCI, MSI, SPI)
@@ -37,7 +50,9 @@
 - Invalidation Criteria
 
 ### SECTION 5: OPERATIONAL FRAMEWORK
-- Data Infrastructure (`lighthouse_mega`)
+- Data Infrastructure & Pipeline Architecture
+- Database Schema & Sources
+- Backup & Sync (GitHub, iCloud, GDrive, Dropbox)
 - Content Cadence (Beacon, Beam, Chartbook, Horizon)
 - Daily/Weekly/Monthly Workflows
 
@@ -116,6 +131,13 @@ Founder & Chief Investment Officer, Lighthouse Macro
 
 ## Framework Overview: The Diagnostic Dozen
 
+### Nomenclature
+
+**Pillars** = Inputs (12 diagnostic categories that feed data into the system)
+**Engines** = Processors (3 synthesis layers that transform pillar data into actionable signals)
+
+**The relationship:** "Twelve pillars across three engines." Pillars feed into engines.
+
 ### The Three-Engine Structure
 
 ```
@@ -185,6 +207,12 @@ Profit Margins → Hiring Decisions → Worker Confidence
 **The Insight:** This isn't a linear chain. It's a feedback loop. When workers stop quitting, they're not being prudent. They're seeing something management hasn't admitted yet. The quits rate is the economy's truth serum—it strips away the narrative and exposes the underlying fragility. Six to nine months before the unemployment rate rises, quits collapse. Every. Single. Time.
 
 ### Why Labor Leads Everything
+
+Labor anchors the cycle. Labor connects everything else.
+
+**Key distinction:**
+- **Labor flows lead:** Quits, hires, temp help (these are the signals)
+- **Labor stocks lag:** Unemployment rate (this confirms what flows already told us)
 
 Labor is the **alpha generator** in the framework for a simple reason: it sits upstream of every other economic flow.
 
@@ -1207,6 +1235,51 @@ The absolute rules are not removed—they are reconfigured as **conditional abso
 
 ---
 
+## Short Positions: Technical Book Framework
+
+True global macro is directional, not directionally constrained. Shorts are valid when structure confirms. The Technical Book provides structured short exposure when conditions align.
+
+### Short Entry Requirements
+
+```
+SHORT ENTRY CHECKLIST:
+──────────────────────
+[ ] Price < 50d < 200d (both MAs falling)
+[ ] Z-RoC declining with bearish divergence
+[ ] Relative strength RED on both timeframes
+[ ] Clear breakdown pattern (not just weakness)
+[ ] NOT extended (price not >10% below 50d MA)
+[ ] Score ≥ 8/12
+```
+
+### Z-RoC for Shorts: Trajectory Over Level
+
+**Critical insight:** For shorts, Z-RoC trajectory and divergence matter more than absolute level. By the time Z-RoC reaches deeply negative levels, the move is already underway.
+
+| Z-RoC Condition (Shorts) | Score |
+|--------------------------|-------|
+| Declining + bearish divergence + Z-RoC < 0 | 4/4 |
+| Declining + bearish divergence (any level) | 3/4 |
+| Declining (no divergence yet) | 2/4 |
+| Flat or mixed | 1/4 |
+| Rising | 0/4 |
+
+**Hierarchy for shorts:**
+1. **Trend** (Price vs MAs) = Primary
+2. **Relative Strength** = Primary
+3. **Z-RoC** = Confirming (trajectory matters)
+
+### Short Position Limits
+
+| Parameter | Limit |
+|-----------|-------|
+| Max per position | 5% |
+| Hard stop | 8% |
+| Technical stop | Close above 50d MA |
+| Momentum stop | Z-RoC crosses above 0 |
+
+---
+
 ## Trend Maturity and Fatigue
 
 This framework defines two distinct bearish states. The distinction matters because early downtrends are information (new trends, early breaks), while mature downtrends are inventory (forced sales, exhaustion).
@@ -1416,6 +1489,145 @@ Z-RoC Momentum (Bottom Panel):
 ```
 
 **This is the only setup we truly load up on.**
+
+---
+
+# SECTION 2B: ON-CHAIN ANALYTICS FRAMEWORK
+
+**Full reference:** `/Users/bob/LHM/Strategy/ONCHAIN_ANALYTICS_FRAMEWORK.md`
+
+## Philosophy
+
+Token fundamental analysis applies the same rigor we use in macro to digital assets. Revenue quality matters. Dilution is the enemy. Users are customers. Cash flow beats narrative. "Flows > Stocks applies to crypto too."
+
+## LHM Sector Taxonomy
+
+We categorize by **economic function**, not marketing terms.
+
+| LHM Sector | Economic Function | Key Metric | Examples |
+|---|---|---|---|
+| **Layer 1 (Settlement)** | The economy itself | Blockspace Demand (Fees) | ETH, SOL, AVAX |
+| **Layer 2 (Scaling)** | Execution bandwidth | Margins (L2 Fee - L1 Rent) | ARB, OP, BASE |
+| **DeFi - DEX** | Trading services | Volume / TVL | UNI, CRV, RAY |
+| **DeFi - Lending** | Banking services | Revenue / TVL | AAVE, COMP, MKR |
+| **DeFi - Derivatives** | Leverage and hedging | Notional Volume / OI | GMX, DYDX |
+| **Liquid Staking** | Yield tokenization | Assets Staked / Take Rate | LDO, RPL |
+| **Infrastructure** | Oracles, middleware | Integrations / Revenue | LINK, GRT, PYTH |
+| **Stablecoins** | USD-pegged issuers | Outstanding Supply / Revenue | USDC, USDT |
+
+## The Three Pillars of Token Analysis
+
+```
+┌───────────────────────┬─────────────────────────┬───────────────────────────────┐
+│   FINANCIAL HEALTH    │   USAGE & ADOPTION      │   VALUATION & DILUTION        │
+│   (Is it profitable?) │   (Is it growing?)      │   (Is it cheap?)              │
+├───────────────────────┼─────────────────────────┼───────────────────────────────┤
+│ Fees, Revenue         │ DAU/WAU/MAU             │ P/F Ratio, P/S Ratio          │
+│ Take Rate             │ Transaction Count       │ FDV vs Circulating            │
+│ Gross Profit          │ TVL, Trading Volume     │ Token Incentives/Revenue      │
+│ Earnings, Treasury    │ Active Addresses        │ Earnings Yield, Rev/FDV       │
+└───────────────────────┴─────────────────────────┴───────────────────────────────┘
+```
+
+## 24-Point Scoring System
+
+Each protocol scored across four dimensions (max 24 points):
+
+| Dimension | Max Points | Key Metrics |
+|---|---|---|
+| **Financial Health** | 8 | Revenue trend, earnings, take rate, treasury runway |
+| **Usage & Adoption** | 6 | DAU growth, transaction growth, TVL stability |
+| **Valuation** | 6 | P/F vs sector, P/S vs sector, FDV/Circ ratio |
+| **Dilution Risk** | 4 | Token incentives/revenue, unlock schedule |
+
+**Scoring Tiers:**
+| Score | Verdict | Action |
+|---|---|---|
+| 19-24 | Strong Accumulate | Full position (Core Book) |
+| 14-18 | Accumulate | Standard position |
+| 10-13 | Hold/Watch | Monitor, no new capital |
+| 5-9 | Underweight | Reduce or avoid |
+| 0-4 | Avoid | No position, potential short |
+
+## Crypto Indices (Computed Daily)
+
+| Index | Full Name | Components |
+|---|---|---|
+| **SLI** | Stablecoin Liquidity Impulse | Rate of change in stablecoin market cap |
+| **CFI** | Crypto Fundamentals Index | Revenue, fees, earnings trends across monitored protocols |
+| **CDI** | Crypto Developer Index | Developer activity, commits, contributor counts |
+| **CVI** | Crypto Valuation Index | P/F, P/S multiples vs historical medians |
+| **CTI** | Crypto Tier Index | Ratio of Tier 1 (Accumulate) to Avoid-rated protocols |
+
+## Protocol Tier System (34 Monitored Protocols)
+
+| Tier | Criteria | Current Examples |
+|---|---|---|
+| **Tier 1 (Accumulate)** | Score 14+ | Solana, PancakeSwap, Compound |
+| **Tier 2 (Hold)** | Score 10-13 | Optimism, Polygon, Aave, Raydium |
+| **Neutral (Watch)** | Score 5-9 | Ethereum, Arbitrum, Uniswap, Chainlink |
+| **Avoid** | Score <5 | Avalanche, Sui, Aptos, Curve |
+
+---
+
+# SECTION 2C: THE TWO BOOKS FRAMEWORK
+
+**Full reference:** `/Users/bob/LHM/Strategy/TWO_BOOKS_FRAMEWORK.md`
+
+## Philosophy
+
+True global macro is directional, not directionally constrained. We are directional macro, not relative value. The framework accommodates wherever the thesis takes us: long or short. In a world where prices go up most of the time, our bias is towards owning. But when the thesis calls for it, we short.
+
+## Portfolio Structure
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  CORE BOOK (50-100% of capital)                                                │
+│  • Macro + Fundamental + Technical driven                                      │
+│  • LONG OR SHORT based on thesis                                               │
+│  • MRI regime multiplier applies to sizing                                     │
+│  • 3-6 month catalyst horizon                                                  │
+│  • Full position sizing (up to 20% per position)                               │
+│  • Can go to 100% cash when no setups qualify                                  │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  TECHNICAL OVERLAY BOOK (0-50% of capital)                                     │
+│  • Pure technical (trend + momentum + relative strength)                       │
+│  • LONG OR SHORT based on price structure                                      │
+│  • Activated when Core Book is defensive (MRI > +1.0)                          │
+│  • Sizing at 50% of Core (max 10% longs, 5% shorts per position)              │
+│  • Tighter stops (10% longs, 8% shorts)                                        │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+## Core Book Entry Requirements
+
+Three-engine convergence required:
+
+| Engine | Focus | Key Question |
+|---|---|---|
+| **Macro Dynamics** | Pillars 1-7 | What's the fundamental thesis? |
+| **Monetary Mechanics** | Pillars 8-10 | Is liquidity supportive or restrictive? |
+| **Market Structure** | Pillars 11-12 | Is price confirming the thesis? |
+
+## Technical Overlay Activation
+
+The Technical Overlay Book activates when:
+- MRI > +1.0 (Core Book goes defensive)
+- Clear trend structure exists (price > or < 50d, confirmed by Z-RoC)
+- Relative strength confirms direction
+- No macro thesis required, following price alone
+
+## Position Sizing by Book
+
+**Core Book:**
+```
+Position Size = Base Weight x Conviction Multiplier x Regime Multiplier
+```
+
+**Technical Overlay:**
+- Longs: max 10% per position, 10% stop
+- Shorts: max 5% per position, 8% stop
+- Stop above/below 50d MA
 
 ---
 
@@ -1758,42 +1970,94 @@ SSD = z(SPI) + z(MSI)
 
 # SECTION 5: OPERATIONAL FRAMEWORK
 
-## Data Infrastructure: `lighthouse_mega`
+## Data Infrastructure
 
-**Philosophy:** The Iceberg. Local-first Python package handling ETL, curation, and indicator computation. Users see clean signals; complexity is hidden.
+**Philosophy:** The Iceberg. Local-first Python infrastructure handling ETL, curation, and indicator computation. Users see clean signals; complexity is hidden.
 
-### Pipeline Architecture
+### Production Pipeline
+
+**Entry Point:** `Scripts/data_pipeline/run_pipeline.py`
+**Schedule:** Daily at 06:00 ET via macOS `launchd`
+**Database:** `Data/databases/Lighthouse_Master.db` (SQLite, ~650MB)
 
 ```
-RAW DATA (FRED, Yahoo, Crypto APIs)
+06:00 ET DAILY TRIGGER (launchd)
          ↓
-STAGING (Initial ETL, validation)
+    run_pipeline.py
          ↓
-CURATED PANELS (Time-series standardization)
+┌────────────────────────────────────────────────┐
+│  DATA FETCH (7 sources in parallel)            │
+│  FRED (852+ series) │ BLS (31) │ BEA (267)    │
+│  NY Fed (SOFR/EFFR) │ OFR (21) │ Market (15)  │
+│  Crypto/Token Terminal (34 protocols)          │
+└────────────────────────────────────────────────┘
          ↓
-FEATURE ENGINEERING (Lags, changes, z-scores)
+    Quality Checks (outlier, staleness, coverage)
          ↓
-INDICATOR COMPUTATION (compute_all_indicators)
+┌────────────────────────────────────────────────┐
+│  compute_indices.py                            │
+│  LFI, LCI, CLG, MRI, MSI, SPI, SSD            │
+│  All 12 pillar composites                      │
+│  Recession probability, warning levels         │
+├────────────────────────────────────────────────┤
+│  compute_crypto_indices.py                     │
+│  SLI, CFI, CDI, CVI, CTI                       │
+│  Protocol scoring (34 protocols)               │
+└────────────────────────────────────────────────┘
          ↓
-FINAL OUTPUTS (Dashboards, charts, reports)
+    Backup database (7-day rolling)
+         ↓
+    Sync to GitHub, iCloud, GDrive, Dropbox
 ```
 
-### Key Modules
+### Data Sources
 
-| **Module** | **Purpose** |
+| Source | API | Series Count | Key Data |
+|---|---|---|---|
+| **FRED** | Federal Reserve | 852+ | Employment, inflation, rates, credit, housing |
+| **BLS** | Bureau of Labor Statistics | 31 | CES, JOLTS, unemployment detail |
+| **BEA** | Bureau of Economic Analysis | 267 | GDP, income, PCE |
+| **NY Fed** | Federal Reserve Bank of NY | 10 | SOFR, EFFR, OBFR, TGCR, BGCR |
+| **OFR** | Office of Financial Research | 21 | Financial Stability Index, MMF |
+| **Market** | Yahoo Finance | 15 | SPX, VIX, AAII sentiment |
+| **Crypto** | Token Terminal | 34 protocols | Revenue, fees, TVL, DAU, valuations |
+
+### Database Schema
+
+| Table | Purpose |
 |---|---|
-| `data_ingestion/` | FRED, Yahoo, crypto API wrappers |
-| `indicators/` | LFI, LCI, MRI, MSI, SPI, all 43 indicators |
-| `dashboards/` | Automated chart generation |
-| `backtest/` | Historical signal testing |
-| `reports/` | Beacon, Chartbook generation |
+| `observations` | Time series values (2.2M+ rows) |
+| `series_meta` | Metadata for 1,200+ series |
+| `lighthouse_indices` | All computed proprietary indices |
+| `crypto_metrics` | Token Terminal protocol data |
+| `crypto_scores` | Protocol scoring results |
+| `update_log` | Audit trail of every pipeline run |
 
-### Data Orchestration: `daily_flows.py`
+### Key Packages
 
-**Schedule:**
-- **06:00 ET:** Automated data refresh (FRED, JOLTS, Treasury, crypto)
-- **07:00 ET:** Indicator computation (all 43 indicators updated)
-- **07:15 ET:** Alert generation (threshold breaches, regime changes)
+| Package | Location | Purpose |
+|---|---|---|
+| `lighthouse` | `Scripts/data_pipeline/lighthouse/` | Core pipeline (fetchers, transforms, quality, config) |
+| `lighthouse_quant` | `lighthouse_quant/` | ML models, crypto analytics, validation, backtesting |
+
+### Backup & Sync
+
+| Destination | What Gets Synced | Frequency |
+|---|---|---|
+| **Local** | Database + dated backups (7-day rolling) | Daily post-pipeline |
+| **GitHub** | Code, Strategy, Brand, logs | Daily auto-commit post-pipeline |
+| **iCloud** | Database backup | Daily post-pipeline |
+| **Google Drive** | Database backup, Strategy, Brand | Daily post-pipeline |
+| **Dropbox** | Database backup | Daily post-pipeline |
+
+### Adding New Data Sources
+
+When adding a new data source (labor series, crypto protocol, etc.):
+1. Add fetcher/series config to `Scripts/data_pipeline/lighthouse/config.py`
+2. Add collection logic to appropriate fetcher in `lighthouse/fetchers.py` (or `crypto_fetchers.py`)
+3. Add index computation to `compute_indices.py` or `compute_crypto_indices.py`
+4. Update this master context with the new indicator
+5. Pipeline will automatically include it in the next 06:00 ET run
 
 **Critical:** Never fabricate data. If data is missing, flag it. If calculation fails, investigate. Code-first = reproducibility first.
 
@@ -2018,6 +2282,22 @@ Screen for:
 
 # SECTION 6: COMMUNICATION GUIDELINES
 
+## Content Strategy
+
+### Substack Tags (Top of Funnel)
+Maximum 5 tags: **Economics, Finance, Macro, Investing, Markets**
+
+### 12-Pillar Educational Series
+One post per pillar. Each post follows this structure:
+1. **What it is** — Definition and core components
+2. **Why it matters** — Connection to the cycle, market implications
+3. **How to track it** — Key indicators, data sources, update frequency
+4. **Invalidation** — What would make us wrong, explicit criteria
+
+This series builds the educational foundation for the framework.
+
+---
+
 ## Voice & Tone: The 80/20/0 Rule
 
 **The Mix:**
@@ -2063,16 +2343,23 @@ Screen for:
 
 ### Standard Sign-Offs
 
-**For formal weekly content (Beacon, Horizon) only:**
+**For existing readers (formal weekly content - Beacon, Horizon):**
 > That's our view from the Watch. Until next time, we'll be sure to keep the light on....
 
 **Note:** Don't use this in every communication. It loses impact through overuse.
 
+**For new readers (Subscribe CTA):**
+Join The Watch.
+
+*(Plain text, period, no bold, no italics)*
+
+**RETIRED:**
+> "Why navigate in darkness? The Watch awaits."
+
+*(Too overwrought. Do not use.)*
+
 **For revenue-focused posts (campaigns, product launches):**
 Omit the standard sign-off to maintain professional distance.
-
-**Subscribe Button Caption:**
-> Join The Watch.
 
 **Contact Block (Footer):**
 ```
@@ -2238,18 +2525,45 @@ Never fabricate data. If data is missing, flag it. If calculation fails, investi
 
 ---
 
+## Reference Files
+
+| Content | Location |
+|---|---|
+| Full Pillar 1-10 Details | `/Users/bob/LHM/Strategy/PILLAR [1-10] *.md` |
+| Pillar 11: Market Structure | `/Users/bob/LHM/Strategy/PILLAR 11 MARKET STRUCTURE.md` |
+| Pillar 12: Sentiment | `/Users/bob/LHM/Strategy/PILLAR 12 SENTIMENT.md` |
+| On-Chain Analytics Framework | `/Users/bob/LHM/Strategy/ONCHAIN_ANALYTICS_FRAMEWORK.md` |
+| Two Books Framework | `/Users/bob/LHM/Strategy/TWO_BOOKS_FRAMEWORK.md` |
+| Trading Strategy Deep-Dive | `/Users/bob/LHM/Strategy/LIGHTHOUSE MACRO TRADING STRATEGY - MASTER.md` |
+| Proprietary Indicators Reference | `/Users/bob/LHM/Strategy/LIGHTHOUSE MACRO - PROPRIETARY INDICATORS REFERENCE.md` |
+| Brand Guide | `/Users/bob/LHM/Brand/brand-guide.md` |
+| Chart Styling | `/Users/bob/LHM/Brand/chart-styling.md` |
+| Templates | `/Users/bob/LHM/Brand/templates.md` |
+| Pipeline Entry Point | `/Users/bob/LHM/Scripts/data_pipeline/run_pipeline.py` |
+| Pipeline Config | `/Users/bob/LHM/Scripts/data_pipeline/lighthouse/config.py` |
+| Index Computation | `/Users/bob/LHM/Scripts/data_pipeline/compute_indices.py` |
+| Crypto Index Computation | `/Users/bob/LHM/Scripts/data_pipeline/compute_crypto_indices.py` |
+| Quant/ML Package | `/Users/bob/LHM/lighthouse_quant/` |
+| Sync Script | `/Users/bob/LHM/Scripts/data_pipeline/sync_all.py` |
+
+---
+
 **END OF MASTER CONTEXT**
 
 This document is the authoritative reference for AI assistants working with Bob Sheehan and Lighthouse Macro. It synthesizes:
 - The 12 Macro Pillars framework (The Diagnostic Dozen)
+- On-Chain Analytics & Token Fundamental Framework
+- The Two Books Framework (Core + Technical Overlay)
 - Complete Trading Strategy
-- 43 Proprietary Indicators (including SBD, SSD)
+- 43+ Proprietary Indicators (including SBD, SSD, crypto indices)
 - Regime assessment templates
+- Production pipeline architecture (daily 06:00 ET, 7 data sources)
+- Multi-destination backup (GitHub, iCloud, GDrive, Dropbox)
 - Operational workflows
 - Communication guidelines
 - Brand system standards
 
-**Version:** 3.0 (The Diagnostic Dozen)
+**Version:** 3.1 (The Diagnostic Dozen + On-Chain + Two Books)
 **Author:** Bob Sheehan, CFA, CMT
 
 *That's our view from the Watch. Until next time, we'll be sure to keep the light on....*

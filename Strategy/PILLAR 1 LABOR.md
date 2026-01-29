@@ -18,11 +18,13 @@ The beauty of labor data: it doesn't lie. You can massage GDP with inventory bui
 
 ---
 
-## Why Labor Leads Everything
+## Why Labor is the Engine
 
-Labor is the **alpha generator** in the three-pillar framework for a simple reason: it sits upstream of every other economic flow.
+There is no economy without labor. People make things, build things, produce things. This isn't a metaphor. It's the literal foundation everything else rests on.
 
-**The Cascade:**
+Labor isn't just another pillar. It's the engine that drives the cycle:
+
+**The Transmission Chain:**
 
 **1. Labor → Consumer:** Income determines spending capacity (1-3 month lag)
 **2. Labor → Credit:** Employment stress precedes default risk (3-6 month lag)
@@ -30,9 +32,64 @@ Labor is the **alpha generator** in the three-pillar framework for a simple reas
 **4. Labor → Growth:** Hours worked contracts before output falls (2-4 month lag)
 **5. Labor → Prices:** Wage pressure drives services inflation (persistent)
 
-Get the labor call right, and you've triangulated 70% of the macro outlook. Miss it, and you're trading narratives instead of reality.
+Understand the labor situation, and you understand the economic situation. That's why the MRI weights labor heavily (LPI at 0.13, the highest single weight). It's not that labor "predicts" the economy. Labor IS the economy, measured in real-time.
 
-**Current State:** The labor market is exhibiting late-cycle fragility while headline metrics remain superficially healthy. This is the danger zone—the gap between flows (deteriorating) and stocks (stable) where consensus lags reality by quarters.
+**The Flows vs. Stocks Distinction:**
+
+This is the core insight. Labor data splits into two categories:
+- **Flows** (quits, hires, temp help): These move first. Workers sense trouble before it shows up in headlines.
+- **Stocks** (unemployment rate, payrolls): These lag by 6-9 months. By the time unemployment rises, the damage is done.
+
+The gap between flows and stocks is where consensus gets caught. Headlines focus on stocks. We watch flows.
+
+**Lead Time Calibration:** Academic research (Barnichon & Nekarda, FEDS 2013-19) finds that 90% of the gap between unemployment and steady-state closes in approximately **3-5 months on average**, ranging from 3 months in tight markets to 5 months in slack conditions. The longer 6-9 month figures sometimes cited represent practitioner interpretations combining the academic finding with recognition lags, or exceptional periods like 2008-09.
+
+**Levels vs. Direction: A Critical Distinction**
+
+For every indicator, we analyze multiple dimensions:
+- **Level:** Where is it now? (e.g., unemployment at 4.4%)
+- **Direction:** Rising or falling? (the turn)
+- **Trend:** Sustained move or noise?
+- **Rate of Change:** How fast is it moving?
+
+Critical insight: **Direction changes often lead, even when levels lag.** Historical analysis shows that most labor indicators' *turns* (peaks/troughs) precede recessions, even for "lagging" indicators:
+
+| Indicator | Turn Type | 2001 Lead | 2008 Lead | 2020 Lead |
+|-----------|-----------|-----------|-----------|-----------|
+| Quits Rate | Peak → Decline | 1 mo | 22 mo | 11 mo |
+| Unemployment Rate | Trough → Rise | 10 mo | 13 mo | 4 mo |
+| LT Unemployed Share | Trough → Rise | 3 mo | 13 mo | 12 mo |
+| Hires/Quits Ratio | Peak → Decline | 2 mo | 2 mo | 15 mo |
+| Job-Hopper Premium | Peak → Decline | 2 mo | 3 mo | 23 mo |
+
+The unemployment rate is called "lagging" because its *level* peaks after recession ends. But its *trough* (direction change from falling to rising) actually precedes recession by 4-13 months. Watch the turn, not just the level.
+
+**Data Validation Note:** The flows framework is validated against three post-2000 recessions (2001, 2008, 2020). JOLTS data (quits, hires, openings) only begins December 2000, which limits our sample size. Key validated signals:
+
+| Signal | Validation | Lead Time |
+|--------|------------|-----------|
+| Temp Help YoY negative | 3/3 recessions | 1-12 months |
+| Hires/Quits < 2.0 | 3/3 recessions | 1-23 months |
+| State diffusion > 50% | 3/3 recessions | 2-14 months |
+| Sector emp diffusion < 50% | 2/3 recessions | 7-13 months |
+| Sector quits diffusion > 60% | 2/2 recessions (JOLTS era) | 8-20 months |
+| Quits declining from peak | 2/3 recessions | Varies |
+
+Note: COVID (2020) was an exogenous shock, not a typical cycle-driven recession. Some indicators behaved differently.
+
+**The Mosaic Approach:** No single indicator captures every cycle perfectly. That's why we use multiple indicators serving different purposes:
+
+| Role | Indicators | Purpose |
+|------|------------|---------|
+| **Leading** | Temp help YoY, quits direction, hires/quits ratio, LT unemployed share direction | Early warning, move first |
+| **Breadth** | State diffusion, sector employment diffusion, sector quits diffusion | How widespread is the weakness? |
+| **Confirming** | Unemployment rate rising | Validates that stress is real, not noise |
+| **High-frequency** | Initial claims (weekly) | Fills the gap between monthly JOLTS releases |
+| **Structural context** | Demographics, participation rates, education gaps | Understanding who's affected and why |
+
+The signal is convergence. When multiple indicators flash simultaneously, that's meaningful. When only one is flashing, it might be noise. The LFI composite synthesizes these signals so we're not dependent on any single indicator being right.
+
+**The Danger Zone:** Late-cycle fragility often manifests as flows deteriorating while stocks remain superficially healthy. This is where consensus lags reality by quarters.
 
 ---
 
@@ -40,7 +97,7 @@ Get the labor call right, and you've triangulated 70% of the macro outlook. Miss
 
 ### A. EMPLOYMENT FLOWS (The Core Signal)
 
-The stock of employment (payrolls, unemployment rate) is a lagging indicator. The **flows** tell you where we're going. This subsection tracks the churn—hires, quits, layoffs, openings—that precedes the headline data.
+The stock of employment (payrolls, unemployment rate) is a lagging indicator by level, but direction changes (troughs/peaks) often lead. The **flows** tell you where we're going. This subsection tracks the churn—hires, quits, layoffs, openings—that precedes the headline data.
 
 | **Indicator** | **FRED Code** | **Frequency** | **Lead/Lag** | **Interpretation** |
 |---|---|---|---|---|
@@ -48,9 +105,9 @@ The stock of employment (payrolls, unemployment rate) is a lagging indicator. Th
 | **JOLTS Hires** | JTSHIL | Monthly | Leads payrolls 2-4 mo | Actual hiring execution |
 | **JOLTS Quits** | JTSQUL | Monthly | **Leads recession 6-9 mo** | Worker confidence barometer |
 | **JOLTS Quits Rate** | JTSQUR | Monthly | **Primary leading indicator** | Normalized for labor force size |
-| **JOLTS Layoffs & Discharges** | JTSLDL | Monthly | Lags stress 1-3 mo | Stress confirmation (employers react late) |
+| **JOLTS Layoffs & Discharges** | JTSLDL | Monthly | Level lags stress 1-3 mo | Stress confirmation (employers react late) |
 | **JOLTS Separations (Total)** | JTSTSL | Monthly | Coincident | Quits + Layoffs + Other |
-| **Initial Jobless Claims** | ICSA | Weekly | Leads payrolls 4-8 wks | Highest-frequency stress gauge |
+| **Initial Jobless Claims** | ICSA | Weekly | Leads payrolls 4-8 wks; avg 11 mo lead to recession | Highest-frequency stress gauge |
 | **Continued Claims** | CCSA | Weekly | Coincident | Labor market slack measure |
 | **Insured Unemployment Rate** | IURSA | Weekly | Coincident | Claims normalized to labor force |
 
@@ -58,12 +115,16 @@ The stock of employment (payrolls, unemployment rate) is a lagging indicator. Th
 
 | **Metric** | **Formula** | **Threshold** | **Signal** |
 |---|---|---|---|
-| **Hires/Quits Ratio** | JTSHIL / JTSQUL | <2.0 | Demand weakening when below threshold |
+| **Hires/Quits Ratio** | JTSHIL / JTSQUL | <2.0 | Demand weakening (note: limited empirical validation) |
+| **Quits/Hires Ratio** | JTSQUL / JTSHIL | <0.80 | Late-cycle: workers lack confidence despite openings |
 | **Quits/Layoffs Ratio** | JTSQUL / JTSLDL | <2.0 | Worker confidence collapsing |
-| **Openings/Unemployed** | JTSJOL / (UNRATE × CLF) | <1.2 | Slack developing in labor market |
-| **Openings/Hires Ratio** | JTSJOL / JTSHIL | >1.8 | Labor hoarding (openings unfilled) |
+| **Vacancy/Unemployment Ratio** | JTSJOL / UNEMPLOY | <1.0 | Slack developing (Fed-preferred metric) |
+| **Openings/Hires Ratio** | JTSJOL / JTSHIL | <1.0 | Hiring efficiency threshold |
+| **Hiring Rate** | JTSHIR | <3.3% | Hiring pullback, late-cycle |
 | **Claims Momentum** | YoY% Δ in 4-wk MA ICSA | >+15% | Early deterioration signal |
 | **Separations Rate** | JTSTSR | >2.0% | Total churn measure |
+
+**Data Quality Warning:** JOLTS response rates have plummeted ~30 percentage points since the pandemic (from ~60% to ~30%). Goldman Sachs estimates median monthly standard errors have increased over 90% compared to 2002-2013. Recent revisions average 180,000, double the level of four years ago. Interpret JOLTS data with appropriate uncertainty bands.
 
 #### Regime Thresholds: Employment Flows
 
@@ -72,10 +133,14 @@ The stock of employment (payrolls, unemployment rate) is a lagging indicator. Th
 | **Quits Rate** | >2.5% | 2.2-2.5% | 2.0-2.2% | **<2.0%** |
 | **Hires/Quits** | >2.5 | 2.0-2.5 | 1.7-2.0 | **<1.7** |
 | **Openings/Unemployed** | >1.8 | 1.2-1.8 | 1.0-1.2 | **<1.0** |
-| **Initial Claims 4-wk MA** | <220k | 220-250k | 250-300k | **>300k** |
+| **Initial Claims 4-wk MA** | <220k | 220-260k | 260-300k | **>300k** |
 | **Claims YoY%** | <-5% | -5% to +10% | +10% to +25% | **>+25%** |
 
-**The Quits Rate Kill Line:** Below 2.0%, the labor market has crossed into pre-recessionary territory in every cycle since 1990. No exceptions. We're at **1.9%** (Dec 2025). The data doesn't care about your soft landing narrative.
+**The Quits Rate Signal:** Both level and direction matter. The level tells you where you are in the cycle (2.5%+ is expansion, sub-2.0% is late-cycle). The direction tells you where you're heading. A sustained decline from cycle peak is the early warning. The 2.0% level crossed with declining trend is the clearest stress signal.
+
+In the GFC, quits peaked around 2.3% in late 2005 and declined for over two years before the recession officially began. The combination of direction (falling) and level (approaching 2.0%) was the signal. Neither alone is sufficient.
+
+**Data Limitation:** JOLTS data only begins December 2000, giving us three recessions (2001, 2008, 2020) to validate these patterns. The flows framework is empirically grounded but sample-limited.
 
 ---
 
@@ -89,12 +154,12 @@ Wages are sticky. They accelerate during expansions and decelerate slowly during
 | **AHE: Production & Nonsupervisory** | CES0500000008 | Monthly | Coincident | 80% of workforce, less mgmt skew |
 | **Real Average Hourly Earnings** | CES0500000012 (deflated) | Monthly | Leading 1-2 mo | Purchasing power gauge |
 | **Average Weekly Earnings** | CES0500000030 | Monthly | Coincident | AHE × Hours (income proxy) |
-| **Employment Cost Index (ECI)** | ECIALLCIV | Quarterly | Lagging 1-2 qtrs | Total compensation (wages + benefits) |
-| **ECI: Wages & Salaries** | ECIWAG | Quarterly | Lagging | Excludes benefits component |
-| **ECI: Private Industry** | ECIPRIV | Quarterly | Lagging | Excludes public sector |
+| **Employment Cost Index (ECI)** | ECIALLCIV | Quarterly | Level lags 1-2 qtrs | Total compensation (wages + benefits) |
+| **ECI: Wages & Salaries** | ECIWAG | Quarterly | Level lags 1-2 qtrs | Excludes benefits component |
+| **ECI: Private Industry** | ECIPRIV | Quarterly | Level lags 1-2 qtrs | Excludes public sector |
 | **Atlanta Fed Wage Growth Tracker** | Atlanta Fed (web) | Monthly | Coincident | Median wage growth (CPS microdata) |
 | **Wage Growth: Job Switchers** | Atlanta Fed (web) | Monthly | **Leading 3-6 mo** | Job-hopper premium (key signal) |
-| **Wage Growth: Job Stayers** | Atlanta Fed (web) | Monthly | Lagging | Inertia component |
+| **Wage Growth: Job Stayers** | Atlanta Fed (web) | Monthly | Level lags (inertia) | Inertia component |
 
 #### Derived Wage Metrics
 
@@ -115,7 +180,9 @@ Wages are sticky. They accelerate during expansions and decelerate slowly during
 | **Job-Hopper Premium** | <0 ppts | 0-1 ppts | 1-3 ppts | >3 ppts |
 | **ECI YoY%** | <3.5% | 3.5-4.5% | 4.5-5.5% | >5.5% |
 
-**The Job-Hopper Premium Collapse:** From 2021-2022, job switchers earned 5-6 percentage points more than stayers. That's a healthy, dynamic labor market. By March 2025, the premium narrowed to **0.2 percentage points**. Translation: the grass is no longer greener. Workers know what employers haven't said yet—there are no better opportunities.
+**The Job-Hopper Premium Collapse:** From 2021-2022, job switchers earned over 2 percentage points more than stayers. That's a healthy, dynamic labor market.
+
+**Critical Signal:** The Atlanta Fed Wage Growth Tracker shows the job-hopper premium has **turned negative** for the first time since September 2010, a historically rare occurrence that previously appeared only during recessions. Job switchers now earn less wage growth than job stayers, indicating severely reduced worker bargaining power. This inversion is one of the clearest late-cycle signals available.
 
 ---
 
@@ -132,8 +199,8 @@ Labor supply determines the economy's speed limit. Participation rates, demograp
 | **Men's LFPR** | LNS11300001 | Monthly | Structural | 53% of workforce |
 | **Part-Time for Economic Reasons** | LNS12032194 | Monthly | Coincident | Underemployment gauge |
 | **Multiple Job Holders** | LNS12026620 | Monthly | Coincident | Supplemental income necessity |
-| **Not in Labor Force: Want Job** | LNS15026639 | Monthly | Lagging | Discouraged workers |
-| **U6 Underemployment Rate** | U6RATE | Monthly | Lagging | Unemployed + underemployed + marginally attached |
+| **Not in Labor Force: Want Job** | LNS15026639 | Monthly | Level lags | Discouraged workers |
+| **U6 Underemployment Rate** | U6RATE | Monthly | Level lags | Unemployed + underemployed + marginally attached |
 
 #### Derived Supply Metrics
 
@@ -187,11 +254,15 @@ Not all jobs are created equal. Full-time vs. part-time. Permanent vs. temporary
 | **Indicator** | **High Quality** | **Mixed** | **Deteriorating** |
 |---|---|---|---|
 | **Full-Time/Part-Time Ratio** | >4.5 | 4.0-4.5 | <4.0 |
-| **Temp Help YoY%** | >+3% | -3% to +3% | **<-3%** (recession signal) |
+| **Temp Help YoY%** | >0% (expanding) | declining | **<0%** (contracting) |
 | **Private Payrolls 3M Avg** | >200k | 100-200k | <100k |
 | **Mfg Employment YoY%** | >+1% | -1% to +1% | **<-1%** |
 
-**The Temp Help Trap:** Temporary help employment peaks 6-9 months before recessions and troughs 3-6 months before recoveries. It's the highest-beta labor segment—first hired, first fired. Temp help employment peaked in March 2022 at 3.09M, and has since fallen to **2.87M** (Dec 2025), down **-7.1% YoY**. That's not noise. That's a leading indicator screaming.
+**The Temp Help Signal:** Temp help is the canary. First hired in expansions, first fired in contractions. BLS research (February 2021 *Monthly Labor Review*) confirms that temp help declines preceded broader labor market downturns by 6-12 months in the 1990-91, 2001, and 2007-09 recessions.
+
+**Critical Post-Pandemic Caveat:** Since March 2022, temp employment has fallen by 577,000 jobs (18.1%) without triggering a recession, the largest false signal in the indicator's modern history. Federal Reserve researchers Tito and Bowdle (2024) found that "pandemic-era labor market disruptions have altered the cyclical behavior of temporary help employment." The industry's shift toward less-cyclically-sensitive professional occupations may have permanently reduced its predictive value.
+
+**Current Assessment:** The temp help signal may be "broken" post-pandemic. It remains worth monitoring but should not be relied upon in isolation. Interpret alongside other flow indicators, and weight it lower than pre-2020.
 
 ---
 
@@ -201,12 +272,12 @@ The unemployment rate is a lagging indicator, but its **composition** tells you 
 
 | **Indicator** | **FRED Code** | **Frequency** | **Lead/Lag** | **Interpretation** |
 |---|---|---|---|---|
-| **Unemployment Rate (U3)** | UNRATE | Monthly | **Lagging 6-9 mo** | Headline measure |
+| **Unemployment Rate (U3)** | UNRATE | Monthly | **Level lags 6-9 mo; Trough leads 4-13 mo** | Headline measure |
 | **Unemployed (Level)** | UNEMPLOY | Monthly | Lagging | Absolute count (thousands) |
 | **Unemployed: Less Than 5 Weeks** | UEMPLT5 | Monthly | Leading 1-3 mo | New entrants, frictional |
 | **Unemployed: 5-14 Weeks** | UEMP5TO14 | Monthly | Coincident | Normal job search duration |
 | **Unemployed: 15-26 Weeks** | UEMP15T26 | Monthly | Coincident | Extended search (stress signal) |
-| **Unemployed: 27+ Weeks** | UEMP27OV | Monthly | **Lagging but critical** | Long-term (structural damage) |
+| **Unemployed: 27+ Weeks** | UEMP27OV | Monthly | **Level lags; Trough leads 3-13 mo** | Long-term (structural damage) |
 | **Median Weeks Unemployed** | UEMPMED | Monthly | Lagging | Duration measure |
 | **Mean Weeks Unemployed** | UEMPMEAN | Monthly | Lagging | Average duration (LT skew) |
 | **Unemployed: Job Losers** | LNS13023621 | Monthly | Coincident | Layoffs (involuntary) |
@@ -218,7 +289,7 @@ The unemployment rate is a lagging indicator, but its **composition** tells you 
 
 | **Metric** | **Formula** | **Threshold** | **Signal** |
 |---|---|---|---|
-| **Long-Term Unemployed Share** | (27+ Weeks / Total Unemployed) × 100 | >22% | **Pre-recessionary fragility** |
+| **Long-Term Unemployed Share** | (27+ Weeks / Total Unemployed) × 100 | Trough → Rising | **Leading (direction), 3-13 months** |
 | **Job Losers Share** | (Job Losers / Total Unemployed) × 100 | >55% | Involuntary separations rising |
 | **Job Leavers Share** | (Job Leavers / Total Unemployed) × 100 | <10% | Confidence collapsing |
 | **Short-Term Unemployed (<5 wks) Share** | (<5 Wks / Total Unemployed) × 100 | <18% | Frictional unemployment drying up |
@@ -233,7 +304,32 @@ The unemployment rate is a lagging indicator, but its **composition** tells you 
 | **Median Duration** | <8 wks | 8-12 wks | 12-18 wks | >18 wks |
 | **Job Leavers Share** | >12% | 10-12% | **8-10%** | <8% |
 
-**The 27+ Week Threshold:** When long-term unemployment exceeds 22% of total unemployed, the labor market has transitioned from cyclical softness to structural fragility. Workers stuck unemployed for 6+ months face skill erosion, employer bias, and declining re-employment probability. This is where "soft landing" becomes "hard reset." Current reading: **25.7%** (Dec 2025). We're there.
+**Long-Term Unemployment: Levels Lag, Direction Leads**
+
+The LT unemployed share (those jobless 27+ weeks as a percentage of total unemployed) exhibits a critical level-vs-direction distinction.
+
+**The Level is Lagging:** BLS data shows the LT unemployed share *level* peaks during and after recessions, often a full year after recessions end. During the Great Recession, the share peaked at 45.1% in Q2 2010, a year after the recession concluded in June 2009.
+
+**The Direction Change is Leading:** When we tested the 6-month moving average against every recession since 1948, the trough preceded recession **12 out of 12 times**. Lead times ranged from 2 to 24 months:
+
+| Recession | 6MMA Trough Date | Lead Time |
+|-----------|------------------|-----------|
+| 1948-11 | 1948-07 | 4 months |
+| 1953-07 | 1952-11 | 8 months |
+| 1957-08 | 1956-08 | 12 months |
+| 1960-04 | 1958-04 | 24 months |
+| 1969-12 | 1969-06 | 6 months |
+| 1973-11 | 1973-09 | 2 months |
+| 1980-01 | 1979-10 | 3 months |
+| 1981-07 | 1980-02 | 17 months |
+| 1990-07 | 1989-11 | 8 months |
+| 2001-03 | 2000-07 | 8 months |
+| 2007-12 | 2007-02 | 10 months |
+| 2020-02 | 2019-04 | 10 months |
+
+**Why It Works Mechanically:** During expansions, job-finding rates are high, so fewer workers stay unemployed long enough to cross the 27-week threshold. The long-term share falls. When the labor market starts to weaken, job-finding rates drop. Workers who lose jobs take longer to find new ones. The share stops falling and starts rising. By the time headline unemployment moves, the long-term share has already turned.
+
+**Interpretation:** The LT unemployed share is a lagging indicator by level but a leading indicator by direction. The 6MMA trough is a validated 12/12 signal. When the share stops falling and starts rising, the labor market has already turned.
 
 ---
 
@@ -247,8 +343,8 @@ Employers cut hours before headcount. It's cheaper, reversible, and doesn't dama
 | **Avg Weekly Hours (Manufacturing)** | AWHMAN | Monthly | **Leads IP 1-3 mo** | Production intensity |
 | **Avg Weekly Hours (Retail)** | AWOTMAN | Monthly | Coincident | Consumer demand proxy |
 | **Aggregate Weekly Hours Index** | AWHI | Monthly | **Leads GDP 1-2 qtrs** | Total labor input |
-| **Labor Productivity (Nonfarm)** | OPHNFB | Quarterly | Lagging | Output per hour |
-| **Unit Labor Costs** | ULCNFB | Quarterly | Lagging | Compensation per unit output |
+| **Labor Productivity (Nonfarm)** | OPHNFB | Quarterly | Level lags | Output per hour |
+| **Unit Labor Costs** | ULCNFB | Quarterly | Level lags | Compensation per unit output |
 | **Manufacturing Overtime Hours** | AWOTMAN (subset) | Monthly | Leading 1-2 mo | Demand stress gauge |
 
 #### Derived Hours & Productivity Metrics
@@ -269,7 +365,7 @@ Employers cut hours before headcount. It's cheaper, reversible, and doesn't dama
 | **Aggregate Hours YoY%** | >+2% | 0% to +2% | **<0%** |
 | **Unit Labor Costs YoY%** | <2% | 2-4% | >4% |
 
-**The Manufacturing Hours Canary:** Manufacturing weekly hours peaked at 41.7 in December 2021. They've since declined to **40.6 hours** (Dec 2025). That's **-2.6% lower**. Employers don't cut hours for fun—they cut hours when demand disappears. This precedes layoffs by 2-3 months. The clock is ticking.
+**The Manufacturing Hours Canary:** Manufacturing weekly hours are a leading indicator. Employers don't cut hours for fun—they cut hours when demand disappears. This precedes layoffs by 2-3 months. Watch for declines from cycle peaks.
 
 ---
 
@@ -286,11 +382,11 @@ LFI = 0.30 × z(Long_Term_Unemployed_Share)
 ```
 
 **Component Weighting Rationale:**
-- **Long-Term Unemployed Share (30%):** Structural fragility gauge, highest persistence
-- **Quits Rate (25%):** Primary leading indicator, cleanest signal
-- **Hires/Quits Ratio (20%):** Demand confirmation, cross-validates quits
-- **Temp Help (15%):** Canary in coal mine, first to be cut
-- **Job-Hopper Premium (10%):** Microstructure of worker confidence
+- **Long-Term Unemployed Share (30%):** Structural fragility gauge. Note: Level is lagging, but high weight reflects persistence of damage once it occurs.
+- **Quits Rate (25%):** Combined level and direction signal. Workers sense trouble before employers act.
+- **Hires/Quits Ratio (20%):** Validated across all 3 post-2000 recessions. Demand confirmation.
+- **Temp Help YoY (15%):** Best validated leading indicator. Negative YoY preceded all 3 recessions.
+- **Job-Hopper Premium (10%):** Microstructure of worker confidence. Late-cycle collapse signal.
 
 #### LFI Interpretation
 
@@ -302,24 +398,84 @@ LFI = 0.30 × z(Long_Term_Unemployed_Share)
 | +1.0 to +1.5 | High | **Pre-recessionary, flows deteriorating** |
 | > +1.5 | Critical | **Recession imminent, structural damage** |
 
-**Current LFI: +0.93** (Elevated Fragility). Labor market in pre-recessionary zone.
+**Interpretation:** LFI > +0.5 indicates elevated fragility. LFI > +1.0 signals pre-recessionary conditions.
+
+---
+
+### G.2 LABOR DYNAMISM INDEX (The Churn Signal)
+
+The Labor Dynamism Index (LDI) measures labor market optionality and churn. Lower LDI = workers stepping back from job-switching, sensing fewer outside options. LDI tends to lead payroll growth by a few quarters.
+
+```
+LDI = 0.40 × z(Quits_Rate)
+    + 0.35 × z(Hires_Quits_Ratio)
+    + 0.25 × z(Quits_Layoffs_Ratio)
+```
+
+**Component Rationale:**
+- **Quits Rate (40%):** Primary measure of voluntary mobility. Workers quit when they see options.
+- **Hires/Quits Ratio (35%):** Demand-side confirmation. High ratio = employers competing for workers.
+- **Quits/Layoffs Ratio (25%):** Voluntary vs involuntary separations. Low ratio = fear-driven labor market.
+
+#### LDI Interpretation
+
+| **LDI Range** | **Regime** | **Interpretation** |
+|---|---|---|
+| > +1.0 | High Dynamism | Strong labor optionality, worker-favorable market |
+| +0.5 to +1.0 | Moderate | Healthy churn, balanced market |
+| 0.0 to +0.5 | Neutral | Normal conditions |
+| -0.5 to 0.0 | Low | **Optionality fading, workers cautious** |
+| < -0.5 | Very Low | **Frozen market, workers trapped** |
+
+**Key insight:** Payrolls can stay positive while LDI declines. That's the classic late-cycle tell: headlines look fine, but the underlying dynamism is fading. From "It's Getting Spooky" (Oct 2025): "When workers stop quitting and firms quietly trim hours, you're late in the cycle."
+
+**Interpretation:** LDI < 0 indicates low dynamism, optionality fading. LDI < -0.5 signals frozen market conditions.
+
+---
+
+### G.3 HOURS AS THE FIRST LEVER
+
+Employers cut hours before headcount. It's cheaper, reversible, and doesn't damage morale as much as layoffs. Tracking hours worked gives you a 2-4 month lead on payroll declines.
+
+**The Sequence:**
+1. Hours worked decline (first lever pulled)
+2. Hiring freezes (openings decline, hires slow)
+3. Attrition accelerates (quits decline but separations stay flat via non-replacement)
+4. Layoffs begin (last resort)
+
+This is why hours YoY diverging from employment YoY is a warning signal. If hours are falling while employment is flat, employers are managing costs through utilization rather than headcount. That only works temporarily.
 
 ---
 
 ### H. SECTORAL EMPLOYMENT DYNAMICS (Where the Jobs Are)
 
-Different sectors lead and lag at different points in the cycle. Manufacturing leads services. Construction leads housing. Government is counter-cyclical.
+Different sectors lead and lag at different points in the cycle. Understanding which sectors weaken first helps identify recession type and timing.
+
+**Validated Sector Lead/Lag Patterns (GFC & COVID):**
+
+| **Sector** | **Typical Lead Time** | **Role** |
+|---|---|---|
+| **Temp Help** | 12 months | **First to go negative** (most reliable) |
+| **Construction** | 9 months (GFC) | Leading in housing-driven recessions |
+| **Manufacturing** | Varies | Early to weaken, but timing depends on recession type |
+| **Financial** | 7 months (GFC) | Leading in financial recessions |
+| **Retail Trade** | 16+ months | Early signal but noisy |
+| **Education & Health** | N/A | **Defensive**: Did not go negative before recessions |
+| **Leisure & Hospitality** | N/A | **Defensive**: Did not go negative before recessions |
+| **Government** | N/A | **Counter-cyclical**: Policy response |
+
+Note: Temp Help is technically within Professional & Business Services but tracked separately because of its leading properties.
 
 | **Sector** | **FRED Code** | **GDP Contribution** | **Cycle Behavior** |
 |---|---|---|---|
-| **Manufacturing** | MANEMP | ~10% | **Leads services 2-4 mo** |
-| **Construction** | USCONS | ~5% | **Leads housing 3-6 mo** |
-| **Professional Services** | USPBS | ~15% | Coincident |
+| **Manufacturing** | MANEMP | ~10% | Cyclical, early to weaken |
+| **Construction** | USCONS | ~5% | Housing/rate sensitive |
+| **Professional Services** | USPBS | ~15% | Coincident (but Temp Help within it leads) |
 | **Healthcare** | USHCE | ~13% | Defensive (counter-cyclical) |
 | **Retail Trade** | USTRADE | ~10% | Coincident to lagging |
 | **Leisure & Hospitality** | USLAH | ~11% | Lagging (last to recover) |
 | **Government** | USGOVT | ~14% | **Counter-cyclical** (policy response) |
-| **Financial Activities** | USFIRE | ~6% | Coincident |
+| **Financial Activities** | USFIRE | ~6% | Cycle-type dependent |
 | **Information** | USINFO | ~2% | Volatile (tech cycle) |
 
 #### Sectoral Spread Metrics
@@ -330,7 +486,443 @@ Different sectors lead and lag at different points in the cycle. Manufacturing l
 | **Private-Government Spread** | Private YoY - Government YoY | <-2 ppts | Gov't propping up headline |
 | **Cyclical-Defensive Spread** | (Mfg + Construction) YoY - (Healthcare + Gov't) YoY | <-4 ppts | Late-cycle rotation |
 
-**Current State:** Manufacturing employment **-1.8% YoY**, services **+1.2% YoY**. Spread: **-3.0 ppts**. Classic late-cycle divergence—goods economy in recession, services holding (for now).
+**Late-Cycle Pattern:** Manufacturing employment declining YoY while services remain positive is classic late-cycle divergence—goods economy weakening first, services holding temporarily.
+
+---
+
+## I. DEMOGRAPHIC SEGMENTATION (Who's Getting Hit?)
+
+Headlines lie. The unemployment rate is an average that obscures critical distributional dynamics. True labor market analysis requires decomposing the aggregate into demographic cohorts. This is where early warning signals emerge.
+
+### The Segmentation Hierarchy
+
+Different demographic groups exhibit different cyclical sensitivities:
+
+```
+LEADING (First to show stress)           LAGGING (Last to show stress)
+─────────────────────────────────────────────────────────────────────────
+Youth (16-24)                            Prime-Age (25-54)
+Less than HS Education                   Bachelor's Degree+
+Black/Hispanic Unemployment              White Unemployment
+Men (Goods-producing)                    Women (Services)
+Part-time for Economic Reasons           Full-time Employment
+```
+
+**The Insight:** When the most vulnerable cohorts start deteriorating while headline unemployment remains stable, you're witnessing the early stages of a labor market turn. By the time prime-age, college-educated workers show stress, the recession is already underway.
+
+---
+
+### A. UNEMPLOYMENT BY AGE (The Youth Canary)
+
+Youth unemployment (16-24) typically runs 2-3x the headline rate and exhibits higher cyclical volatility. Youth is not a reliable leading indicator of prime-age (data shows they move largely coincident, r=0.95), but youth shows higher amplitude, which makes it useful for understanding stress magnitude.
+
+| **Age Cohort** | **FRED Code** | **Typical Ratio to Headline** | **Cycle Behavior** |
+|---|---|---|---|
+| **16-19 years** | LNS14000012 | 3.0-4.0x | Most volatile, first to rise |
+| **20-24 years** | LNS14000036 | 1.8-2.5x | Entry-level sensitivity |
+| **16-24 years (Combined)** | LNS14024887 | 2.0-3.0x | Youth aggregate |
+| **25-54 years (Prime-Age)** | LNS14000060 | 0.8-0.9x | Core workforce, most stable |
+| **55+ years** | LNS14024230 | 0.7-0.9x | Lower rate, but longer duration |
+
+#### Derived Age Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Youth-Prime Spread** | Unemp(16-24) - Unemp(25-54) | >6 ppts | Youth stress elevated |
+| **Youth Acceleration** | 3M Δ Youth Unemp | >+1.5 ppts | Rapid deterioration |
+| **Prime-Age Rate of Change** | 6M Δ Prime-Age Unemp | >+0.5 ppts | Core labor stress |
+
+#### Regime Thresholds: Age Unemployment
+
+| **Cohort** | **Healthy** | **Neutral** | **Stress** | **Crisis** |
+|---|---|---|---|---|
+| **Youth (16-24)** | <9% | 9-11% | 11-15% | >15% |
+| **Prime-Age (25-54)** | <3.5% | 3.5-4.5% | 4.5-6.0% | >6.0% |
+| **Youth-Prime Spread** | <5 ppts | 5-7 ppts | 7-10 ppts | >10 ppts |
+
+**Historical Pattern:** In the 2007-2009 recession, youth unemployment rose from 10.5% (Dec 2007) to 19.2% (Oct 2009), while prime-age rose from 3.7% to 9.0%. Youth showed approximately 2x the amplitude. The turning points were roughly coincident (within 1 month), so youth is better understood as an amplifier of cycle moves rather than a leading indicator.
+
+---
+
+### B. UNEMPLOYMENT BY EDUCATION (The Skills Buffer)
+
+Education provides a buffer against unemployment, but the buffer erodes in severe downturns. Tracking by education reveals whether the weakness is concentrated in low-skill sectors or spreading to white-collar jobs.
+
+| **Education Level** | **FRED Code** | **Typical Rate** | **Cycle Sensitivity** |
+|---|---|---|---|
+| **Less Than High School** | LNS14027659 | 6-8% | Highest, most cyclical |
+| **High School Only** | LNS14027660 | 4-5% | High cyclicality |
+| **Some College/Associate** | LNS14027689 | 3-4% | Moderate cyclicality |
+| **Bachelor's Degree+** | LNS14027662 | 2-3% | Lowest, most insulated |
+
+#### Derived Education Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Education Gap** | Unemp(< HS) - Unemp(BA+) | >5 ppts | Normal hierarchy |
+| **Education Gap Compression** | 6M Δ in Education Gap | <-1 ppt | White-collar contagion |
+| **BA+ Acceleration** | 3M Δ BA+ Unemployment | >+0.3 ppts | Professional stress |
+
+#### Regime Thresholds: Education Unemployment
+
+| **Education** | **Healthy** | **Neutral** | **Stress** | **Crisis** |
+|---|---|---|---|---|
+| **Less Than HS** | <6% | 6-8% | 8-12% | >12% |
+| **High School Only** | <4% | 4-5% | 5-7% | >7% |
+| **Bachelor's+** | <2.5% | 2.5-3.5% | 3.5-5.0% | >5.0% |
+| **Education Gap** | >4.5 ppts | 3.5-4.5 | 2.5-3.5 | <2.5 (compression) |
+
+**The White-Collar Signal:** When the education gap compresses, it means the recession is spreading from cyclically sensitive low-skill sectors to professional services. This happened in 2008-2009 (tech/finance layoffs) and 2020 (broad shutdown). A compressing education gap is a sign of a deep, structural downturn rather than a shallow, cyclical one.
+
+---
+
+### C. UNEMPLOYMENT BY RACE/ETHNICITY (The Leading Edge)
+
+Racial unemployment gaps are persistent but also cyclically informative. Black and Hispanic unemployment rates typically lead the overall cycle.
+
+| **Race/Ethnicity** | **FRED Code** | **Typical Ratio to White** | **Cycle Behavior** |
+|---|---|---|---|
+| **White** | LNS14000003 | 1.0x (baseline) | Lags other groups |
+| **Black** | LNS14000006 | 1.8-2.2x | Leading indicator |
+| **Hispanic** | LNS14000009 | 1.3-1.6x | Cyclically sensitive |
+| **Asian** | LNU04032183 | 0.8-1.0x | Less volatile |
+
+#### Derived Race/Ethnicity Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Black-White Gap** | Unemp(Black) - Unemp(White) | Historical avg ~4.0 ppts | Widening = stress |
+| **Gap Acceleration** | 3M Δ Black-White Gap | >+0.5 ppts | Divergence accelerating |
+| **Hispanic Momentum** | 6M Δ Hispanic Unemp | >+1.0 ppt | Construction/services stress |
+
+**Historical Pattern:** Black unemployment has historically peaked 1-2 months before overall unemployment in recessions. In the 2007-2009 cycle, Black unemployment crossed 10% in July 2008, while overall unemployment crossed 6% in September 2008. It's a leading indicator.
+
+---
+
+### D. UNEMPLOYMENT BY GENDER (The Sectoral Proxy)
+
+Gender differences in unemployment largely reflect sectoral concentration. Men dominate goods-producing industries (cyclical), women dominate services (less cyclical). A widening male-female gap often signals a manufacturing-led downturn.
+
+| **Gender** | **FRED Code** | **Typical Rate** | **Cycle Behavior** |
+|---|---|---|---|
+| **Men** | LNS14000001 | ~4-5% | Higher cyclical volatility |
+| **Women** | LNS14000002 | ~4-5% | More stable |
+
+#### Derived Gender Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Gender Gap** | Unemp(Men) - Unemp(Women) | Historical ~0.0 ppts | Sign indicates sector leading |
+| **Gender Gap Change** | 6M Δ Gender Gap | >+0.5 ppts | Goods-producing recession |
+
+**The "Mancession" Pattern:** In goods-producing recessions (2001, 2008-2009), male unemployment rises faster than female. In services-led recessions (2020 initial shock), female unemployment can lead. The gender gap direction tells you which sectors are driving the downturn.
+
+---
+
+## J. LABOR FORCE PARTICIPATION BY SEGMENT (Supply-Side Dynamics)
+
+Participation rates reveal structural labor supply dynamics that don't show up in unemployment. A falling LFPR with stable unemployment can mean discouraged workers exiting, masking true slack.
+
+### Prime-Age Participation (The Core Measure)
+
+Prime-age (25-54) LFPR strips out retirement and education effects, giving the clearest read on labor supply health.
+
+| **Segment** | **FRED Code** | **Pre-COVID Peak** | **Structural Trend** |
+|---|---|---|---|
+| **Prime-Age Total** | LNS11300060 | 83.1% (Jan 2020) | Recovered to 83.5%+ by 2023 |
+| **Prime-Age Men** | LNS11300061 | 89.2% | Long-term secular decline |
+| **Prime-Age Women** | LNS11300062 | 77.0% | Long-term secular increase |
+| **55+ Years** | LNS11324230 | 40.3% | COVID acceleration of early retirement |
+
+#### Participation Rate Signals
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Prime-Age LFPR Level** | LNS11300060 | <82.5% | Structural slack |
+| **Prime-Age LFPR Momentum** | 6M Δ Prime-Age LFPR | <-0.3 ppts | Discouragement building |
+| **55+ LFPR Change** | 12M Δ 55+ LFPR | <-0.5 ppts | Early retirement wave |
+
+**The COVID Participation Puzzle:** Prime-age LFPR recovered to pre-pandemic levels by 2023, but 55+ LFPR remains ~1.5 ppts below trend. Approximately 2-3 million workers exited permanently via early retirement. This represents a structural supply constraint that won't reverse.
+
+---
+
+## K. GEOGRAPHIC SEGMENTATION (Where's the Weakness?)
+
+National data obscures regional variation. Labor market conditions vary substantially across states, and regional divergence often precedes national turns.
+
+### State-Level Unemployment Tracking
+
+All 50 states + DC unemployment rates are available on FRED with format: [STATE]UR (e.g., CAUR, TXUR, OHUR)
+
+#### Regional Economic Dynamics
+
+| **Region** | **Key States** | **Cycle Sensitivity** | **Leading Industries** |
+|---|---|---|---|
+| **Rust Belt** | OH, MI, PA, IN | High (Manufacturing) | Auto, steel, machinery |
+| **Sun Belt** | TX, FL, AZ, GA | Moderate (Growth) | Construction, services |
+| **Energy Belt** | TX, ND, OK, WV | Commodity-linked | Oil & gas |
+| **Tech Corridor** | CA, WA, MA, CO | Tech cycle | Software, hardware |
+| **Northeast** | NY, NJ, CT | Finance-sensitive | Financial services |
+
+#### Derived Geographic Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **State Diffusion Index** | % of states with rising unemployment (3M) | >60% | Broad-based weakness |
+| **Regional Divergence** | StdDev of state unemployment rates | >1.5 ppts | Uneven conditions |
+| **Rust Belt Spread** | Avg(OH, MI, PA, IN) - National | >+1.0 ppt | Manufacturing recession |
+| **Energy Belt Spread** | Avg(TX, ND, OK) - National | Sign indicates | Oil price impact |
+
+#### State Diffusion Thresholds
+
+| **Diffusion Level** | **% States Rising** | **Interpretation** |
+|---|---|---|
+| **Localized** | <30% | Idiosyncratic state issues |
+| **Spreading** | 30-50% | Weakness gaining traction |
+| **Broad-Based** | 50-70% | National downturn underway |
+| **Pervasive** | >70% | Deep recession |
+
+**Historical Pattern and Validation:** Philadelphia Fed research on their State Coincident Index Diffusion methodology provides strong backing for this threshold:
+- Every U.S. recession since 1980 was preceded by a spike in states with declining economic conditions
+- On average, 26+ states (more than half) show declining indexes when recessions begin
+- Only one false positive occurred (January 2003)
+
+The Conference Board incorporates this in their "3Ds Rule" for recession signals. In the 2007-2009 recession, state unemployment diffusion crossed 50% in January 2008, 8 months before Lehman.
+
+---
+
+## L. INCOME DISTRIBUTION & WAGE BIFURCATION (Who's Getting Paid?)
+
+Aggregate wage growth masks distributional dynamics. Wage growth for the bottom quartile vs. top quartile reveals whether gains are broad-based or concentrated.
+
+### Atlanta Fed Wage Growth Tracker Cuts
+
+The Atlanta Fed Wage Growth Tracker provides the only reliable source for median wage growth by demographic segment.
+
+| **Cut** | **Variable** | **Interpretation** |
+|---|---|---|
+| **Overall** | Median 12-month wage growth | Headline measure |
+| **Job Switchers** | Wage growth for job changers | Labor market tightness proxy |
+| **Job Stayers** | Wage growth for those who stayed | Employer retention dynamics |
+| **Bottom Quartile** | Lowest-paid 25% wage growth | Low-wage worker health |
+| **Top Quartile** | Highest-paid 25% wage growth | High-wage worker health |
+
+#### Key Wage Distribution Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Job-Hopper Premium** | Switcher Growth - Stayer Growth | <0.5 ppts | Late-cycle (no premium to switch) |
+| **Bottom-Top Spread** | Bottom Q Growth - Top Q Growth | <0 ppts | Bottom falling behind |
+| **Wage Compression** | 6M Δ in Bottom-Top Spread | <-0.5 ppts | Low-wage stress |
+
+#### Job-Hopper Premium Regime Thresholds
+
+| **Premium** | **Regime** | **Interpretation** |
+|---|---|---|
+| **>3.0 ppts** | Boom | Acute labor shortage, aggressive poaching |
+| **1.5-3.0 ppts** | Healthy | Normal premium for mobility |
+| **0.5-1.5 ppts** | Softening | Employers not competing as hard |
+| **<0.5 ppts** | Late-Cycle | No benefit to switching (workers trapped) |
+| **<0 ppts** | Crisis | Stayers outperforming (rare, severe stress) |
+
+**Historical Context:** In the 2021-2022 boom, the job-hopper premium exceeded 2 ppts. A collapse to near zero (<0.5 ppts) is one of the most reliable late-cycle indicators we track.
+
+**The Wage Inequality Signal:** When bottom-quartile wage growth falls below top-quartile, lower-income workers are losing bargaining power first. This precedes consumer stress by 3-6 months (income → spending).
+
+---
+
+## M. INDUSTRY DEEP DIVE (Granular Sectoral Analysis)
+
+Beyond the 8-sector framework, granular industry analysis reveals where hiring and separations are concentrated.
+
+### Industry Leading Indicator Hierarchy
+
+```
+MOST LEADING                                              MOST LAGGING
+─────────────────────────────────────────────────────────────────────────
+Temp Help → Mfg Hours → Mfg Employment → Construction →
+Retail → Professional Services → Healthcare → Government
+```
+
+### JOLTS by Industry (Quits Rate as Sector Health)
+
+Sector-specific quits rates reveal where worker confidence is eroding.
+
+| **Sector** | **FRED Code** | **Normal Quits Rate** | **Stress Threshold** |
+|---|---|---|---|
+| **Manufacturing** | JTS3000QUR | 1.8-2.2% | <1.5% |
+| **Construction** | JTS2300QUR | 2.5-3.0% | <2.0% |
+| **Retail Trade** | JTS4400QUR | 3.0-3.5% | <2.5% |
+| **Professional Services** | JTS540099QUR | 2.5-3.0% | <2.0% |
+| **Leisure & Hospitality** | JTS7000QUR | 4.0-5.0% | <3.5% |
+| **Healthcare** | JTS6200QUR | 2.0-2.5% | <1.5% |
+
+#### Sector Rotation Signals
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Mfg Quits vs. Services** | Mfg Quits Rate - Services Avg | <-0.5 ppts | Goods recession |
+| **Sector Quits Diffusion** | % of sectors with falling quits (6M) | >60% | Broad confidence loss (validated 2/2) |
+| **Tech Sector Pulse** | Information Employment YoY% | <-2% | Tech layoff cycle |
+
+### Within-Services Bifurcation
+
+Not all services are equal. Professional services (cyclical) behave differently from healthcare (defensive).
+
+| **Services Segment** | **FRED Code** | **GDP Contribution** | **Cycle Behavior** |
+|---|---|---|---|
+| **Professional & Business** | USPBS | ~15% | Cyclically sensitive |
+| **Financial Activities** | USFIRE | ~6% | Interest rate sensitive |
+| **Information (Tech)** | USINFO | ~2% | Tech cycle linked |
+| **Healthcare** | CES6562000001 | ~13% | Defensive, grows through recessions |
+| **Leisure & Hospitality** | USLAH | ~11% | Lagging, last to recover |
+| **Government** | USGOVT | ~14% | Counter-cyclical |
+
+**Current Divergence:** Professional services employment growth: +0.8% YoY. Healthcare employment growth: +2.5% YoY. This divergence (+1.7 ppts favoring defensive healthcare) signals risk-off rotation within services.
+
+---
+
+## N. FIRM SIZE DYNAMICS (Small vs. Large)
+
+Small firms (< 50 employees) account for ~50% of private employment but behave differently than large firms during downturns. Large firms hoard labor longer; small firms cut faster.
+
+### Data Source: BLS Business Employment Dynamics (BED)
+
+The BED provides quarterly job creation/destruction by firm size, though with a 7-month lag.
+
+| **Firm Size** | **Share of Employment** | **Cycle Behavior** |
+|---|---|---|
+| **< 20 employees** | ~17% | Most volatile, first to cut |
+| **20-49 employees** | ~10% | High volatility |
+| **50-249 employees** | ~14% | Moderate volatility |
+| **250-499 employees** | ~5% | Below average volatility |
+| **500+ employees** | ~54% | Most stable, labor hoarding |
+
+#### Firm Size Metrics
+
+| **Metric** | **Source** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Small Firm Job Destruction** | BED | >7% annualized | Small business stress |
+| **Large-Small Employment Spread** | Calculated | Widening | Large firms holding, small cutting |
+| **Net Birth-Death (Small Firms)** | BED | Negative | Startups/small firms net closing |
+
+**The Labor Hoarding Problem:** Large firms (500+ employees) often continue hiring or hold steady even as fundamentals deteriorate, because: (1) rehiring costs are high, (2) they have balance sheet capacity, (3) they're slower to react. This means large-firm employment is a lagging indicator. Small-firm job destruction leads aggregate payrolls by 2-4 months.
+
+---
+
+## O. HIGH-FREQUENCY LEADING INDICATORS (Real-Time Signals)
+
+Monthly data arrives with lags. Weekly and daily indicators fill the gap between JOLTS releases.
+
+### Weekly Indicators
+
+| **Indicator** | **Source** | **FRED Code** | **Lead Time** |
+|---|---|---|---|
+| **Initial Jobless Claims** | DOL | ICSA | 4-8 weeks before payrolls |
+| **Continuing Claims** | DOL | CCSA | Coincident with slack |
+| **Indeed Job Postings** | Indeed | IHLIDXUS | Real-time demand |
+
+### Real-Time Job Postings (Indeed Hiring Lab)
+
+Indeed's job postings index provides daily frequency hiring demand data. Key features:
+
+- Indexed to February 1, 2020 = 100
+- Seasonally adjusted
+- Available by sector and metro
+- Leads JOLTS openings by ~6 weeks
+
+| **Indeed Level** | **Interpretation** |
+|---|---|
+| **>110** | Above pre-COVID demand |
+| **90-110** | Normal range |
+| **70-90** | Demand weakness |
+| **<70** | Severe hiring pullback |
+
+### Challenger Job Cut Announcements
+
+Monthly layoff announcements (leading indicator of actual separations):
+
+| **Announced Cuts Level** | **Interpretation** |
+|---|---|
+| **< 30k/month** | Normal churn |
+| **30-50k/month** | Elevated, watch closely |
+| **50-100k/month** | Significant stress |
+| **> 100k/month** | Crisis-level layoffs |
+
+**The Real-Time Bridge:** During the 5-6 week gap between JOLTS releases, use: (1) Weekly claims for stress detection, (2) Indeed postings for demand pulse, (3) Challenger announcements for layoff preview.
+
+---
+
+## P. SEGMENTED LABOR FRAGILITY INDEX (LFI by Cohort)
+
+The aggregate LFI can be decomposed into cohort-specific fragility to identify where stress is concentrated.
+
+### LFI Components by Segment
+
+| **Segment** | **Key Inputs** | **Weighting Rationale** |
+|---|---|---|
+| **Youth LFI** | Youth unemp, youth-prime spread | First to show stress |
+| **Education LFI** | Education gap, BA+ acceleration | White-collar contagion signal |
+| **Industry LFI** | Sector quits diffusion, temp help | Where cuts are happening |
+| **Geographic LFI** | State diffusion, regional spreads | How broad is the weakness |
+
+### Composite Segmented Fragility Score
+
+```
+Segmented_LFI = 0.25 × z(Youth_Unemp_Acceleration)
+              + 0.20 × z(Education_Gap_Compression)
+              + 0.20 × z(-Industry_Quits_Diffusion)      # Inverted
+              + 0.15 × z(State_Diffusion_Index)
+              + 0.10 × z(-Job_Hopper_Premium)            # Inverted
+              + 0.10 × z(Bottom_Quartile_Wage_Decel)
+```
+
+**Interpretation:** When segmented LFI diverges upward from aggregate LFI, the weakness is concentrated in vulnerable cohorts but hasn't yet spread to the core workforce. This is an early warning. When they converge (both elevated), the weakness has become broad-based.
+
+---
+
+## Q. DATA SOURCE SUMMARY (Expanded)
+
+| **Category** | **Primary Source** | **Frequency** | **Release Lag** | **Access** |
+|---|---|---|---|---|
+| **Headline Employment** | BLS (CES) | Monthly | ~5 days | FRED |
+| **Unemployment by Demographic** | BLS (CPS) | Monthly | ~5 days | FRED |
+| **JOLTS (Quits, Hires, Openings)** | BLS | Monthly | ~40 days | FRED |
+| **Jobless Claims** | DOL | Weekly | ~3 days | FRED |
+| **Wage Growth by Segment** | Atlanta Fed | Monthly | ~15 days | Web/FRED |
+| **State Unemployment** | BLS (LAUS) | Monthly | ~3 weeks | FRED |
+| **Firm Size Dynamics** | BLS (BED) | Quarterly | ~7 months | BLS Website |
+| **Real-Time Postings** | Indeed Hiring Lab | Daily | ~1 day | GitHub |
+| **Layoff Announcements** | Challenger | Monthly | ~1 week | Press Release |
+| **County-Level Employment** | BLS (QCEW) | Quarterly | ~6 months | BLS API |
+
+---
+
+## R. SEGMENTATION ASSESSMENT TEMPLATE
+
+### Demographic Readings Template
+
+| **Segment** | **Current** | **6M Prior** | **Δ** | **Assessment** |
+|---|---|---|---|---|
+| **Youth Unemployment (16-24)** | {{YOUTH_UNEMP}} | {{YOUTH_UNEMP_PRIOR}} | {{YOUTH_UNEMP_DELTA}} | {{YOUTH_ASSESSMENT}} |
+| **Prime-Age Unemployment (25-54)** | {{PRIME_UNEMP}} | {{PRIME_UNEMP_PRIOR}} | {{PRIME_UNEMP_DELTA}} | {{PRIME_ASSESSMENT}} |
+| **Less Than HS Unemployment** | {{LT_HS_UNEMP}} | {{LT_HS_UNEMP_PRIOR}} | {{LT_HS_DELTA}} | {{LT_HS_ASSESSMENT}} |
+| **Bachelor's+ Unemployment** | {{BA_UNEMP}} | {{BA_UNEMP_PRIOR}} | {{BA_DELTA}} | {{BA_ASSESSMENT}} |
+| **Black Unemployment** | {{BLACK_UNEMP}} | {{BLACK_UNEMP_PRIOR}} | {{BLACK_DELTA}} | {{BLACK_ASSESSMENT}} |
+| **Job-Hopper Premium** | {{JOB_HOPPER}} | {{JOB_HOPPER_PRIOR}} | {{JOB_HOPPER_DELTA}} | {{JOB_HOPPER_ASSESSMENT}} |
+| **State Diffusion (% Rising)** | {{STATE_DIFFUSION}} | {{STATE_DIFFUSION_PRIOR}} | {{STATE_DIFFUSION_DELTA}} | {{STATE_DIFFUSION_ASSESSMENT}} |
+
+### Segmentation Narrative Template
+
+**Pattern to watch:** Labor market weakness typically concentrates in vulnerable cohorts before becoming broad-based:
+
+1. **Youth unemployment** rises while prime-age stable
+2. **Low-education cohorts** show stress while BA+ stable
+3. **Racial gaps** widen (Black/Hispanic lead White)
+4. **Job-hopper premium** collapses, confirming late-cycle
+5. **Geographic diffusion** accelerates (>50% of states rising)
+
+**Translation:** When the labor market fragments along these predictable lines, vulnerable cohorts absorb stress first while the core (prime-age, college-educated, large-firm employed) remains insulated. This is the classic early-to-mid recession pattern. When the core starts to crack, the recession will be confirmed.
 
 ---
 
@@ -381,22 +973,21 @@ LPI = 0.20 × z(Quits_Rate)
 | **Feb 2020** | +0.8 | Expansion | COVID shock (exogenous) |
 | **Dec 2021** | +1.6 | Boom | Tightest labor market in 50 years |
 | **Dec 2023** | +0.3 | Neutral | Normalization underway |
-| **Dec 2025** | **-0.6** | **Softening** | **Fragility signal active** |
 
-**Current Assessment (Dec 2025):** LPI at **-0.6** places the labor market squarely in the "Softening" regime. This is the zone where flows deteriorate but stocks remain superficially healthy. The unemployment rate is still 4.2%—unremarkable. But quits are at 1.9% (pre-recessionary), long-term unemployment is 25.7% (structural fragility), temp help is down -7.1% YoY (leading layoff signal), and the job-hopper premium is 0.2 ppts (confidence collapse).
-
-The market is priced for a soft landing. The labor data is screaming late-cycle stress. One of them is wrong.
+*Historical examples for calibration purposes. See Current State Assessment Template for live readings.*
 
 ---
 
 ## Lead/Lag Relationships: The Labor Cascade
 
+**Critical Note:** This cascade shows level-based lead/lag relationships. However, direction changes (peaks/troughs) often lead even for "lagging" indicators. Always analyze: Level + Direction + Trend + Rate of Change.
+
 ```
-LEADING                         COINCIDENT              LAGGING
+LEADING (Level)                 COINCIDENT (Level)      LAGGING (Level)
 ─────────────────────────────────────────────────────────────────────────────
 │                               │                       │
-│  Quits Rate (6-9 mo lead)     │  Payrolls             │  Unemployment (6-9 mo lag)
-│  Job-Hopper Premium (3-6 mo)  │  Job Openings         │  LT Unemployment (12+ mo)
+│  Quits Rate (6-9 mo lead)     │  Payrolls             │  Unemployment Level (6-9 mo)
+│  Job-Hopper Premium (3-6 mo)  │  Job Openings         │  LT Unemp Level (12+ mo)
 │  Temp Help Employment (3-6 mo)│  Hiring Rate          │  ECI (1-2 qtrs)
 │  Avg Weekly Hours Mfg (2-4 mo)│  AHE                  │  Wage-Productivity Gap
 │  Initial Claims (4-8 wks)     │  Prime-Age LFPR       │  Unit Labor Costs
@@ -405,6 +996,13 @@ LEADING                         COINCIDENT              LAGGING
 │  Job Leavers as % (3-6 mo)    │                       │  Discouraged Workers
 │                               │                       │
 ─────────────────────────────────────────────────────────────────────────────
+
+DIRECTION CHANGES (Peaks/Troughs) — All Lead Recession:
+- Unemployment Rate trough: 4-13 months lead
+- LT Unemployed Share trough: 3-13 months lead
+- Quits Rate peak: 1-22 months lead
+- Hires/Quits Ratio peak: 2-15 months lead
+- Job-Hopper Premium peak: 2-23 months lead
 ```
 
 **The Critical Chain:**
@@ -429,7 +1027,7 @@ Quits Decline → Wage Pressure Eases → Job-Hopper Premium Compresses →
 Worker Confidence Falls → Quits Decline Further (Reinforcing Loop)
 ```
 
-The loop can run in reverse during expansions (virtuous cycle) or contractions (vicious cycle). Current state: **Vicious cycle engaged.**
+The loop can run in reverse during expansions (virtuous cycle) or contractions (vicious cycle).
 
 ---
 
@@ -447,7 +1045,7 @@ Core Services CPI Elevated
 
 **Current Linkage:** LFI at +0.93 (fragility) suggests labor tightness is **fading**. Wage growth decelerating (AHE 3.9% YoY, down from 5.5% peak). Services inflation (3.6%) should follow with 6-9 month lag.
 
-**Cross-Pillar Signal:** When **LFI > +0.8** AND **PCI > +0.5** (elevated inflation), the Fed faces a **policy dilemma**: cut to support labor vs. hold to fight inflation. Current: **LFI +0.93, PCI +0.7**. **Dilemma active.**
+**Cross-Pillar Signal:** When **LFI > +0.8** AND **PCI > +0.5** (elevated inflation), the Fed faces a **policy dilemma**: cut to support labor vs. hold to fight inflation.
 
 ---
 
@@ -467,7 +1065,7 @@ GDP Growth Slows
 
 **Current Linkage:** Aggregate weekly hours **-1.2% YoY** = negative labor input growth. GDP can't expand when the primary factor is contracting (unless productivity surges—it's not).
 
-**Cross-Pillar Signal:** When **LPI < -0.5** (labor softening) AND **GCI < -0.3** (growth contracting), recession probability exceeds 70% within 12 months. Current: **LPI -0.6, GCI -0.4**. **Warning threshold breached.**
+**Cross-Pillar Signal:** When **LPI < -0.5** (labor softening) AND **GCI < -0.3** (growth contracting), recession probability exceeds 70% within 12 months.
 
 ---
 
@@ -509,7 +1107,7 @@ Credit Card Delinquencies ↑ → Auto Delinquencies ↑ → Mortgage Delinquenc
 
 **Current Linkage:** LFI at +0.93 (elevated fragility) precedes credit stress by 3-6 months. Credit card delinquencies already rising (3.0%, above pre-pandemic 2.5%). The transmission is underway.
 
-**Cross-Pillar Signal:** CLG (Credit-Labor Gap) = z(HY_OAS) - z(LFI). Current reading: **-1.2** (credit spreads too tight given labor fragility). Credit markets are ignoring the labor reality. This gap closes—violently—when consensus catches up.
+**Cross-Pillar Signal:** CLG (Credit-Labor Gap) = z(HY_OAS) - z(LFI). When CLG < -1.0, credit spreads are too tight given labor fragility. Credit markets ignoring labor reality. This gap closes—violently—when consensus catches up.
 
 ---
 
@@ -529,7 +1127,7 @@ Rate Cuts Begin
 Liquidity Transmission Begins (if plumbing allows)
 ```
 
-**Current Linkage:** Fed still operating under "strong labor market" assumption (based on lagging unemployment rate). But quits rate at 1.9% and LFI at +0.93 suggest **labor market already weakening**. Fed is 6-9 months behind the data.
+**Linkage Pattern:** Fed typically operates under "strong labor market" assumption (based on lagging unemployment rate) even when flows have already deteriorated. Fed lags the data by 6-9 months.
 
 **The Plumbing Constraint:** Even if Fed cuts aggressively, transmission is impaired when LCI (Liquidity Cushion Index) is negative. Current LCI: **-0.8**. The system has lost its shock absorber. Rate cuts will be less effective than historical experience suggests.
 
@@ -552,40 +1150,52 @@ Liquidity Transmission Begins (if plumbing allows)
 
 ---
 
-## Current State Assessment (January 2026)
+## Current State Assessment Template
 
-| **Indicator** | **Current Level** | **Threshold** | **Assessment** |
+*Last Updated: {{DATE}}*
+
+### Primary Indicators
+
+| **Indicator** | **Current** | **Prior** | **Δ** | **Threshold** | **Assessment** |
+|---|---|---|---|---|---|
+| **Quits Rate** | {{QUITS_RATE}} | {{QUITS_RATE_PRIOR}} | {{QUITS_DELTA}} | <2.0% = Late-cycle | {{QUITS_ASSESSMENT}} |
+| **Hires/Quits Ratio** | {{HQ_RATIO}} | {{HQ_RATIO_PRIOR}} | {{HQ_DELTA}} | <2.0 = Weakening | {{HQ_ASSESSMENT}} |
+| **LT Unemployed Share** | {{LT_UNEMP_SHARE}} | {{LT_UNEMP_SHARE_PRIOR}} | {{LT_UNEMP_DELTA}} | >22% = Fragile | {{LT_UNEMP_ASSESSMENT}} |
+| **Initial Claims 4-wk MA** | {{CLAIMS_4WK}} | {{CLAIMS_4WK_PRIOR}} | {{CLAIMS_DELTA}} | >250k = Stress | {{CLAIMS_ASSESSMENT}} |
+| **Temp Help YoY%** | {{TEMP_HELP_YOY}} | {{TEMP_HELP_YOY_PRIOR}} | {{TEMP_HELP_DELTA}} | <0% = Warning | {{TEMP_HELP_ASSESSMENT}} |
+| **Mfg Weekly Hours** | {{MFG_HOURS}} | {{MFG_HOURS_PRIOR}} | {{MFG_HOURS_DELTA}} | <40.5 = Contraction | {{MFG_HOURS_ASSESSMENT}} |
+| **Job-Hopper Premium** | {{JOB_HOPPER}} | {{JOB_HOPPER_PRIOR}} | {{JOB_HOPPER_DELTA}} | <0.5 ppts = Late-cycle | {{JOB_HOPPER_ASSESSMENT}} |
+| **Unemployment Rate** | {{UNEMP_RATE}} | {{UNEMP_RATE_PRIOR}} | {{UNEMP_DELTA}} | >4.5% = Stress | {{UNEMP_ASSESSMENT}} |
+| **Prime-Age LFPR** | {{PRIME_LFPR}} | {{PRIME_LFPR_PRIOR}} | {{PRIME_LFPR_DELTA}} | <82.5% = Slack | {{PRIME_LFPR_ASSESSMENT}} |
+
+### Composites
+
+| **Index** | **Current** | **Prior** | **Regime** | **Signal** |
+|---|---|---|---|---|
+| **LPI** | {{LPI}} | {{LPI_PRIOR}} | {{LPI_REGIME}} | {{LPI_SIGNAL}} |
+| **LFI** | {{LFI}} | {{LFI_PRIOR}} | {{LFI_REGIME}} | {{LFI_SIGNAL}} |
+| **LDI** | {{LDI}} | {{LDI_PRIOR}} | {{LDI_REGIME}} | {{LDI_SIGNAL}} |
+
+### Cross-Pillar Linkages
+
+| **Linkage** | **Current** | **Threshold** | **Status** |
 |---|---|---|---|
-| **Quits Rate** | 1.9% | <2.0% = Pre-recessionary | 🔴 **Breach** |
-| **Hires/Quits Ratio** | 1.8 | <2.0 = Weakening | 🟡 Caution |
-| **Long-Term Unemployed Share** | 25.7% | >22% = Fragility | 🔴 **Breach** |
-| **Initial Claims 4-wk MA** | 235k | <250k = Stable | 🟢 OK |
-| **Temp Help YoY%** | -7.1% | <-3% = Recession signal | 🔴 **Breach** |
-| **Mfg Weekly Hours** | 40.6 hrs | <40.5 = Contraction | 🟡 Caution |
-| **Job-Hopper Premium** | 0.2 ppts | <0.5 ppts = Late-cycle | 🔴 **Breach** |
-| **Unemployment Rate** | 4.2% | <4.5% = Stable | 🟢 OK |
-| **Prime-Age LFPR** | 83.7% | >83.0% = Healthy | 🟢 OK |
-| **LPI Estimate** | **-0.6** | <-0.5 = Softening | 🟡 **Softening Regime** |
-| **LFI Estimate** | **+0.93** | >+0.5 = Fragility | 🔴 **Elevated** |
+| **CLG (Credit-Labor Gap)** | {{CLG}} | <-1.0 = Credit ignoring labor | {{CLG_STATUS}} |
+| **Labor → Consumer** | {{LABOR_CONSUMER}} | LPI < -0.5 precedes CCI weakness | {{LABOR_CONSUMER_STATUS}} |
+| **Labor → Growth** | {{LABOR_GROWTH}} | LPI < -0.5 AND GCI < -0.3 = 70%+ recession | {{LABOR_GROWTH_STATUS}} |
 
 ### Narrative Synthesis
 
-The labor market is exhibiting **classic late-cycle bifurcation**: stocks look fine, flows are deteriorating. The unemployment rate (4.2%) and prime-age participation (83.7%) signal health. But underneath:
+{{NARRATIVE}}
 
-- **Workers have stopped quitting** (1.9%, below 2.0% threshold for first time since 2020)
-- **Long-term unemployment is spiking** (25.7%, highest since 2021)
-- **Temp help is collapsing** (-7.1% YoY, leading indicator of broader layoffs)
-- **Manufacturing hours are contracting** (40.6 hrs, production cutbacks underway)
-- **The job-hopper premium is gone** (0.2 ppts, no wage premium for switching)
-
-**Translation:** Workers see something employers haven't said yet. The quits rate is the truth serum. It doesn't lie.
+**Translation:** {{TRANSLATION}}
 
 **Cross-Pillar Confirmation:**
-- **Consumer Pillar:** Credit card delinquencies rising (3.0%), saving rate depleted (4.5%)
-- **Credit Markets:** HY spreads at 290 bps (3rd percentile tightness), ignoring labor fragility
-- **Plumbing Pillar:** LCI at -0.8 (system has lost shock absorber)
+- **Consumer Pillar:** {{CONSUMER_CONFIRMATION}}
+- **Credit Markets:** {{CREDIT_CONFIRMATION}}
+- **Plumbing Pillar:** {{PLUMBING_CONFIRMATION}}
 
-**MRI (Macro Risk Index):** Estimated **+1.1** (HIGH RISK regime). Labor contributes **+0.93 (LFI) - (-0.2) (LDI) = +1.13** to the composite. Labor is the primary driver of elevated systemic risk.
+**MRI Contribution:** {{MRI_CONTRIBUTION}}
 
 ---
 
@@ -623,23 +1233,161 @@ If the following conditions are met, the labor deterioration is **accelerating b
 
 ---
 
-## Conclusion: The Labor Market as Economic Genome
+## Additional Indicators & External Research
 
-Labor isn't a sector. It's the **code that writes the economy.**
+### The Sahm Rule
 
-When the quits rate collapses, it's not workers being prudent—it's workers reading the signal before management admits it. When long-term unemployment spikes while headline unemployment stays low, it's not a statistical quirk—it's the market fragmenting in real time. When temp help gets cut, it's not cost optimization—it's the canary singing its last note.
+The Sahm Rule identifies recession signals when the 3-month moving average of unemployment rises 0.50 ppts or more from its 12-month low. Named after economist Claudia Sahm (formerly Fed/CEA).
 
-The labor market doesn't forecast the recession. **It is the recession,** six to nine months before the NBER makes it official.
+**Track Record:** Triggered during every recession since 1950. Zero false positives since 1970. One false positive (1959).
 
-**Current state:**
-- **LPI at -0.6** (Softening Regime)
-- **LFI at +0.93** (Elevated Fragility)
-- **Quits Rate at 1.9%** (Pre-Recessionary)
+**Why It Works:** The rule's predictive power derives from labor market hysteresis. Once unemployment begins rising, feedback mechanisms accelerate the deterioration:
+- Workers laid off reduce consumption, forcing additional layoffs
+- Credit tightens as default risk rises
+- Business confidence erodes, curtailing investment
+- The transition from "gradual softening" to "self-reinforcing contraction" typically occurs within 3-4 months of crossing the threshold
 
-The flows are screaming. The stocks are sleeping. One of them is wrong.
+**Limitation:** It's a confirming indicator, not a leading indicator. By the time Sahm triggers, recession has likely begun (~3 months in on average). Use it for confirmation, not prediction. Watch proximity to threshold as an early warning.
 
-**That's our view from the Watch. Until next time, we'll be sure to keep the light on....**
+**Current Sahm Reading:** Monitor at [FRED SAHMREALTIME](https://fred.stlouisfed.org/series/SAHMREALTIME)
+
+### Beveridge Curve Nuances
+
+The Beveridge curve (job openings vs. unemployment) is a standard labor market tightness gauge. However, recent research shows complications:
+
+- **Poaching vacancies:** A large share of job postings now target already-employed workers, not unemployed. This inflates the V/U ratio.
+- **Ghost postings:** Inactive listings that overstate true labor demand.
+- **Implication:** The vacancy-to-unemployment ratio may overstate labor market tightness. (Minneapolis Fed: "Fewer openings, harder to get hired: US labor market likely softer than it appears")
+
+### Job-Hopper Premium Collapse
+
+From Atlanta Fed Wage Growth Tracker: Job-switchers historically earned 1-2 ppts higher wage growth than stayers. When this premium collapses to near zero, it's a late-cycle signal.
+
+**Why it matters:** This collapse (stayers nearly matching or exceeding switchers) has historically only occurred around recessions. It signals:
+- Employers no longer competing aggressively for talent
+- Workers lack leverage to negotiate
+- Late-cycle labor market psychology
+
+### Small Business vs. Large Firm Divergence
+
+ADP and NFIB data often show divergence between small and large firms.
+
+**Why it matters:** Small businesses employ ~50% of private workers. Large firms hoard labor longer; small firms cut faster. When small firm employment contracts while large firms hold steady, headline "solid job gains" average a contraction and expansion. The composition tells a different story than the aggregate.
+
+**Historical precedent:** In the run-up to the 2007-09 recession, small firm employment declines led large firm declines by nearly a year.
+
+### The Labor Market Freeze
+
+A critical late-cycle pattern: the labor market is neither robust (as headline unemployment suggests) nor collapsing (as recession fears predict). It's frozen.
+
+**The Configuration:**
+- Companies are hoarding labor (layoffs remain historically low at ~1.2% of employment) because 2021-2022 hiring difficulties remain fresh in corporate memory
+- But they're not adding headcount either, because demand visibility is deteriorating and cost pressures are mounting
+- This creates a "hiring freeze without firing wave" that can persist for extended periods
+
+**Historical Precedent:** Late 1989, late 2000, late 2007 all exhibited similar patterns that lasted 4-8 quarters before breaking.
+
+**The Critical Insight:** When the hiring freeze breaks, it typically transitions to mass layoffs abruptly rather than gradually. The absence of a buffer between "hoarding" and "cutting" means labor market deterioration, once initiated, tends to be rapid and self-reinforcing. This is why watching for the break matters more than the duration of the freeze.
+
+### Hiring Rate as Standalone Signal
+
+The hiring rate (new hires as percentage of employment) provides a cleaner demand signal than job openings, which can include "ghost jobs."
+
+**Key Levels:**
+- 2022 peak: 4.5%
+- Historical norm: 3.8-4.2%
+- Late-cycle: 3.3-3.5%
+- Contraction: <3.0%
+
+A 27% decline from peak (4.5% → 3.3%) while unemployment remains low is classic late-cycle behavior: employers pulling back on new hiring while not yet cutting existing staff.
+
+### Quits-to-Hires Ratio
+
+Different from Hires/Quits. This metric measures labor market dynamism from the worker's perspective: how many people are voluntarily leaving jobs relative to new positions being created.
+
+| **Quits/Hires** | **Interpretation** |
+|-----------------|-------------------|
+| >1.0 | Worker-favorable, high optionality |
+| 0.80-1.0 | Balanced, healthy churn |
+| <0.80 | Late-cycle: job openings exist but workers lack confidence to pursue them |
+| <0.65 | Pre-recessionary |
+
+**Peak (2022):** 1.05 (Great Resignation, workers had extraordinary bargaining power)
+
+### Duration Analysis: The Hidden Weakness
+
+While headline unemployment may remain contained, the duration profile reveals underlying fragility that stocks don't capture.
+
+**Key Duration Metrics:**
+- **Median unemployment duration:** Rising from 8 weeks (early 2023) toward 20+ weeks signals search difficulty increasing
+- **Share unemployed 27+ weeks:** Approaching 20%+ threshold indicates late-cycle structural damage
+- **Mean vs Median divergence:** When mean duration exceeds median by >4 weeks, long-term unemployed are skewing the distribution
+
+**Why Duration Matters:** Long-duration unemployment has permanent effects:
+- Skill depreciation (technical skills atrophy without use)
+- Network atrophy (professional connections fade)
+- Employer bias (hiring managers view long gaps negatively)
+
+The longer duration persists, the more structural (rather than cyclical) unemployment becomes. Workers unemployed 6+ months face progressively more difficult reemployment. This is why the LT unemployed share direction is a leading indicator: it captures the transition from "easy to find work" to "hard to find work" before headline unemployment reflects it.
+
+### Benchmark Revision Signal
+
+The Bureau of Labor Statistics conducts annual benchmark revisions comparing payroll survey estimates against comprehensive unemployment insurance records.
+
+**Why It Matters:** Large negative revisions indicate the labor market has been weaker than real-time data suggested. The revision signal typically emerges 6-12 months after the fact, but once identified, it recalibrates our understanding of the trajectory.
+
+**Historical Context:** The largest negative revisions tend to cluster around cycle turns, when the establishment survey's sampling frame lags the actual employment shift. If revisions indicate employment was overstated, unemployment rate increases may accelerate once data quality improves.
+
+### Employment Diffusion Index
+
+Measures the breadth of job gains across industries. Different from state diffusion (geographic) or sector quits diffusion (confidence).
+
+| **Diffusion Level** | **% Industries Adding Jobs** | **Interpretation** |
+|---------------------|------------------------------|-------------------|
+| >60 | Broad expansion | Healthy, diversified growth |
+| 50-60 | Mixed | Gains concentrated, watch trend |
+| <50 | Net contraction | More industries cutting than adding |
+| <40 | Pervasive weakness | Broad-based recession underway |
+
+**Pattern to Watch:** Below 55 for 6+ consecutive months with declining trend suggests job gains are increasingly concentrated in fewer sectors (typically defensive: healthcare, government). This bifurcation is classic late-cycle behavior.
+
+---
+
+## External Research Sources
+
+**Federal Reserve Regional Banks:**
+- [Chicago Fed Labor Market Indicators](https://www.chicagofed.org/research/data/chicago-fed-labor-market-indicators/latest-release) - Real-time layoffs/separations rate, hiring rate
+- [Atlanta Fed Wage Growth Tracker](https://www.atlantafed.org/chcs/wage-growth-tracker) - Median wage growth, switchers vs. stayers
+- [Atlanta Fed Labor Market Spider Chart](https://www.atlantafed.org/chcs/labor-market-distributions) - 15 measures across Employer Behavior, Confidence, Utilization, Wages, Flows
+- [Kansas City Fed Labor Market Conditions](https://www.kansascityfed.org/data-and-trends/labor-market-conditions-indicators/)
+- [Richmond Fed SOS Indicator](https://www.richmondfed.org/research/national_economy/sos_recession_indicator) - Weekly Sahm-style indicator using insured unemployment
+
+**Think Tanks:**
+- [Brookings Hamilton Project](https://www.hamiltonproject.org/) - Regular labor market analysis
+- [Economic Policy Institute JOLTS Analysis](https://www.epi.org/indicators/jolts/)
+
+**Academic Research:**
+- [Upjohn Institute: Temporary Help Employment in Recession and Recovery](https://research.upjohn.org/up_workingpapers/227/) - Key academic work on temp help as leading indicator
+- [SSRN: "A Broken Leading Indicator?"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5748032) - Examines post-pandemic temp help signal distortion
+
+**Data Limitations Note:**
+- JOLTS (quits, hires, openings) only begins December 2000, limiting validation to 3 recessions
+- Temp help data available from 1990, but our curated panel starts 2000
+- The flows framework is empirically grounded but sample-limited
+
+---
+
+## Conclusion: Labor is the Engine
+
+Labor isn't a sector. It's the economy itself, measured in real-time.
+
+There is no production without workers. No consumption without income. No credit cycle without employment. Understanding labor means understanding the economy.
+
+The key insight is flows vs. stocks. Flows (quits, hires, temp help) move first because workers and employers at the margin sense changes before they show up in aggregate data. Stocks (unemployment, payrolls) lag because they're the cumulative result of many individual decisions.
+
+When quits decline, workers are seeing something management hasn't admitted. When temp help contracts, employers are cutting the most flexible labor first. These aren't forecasts of recession. They're the recession beginning, months before NBER makes it official.
+
+---
 
 *Bob Sheehan, CFA, CMT*
 *Founder & CIO, Lighthouse Macro*
-*January 15, 2026*

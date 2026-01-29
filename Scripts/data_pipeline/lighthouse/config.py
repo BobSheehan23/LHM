@@ -469,6 +469,9 @@ QUALITY_CONFIG = {
     "min_observations": 5,  # Skip series with fewer obs
     "max_missing_pct": 0.5,  # Flag if >50% missing
     "outlier_z_threshold": 10,  # Flag extreme values
-    "stale_days_monthly": 45,  # Flag if no update in 45 days
-    "stale_days_daily": 5,
+    "stale_days_daily": 7,  # Daily series (weekends + holidays)
+    "stale_days_weekly": 21,  # Weekly series
+    "stale_days_monthly": 75,  # Monthly series (2.5 months buffer)
+    "stale_days_quarterly": 140,  # Quarterly series (GDP, etc.)
+    "stale_days_annual": 400,  # Annual series
 }

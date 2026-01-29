@@ -30,7 +30,7 @@ from compute_crypto_indices import compute_all_crypto_indices, write_crypto_indi
 import sqlite3
 
 # Backup destination
-LHM_BACKUP_DIR = Path("/Users/bob/LHM/data")
+LHM_BACKUP_DIR = Path("/Users/bob/LHM/Data/databases/backups")
 
 
 def backup_database():
@@ -38,13 +38,8 @@ def backup_database():
     try:
         LHM_BACKUP_DIR.mkdir(parents=True, exist_ok=True)
 
-        # Copy main database
+        # Daily backup with date
         if DB_PATH.exists():
-            # Current copy (always overwritten)
-            current_dest = LHM_BACKUP_DIR / "Lighthouse_Master.db"
-            shutil.copy2(DB_PATH, current_dest)
-
-            # Daily backup with date
             date_str = datetime.now().strftime("%Y%m%d")
             dated_dest = LHM_BACKUP_DIR / f"Lighthouse_Master_{date_str}.db"
             if not dated_dest.exists():
@@ -142,6 +137,13 @@ def main():
 
     # Backup to LHM folder
     backup_database()
+
+    # Sync to all destinations (GitHub, iCloud, GDrive, Dropbox)
+    try:
+        from sync_all import sync_to_all_destinations
+        sync_to_all_destinations()
+    except Exception as e:
+        print(f"WARNING: Post-pipeline sync failed: {e}")
 
 
 if __name__ == "__main__":
