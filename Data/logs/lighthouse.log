@@ -1,0 +1,703 @@
+2026-01-08 16:29:55,463 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:29:55,463 - lighthouse_data.charts.priority1_charts - INFO - GENERATING ALL PRIORITY 1 CHARTS
+2026-01-08 16:29:55,463 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:29:55,463 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: TGA Balance
+2026-01-08 16:29:55,464 - lighthouse_data.charts.priority1_charts - INFO - Generating TGA Balance History chart...
+2026-01-08 16:29:56,370 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_tga_balance.png
+2026-01-08 16:29:56,370 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Fed Balance Sheet
+2026-01-08 16:29:56,370 - lighthouse_data.charts.priority1_charts - INFO - Generating Fed Balance Sheet chart...
+2026-01-08 16:29:57,495 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_fed_balance_sheet.png
+2026-01-08 16:29:57,496 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MOVE vs VIX
+2026-01-08 16:29:57,496 - lighthouse_data.charts.priority1_charts - INFO - Generating MOVE vs VIX chart...
+2026-01-08 16:29:57,496 - lighthouse_data.collect.volatility - INFO - Fetching VOLATILITY data (VIX, MOVE proxy)...
+2026-01-08 16:29:57,837 - lighthouse_data.collect.volatility - INFO - Fetched VIX: 4029 observations
+2026-01-08 16:29:58,032 - lighthouse_data.collect.volatility - INFO - Fetched VVIX: 4020 observations
+2026-01-08 16:29:58,270 - lighthouse_data.collect.volatility - INFO - Fetched VXN: 4029 observations
+2026-01-08 16:29:58,642 - lighthouse_data.collect.volatility - WARNING - No data for ^RVX
+2026-01-08 16:29:58,885 - lighthouse_data.collect.volatility - INFO - Fetched OVX: 4029 observations
+2026-01-08 16:29:59,088 - lighthouse_data.collect.volatility - INFO - Fetched GVZ: 4029 observations
+2026-01-08 16:29:59,088 - lighthouse_data.collect.volatility - INFO - Fetching MOVE Index proxy...
+2026-01-08 16:29:59,336 - lighthouse_data.collect.volatility - INFO - Calculated MOVE proxy: 4008 observations
+2026-01-08 16:29:59,502 - lighthouse_data.charts.priority1_charts - ERROR - Failed to generate MOVE vs VIX: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+A suitable version of pyarrow or fastparquet is required for parquet support.
+Trying to import the above resulted in these errors:
+ - Missing optional dependency 'pyarrow'. pyarrow is required for parquet support. Use pip or conda to install pyarrow.
+ - Missing optional dependency 'fastparquet'. fastparquet is required for parquet support. Use pip or conda to install fastparquet.
+2026-01-08 16:29:59,502 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MMF Flows
+2026-01-08 16:29:59,502 - lighthouse_data.charts.priority1_charts - INFO - Generating MMF Flows chart...
+2026-01-08 16:30:01,638 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_mmf_flows.png
+2026-01-08 16:30:01,638 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: SLOOS
+2026-01-08 16:30:01,638 - lighthouse_data.charts.priority1_charts - INFO - Generating SLOOS chart...
+2026-01-08 16:30:02,306 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_sloos.png
+2026-01-08 16:30:02,306 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Real Rates
+2026-01-08 16:30:02,306 - lighthouse_data.charts.priority1_charts - INFO - Generating Real Rates chart...
+2026-01-08 16:30:04,241 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_real_rates.png
+2026-01-08 16:30:04,241 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Dollar Index
+2026-01-08 16:30:04,241 - lighthouse_data.charts.priority1_charts - INFO - Generating Dollar Index chart...
+2026-01-08 16:30:04,241 - lighthouse_data.collect.fred_extended - INFO - Fetching EXTENDED FRED data for Priority 1 charts...
+2026-01-08 16:30:04,241 - lighthouse_data.collect.fred_extended - INFO - [1/40] Requesting WTREGEN (TGA_Balance)...
+2026-01-08 16:30:04,445 - lighthouse_data.collect.fred_extended - INFO - [2/40] Requesting WALCL (Fed_Total_Assets)...
+2026-01-08 16:30:04,619 - lighthouse_data.collect.fred_extended - INFO - [3/40] Requesting WRESBAL (Bank_Reserves)...
+2026-01-08 16:30:04,796 - lighthouse_data.collect.fred_extended - INFO - [4/40] Requesting RRPONTSYD (RRP_Balance)...
+2026-01-08 16:30:04,984 - lighthouse_data.collect.fred_extended - INFO - [5/40] Requesting DFII10 (TIPS_10Y)...
+2026-01-08 16:30:05,275 - lighthouse_data.collect.fred_extended - INFO - [6/40] Requesting DFII5 (TIPS_5Y)...
+2026-01-08 16:30:05,570 - lighthouse_data.collect.fred_extended - INFO - [7/40] Requesting T10YIE (Breakeven_10Y)...
+2026-01-08 16:30:05,781 - lighthouse_data.collect.fred_extended - INFO - [8/40] Requesting T5YIE (Breakeven_5Y)...
+2026-01-08 16:30:05,954 - lighthouse_data.collect.fred_extended - INFO - [9/40] Requesting T5YIFR (Forward_5Y5Y)...
+2026-01-08 16:30:06,108 - lighthouse_data.collect.fred_extended - INFO - [10/40] Requesting DRTSCILM (SLOOS_CandI_Large)...
+2026-01-08 16:30:06,239 - lighthouse_data.collect.fred_extended - INFO - [11/40] Requesting DRTSCLCC (SLOOS_Consumer_Credit)...
+2026-01-08 16:30:06,360 - lighthouse_data.collect.fred_extended - INFO - [12/40] Requesting SUBLPDRCSC (SLOOS_Subprime_Auto)...
+2026-01-08 16:30:06,495 - lighthouse_data.collect.fred_extended - INFO - [13/40] Requesting MMMFFAQ027S (MMF_Total_Assets)...
+2026-01-08 16:30:06,650 - lighthouse_data.collect.fred_extended - INFO - [14/40] Requesting WRMFSL (Retail_MMF)...
+2026-01-08 16:30:06,831 - lighthouse_data.collect.fred_extended - INFO - [15/40] Requesting WIMFSL (Inst_MMF)...
+2026-01-08 16:30:06,993 - lighthouse_data.collect.fred_extended - INFO - [16/40] Requesting DTWEXBGS (Trade_Weighted_USD)...
+2026-01-08 16:30:07,298 - lighthouse_data.collect.fred_extended - INFO - [17/40] Requesting DTWEXAFEGS (USD_vs_AFE)...
+2026-01-08 16:30:07,511 - lighthouse_data.collect.fred_extended - INFO - [18/40] Requesting DTWEXEMEGS (USD_vs_EME)...
+2026-01-08 16:30:07,755 - lighthouse_data.collect.fred_extended - INFO - [19/40] Requesting DGS1MO (UST_1M)...
+2026-01-08 16:30:07,962 - lighthouse_data.collect.fred_extended - INFO - [20/40] Requesting DGS3MO (UST_3M)...
+2026-01-08 16:30:08,228 - lighthouse_data.collect.fred_extended - INFO - [21/40] Requesting DGS6MO (UST_6M)...
+2026-01-08 16:30:08,452 - lighthouse_data.collect.fred_extended - INFO - [22/40] Requesting DGS1 (UST_1Y)...
+2026-01-08 16:30:08,650 - lighthouse_data.collect.fred_extended - INFO - [23/40] Requesting DGS2 (UST_2Y)...
+2026-01-08 16:30:08,936 - lighthouse_data.collect.fred_extended - INFO - [24/40] Requesting DGS5 (UST_5Y)...
+2026-01-08 16:30:09,132 - lighthouse_data.collect.fred_extended - INFO - [25/40] Requesting DGS10 (UST_10Y)...
+2026-01-08 16:30:09,399 - lighthouse_data.collect.fred_extended - INFO - [26/40] Requesting DGS20 (UST_20Y)...
+2026-01-08 16:30:09,660 - lighthouse_data.collect.fred_extended - INFO - [27/40] Requesting DGS30 (UST_30Y)...
+2026-01-08 16:30:10,065 - lighthouse_data.collect.fred_extended - INFO - [28/40] Requesting THREEFYTP10 (Term_Premium_10Y)...
+2026-01-08 16:30:11,453 - lighthouse_data.collect.fred_extended - INFO - [29/40] Requesting SOFR (SOFR)...
+2026-01-08 16:30:11,606 - lighthouse_data.collect.fred_extended - INFO - [30/40] Requesting EFFR (EFFR)...
+2026-01-08 16:30:12,375 - lighthouse_data.collect.fred_extended - INFO - [31/40] Requesting OBFR (OBFR)...
+2026-01-08 16:30:12,580 - lighthouse_data.collect.fred_extended - INFO - [32/40] Requesting BAMLC0A1CAAAEY (AAA_OAS)...
+2026-01-08 16:30:12,853 - lighthouse_data.collect.fred_extended - INFO - [33/40] Requesting BAMLC0A2CAAEY (AA_OAS)...
+2026-01-08 16:30:13,145 - lighthouse_data.collect.fred_extended - INFO - [34/40] Requesting BAMLC0A3CAEY (A_OAS)...
+2026-01-08 16:30:14,166 - lighthouse_data.collect.fred_extended - INFO - [35/40] Requesting BAMLC0A4CBBBEY (BBB_OAS)...
+2026-01-08 16:30:14,497 - lighthouse_data.collect.fred_extended - INFO - [36/40] Requesting BAMLH0A0HYM2EY (HY_OAS)...
+2026-01-08 16:30:14,728 - lighthouse_data.collect.fred_extended - INFO - [37/40] Requesting PSAVERT (Savings_Rate)...
+2026-01-08 16:30:15,059 - lighthouse_data.collect.fred_extended - INFO - [38/40] Requesting TOTALSL (Consumer_Credit_Total)...
+2026-01-08 16:30:15,426 - lighthouse_data.collect.fred_extended - INFO - [39/40] Requesting DRCCLACBS (CC_Delinquency_Rate)...
+2026-01-08 16:30:15,593 - lighthouse_data.collect.fred_extended - INFO - [40/40] Requesting DRSFRMACBS (Mortgage_Delinq)...
+2026-01-08 16:30:15,841 - lighthouse_data.charts.priority1_charts - ERROR - Failed to generate Dollar Index: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+A suitable version of pyarrow or fastparquet is required for parquet support.
+Trying to import the above resulted in these errors:
+ - Missing optional dependency 'pyarrow'. pyarrow is required for parquet support. Use pip or conda to install pyarrow.
+ - Missing optional dependency 'fastparquet'. fastparquet is required for parquet support. Use pip or conda to install fastparquet.
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO - 
+==================================================
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO - PRIORITY 1 CHART GENERATION COMPLETE
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO -   TGA Balance: Success
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO -   Fed Balance Sheet: Success
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO -   MOVE vs VIX: Error: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+A suitable version of pyarrow or fastparquet is required for parquet support.
+Trying to import the above resulted in these errors:
+ - Missing optional dependency 'pyarrow'. pyarrow is required for parquet support. Use pip or conda to install pyarrow.
+ - Missing optional dependency 'fastparquet'. fastparquet is required for parquet support. Use pip or conda to install fastparquet.
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO -   MMF Flows: Success
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO -   SLOOS: Success
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO -   Real Rates: Success
+2026-01-08 16:30:15,842 - lighthouse_data.charts.priority1_charts - INFO -   Dollar Index: Error: Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+A suitable version of pyarrow or fastparquet is required for parquet support.
+Trying to import the above resulted in these errors:
+ - Missing optional dependency 'pyarrow'. pyarrow is required for parquet support. Use pip or conda to install pyarrow.
+ - Missing optional dependency 'fastparquet'. fastparquet is required for parquet support. Use pip or conda to install fastparquet.
+2026-01-08 16:31:52,434 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:31:52,435 - lighthouse_data.charts.priority1_charts - INFO - GENERATING ALL PRIORITY 1 CHARTS
+2026-01-08 16:31:52,435 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:31:52,435 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: TGA Balance
+2026-01-08 16:31:52,435 - lighthouse_data.charts.priority1_charts - INFO - Generating TGA Balance History chart...
+2026-01-08 16:31:55,967 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_tga_balance.png
+2026-01-08 16:31:55,968 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Fed Balance Sheet
+2026-01-08 16:31:55,968 - lighthouse_data.charts.priority1_charts - INFO - Generating Fed Balance Sheet chart...
+2026-01-08 16:31:56,213 - lighthouse_data.collect.fred_extended - ERROR - Failed to fetch WALCL: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=WALCL&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2008-01-01
+2026-01-08 16:31:58,133 - lighthouse_data.charts.priority1_charts - ERROR - Failed to generate Fed Balance Sheet: 'Total_Assets'
+2026-01-08 16:31:58,133 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MOVE vs VIX
+2026-01-08 16:31:58,133 - lighthouse_data.charts.priority1_charts - INFO - Generating MOVE vs VIX chart...
+2026-01-08 16:31:58,133 - lighthouse_data.collect.volatility - INFO - Fetching VOLATILITY data (VIX, MOVE proxy)...
+2026-01-08 16:31:58,473 - lighthouse_data.collect.volatility - INFO - Fetched VIX: 4029 observations
+2026-01-08 16:31:58,620 - lighthouse_data.collect.volatility - INFO - Fetched VVIX: 4020 observations
+2026-01-08 16:31:58,797 - lighthouse_data.collect.volatility - INFO - Fetched VXN: 4029 observations
+2026-01-08 16:31:59,195 - lighthouse_data.collect.volatility - WARNING - No data for ^RVX
+2026-01-08 16:31:59,360 - lighthouse_data.collect.volatility - INFO - Fetched OVX: 4029 observations
+2026-01-08 16:31:59,518 - lighthouse_data.collect.volatility - INFO - Fetched GVZ: 4029 observations
+2026-01-08 16:31:59,518 - lighthouse_data.collect.volatility - INFO - Fetching MOVE Index proxy...
+2026-01-08 16:31:59,761 - lighthouse_data.collect.volatility - INFO - Calculated MOVE proxy: 4008 observations
+2026-01-08 16:31:59,968 - lighthouse_data.collect.volatility - INFO - Volatility data updated. Shape: (5849, 10)
+2026-01-08 16:32:00,312 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_move_vs_vix.png
+2026-01-08 16:32:00,312 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MMF Flows
+2026-01-08 16:32:00,313 - lighthouse_data.charts.priority1_charts - INFO - Generating MMF Flows chart...
+2026-01-08 16:32:01,277 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_mmf_flows.png
+2026-01-08 16:32:01,277 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: SLOOS
+2026-01-08 16:32:01,277 - lighthouse_data.charts.priority1_charts - INFO - Generating SLOOS chart...
+2026-01-08 16:32:01,954 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_sloos.png
+2026-01-08 16:32:01,955 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Real Rates
+2026-01-08 16:32:01,955 - lighthouse_data.charts.priority1_charts - INFO - Generating Real Rates chart...
+2026-01-08 16:32:03,426 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_real_rates.png
+2026-01-08 16:32:03,427 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Dollar Index
+2026-01-08 16:32:03,427 - lighthouse_data.charts.priority1_charts - INFO - Generating Dollar Index chart...
+2026-01-08 16:32:03,427 - lighthouse_data.collect.fred_extended - INFO - Fetching EXTENDED FRED data for Priority 1 charts...
+2026-01-08 16:32:03,427 - lighthouse_data.collect.fred_extended - INFO - [1/40] Requesting WTREGEN (TGA_Balance)...
+2026-01-08 16:32:03,653 - lighthouse_data.collect.fred_extended - INFO - [2/40] Requesting WALCL (Fed_Total_Assets)...
+2026-01-08 16:32:03,844 - lighthouse_data.collect.fred_extended - INFO - [3/40] Requesting WRESBAL (Bank_Reserves)...
+2026-01-08 16:32:04,129 - lighthouse_data.collect.fred_extended - INFO - [4/40] Requesting RRPONTSYD (RRP_Balance)...
+2026-01-08 16:32:04,302 - lighthouse_data.collect.fred_extended - INFO - [5/40] Requesting DFII10 (TIPS_10Y)...
+2026-01-08 16:32:04,443 - lighthouse_data.collect.fred_extended - INFO - [6/40] Requesting DFII5 (TIPS_5Y)...
+2026-01-08 16:32:04,617 - lighthouse_data.collect.fred_extended - INFO - [7/40] Requesting T10YIE (Breakeven_10Y)...
+2026-01-08 16:32:05,307 - lighthouse_data.collect.fred_extended - INFO - [8/40] Requesting T5YIE (Breakeven_5Y)...
+2026-01-08 16:32:05,473 - lighthouse_data.collect.fred_extended - INFO - [9/40] Requesting T5YIFR (Forward_5Y5Y)...
+2026-01-08 16:32:05,611 - lighthouse_data.collect.fred_extended - INFO - [10/40] Requesting DRTSCILM (SLOOS_CandI_Large)...
+2026-01-08 16:32:05,747 - lighthouse_data.collect.fred_extended - INFO - [11/40] Requesting DRTSCLCC (SLOOS_Consumer_Credit)...
+2026-01-08 16:32:05,895 - lighthouse_data.collect.fred_extended - INFO - [12/40] Requesting SUBLPDRCSC (SLOOS_Subprime_Auto)...
+2026-01-08 16:32:07,223 - lighthouse_data.collect.fred_extended - INFO - [13/40] Requesting MMMFFAQ027S (MMF_Total_Assets)...
+2026-01-08 16:32:07,338 - lighthouse_data.collect.fred_extended - INFO - [14/40] Requesting WRMFSL (Retail_MMF)...
+2026-01-08 16:32:07,472 - lighthouse_data.collect.fred_extended - INFO - [15/40] Requesting WIMFSL (Inst_MMF)...
+2026-01-08 16:32:08,313 - lighthouse_data.collect.fred_extended - INFO - [16/40] Requesting DTWEXBGS (Trade_Weighted_USD)...
+2026-01-08 16:32:08,453 - lighthouse_data.collect.fred_extended - INFO - [17/40] Requesting DTWEXAFEGS (USD_vs_AFE)...
+2026-01-08 16:32:08,791 - lighthouse_data.collect.fred_extended - INFO - [18/40] Requesting DTWEXEMEGS (USD_vs_EME)...
+2026-01-08 16:32:08,990 - lighthouse_data.collect.fred_extended - INFO - [19/40] Requesting DGS1MO (UST_1M)...
+2026-01-08 16:32:09,154 - lighthouse_data.collect.fred_extended - INFO - [20/40] Requesting DGS3MO (UST_3M)...
+2026-01-08 16:32:09,373 - lighthouse_data.collect.fred_extended - INFO - [21/40] Requesting DGS6MO (UST_6M)...
+2026-01-08 16:32:09,554 - lighthouse_data.collect.fred_extended - INFO - [22/40] Requesting DGS1 (UST_1Y)...
+2026-01-08 16:32:09,852 - lighthouse_data.collect.fred_extended - INFO - [23/40] Requesting DGS2 (UST_2Y)...
+2026-01-08 16:32:10,010 - lighthouse_data.collect.fred_extended - INFO - [24/40] Requesting DGS5 (UST_5Y)...
+2026-01-08 16:32:10,185 - lighthouse_data.collect.fred_extended - INFO - [25/40] Requesting DGS10 (UST_10Y)...
+2026-01-08 16:32:10,320 - lighthouse_data.collect.fred_extended - INFO - [26/40] Requesting DGS20 (UST_20Y)...
+2026-01-08 16:32:11,295 - lighthouse_data.collect.fred_extended - INFO - [27/40] Requesting DGS30 (UST_30Y)...
+2026-01-08 16:32:11,499 - lighthouse_data.collect.fred_extended - INFO - [28/40] Requesting THREEFYTP10 (Term_Premium_10Y)...
+2026-01-08 16:32:11,676 - lighthouse_data.collect.fred_extended - INFO - [29/40] Requesting SOFR (SOFR)...
+2026-01-08 16:32:12,415 - lighthouse_data.collect.fred_extended - INFO - [30/40] Requesting EFFR (EFFR)...
+2026-01-08 16:32:12,536 - lighthouse_data.collect.fred_extended - INFO - [31/40] Requesting OBFR (OBFR)...
+2026-01-08 16:32:12,711 - lighthouse_data.collect.fred_extended - INFO - [32/40] Requesting BAMLC0A1CAAAEY (AAA_OAS)...
+2026-01-08 16:32:12,864 - lighthouse_data.collect.fred_extended - INFO - [33/40] Requesting BAMLC0A2CAAEY (AA_OAS)...
+2026-01-08 16:32:13,126 - lighthouse_data.collect.fred_extended - INFO - [34/40] Requesting BAMLC0A3CAEY (A_OAS)...
+2026-01-08 16:32:13,371 - lighthouse_data.collect.fred_extended - INFO - [35/40] Requesting BAMLC0A4CBBBEY (BBB_OAS)...
+2026-01-08 16:32:13,646 - lighthouse_data.collect.fred_extended - INFO - [36/40] Requesting BAMLH0A0HYM2EY (HY_OAS)...
+2026-01-08 16:32:13,956 - lighthouse_data.collect.fred_extended - INFO - [37/40] Requesting PSAVERT (Savings_Rate)...
+2026-01-08 16:32:14,209 - lighthouse_data.collect.fred_extended - INFO - [38/40] Requesting TOTALSL (Consumer_Credit_Total)...
+2026-01-08 16:32:14,468 - lighthouse_data.collect.fred_extended - INFO - [39/40] Requesting DRCCLACBS (CC_Delinquency_Rate)...
+2026-01-08 16:32:14,686 - lighthouse_data.collect.fred_extended - INFO - [40/40] Requesting DRSFRMACBS (Mortgage_Delinq)...
+2026-01-08 16:32:14,970 - lighthouse_data.collect.fred_extended - INFO - Extended FRED data updated. Shape: (5852, 40)
+2026-01-08 16:32:14,970 - lighthouse_data.collect.fred_extended - INFO - Columns: ['TGA_Balance', 'Fed_Total_Assets', 'Bank_Reserves', 'RRP_Balance', 'TIPS_10Y', 'TIPS_5Y', 'Breakeven_10Y', 'Breakeven_5Y', 'Forward_5Y5Y', 'SLOOS_CandI_Large', 'SLOOS_Consumer_Credit', 'SLOOS_Subprime_Auto', 'MMF_Total_Assets', 'Retail_MMF', 'Inst_MMF', 'Trade_Weighted_USD', 'USD_vs_AFE', 'USD_vs_EME', 'UST_1M', 'UST_3M', 'UST_6M', 'UST_1Y', 'UST_2Y', 'UST_5Y', 'UST_10Y', 'UST_20Y', 'UST_30Y', 'Term_Premium_10Y', 'SOFR', 'EFFR', 'OBFR', 'AAA_OAS', 'AA_OAS', 'A_OAS', 'BBB_OAS', 'HY_OAS', 'Savings_Rate', 'Consumer_Credit_Total', 'CC_Delinquency_Rate', 'Mortgage_Delinq']
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_dollar_index.png
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO - 
+==================================================
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO - PRIORITY 1 CHART GENERATION COMPLETE
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO -   TGA Balance: Success
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO -   Fed Balance Sheet: Error: 'Total_Assets'
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO -   MOVE vs VIX: Success
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO -   MMF Flows: Success
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO -   SLOOS: Success
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO -   Real Rates: Success
+2026-01-08 16:32:15,305 - lighthouse_data.charts.priority1_charts - INFO -   Dollar Index: Success
+2026-01-08 16:39:45,091 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:39:45,092 - lighthouse_data.charts.priority1_charts - INFO - GENERATING ALL PRIORITY 1 CHARTS
+2026-01-08 16:39:45,092 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:39:45,092 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: TGA Balance
+2026-01-08 16:39:45,092 - lighthouse_data.charts.priority1_charts - INFO - Generating TGA Balance History chart...
+2026-01-08 16:39:46,691 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_tga_balance.png
+2026-01-08 16:39:46,692 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Fed Balance Sheet
+2026-01-08 16:39:46,692 - lighthouse_data.charts.priority1_charts - INFO - Generating Fed Balance Sheet chart...
+2026-01-08 16:39:49,122 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_fed_balance_sheet.png
+2026-01-08 16:39:49,123 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MOVE vs VIX
+2026-01-08 16:39:49,123 - lighthouse_data.charts.priority1_charts - INFO - Generating MOVE vs VIX chart...
+2026-01-08 16:39:49,528 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_move_vs_vix.png
+2026-01-08 16:39:49,528 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MMF Flows
+2026-01-08 16:39:49,528 - lighthouse_data.charts.priority1_charts - INFO - Generating MMF Flows chart...
+2026-01-08 16:39:50,457 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_mmf_flows.png
+2026-01-08 16:39:50,457 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: SLOOS
+2026-01-08 16:39:50,457 - lighthouse_data.charts.priority1_charts - INFO - Generating SLOOS chart...
+2026-01-08 16:39:51,167 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_sloos.png
+2026-01-08 16:39:51,167 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Real Rates
+2026-01-08 16:39:51,167 - lighthouse_data.charts.priority1_charts - INFO - Generating Real Rates chart...
+2026-01-08 16:39:52,823 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_real_rates.png
+2026-01-08 16:39:52,823 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Dollar Index
+2026-01-08 16:39:52,823 - lighthouse_data.charts.priority1_charts - INFO - Generating Dollar Index chart...
+2026-01-08 16:39:53,102 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_dollar_index.png
+2026-01-08 16:39:53,102 - lighthouse_data.charts.priority1_charts - INFO - 
+==================================================
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO - PRIORITY 1 CHART GENERATION COMPLETE
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO -   TGA Balance: Success
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO -   Fed Balance Sheet: Success
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO -   MOVE vs VIX: Success
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO -   MMF Flows: Success
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO -   SLOOS: Success
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO -   Real Rates: Success
+2026-01-08 16:39:53,103 - lighthouse_data.charts.priority1_charts - INFO -   Dollar Index: Success
+2026-01-08 16:44:08,448 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:44:08,526 - lighthouse_data.charts.priority1_charts - INFO - GENERATING ALL PRIORITY 1 CHARTS
+2026-01-08 16:44:08,531 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:44:08,531 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: TGA Balance
+2026-01-08 16:44:08,532 - lighthouse_data.charts.priority1_charts - INFO - Generating TGA Balance History chart...
+2026-01-08 16:44:10,618 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_tga_balance.png
+2026-01-08 16:44:10,619 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Fed Balance Sheet
+2026-01-08 16:44:10,620 - lighthouse_data.charts.priority1_charts - INFO - Generating Fed Balance Sheet chart...
+2026-01-08 16:44:11,871 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_fed_balance_sheet.png
+2026-01-08 16:44:11,871 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MOVE vs VIX
+2026-01-08 16:44:11,872 - lighthouse_data.charts.priority1_charts - INFO - Generating MOVE vs VIX chart...
+2026-01-08 16:44:12,799 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_move_vs_vix.png
+2026-01-08 16:44:12,800 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: MMF Flows
+2026-01-08 16:44:12,800 - lighthouse_data.charts.priority1_charts - INFO - Generating MMF Flows chart...
+2026-01-08 16:44:14,422 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_mmf_flows.png
+2026-01-08 16:44:14,423 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: SLOOS
+2026-01-08 16:44:14,423 - lighthouse_data.charts.priority1_charts - INFO - Generating SLOOS chart...
+2026-01-08 16:44:15,829 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_sloos.png
+2026-01-08 16:44:15,839 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Real Rates
+2026-01-08 16:44:15,839 - lighthouse_data.charts.priority1_charts - INFO - Generating Real Rates chart...
+2026-01-08 16:44:17,595 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_real_rates.png
+2026-01-08 16:44:17,596 - lighthouse_data.charts.priority1_charts - INFO - 
+Generating: Dollar Index
+2026-01-08 16:44:17,596 - lighthouse_data.charts.priority1_charts - INFO - Generating Dollar Index chart...
+2026-01-08 16:44:18,084 - lighthouse_data.charts.priority1_charts - INFO - Saved: /Users/bob/LHM/data/charts/priority1/chart_dollar_index.png
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO - 
+==================================================
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO - PRIORITY 1 CHART GENERATION COMPLETE
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO - ==================================================
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO -   TGA Balance: Success
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO -   Fed Balance Sheet: Success
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO -   MOVE vs VIX: Success
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO -   MMF Flows: Success
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO -   SLOOS: Success
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO -   Real Rates: Success
+2026-01-08 16:44:18,085 - lighthouse_data.charts.priority1_charts - INFO -   Dollar Index: Success
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - FULL LABOR DATA COLLECTION
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - Start date: 2000-01-01
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - COLLECTING FRED LABOR DATA
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - Fetching 182 FRED series...
+2026-01-26 13:02:48,017 - lighthouse_data.collect.labor_collector - INFO - [1/182] Fetching PAYEMS (Nonfarm_Payrolls)
+2026-01-26 13:02:48,291 - lighthouse_data.collect.labor_collector - INFO - [2/182] Fetching UNRATE (Unemployment_Rate)
+2026-01-26 13:02:48,413 - lighthouse_data.collect.labor_collector - INFO - [3/182] Fetching CIVPART (LFPR_Total)
+2026-01-26 13:02:48,535 - lighthouse_data.collect.labor_collector - INFO - [4/182] Fetching EMRATIO (Emp_Pop_Ratio)
+2026-01-26 13:02:48,652 - lighthouse_data.collect.labor_collector - INFO - [5/182] Fetching U6RATE (U6_Underemployment)
+2026-01-26 13:02:48,789 - lighthouse_data.collect.labor_collector - INFO - [6/182] Fetching LNS14000012 (Unemp_Rate_16_19)
+2026-01-26 13:02:48,926 - lighthouse_data.collect.labor_collector - INFO - [7/182] Fetching LNS14000036 (Unemp_Rate_20_24)
+2026-01-26 13:02:49,055 - lighthouse_data.collect.labor_collector - INFO - [8/182] Fetching LNS14024887 (Unemp_Rate_16_24)
+2026-01-26 13:02:49,212 - lighthouse_data.collect.labor_collector - INFO - [9/182] Fetching LNS14000060 (Unemp_Rate_25_54)
+2026-01-26 13:02:49,347 - lighthouse_data.collect.labor_collector - INFO - [10/182] Fetching LNS14000089 (Unemp_Rate_25_34)
+2026-01-26 13:02:49,535 - lighthouse_data.collect.labor_collector - INFO - [11/182] Fetching LNS14000091 (Unemp_Rate_35_44)
+2026-01-26 13:02:49,662 - lighthouse_data.collect.labor_collector - INFO - [12/182] Fetching LNS14000093 (Unemp_Rate_45_54)
+2026-01-26 13:02:49,856 - lighthouse_data.collect.labor_collector - INFO - [13/182] Fetching LNS14024230 (Unemp_Rate_55_Plus)
+2026-01-26 13:02:50,019 - lighthouse_data.collect.labor_collector - INFO - [14/182] Fetching LNS14027659 (Unemp_Rate_LessThanHS)
+2026-01-26 13:02:50,194 - lighthouse_data.collect.labor_collector - INFO - [15/182] Fetching LNS14027660 (Unemp_Rate_HS_Only)
+2026-01-26 13:02:50,343 - lighthouse_data.collect.labor_collector - INFO - [16/182] Fetching LNS14027689 (Unemp_Rate_SomeCollege)
+2026-01-26 13:02:50,491 - lighthouse_data.collect.labor_collector - INFO - [17/182] Fetching LNS14027662 (Unemp_Rate_Bachelors_Plus)
+2026-01-26 13:02:50,649 - lighthouse_data.collect.labor_collector - INFO - [18/182] Fetching LNS14000003 (Unemp_Rate_White)
+2026-01-26 13:02:50,789 - lighthouse_data.collect.labor_collector - INFO - [19/182] Fetching LNS14000006 (Unemp_Rate_Black)
+2026-01-26 13:02:50,936 - lighthouse_data.collect.labor_collector - INFO - [20/182] Fetching LNS14000009 (Unemp_Rate_Hispanic)
+2026-01-26 13:02:51,097 - lighthouse_data.collect.labor_collector - INFO - [21/182] Fetching LNU04032183 (Unemp_Rate_Asian)
+2026-01-26 13:02:51,320 - lighthouse_data.collect.labor_collector - INFO - [22/182] Fetching LNS14000001 (Unemp_Rate_Men)
+2026-01-26 13:02:51,463 - lighthouse_data.collect.labor_collector - INFO - [23/182] Fetching LNS14000002 (Unemp_Rate_Women)
+2026-01-26 13:02:51,629 - lighthouse_data.collect.labor_collector - INFO - [24/182] Fetching LNS11300060 (LFPR_25_54)
+2026-01-26 13:02:51,800 - lighthouse_data.collect.labor_collector - INFO - [25/182] Fetching LNS11324230 (LFPR_55_Plus)
+2026-01-26 13:02:51,964 - lighthouse_data.collect.labor_collector - INFO - [26/182] Fetching LNS11300012 (LFPR_16_19)
+2026-01-26 13:02:52,088 - lighthouse_data.collect.labor_collector - INFO - [27/182] Fetching LNS11300036 (LFPR_20_24)
+2026-01-26 13:02:52,288 - lighthouse_data.collect.labor_collector - INFO - [28/182] Fetching LNS11300001 (LFPR_Men)
+2026-01-26 13:02:52,435 - lighthouse_data.collect.labor_collector - INFO - [29/182] Fetching LNS11300002 (LFPR_Women)
+2026-01-26 13:02:52,597 - lighthouse_data.collect.labor_collector - INFO - [30/182] Fetching LNS11300003 (LFPR_White)
+2026-01-26 13:02:52,807 - lighthouse_data.collect.labor_collector - INFO - [31/182] Fetching LNS11300006 (LFPR_Black)
+2026-01-26 13:02:52,995 - lighthouse_data.collect.labor_collector - INFO - [32/182] Fetching LNS11300009 (LFPR_Hispanic)
+2026-01-26 13:02:53,125 - lighthouse_data.collect.labor_collector - INFO - [33/182] Fetching LNS12300060 (EPOP_25_54)
+2026-01-26 13:02:53,303 - lighthouse_data.collect.labor_collector - INFO - [34/182] Fetching LNS12300012 (EPOP_16_19)
+2026-01-26 13:02:53,670 - lighthouse_data.collect.labor_collector - INFO - [35/182] Fetching LNS12300001 (EPOP_Men)
+2026-01-26 13:02:54,004 - lighthouse_data.collect.labor_collector - INFO - [36/182] Fetching LNS12300002 (EPOP_Women)
+2026-01-26 13:02:54,260 - lighthouse_data.collect.labor_collector - INFO - [37/182] Fetching LNS12300003 (EPOP_White)
+2026-01-26 13:02:54,526 - lighthouse_data.collect.labor_collector - INFO - [38/182] Fetching LNS12300006 (EPOP_Black)
+2026-01-26 13:02:54,682 - lighthouse_data.collect.labor_collector - INFO - [39/182] Fetching LNS12300009 (EPOP_Hispanic)
+2026-01-26 13:02:55,059 - lighthouse_data.collect.labor_collector - INFO - [40/182] Fetching ALUR (Unemp_Rate_AL)
+2026-01-26 13:02:55,189 - lighthouse_data.collect.labor_collector - INFO - [41/182] Fetching AKUR (Unemp_Rate_AK)
+2026-01-26 13:02:55,338 - lighthouse_data.collect.labor_collector - INFO - [42/182] Fetching AZUR (Unemp_Rate_AZ)
+2026-01-26 13:02:55,475 - lighthouse_data.collect.labor_collector - INFO - [43/182] Fetching ARUR (Unemp_Rate_AR)
+2026-01-26 13:02:55,610 - lighthouse_data.collect.labor_collector - INFO - [44/182] Fetching CAUR (Unemp_Rate_CA)
+2026-01-26 13:02:55,734 - lighthouse_data.collect.labor_collector - INFO - [45/182] Fetching COUR (Unemp_Rate_CO)
+2026-01-26 13:02:56,254 - lighthouse_data.collect.labor_collector - INFO - [46/182] Fetching CTUR (Unemp_Rate_CT)
+2026-01-26 13:02:56,401 - lighthouse_data.collect.labor_collector - INFO - [47/182] Fetching DEUR (Unemp_Rate_DE)
+2026-01-26 13:02:56,532 - lighthouse_data.collect.labor_collector - INFO - [48/182] Fetching DCUR (Unemp_Rate_DC)
+2026-01-26 13:02:56,701 - lighthouse_data.collect.labor_collector - INFO - [49/182] Fetching FLUR (Unemp_Rate_FL)
+2026-01-26 13:02:56,834 - lighthouse_data.collect.labor_collector - INFO - [50/182] Fetching GAUR (Unemp_Rate_GA)
+2026-01-26 13:02:56,960 - lighthouse_data.collect.labor_collector - INFO - [51/182] Fetching HIUR (Unemp_Rate_HI)
+2026-01-26 13:02:57,104 - lighthouse_data.collect.labor_collector - INFO - [52/182] Fetching IDUR (Unemp_Rate_ID)
+2026-01-26 13:02:57,266 - lighthouse_data.collect.labor_collector - INFO - [53/182] Fetching ILUR (Unemp_Rate_IL)
+2026-01-26 13:02:57,406 - lighthouse_data.collect.labor_collector - INFO - [54/182] Fetching INUR (Unemp_Rate_IN)
+2026-01-26 13:02:57,527 - lighthouse_data.collect.labor_collector - INFO - [55/182] Fetching IAUR (Unemp_Rate_IA)
+2026-01-26 13:02:57,691 - lighthouse_data.collect.labor_collector - INFO - [56/182] Fetching KSUR (Unemp_Rate_KS)
+2026-01-26 13:02:57,814 - lighthouse_data.collect.labor_collector - INFO - [57/182] Fetching KYUR (Unemp_Rate_KY)
+2026-01-26 13:02:57,957 - lighthouse_data.collect.labor_collector - INFO - [58/182] Fetching LAUR (Unemp_Rate_LA)
+2026-01-26 13:02:58,070 - lighthouse_data.collect.labor_collector - INFO - [59/182] Fetching MEUR (Unemp_Rate_ME)
+2026-01-26 13:02:58,191 - lighthouse_data.collect.labor_collector - INFO - [60/182] Fetching MDUR (Unemp_Rate_MD)
+2026-01-26 13:02:58,334 - lighthouse_data.collect.labor_collector - INFO - [61/182] Fetching MAUR (Unemp_Rate_MA)
+2026-01-26 13:02:58,464 - lighthouse_data.collect.labor_collector - INFO - [62/182] Fetching MIUR (Unemp_Rate_MI)
+2026-01-26 13:02:58,585 - lighthouse_data.collect.labor_collector - INFO - [63/182] Fetching MNUR (Unemp_Rate_MN)
+2026-01-26 13:02:58,899 - lighthouse_data.collect.labor_collector - INFO - [64/182] Fetching MSUR (Unemp_Rate_MS)
+2026-01-26 13:02:59,078 - lighthouse_data.collect.labor_collector - INFO - [65/182] Fetching MOUR (Unemp_Rate_MO)
+2026-01-26 13:02:59,209 - lighthouse_data.collect.labor_collector - INFO - [66/182] Fetching MTUR (Unemp_Rate_MT)
+2026-01-26 13:02:59,428 - lighthouse_data.collect.labor_collector - INFO - [67/182] Fetching NEUR (Unemp_Rate_NE)
+2026-01-26 13:02:59,581 - lighthouse_data.collect.labor_collector - INFO - [68/182] Fetching NVUR (Unemp_Rate_NV)
+2026-01-26 13:02:59,792 - lighthouse_data.collect.labor_collector - INFO - [69/182] Fetching NHUR (Unemp_Rate_NH)
+2026-01-26 13:02:59,933 - lighthouse_data.collect.labor_collector - INFO - [70/182] Fetching NJUR (Unemp_Rate_NJ)
+2026-01-26 13:03:00,094 - lighthouse_data.collect.labor_collector - INFO - [71/182] Fetching NMUR (Unemp_Rate_NM)
+2026-01-26 13:03:00,235 - lighthouse_data.collect.labor_collector - INFO - [72/182] Fetching NYUR (Unemp_Rate_NY)
+2026-01-26 13:03:00,380 - lighthouse_data.collect.labor_collector - INFO - [73/182] Fetching NCUR (Unemp_Rate_NC)
+2026-01-26 13:03:00,629 - lighthouse_data.collect.labor_collector - INFO - [74/182] Fetching NDUR (Unemp_Rate_ND)
+2026-01-26 13:03:00,767 - lighthouse_data.collect.labor_collector - INFO - [75/182] Fetching OHUR (Unemp_Rate_OH)
+2026-01-26 13:03:00,918 - lighthouse_data.collect.labor_collector - INFO - [76/182] Fetching OKUR (Unemp_Rate_OK)
+2026-01-26 13:03:01,043 - lighthouse_data.collect.labor_collector - INFO - [77/182] Fetching ORUR (Unemp_Rate_OR)
+2026-01-26 13:03:01,204 - lighthouse_data.collect.labor_collector - INFO - [78/182] Fetching PAUR (Unemp_Rate_PA)
+2026-01-26 13:03:01,353 - lighthouse_data.collect.labor_collector - INFO - [79/182] Fetching RIUR (Unemp_Rate_RI)
+2026-01-26 13:03:01,483 - lighthouse_data.collect.labor_collector - INFO - [80/182] Fetching SCUR (Unemp_Rate_SC)
+2026-01-26 13:03:01,635 - lighthouse_data.collect.labor_collector - INFO - [81/182] Fetching SDUR (Unemp_Rate_SD)
+2026-01-26 13:03:01,813 - lighthouse_data.collect.labor_collector - INFO - [82/182] Fetching TNUR (Unemp_Rate_TN)
+2026-01-26 13:03:01,976 - lighthouse_data.collect.labor_collector - INFO - [83/182] Fetching TXUR (Unemp_Rate_TX)
+2026-01-26 13:03:02,103 - lighthouse_data.collect.labor_collector - INFO - [84/182] Fetching UTUR (Unemp_Rate_UT)
+2026-01-26 13:03:02,264 - lighthouse_data.collect.labor_collector - INFO - [85/182] Fetching VTUR (Unemp_Rate_VT)
+2026-01-26 13:03:02,425 - lighthouse_data.collect.labor_collector - INFO - [86/182] Fetching VAUR (Unemp_Rate_VA)
+2026-01-26 13:03:02,565 - lighthouse_data.collect.labor_collector - INFO - [87/182] Fetching WAUR (Unemp_Rate_WA)
+2026-01-26 13:03:02,693 - lighthouse_data.collect.labor_collector - INFO - [88/182] Fetching WVUR (Unemp_Rate_WV)
+2026-01-26 13:03:02,840 - lighthouse_data.collect.labor_collector - INFO - [89/182] Fetching WIUR (Unemp_Rate_WI)
+2026-01-26 13:03:03,007 - lighthouse_data.collect.labor_collector - INFO - [90/182] Fetching WYUR (Unemp_Rate_WY)
+2026-01-26 13:03:03,161 - lighthouse_data.collect.labor_collector - INFO - [91/182] Fetching USPRIV (Emp_Private)
+2026-01-26 13:03:03,290 - lighthouse_data.collect.labor_collector - INFO - [92/182] Fetching USGOOD (Emp_Goods_Producing)
+2026-01-26 13:03:03,512 - lighthouse_data.collect.labor_collector - INFO - [93/182] Fetching USMINE (Emp_Mining_Logging)
+2026-01-26 13:03:03,683 - lighthouse_data.collect.labor_collector - INFO - [94/182] Fetching USCONS (Emp_Construction)
+2026-01-26 13:03:03,812 - lighthouse_data.collect.labor_collector - INFO - [95/182] Fetching MANEMP (Emp_Manufacturing)
+2026-01-26 13:03:03,948 - lighthouse_data.collect.labor_collector - INFO - [96/182] Fetching DMANEMP (Emp_Mfg_Durable)
+2026-01-26 13:03:04,077 - lighthouse_data.collect.labor_collector - INFO - [97/182] Fetching NDMANEMP (Emp_Mfg_NonDurable)
+2026-01-26 13:03:04,236 - lighthouse_data.collect.labor_collector - INFO - [98/182] Fetching SRVPRD (Emp_Services_Providing)
+2026-01-26 13:03:04,447 - lighthouse_data.collect.labor_collector - INFO - [99/182] Fetching USTPU (Emp_Trade_Transport_Utilities)
+2026-01-26 13:03:04,659 - lighthouse_data.collect.labor_collector - INFO - [100/182] Fetching USWTRADE (Emp_Wholesale_Trade)
+2026-01-26 13:03:04,870 - lighthouse_data.collect.labor_collector - INFO - [101/182] Fetching USTRADE (Emp_Retail_Trade)
+2026-01-26 13:03:05,002 - lighthouse_data.collect.labor_collector - INFO - [102/182] Fetching CES4300000001 (Emp_Transportation_Warehousing)
+2026-01-26 13:03:05,179 - lighthouse_data.collect.labor_collector - INFO - [103/182] Fetching USINFO (Emp_Information)
+2026-01-26 13:03:05,304 - lighthouse_data.collect.labor_collector - INFO - [104/182] Fetching USFIRE (Emp_Financial_Activities)
+2026-01-26 13:03:05,436 - lighthouse_data.collect.labor_collector - INFO - [105/182] Fetching USPBS (Emp_Prof_Business_Services)
+2026-01-26 13:03:05,567 - lighthouse_data.collect.labor_collector - INFO - [106/182] Fetching TEMPHELPS (Emp_Temp_Help)
+2026-01-26 13:03:06,090 - lighthouse_data.collect.labor_collector - INFO - [107/182] Fetching USEHS (Emp_Education_Health)
+2026-01-26 13:03:06,247 - lighthouse_data.collect.labor_collector - INFO - [108/182] Fetching CES6562000001 (Emp_Healthcare)
+2026-01-26 13:03:06,440 - lighthouse_data.collect.labor_collector - INFO - [109/182] Fetching USLAH (Emp_Leisure_Hospitality)
+2026-01-26 13:03:06,643 - lighthouse_data.collect.labor_collector - INFO - [110/182] Fetching USSERV (Emp_Other_Services)
+2026-01-26 13:03:06,858 - lighthouse_data.collect.labor_collector - INFO - [111/182] Fetching USGOVT (Emp_Government)
+2026-01-26 13:03:07,034 - lighthouse_data.collect.labor_collector - INFO - [112/182] Fetching CES9091000001 (Emp_Federal_Govt)
+2026-01-26 13:03:07,170 - lighthouse_data.collect.labor_collector - INFO - [113/182] Fetching CES9092000001 (Emp_State_Govt)
+2026-01-26 13:03:07,292 - lighthouse_data.collect.labor_collector - INFO - [114/182] Fetching CES9093000001 (Emp_Local_Govt)
+2026-01-26 13:03:07,483 - lighthouse_data.collect.labor_collector - INFO - [115/182] Fetching JTSJOL (JOLTS_Openings_Level)
+2026-01-26 13:03:07,610 - lighthouse_data.collect.labor_collector - INFO - [116/182] Fetching JTSJOR (JOLTS_Openings_Rate)
+2026-01-26 13:03:07,747 - lighthouse_data.collect.labor_collector - INFO - [117/182] Fetching JTSHIL (JOLTS_Hires_Level)
+2026-01-26 13:03:07,917 - lighthouse_data.collect.labor_collector - INFO - [118/182] Fetching JTSHIR (JOLTS_Hires_Rate)
+2026-01-26 13:03:08,038 - lighthouse_data.collect.labor_collector - INFO - [119/182] Fetching JTSQUL (JOLTS_Quits_Level)
+2026-01-26 13:03:08,161 - lighthouse_data.collect.labor_collector - INFO - [120/182] Fetching JTSQUR (JOLTS_Quits_Rate)
+2026-01-26 13:03:08,288 - lighthouse_data.collect.labor_collector - INFO - [121/182] Fetching JTSTSL (JOLTS_Separations_Level)
+2026-01-26 13:03:08,288 - lighthouse_data.collect.labor_collector - INFO - Rate limit reached, sleeping 60.9s
+2026-01-26 13:04:09,598 - lighthouse_data.collect.labor_collector - INFO - [122/182] Fetching JTSTSR (JOLTS_Separations_Rate)
+2026-01-26 13:04:09,751 - lighthouse_data.collect.labor_collector - INFO - [123/182] Fetching JTSLDL (JOLTS_Layoffs_Level)
+2026-01-26 13:04:10,266 - lighthouse_data.collect.labor_collector - INFO - [124/182] Fetching JTSLDR (JOLTS_Layoffs_Rate)
+2026-01-26 13:04:10,720 - lighthouse_data.collect.labor_collector - INFO - [125/182] Fetching JTS1000QUR (JOLTS_Quits_Rate_Private)
+2026-01-26 13:04:11,232 - lighthouse_data.collect.labor_collector - INFO - [126/182] Fetching JTS2300QUR (JOLTS_Quits_Rate_Construction)
+2026-01-26 13:04:11,390 - lighthouse_data.collect.labor_collector - INFO - [127/182] Fetching JTS3000QUR (JOLTS_Quits_Rate_Manufacturing)
+2026-01-26 13:04:12,140 - lighthouse_data.collect.labor_collector - INFO - [128/182] Fetching JTS4400QUR (JOLTS_Quits_Rate_Retail)
+2026-01-26 13:04:12,325 - lighthouse_data.collect.labor_collector - INFO - [129/182] Fetching JTS540099QUR (JOLTS_Quits_Rate_ProfServices)
+2026-01-26 13:04:12,501 - lighthouse_data.collect.labor_collector - INFO - [130/182] Fetching JTS6200QUR (JOLTS_Quits_Rate_Healthcare)
+2026-01-26 13:04:12,709 - lighthouse_data.collect.labor_collector - INFO - [131/182] Fetching JTS7000QUR (JOLTS_Quits_Rate_LeisureHosp)
+2026-01-26 13:04:12,891 - lighthouse_data.collect.labor_collector - INFO - [132/182] Fetching JTS2300JOL (JOLTS_Openings_Construction)
+2026-01-26 13:04:13,036 - lighthouse_data.collect.labor_collector - INFO - [133/182] Fetching JTS3000JOL (JOLTS_Openings_Manufacturing)
+2026-01-26 13:04:13,233 - lighthouse_data.collect.labor_collector - INFO - [134/182] Fetching JTS4400JOL (JOLTS_Openings_Retail)
+2026-01-26 13:04:13,367 - lighthouse_data.collect.labor_collector - INFO - [135/182] Fetching JTS540099JOL (JOLTS_Openings_ProfServices)
+2026-01-26 13:04:13,511 - lighthouse_data.collect.labor_collector - INFO - [136/182] Fetching JTS6200JOL (JOLTS_Openings_Healthcare)
+2026-01-26 13:04:13,652 - lighthouse_data.collect.labor_collector - INFO - [137/182] Fetching JTS7000JOL (JOLTS_Openings_LeisureHosp)
+2026-01-26 13:04:13,807 - lighthouse_data.collect.labor_collector - INFO - [138/182] Fetching CES0500000003 (AHE_Total_Private)
+2026-01-26 13:04:13,943 - lighthouse_data.collect.labor_collector - INFO - [139/182] Fetching CES0500000008 (AHE_Production_Nonsupervisory)
+2026-01-26 13:04:14,052 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch CES0500000008: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES0500000008&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:04:14,053 - lighthouse_data.collect.labor_collector - INFO - [140/182] Fetching LES1252881600Q (Real_Median_Weekly_Earnings)
+2026-01-26 13:04:14,949 - lighthouse_data.collect.labor_collector - INFO - [141/182] Fetching ECIALLCIV (ECI_Total_Compensation)
+2026-01-26 13:04:15,106 - lighthouse_data.collect.labor_collector - INFO - [142/182] Fetching ECIWAG (ECI_Wages_Salaries)
+2026-01-26 13:04:15,249 - lighthouse_data.collect.labor_collector - INFO - [143/182] Fetching CES1000000003 (AHE_Mining_Logging)
+2026-01-26 13:04:15,371 - lighthouse_data.collect.labor_collector - INFO - [144/182] Fetching CES2000000003 (AHE_Construction)
+2026-01-26 13:04:15,517 - lighthouse_data.collect.labor_collector - INFO - [145/182] Fetching CES3000000003 (AHE_Manufacturing)
+2026-01-26 13:04:15,647 - lighthouse_data.collect.labor_collector - INFO - [146/182] Fetching CES4200000003 (AHE_Retail_Trade)
+2026-01-26 13:04:15,809 - lighthouse_data.collect.labor_collector - INFO - [147/182] Fetching CES5000000003 (AHE_Information)
+2026-01-26 13:04:15,922 - lighthouse_data.collect.labor_collector - INFO - [148/182] Fetching CES5500000003 (AHE_Financial_Activities)
+2026-01-26 13:04:16,045 - lighthouse_data.collect.labor_collector - INFO - [149/182] Fetching CES6000000003 (AHE_Prof_Business_Services)
+2026-01-26 13:04:16,155 - lighthouse_data.collect.labor_collector - INFO - [150/182] Fetching CES6500000003 (AHE_Education_Health)
+2026-01-26 13:04:16,283 - lighthouse_data.collect.labor_collector - INFO - [151/182] Fetching CES7000000003 (AHE_Leisure_Hospitality)
+2026-01-26 13:04:16,398 - lighthouse_data.collect.labor_collector - INFO - [152/182] Fetching AWHAETP (Avg_Weekly_Hours_Total_Private)
+2026-01-26 13:04:16,519 - lighthouse_data.collect.labor_collector - INFO - [153/182] Fetching AWHMAN (Avg_Weekly_Hours_Manufacturing)
+2026-01-26 13:04:16,704 - lighthouse_data.collect.labor_collector - INFO - [154/182] Fetching AWOTMAN (Avg_Weekly_Overtime_Hours_Manufacturing)
+2026-01-26 13:04:16,886 - lighthouse_data.collect.labor_collector - INFO - [155/182] Fetching AWHI (Aggregate_Weekly_Hours_Index)
+2026-01-26 13:04:17,070 - lighthouse_data.collect.labor_collector - INFO - [156/182] Fetching CES2000000002 (Avg_Weekly_Hours_Construction)
+2026-01-26 13:04:17,199 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch CES2000000002: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES2000000002&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:04:17,200 - lighthouse_data.collect.labor_collector - INFO - [157/182] Fetching CES4200000002 (Avg_Weekly_Hours_Retail)
+2026-01-26 13:04:17,350 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch CES4200000002: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES4200000002&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:04:17,351 - lighthouse_data.collect.labor_collector - INFO - [158/182] Fetching UEMPLT5 (Unemp_Less_Than_5_Weeks)
+2026-01-26 13:04:17,491 - lighthouse_data.collect.labor_collector - INFO - [159/182] Fetching UEMP5TO14 (Unemp_5_to_14_Weeks)
+2026-01-26 13:04:17,664 - lighthouse_data.collect.labor_collector - INFO - [160/182] Fetching UEMP15T26 (Unemp_15_to_26_Weeks)
+2026-01-26 13:04:17,827 - lighthouse_data.collect.labor_collector - INFO - [161/182] Fetching UEMP27OV (Unemp_27_Weeks_Plus)
+2026-01-26 13:04:17,953 - lighthouse_data.collect.labor_collector - INFO - [162/182] Fetching UNEMPLOY (Unemp_Total_Level)
+2026-01-26 13:04:18,148 - lighthouse_data.collect.labor_collector - INFO - [163/182] Fetching UEMPMED (Unemp_Median_Duration)
+2026-01-26 13:04:18,286 - lighthouse_data.collect.labor_collector - INFO - [164/182] Fetching UEMPMEAN (Unemp_Mean_Duration)
+2026-01-26 13:04:18,443 - lighthouse_data.collect.labor_collector - INFO - [165/182] Fetching LNS13023621 (Unemp_Job_Losers)
+2026-01-26 13:04:18,642 - lighthouse_data.collect.labor_collector - INFO - [166/182] Fetching LNS13023705 (Unemp_Job_Leavers)
+2026-01-26 13:04:18,778 - lighthouse_data.collect.labor_collector - INFO - [167/182] Fetching LNS13023557 (Unemp_Reentrants)
+2026-01-26 13:04:19,073 - lighthouse_data.collect.labor_collector - INFO - [168/182] Fetching LNS13023569 (Unemp_New_Entrants)
+2026-01-26 13:04:19,205 - lighthouse_data.collect.labor_collector - INFO - [169/182] Fetching ICSA (Initial_Claims)
+2026-01-26 13:04:19,313 - lighthouse_data.collect.labor_collector - INFO - [170/182] Fetching IC4WSA (Initial_Claims_4WMA)
+2026-01-26 13:04:19,457 - lighthouse_data.collect.labor_collector - INFO - [171/182] Fetching CCSA (Continued_Claims)
+2026-01-26 13:04:19,571 - lighthouse_data.collect.labor_collector - INFO - [172/182] Fetching IURSA (Insured_Unemployment_Rate)
+2026-01-26 13:04:19,693 - lighthouse_data.collect.labor_collector - INFO - [173/182] Fetching IHLIDXUS (Indeed_Job_Postings_US)
+2026-01-26 13:04:19,815 - lighthouse_data.collect.labor_collector - INFO - [174/182] Fetching OPHNFB (Nonfarm_Labor_Productivity)
+2026-01-26 13:04:19,931 - lighthouse_data.collect.labor_collector - INFO - [175/182] Fetching ULCNFB (Unit_Labor_Costs)
+2026-01-26 13:04:20,133 - lighthouse_data.collect.labor_collector - INFO - [176/182] Fetching CLF16OV (Civilian_Labor_Force)
+2026-01-26 13:04:20,258 - lighthouse_data.collect.labor_collector - INFO - [177/182] Fetching CE16OV (Civilian_Employment)
+2026-01-26 13:04:20,406 - lighthouse_data.collect.labor_collector - INFO - [178/182] Fetching LNS12032194 (Part_Time_Econ_Reasons)
+2026-01-26 13:04:20,571 - lighthouse_data.collect.labor_collector - INFO - [179/182] Fetching LNS12600000 (Part_Time_Total)
+2026-01-26 13:04:20,751 - lighthouse_data.collect.labor_collector - INFO - [180/182] Fetching LNS12500000 (Full_Time_Total)
+2026-01-26 13:04:20,932 - lighthouse_data.collect.labor_collector - INFO - [181/182] Fetching LNS12026620 (Multiple_Job_Holders)
+2026-01-26 13:04:21,131 - lighthouse_data.collect.labor_collector - INFO - [182/182] Fetching LNS15026639 (NILF_Want_Job)
+2026-01-26 13:04:21,333 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch LNS15026639: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=LNS15026639&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - FULL LABOR DATA COLLECTION
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - Start date: 2000-01-01
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - COLLECTING FRED LABOR DATA
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - Fetching 182 FRED series...
+2026-01-26 13:05:05,651 - lighthouse_data.collect.labor_collector - INFO - [1/182] Fetching PAYEMS (Nonfarm_Payrolls)
+2026-01-26 13:05:05,862 - lighthouse_data.collect.labor_collector - INFO - [2/182] Fetching UNRATE (Unemployment_Rate)
+2026-01-26 13:05:06,118 - lighthouse_data.collect.labor_collector - INFO - [3/182] Fetching CIVPART (LFPR_Total)
+2026-01-26 13:05:06,315 - lighthouse_data.collect.labor_collector - INFO - [4/182] Fetching EMRATIO (Emp_Pop_Ratio)
+2026-01-26 13:05:06,443 - lighthouse_data.collect.labor_collector - INFO - [5/182] Fetching U6RATE (U6_Underemployment)
+2026-01-26 13:05:06,538 - lighthouse_data.collect.labor_collector - INFO - [6/182] Fetching LNS14000012 (Unemp_Rate_16_19)
+2026-01-26 13:05:06,675 - lighthouse_data.collect.labor_collector - INFO - [7/182] Fetching LNS14000036 (Unemp_Rate_20_24)
+2026-01-26 13:05:06,802 - lighthouse_data.collect.labor_collector - INFO - [8/182] Fetching LNS14024887 (Unemp_Rate_16_24)
+2026-01-26 13:05:06,932 - lighthouse_data.collect.labor_collector - INFO - [9/182] Fetching LNS14000060 (Unemp_Rate_25_54)
+2026-01-26 13:05:07,057 - lighthouse_data.collect.labor_collector - INFO - [10/182] Fetching LNS14000089 (Unemp_Rate_25_34)
+2026-01-26 13:05:07,158 - lighthouse_data.collect.labor_collector - INFO - [11/182] Fetching LNS14000091 (Unemp_Rate_35_44)
+2026-01-26 13:05:07,253 - lighthouse_data.collect.labor_collector - INFO - [12/182] Fetching LNS14000093 (Unemp_Rate_45_54)
+2026-01-26 13:05:07,384 - lighthouse_data.collect.labor_collector - INFO - [13/182] Fetching LNS14024230 (Unemp_Rate_55_Plus)
+2026-01-26 13:05:07,520 - lighthouse_data.collect.labor_collector - INFO - [14/182] Fetching LNS14027659 (Unemp_Rate_LessThanHS)
+2026-01-26 13:05:07,641 - lighthouse_data.collect.labor_collector - INFO - [15/182] Fetching LNS14027660 (Unemp_Rate_HS_Only)
+2026-01-26 13:05:07,840 - lighthouse_data.collect.labor_collector - INFO - [16/182] Fetching LNS14027689 (Unemp_Rate_SomeCollege)
+2026-01-26 13:05:07,987 - lighthouse_data.collect.labor_collector - INFO - [17/182] Fetching LNS14027662 (Unemp_Rate_Bachelors_Plus)
+2026-01-26 13:05:08,088 - lighthouse_data.collect.labor_collector - INFO - [18/182] Fetching LNS14000003 (Unemp_Rate_White)
+2026-01-26 13:05:08,288 - lighthouse_data.collect.labor_collector - INFO - [19/182] Fetching LNS14000006 (Unemp_Rate_Black)
+2026-01-26 13:05:08,575 - lighthouse_data.collect.labor_collector - INFO - [20/182] Fetching LNS14000009 (Unemp_Rate_Hispanic)
+2026-01-26 13:05:08,719 - lighthouse_data.collect.labor_collector - INFO - [21/182] Fetching LNU04032183 (Unemp_Rate_Asian)
+2026-01-26 13:05:08,876 - lighthouse_data.collect.labor_collector - INFO - [22/182] Fetching LNS14000001 (Unemp_Rate_Men)
+2026-01-26 13:05:09,015 - lighthouse_data.collect.labor_collector - INFO - [23/182] Fetching LNS14000002 (Unemp_Rate_Women)
+2026-01-26 13:05:09,125 - lighthouse_data.collect.labor_collector - INFO - [24/182] Fetching LNS11300060 (LFPR_25_54)
+2026-01-26 13:05:09,342 - lighthouse_data.collect.labor_collector - INFO - [25/182] Fetching LNS11324230 (LFPR_55_Plus)
+2026-01-26 13:05:09,722 - lighthouse_data.collect.labor_collector - INFO - [26/182] Fetching LNS11300012 (LFPR_16_19)
+2026-01-26 13:05:09,844 - lighthouse_data.collect.labor_collector - INFO - [27/182] Fetching LNS11300036 (LFPR_20_24)
+2026-01-26 13:05:10,688 - lighthouse_data.collect.labor_collector - INFO - [28/182] Fetching LNS11300001 (LFPR_Men)
+2026-01-26 13:05:10,796 - lighthouse_data.collect.labor_collector - INFO - [29/182] Fetching LNS11300002 (LFPR_Women)
+2026-01-26 13:05:10,944 - lighthouse_data.collect.labor_collector - INFO - [30/182] Fetching LNS11300003 (LFPR_White)
+2026-01-26 13:05:11,516 - lighthouse_data.collect.labor_collector - INFO - [31/182] Fetching LNS11300006 (LFPR_Black)
+2026-01-26 13:05:11,616 - lighthouse_data.collect.labor_collector - INFO - [32/182] Fetching LNS11300009 (LFPR_Hispanic)
+2026-01-26 13:05:11,716 - lighthouse_data.collect.labor_collector - INFO - [33/182] Fetching LNS12300060 (EPOP_25_54)
+2026-01-26 13:05:11,814 - lighthouse_data.collect.labor_collector - INFO - [34/182] Fetching LNS12300012 (EPOP_16_19)
+2026-01-26 13:05:11,995 - lighthouse_data.collect.labor_collector - INFO - [35/182] Fetching LNS12300001 (EPOP_Men)
+2026-01-26 13:05:12,226 - lighthouse_data.collect.labor_collector - INFO - [36/182] Fetching LNS12300002 (EPOP_Women)
+2026-01-26 13:05:12,330 - lighthouse_data.collect.labor_collector - INFO - [37/182] Fetching LNS12300003 (EPOP_White)
+2026-01-26 13:05:12,438 - lighthouse_data.collect.labor_collector - INFO - [38/182] Fetching LNS12300006 (EPOP_Black)
+2026-01-26 13:05:12,544 - lighthouse_data.collect.labor_collector - INFO - [39/182] Fetching LNS12300009 (EPOP_Hispanic)
+2026-01-26 13:05:12,654 - lighthouse_data.collect.labor_collector - INFO - [40/182] Fetching ALUR (Unemp_Rate_AL)
+2026-01-26 13:05:12,772 - lighthouse_data.collect.labor_collector - INFO - [41/182] Fetching AKUR (Unemp_Rate_AK)
+2026-01-26 13:05:12,870 - lighthouse_data.collect.labor_collector - INFO - [42/182] Fetching AZUR (Unemp_Rate_AZ)
+2026-01-26 13:05:13,011 - lighthouse_data.collect.labor_collector - INFO - [43/182] Fetching ARUR (Unemp_Rate_AR)
+2026-01-26 13:05:13,120 - lighthouse_data.collect.labor_collector - INFO - [44/182] Fetching CAUR (Unemp_Rate_CA)
+2026-01-26 13:05:15,158 - lighthouse_data.collect.labor_collector - INFO - [45/182] Fetching COUR (Unemp_Rate_CO)
+2026-01-26 13:05:15,868 - lighthouse_data.collect.labor_collector - INFO - [46/182] Fetching CTUR (Unemp_Rate_CT)
+2026-01-26 13:05:15,974 - lighthouse_data.collect.labor_collector - INFO - [47/182] Fetching DEUR (Unemp_Rate_DE)
+2026-01-26 13:05:16,085 - lighthouse_data.collect.labor_collector - INFO - [48/182] Fetching DCUR (Unemp_Rate_DC)
+2026-01-26 13:05:16,217 - lighthouse_data.collect.labor_collector - INFO - [49/182] Fetching FLUR (Unemp_Rate_FL)
+2026-01-26 13:05:16,342 - lighthouse_data.collect.labor_collector - INFO - [50/182] Fetching GAUR (Unemp_Rate_GA)
+2026-01-26 13:05:16,438 - lighthouse_data.collect.labor_collector - INFO - [51/182] Fetching HIUR (Unemp_Rate_HI)
+2026-01-26 13:05:16,548 - lighthouse_data.collect.labor_collector - INFO - [52/182] Fetching IDUR (Unemp_Rate_ID)
+2026-01-26 13:05:16,656 - lighthouse_data.collect.labor_collector - INFO - [53/182] Fetching ILUR (Unemp_Rate_IL)
+2026-01-26 13:05:16,813 - lighthouse_data.collect.labor_collector - INFO - [54/182] Fetching INUR (Unemp_Rate_IN)
+2026-01-26 13:05:16,916 - lighthouse_data.collect.labor_collector - INFO - [55/182] Fetching IAUR (Unemp_Rate_IA)
+2026-01-26 13:05:17,045 - lighthouse_data.collect.labor_collector - INFO - [56/182] Fetching KSUR (Unemp_Rate_KS)
+2026-01-26 13:05:17,163 - lighthouse_data.collect.labor_collector - INFO - [57/182] Fetching KYUR (Unemp_Rate_KY)
+2026-01-26 13:05:17,284 - lighthouse_data.collect.labor_collector - INFO - [58/182] Fetching LAUR (Unemp_Rate_LA)
+2026-01-26 13:05:17,403 - lighthouse_data.collect.labor_collector - INFO - [59/182] Fetching MEUR (Unemp_Rate_ME)
+2026-01-26 13:05:17,569 - lighthouse_data.collect.labor_collector - INFO - [60/182] Fetching MDUR (Unemp_Rate_MD)
+2026-01-26 13:05:17,703 - lighthouse_data.collect.labor_collector - INFO - [61/182] Fetching MAUR (Unemp_Rate_MA)
+2026-01-26 13:05:17,892 - lighthouse_data.collect.labor_collector - INFO - [62/182] Fetching MIUR (Unemp_Rate_MI)
+2026-01-26 13:05:18,021 - lighthouse_data.collect.labor_collector - INFO - [63/182] Fetching MNUR (Unemp_Rate_MN)
+2026-01-26 13:05:18,162 - lighthouse_data.collect.labor_collector - INFO - [64/182] Fetching MSUR (Unemp_Rate_MS)
+2026-01-26 13:05:18,266 - lighthouse_data.collect.labor_collector - INFO - [65/182] Fetching MOUR (Unemp_Rate_MO)
+2026-01-26 13:05:18,375 - lighthouse_data.collect.labor_collector - INFO - [66/182] Fetching MTUR (Unemp_Rate_MT)
+2026-01-26 13:05:18,490 - lighthouse_data.collect.labor_collector - INFO - [67/182] Fetching NEUR (Unemp_Rate_NE)
+2026-01-26 13:05:18,599 - lighthouse_data.collect.labor_collector - INFO - [68/182] Fetching NVUR (Unemp_Rate_NV)
+2026-01-26 13:05:18,734 - lighthouse_data.collect.labor_collector - INFO - [69/182] Fetching NHUR (Unemp_Rate_NH)
+2026-01-26 13:05:18,866 - lighthouse_data.collect.labor_collector - INFO - [70/182] Fetching NJUR (Unemp_Rate_NJ)
+2026-01-26 13:05:18,992 - lighthouse_data.collect.labor_collector - INFO - [71/182] Fetching NMUR (Unemp_Rate_NM)
+2026-01-26 13:05:19,141 - lighthouse_data.collect.labor_collector - INFO - [72/182] Fetching NYUR (Unemp_Rate_NY)
+2026-01-26 13:05:19,292 - lighthouse_data.collect.labor_collector - INFO - [73/182] Fetching NCUR (Unemp_Rate_NC)
+2026-01-26 13:05:19,418 - lighthouse_data.collect.labor_collector - INFO - [74/182] Fetching NDUR (Unemp_Rate_ND)
+2026-01-26 13:05:19,582 - lighthouse_data.collect.labor_collector - INFO - [75/182] Fetching OHUR (Unemp_Rate_OH)
+2026-01-26 13:05:19,687 - lighthouse_data.collect.labor_collector - INFO - [76/182] Fetching OKUR (Unemp_Rate_OK)
+2026-01-26 13:05:19,800 - lighthouse_data.collect.labor_collector - INFO - [77/182] Fetching ORUR (Unemp_Rate_OR)
+2026-01-26 13:05:19,913 - lighthouse_data.collect.labor_collector - INFO - [78/182] Fetching PAUR (Unemp_Rate_PA)
+2026-01-26 13:05:20,012 - lighthouse_data.collect.labor_collector - INFO - [79/182] Fetching RIUR (Unemp_Rate_RI)
+2026-01-26 13:05:20,109 - lighthouse_data.collect.labor_collector - INFO - [80/182] Fetching SCUR (Unemp_Rate_SC)
+2026-01-26 13:05:20,371 - lighthouse_data.collect.labor_collector - INFO - [81/182] Fetching SDUR (Unemp_Rate_SD)
+2026-01-26 13:05:20,503 - lighthouse_data.collect.labor_collector - INFO - [82/182] Fetching TNUR (Unemp_Rate_TN)
+2026-01-26 13:05:20,643 - lighthouse_data.collect.labor_collector - INFO - [83/182] Fetching TXUR (Unemp_Rate_TX)
+2026-01-26 13:05:20,922 - lighthouse_data.collect.labor_collector - INFO - [84/182] Fetching UTUR (Unemp_Rate_UT)
+2026-01-26 13:05:21,034 - lighthouse_data.collect.labor_collector - INFO - [85/182] Fetching VTUR (Unemp_Rate_VT)
+2026-01-26 13:05:21,206 - lighthouse_data.collect.labor_collector - INFO - [86/182] Fetching VAUR (Unemp_Rate_VA)
+2026-01-26 13:05:21,365 - lighthouse_data.collect.labor_collector - INFO - [87/182] Fetching WAUR (Unemp_Rate_WA)
+2026-01-26 13:05:21,467 - lighthouse_data.collect.labor_collector - INFO - [88/182] Fetching WVUR (Unemp_Rate_WV)
+2026-01-26 13:05:21,593 - lighthouse_data.collect.labor_collector - INFO - [89/182] Fetching WIUR (Unemp_Rate_WI)
+2026-01-26 13:05:21,713 - lighthouse_data.collect.labor_collector - INFO - [90/182] Fetching WYUR (Unemp_Rate_WY)
+2026-01-26 13:05:21,849 - lighthouse_data.collect.labor_collector - INFO - [91/182] Fetching USPRIV (Emp_Private)
+2026-01-26 13:05:21,948 - lighthouse_data.collect.labor_collector - INFO - [92/182] Fetching USGOOD (Emp_Goods_Producing)
+2026-01-26 13:05:22,058 - lighthouse_data.collect.labor_collector - INFO - [93/182] Fetching USMINE (Emp_Mining_Logging)
+2026-01-26 13:05:22,171 - lighthouse_data.collect.labor_collector - INFO - [94/182] Fetching USCONS (Emp_Construction)
+2026-01-26 13:05:22,297 - lighthouse_data.collect.labor_collector - INFO - [95/182] Fetching MANEMP (Emp_Manufacturing)
+2026-01-26 13:05:22,405 - lighthouse_data.collect.labor_collector - INFO - [96/182] Fetching DMANEMP (Emp_Mfg_Durable)
+2026-01-26 13:05:22,512 - lighthouse_data.collect.labor_collector - INFO - [97/182] Fetching NDMANEMP (Emp_Mfg_NonDurable)
+2026-01-26 13:05:22,613 - lighthouse_data.collect.labor_collector - INFO - [98/182] Fetching SRVPRD (Emp_Services_Providing)
+2026-01-26 13:05:22,724 - lighthouse_data.collect.labor_collector - INFO - [99/182] Fetching USTPU (Emp_Trade_Transport_Utilities)
+2026-01-26 13:05:22,843 - lighthouse_data.collect.labor_collector - INFO - [100/182] Fetching USWTRADE (Emp_Wholesale_Trade)
+2026-01-26 13:05:22,944 - lighthouse_data.collect.labor_collector - INFO - [101/182] Fetching USTRADE (Emp_Retail_Trade)
+2026-01-26 13:05:23,067 - lighthouse_data.collect.labor_collector - INFO - [102/182] Fetching CES4300000001 (Emp_Transportation_Warehousing)
+2026-01-26 13:05:23,193 - lighthouse_data.collect.labor_collector - INFO - [103/182] Fetching USINFO (Emp_Information)
+2026-01-26 13:05:23,304 - lighthouse_data.collect.labor_collector - INFO - [104/182] Fetching USFIRE (Emp_Financial_Activities)
+2026-01-26 13:05:23,441 - lighthouse_data.collect.labor_collector - INFO - [105/182] Fetching USPBS (Emp_Prof_Business_Services)
+2026-01-26 13:05:23,617 - lighthouse_data.collect.labor_collector - INFO - [106/182] Fetching TEMPHELPS (Emp_Temp_Help)
+2026-01-26 13:05:23,754 - lighthouse_data.collect.labor_collector - INFO - [107/182] Fetching USEHS (Emp_Education_Health)
+2026-01-26 13:05:23,918 - lighthouse_data.collect.labor_collector - INFO - [108/182] Fetching CES6562000001 (Emp_Healthcare)
+2026-01-26 13:05:24,079 - lighthouse_data.collect.labor_collector - INFO - [109/182] Fetching USLAH (Emp_Leisure_Hospitality)
+2026-01-26 13:05:24,261 - lighthouse_data.collect.labor_collector - INFO - [110/182] Fetching USSERV (Emp_Other_Services)
+2026-01-26 13:05:24,383 - lighthouse_data.collect.labor_collector - INFO - [111/182] Fetching USGOVT (Emp_Government)
+2026-01-26 13:05:24,728 - lighthouse_data.collect.labor_collector - INFO - [112/182] Fetching CES9091000001 (Emp_Federal_Govt)
+2026-01-26 13:05:24,888 - lighthouse_data.collect.labor_collector - INFO - [113/182] Fetching CES9092000001 (Emp_State_Govt)
+2026-01-26 13:05:25,034 - lighthouse_data.collect.labor_collector - INFO - [114/182] Fetching CES9093000001 (Emp_Local_Govt)
+2026-01-26 13:05:25,159 - lighthouse_data.collect.labor_collector - INFO - [115/182] Fetching JTSJOL (JOLTS_Openings_Level)
+2026-01-26 13:05:25,275 - lighthouse_data.collect.labor_collector - INFO - [116/182] Fetching JTSJOR (JOLTS_Openings_Rate)
+2026-01-26 13:05:25,378 - lighthouse_data.collect.labor_collector - INFO - [117/182] Fetching JTSHIL (JOLTS_Hires_Level)
+2026-01-26 13:05:25,514 - lighthouse_data.collect.labor_collector - INFO - [118/182] Fetching JTSHIR (JOLTS_Hires_Rate)
+2026-01-26 13:05:25,629 - lighthouse_data.collect.labor_collector - INFO - [119/182] Fetching JTSQUL (JOLTS_Quits_Level)
+2026-01-26 13:05:25,743 - lighthouse_data.collect.labor_collector - INFO - [120/182] Fetching JTSQUR (JOLTS_Quits_Rate)
+2026-01-26 13:05:25,854 - lighthouse_data.collect.labor_collector - INFO - [121/182] Fetching JTSTSL (JOLTS_Separations_Level)
+2026-01-26 13:05:25,854 - lighthouse_data.collect.labor_collector - INFO - Rate limit reached, sleeping 60.9s
+2026-01-26 13:06:27,079 - lighthouse_data.collect.labor_collector - INFO - [122/182] Fetching JTSTSR (JOLTS_Separations_Rate)
+2026-01-26 13:06:27,224 - lighthouse_data.collect.labor_collector - INFO - [123/182] Fetching JTSLDL (JOLTS_Layoffs_Level)
+2026-01-26 13:06:27,324 - lighthouse_data.collect.labor_collector - INFO - [124/182] Fetching JTSLDR (JOLTS_Layoffs_Rate)
+2026-01-26 13:06:27,591 - lighthouse_data.collect.labor_collector - INFO - [125/182] Fetching JTS1000QUR (JOLTS_Quits_Rate_Private)
+2026-01-26 13:06:27,702 - lighthouse_data.collect.labor_collector - INFO - [126/182] Fetching JTS2300QUR (JOLTS_Quits_Rate_Construction)
+2026-01-26 13:06:27,939 - lighthouse_data.collect.labor_collector - INFO - [127/182] Fetching JTS3000QUR (JOLTS_Quits_Rate_Manufacturing)
+2026-01-26 13:06:28,057 - lighthouse_data.collect.labor_collector - INFO - [128/182] Fetching JTS4400QUR (JOLTS_Quits_Rate_Retail)
+2026-01-26 13:06:28,264 - lighthouse_data.collect.labor_collector - INFO - [129/182] Fetching JTS540099QUR (JOLTS_Quits_Rate_ProfServices)
+2026-01-26 13:06:28,446 - lighthouse_data.collect.labor_collector - INFO - [130/182] Fetching JTS6200QUR (JOLTS_Quits_Rate_Healthcare)
+2026-01-26 13:06:28,676 - lighthouse_data.collect.labor_collector - INFO - [131/182] Fetching JTS7000QUR (JOLTS_Quits_Rate_LeisureHosp)
+2026-01-26 13:06:28,786 - lighthouse_data.collect.labor_collector - INFO - [132/182] Fetching JTS2300JOL (JOLTS_Openings_Construction)
+2026-01-26 13:06:28,905 - lighthouse_data.collect.labor_collector - INFO - [133/182] Fetching JTS3000JOL (JOLTS_Openings_Manufacturing)
+2026-01-26 13:06:29,040 - lighthouse_data.collect.labor_collector - INFO - [134/182] Fetching JTS4400JOL (JOLTS_Openings_Retail)
+2026-01-26 13:06:29,274 - lighthouse_data.collect.labor_collector - INFO - [135/182] Fetching JTS540099JOL (JOLTS_Openings_ProfServices)
+2026-01-26 13:06:29,379 - lighthouse_data.collect.labor_collector - INFO - [136/182] Fetching JTS6200JOL (JOLTS_Openings_Healthcare)
+2026-01-26 13:06:29,477 - lighthouse_data.collect.labor_collector - INFO - [137/182] Fetching JTS7000JOL (JOLTS_Openings_LeisureHosp)
+2026-01-26 13:06:29,640 - lighthouse_data.collect.labor_collector - INFO - [138/182] Fetching CES0500000003 (AHE_Total_Private)
+2026-01-26 13:06:29,747 - lighthouse_data.collect.labor_collector - INFO - [139/182] Fetching CES0500000008 (AHE_Production_Nonsupervisory)
+2026-01-26 13:06:29,896 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch CES0500000008: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES0500000008&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:06:29,897 - lighthouse_data.collect.labor_collector - INFO - [140/182] Fetching LES1252881600Q (Real_Median_Weekly_Earnings)
+2026-01-26 13:06:30,013 - lighthouse_data.collect.labor_collector - INFO - [141/182] Fetching ECIALLCIV (ECI_Total_Compensation)
+2026-01-26 13:06:30,206 - lighthouse_data.collect.labor_collector - INFO - [142/182] Fetching ECIWAG (ECI_Wages_Salaries)
+2026-01-26 13:06:30,315 - lighthouse_data.collect.labor_collector - INFO - [143/182] Fetching CES1000000003 (AHE_Mining_Logging)
+2026-01-26 13:06:30,429 - lighthouse_data.collect.labor_collector - INFO - [144/182] Fetching CES2000000003 (AHE_Construction)
+2026-01-26 13:06:30,574 - lighthouse_data.collect.labor_collector - INFO - [145/182] Fetching CES3000000003 (AHE_Manufacturing)
+2026-01-26 13:06:30,713 - lighthouse_data.collect.labor_collector - INFO - [146/182] Fetching CES4200000003 (AHE_Retail_Trade)
+2026-01-26 13:06:30,880 - lighthouse_data.collect.labor_collector - INFO - [147/182] Fetching CES5000000003 (AHE_Information)
+2026-01-26 13:06:31,029 - lighthouse_data.collect.labor_collector - INFO - [148/182] Fetching CES5500000003 (AHE_Financial_Activities)
+2026-01-26 13:06:31,171 - lighthouse_data.collect.labor_collector - INFO - [149/182] Fetching CES6000000003 (AHE_Prof_Business_Services)
+2026-01-26 13:06:31,282 - lighthouse_data.collect.labor_collector - INFO - [150/182] Fetching CES6500000003 (AHE_Education_Health)
+2026-01-26 13:06:31,402 - lighthouse_data.collect.labor_collector - INFO - [151/182] Fetching CES7000000003 (AHE_Leisure_Hospitality)
+2026-01-26 13:06:31,526 - lighthouse_data.collect.labor_collector - INFO - [152/182] Fetching AWHAETP (Avg_Weekly_Hours_Total_Private)
+2026-01-26 13:06:31,631 - lighthouse_data.collect.labor_collector - INFO - [153/182] Fetching AWHMAN (Avg_Weekly_Hours_Manufacturing)
+2026-01-26 13:06:31,728 - lighthouse_data.collect.labor_collector - INFO - [154/182] Fetching AWOTMAN (Avg_Weekly_Overtime_Hours_Manufacturing)
+2026-01-26 13:06:31,846 - lighthouse_data.collect.labor_collector - INFO - [155/182] Fetching AWHI (Aggregate_Weekly_Hours_Index)
+2026-01-26 13:06:31,976 - lighthouse_data.collect.labor_collector - INFO - [156/182] Fetching CES2000000002 (Avg_Weekly_Hours_Construction)
+2026-01-26 13:06:32,264 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch CES2000000002: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES2000000002&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:06:32,264 - lighthouse_data.collect.labor_collector - INFO - [157/182] Fetching CES4200000002 (Avg_Weekly_Hours_Retail)
+2026-01-26 13:06:32,417 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch CES4200000002: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=CES4200000002&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:06:32,418 - lighthouse_data.collect.labor_collector - INFO - [158/182] Fetching UEMPLT5 (Unemp_Less_Than_5_Weeks)
+2026-01-26 13:06:32,533 - lighthouse_data.collect.labor_collector - INFO - [159/182] Fetching UEMP5TO14 (Unemp_5_to_14_Weeks)
+2026-01-26 13:06:32,663 - lighthouse_data.collect.labor_collector - INFO - [160/182] Fetching UEMP15T26 (Unemp_15_to_26_Weeks)
+2026-01-26 13:06:32,779 - lighthouse_data.collect.labor_collector - INFO - [161/182] Fetching UEMP27OV (Unemp_27_Weeks_Plus)
+2026-01-26 13:06:32,934 - lighthouse_data.collect.labor_collector - INFO - [162/182] Fetching UNEMPLOY (Unemp_Total_Level)
+2026-01-26 13:06:33,052 - lighthouse_data.collect.labor_collector - INFO - [163/182] Fetching UEMPMED (Unemp_Median_Duration)
+2026-01-26 13:06:33,204 - lighthouse_data.collect.labor_collector - INFO - [164/182] Fetching UEMPMEAN (Unemp_Mean_Duration)
+2026-01-26 13:06:33,294 - lighthouse_data.collect.labor_collector - INFO - [165/182] Fetching LNS13023621 (Unemp_Job_Losers)
+2026-01-26 13:06:33,404 - lighthouse_data.collect.labor_collector - INFO - [166/182] Fetching LNS13023705 (Unemp_Job_Leavers)
+2026-01-26 13:06:33,498 - lighthouse_data.collect.labor_collector - INFO - [167/182] Fetching LNS13023557 (Unemp_Reentrants)
+2026-01-26 13:06:33,598 - lighthouse_data.collect.labor_collector - INFO - [168/182] Fetching LNS13023569 (Unemp_New_Entrants)
+2026-01-26 13:06:33,753 - lighthouse_data.collect.labor_collector - INFO - [169/182] Fetching ICSA (Initial_Claims)
+2026-01-26 13:06:33,880 - lighthouse_data.collect.labor_collector - INFO - [170/182] Fetching IC4WSA (Initial_Claims_4WMA)
+2026-01-26 13:06:33,992 - lighthouse_data.collect.labor_collector - INFO - [171/182] Fetching CCSA (Continued_Claims)
+2026-01-26 13:06:34,278 - lighthouse_data.collect.labor_collector - INFO - [172/182] Fetching IURSA (Insured_Unemployment_Rate)
+2026-01-26 13:06:34,413 - lighthouse_data.collect.labor_collector - INFO - [173/182] Fetching IHLIDXUS (Indeed_Job_Postings_US)
+2026-01-26 13:06:34,517 - lighthouse_data.collect.labor_collector - INFO - [174/182] Fetching OPHNFB (Nonfarm_Labor_Productivity)
+2026-01-26 13:06:34,639 - lighthouse_data.collect.labor_collector - INFO - [175/182] Fetching ULCNFB (Unit_Labor_Costs)
+2026-01-26 13:06:35,071 - lighthouse_data.collect.labor_collector - INFO - [176/182] Fetching CLF16OV (Civilian_Labor_Force)
+2026-01-26 13:06:35,168 - lighthouse_data.collect.labor_collector - INFO - [177/182] Fetching CE16OV (Civilian_Employment)
+2026-01-26 13:06:35,280 - lighthouse_data.collect.labor_collector - INFO - [178/182] Fetching LNS12032194 (Part_Time_Econ_Reasons)
+2026-01-26 13:06:35,655 - lighthouse_data.collect.labor_collector - INFO - [179/182] Fetching LNS12600000 (Part_Time_Total)
+2026-01-26 13:06:35,820 - lighthouse_data.collect.labor_collector - INFO - [180/182] Fetching LNS12500000 (Full_Time_Total)
+2026-01-26 13:06:36,538 - lighthouse_data.collect.labor_collector - INFO - [181/182] Fetching LNS12026620 (Multiple_Job_Holders)
+2026-01-26 13:06:36,669 - lighthouse_data.collect.labor_collector - INFO - [182/182] Fetching LNS15026639 (NILF_Want_Job)
+2026-01-26 13:06:36,776 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch LNS15026639: 400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/series/observations?series_id=LNS15026639&api_key=11893c506c07b3b8647bf16cf60586e8&file_type=json&observation_start=2000-01-01
+2026-01-26 13:06:36,910 - lighthouse_data.collect.labor_collector - INFO - Saved to /Users/bob/LHM/Data/data/raw/labor/fred_labor.parquet
+2026-01-26 13:06:36,910 - lighthouse_data.collect.labor_collector - INFO - FRED collection complete: (3426, 178)
+2026-01-26 13:06:36,910 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:06:36,910 - lighthouse_data.collect.labor_collector - INFO - COLLECTING ATLANTA FED WAGE GROWTH TRACKER
+2026-01-26 13:06:36,910 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:06:36,910 - lighthouse_data.collect.labor_collector - INFO - Fetching Atlanta Fed Wage Growth Tracker...
+2026-01-26 13:06:37,222 - lighthouse_data.collect.labor_collector - ERROR - Failed to parse Atlanta Fed data: Missing optional dependency 'openpyxl'.  Use pip or conda to install openpyxl.
+2026-01-26 13:06:37,223 - lighthouse_data.collect.labor_collector - INFO - Atlanta Fed collection complete: (0, 0)
+2026-01-26 13:06:37,223 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:06:37,223 - lighthouse_data.collect.labor_collector - INFO - COLLECTING INDEED HIRING LAB DATA
+2026-01-26 13:06:37,223 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:06:37,341 - lighthouse_data.collect.labor_collector - ERROR - Failed to fetch Indeed data: 404 Client Error: Not Found for url: https://raw.githubusercontent.com/hiring-lab/job_postings_tracker/main/US/aggregate_job_postings_US.csv
+2026-01-26 13:06:37,342 - lighthouse_data.collect.labor_collector - INFO - Indeed collection complete: (0, 0)
+2026-01-26 13:06:37,342 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:06:37,342 - lighthouse_data.collect.labor_collector - INFO - COLLECTION SUMMARY
+2026-01-26 13:06:37,342 - lighthouse_data.collect.labor_collector - INFO - ============================================================
+2026-01-26 13:06:37,342 - lighthouse_data.collect.labor_collector - INFO -   fred: 178 series, 3426 observations
+2026-01-26 13:06:37,342 - lighthouse_data.collect.labor_collector - INFO -   TOTAL: 178 series
+2026-01-26 13:07:05,276 - lighthouse_data.collect.labor_collector - INFO - Fetching Atlanta Fed Wage Growth Tracker...
+2026-01-26 13:07:05,627 - lighthouse_data.collect.labor_collector - ERROR - Failed to parse Atlanta Fed data: Worksheet named 'Median Wage Growth' not found
+2026-01-26 13:08:10,693 - lighthouse_data.collect.labor_collector - INFO - Building curated labor panel...
+2026-01-26 13:08:10,940 - lighthouse_data.collect.labor_collector - INFO - Loaded FRED: (3426, 178)
+2026-01-26 13:08:10,944 - lighthouse_data.collect.labor_collector - INFO - Loaded Atlanta Fed: (345, 9)
+2026-01-26 13:08:11,005 - lighthouse_data.collect.labor_collector - INFO - Saved curated panel to /Users/bob/LHM/Data/data/curated/labor/labor_panel_m.parquet
+2026-01-26 13:08:11,005 - lighthouse_data.collect.labor_collector - INFO - Panel shape: (313, 187)
