@@ -7,14 +7,39 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from datetime import datetime
 
-# === OFFICIAL LIGHTHOUSE MACRO COLORS ===
+# === OFFICIAL LIGHTHOUSE MACRO COLORS (Nautical 8-Color Palette) ===
+#
+# Color stack for multi-series charts (use in order):
+#   1. Ocean  - primary blue
+#   2. Dusk   - orange accent, contrasts with Ocean
+#   3. Sky    - light blue, supports Ocean (sky at dawn when lighthouse turns off)
+#   4. Venus  - pink, contrasts well against the blues
+#   5. Sea    - teal, 5th distinct color
+#
+# This order ensures maximum visual distinction:
+#   - 3 lines: blue, orange, light blue (all distinct)
+#   - 5 lines: blue, orange, light blue, pink, teal (no clustering)
+#   - If Sea were 4th, you'd have 3 blue-ish tones before pink
+#
 COLORS = {
-    'ocean_blue': '#0089D1',      # Primary
-    'orange': '#FF7700',           # Secondary
-    'carolina_blue': '#4B9CD3',    # Tertiary
-    'magenta': '#FF00FF',          # Quaternary
-    'neutral': '#808080',          # Grey for axes/text
+    # Primary stack (in order for multi-series)
+    'ocean': '#0089D1',           # 1. Primary blue
+    'dusk': '#FF6723',            # 2. Orange accent
+    'sky': '#00D4FF',             # 3. Light blue (supports Ocean)
+    'venus': '#FF2389',           # 4. Pink (contrasts against blues)
+    'sea': '#00BB99',             # 5. Teal
+    # Chart structure
+    'doldrums': '#D3D6D9',        # Backgrounds, inner chart borders
+    # Directional (bullish/bearish)
+    'starboard': '#00FF00',       # Bullish/up (green) - starboard = right = green light
+    'port': '#FF0000',            # Bearish/down (red) - port = left = red light
+    # Utility
+    'neutral': '#808080',         # Grey for axes/text
     'black': '#000000',
+    'white': '#FFFFFF',
+    # Legacy aliases
+    'ocean_blue': '#0089D1',
+    'orange': '#FF6723',
 }
 
 # === MATPLOTLIB GLOBAL SETTINGS ===
@@ -36,6 +61,67 @@ plt.rcParams.update({
     'legend.framealpha': 0.95,
     'legend.edgecolor': COLORS['neutral'],
 })
+
+
+def apply_lighthouse_frame(fig, ax, title, subtitle=None, source='Lighthouse Macro, FRED, Yahoo Finance'):
+    """
+    Apply full Lighthouse Macro framing:
+    - Ocean blue outer border (2px, no whitespace outside)
+    - Doldrums inner border around chart area
+    - Centered title below header
+    - Header: "Lighthouse Macro | Macro, Illuminated."
+    - Source line at bottom
+
+    Args:
+        fig: matplotlib Figure
+        ax: matplotlib Axes
+        title: Main chart title (centered)
+        subtitle: Optional subtitle below title
+        source: Data source string
+    """
+    from datetime import datetime
+
+    # Remove all whitespace outside figure
+    fig.patch.set_facecolor('white')
+
+    # Add Ocean outer border (2px) - full rectangle around entire figure
+    fig.patches.clear()
+    from matplotlib.patches import Rectangle
+    outer_border = Rectangle((0, 0), 1, 1, transform=fig.transFigure,
+                              facecolor='none', edgecolor=COLORS['ocean'],
+                              linewidth=4, clip_on=False, zorder=1000)
+    fig.patches.append(outer_border)
+
+    # Header text: "Lighthouse Macro | Macro, Illuminated." at top left inside border
+    fig.text(0.03, 0.96, 'Lighthouse Macro', fontsize=10, fontweight='bold',
+             color=COLORS['ocean'], ha='left', va='top')
+    fig.text(0.19, 0.96, '|', fontsize=10, color=COLORS['doldrums'], ha='left', va='top')
+    fig.text(0.21, 0.96, 'Macro, Illuminated.', fontsize=10, fontweight='bold',
+             color=COLORS['dusk'], ha='left', va='top')
+
+    # Centered title (below header)
+    fig.text(0.5, 0.91, title, fontsize=16, fontweight='bold',
+             color=COLORS['black'], ha='center', va='top')
+
+    # Optional subtitle
+    if subtitle:
+        fig.text(0.5, 0.87, subtitle, fontsize=11,
+                 color=COLORS['neutral'], ha='center', va='top')
+
+    # Doldrums border around chart area
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_color(COLORS['doldrums'])
+        spine.set_linewidth(1.5)
+
+    # Source line at bottom center
+    date_str = datetime.now().strftime('%m.%d.%Y')
+    fig.text(0.5, 0.02, f'Source: {source} as of {date_str}',
+             fontsize=9, color=COLORS['neutral'], ha='center', va='bottom')
+
+    # No gridlines
+    ax.grid(False)
+    ax.set_axisbelow(False)
 
 
 def enforce_no_gridlines(ax):
@@ -130,9 +216,36 @@ def add_last_value_label(ax, series, color, side='right', fmt='{:.1f}'):
                      edgecolor=color, linewidth=1.5))
 
 
+def create_framed_chart(title, subtitle=None, ylabel='', xlabel='', source='Lighthouse Macro, FRED, Yahoo Finance', figsize=(14, 9)):
+    """
+    Create a chart with full Lighthouse framing:
+    - Ocean outer border (no whitespace outside)
+    - Doldrums inner border around chart
+    - Centered title
+
+    Returns:
+        fig, ax
+    """
+    fig, ax = plt.subplots(figsize=figsize)
+
+    # Position axes to leave room for header/footer
+    ax.set_position([0.08, 0.12, 0.84, 0.72])
+
+    ax.set_ylabel(ylabel, fontsize=11, fontweight='bold', color=COLORS['neutral'])
+    ax.set_xlabel(xlabel, fontsize=11, fontweight='bold', color=COLORS['neutral'])
+
+    # Apply full Lighthouse frame
+    apply_lighthouse_frame(fig, ax, title, subtitle, source)
+
+    # Tick styling
+    ax.tick_params(colors=COLORS['neutral'])
+
+    return fig, ax
+
+
 def create_single_axis_chart(chart_number, title, ylabel='', source='FRED'):
     """
-    Create a single-axis chart with Lighthouse styling
+    Create a single-axis chart with Lighthouse styling (legacy)
 
     Returns:
         fig, ax

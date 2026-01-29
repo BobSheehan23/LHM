@@ -55,3 +55,10 @@ Outputs/
 
 # Claude Code
 .claude/
+
+# External data files
+External/
+Deliverables/*.csv
+Deliverables/**/*.csv
+Deliverables/**/*.pptx
+*.pptx
