@@ -34,9 +34,37 @@ BACKUP_DIR = LHM_ROOT / "Data" / "databases" / "backups"
 LOGS_DIR = LHM_ROOT / "logs"
 
 # Cloud destinations
-ICLOUD_DIR = Path.home() / "Library" / "CloudStorage" / "iCloudDrive-iCloudDrive" / "LHM_Backups"
-GDRIVE_DIR = Path.home() / "Library" / "CloudStorage" / "GDrive-bob@lighthousemacro.com" / "My Drive" / "LHM_Backups"
 DROPBOX_DIR = Path.home() / "Dropbox" / "LHM_Backups"
+
+
+def _find_cloud_dir(pattern, subfolder):
+    """Find cloud storage mount by glob pattern, return path with subfolder."""
+    cloud_base = Path.home() / "Library" / "CloudStorage"
+    matches = sorted(cloud_base.glob(pattern), key=lambda p: p.stat().st_mtime, reverse=True)
+    if matches:
+        if "My Drive" in str(pattern) or "GDrive" in pattern:
+            return matches[0] / "My Drive" / subfolder
+        return matches[0] / subfolder
+    return None
+
+
+def _get_icloud_dir():
+    """Find writable iCloud path. Prefers Mobile Documents (writable), falls back to CloudStorage."""
+    # Primary: Mobile Documents (always writable)
+    mobile_docs = Path.home() / "Library" / "Mobile Documents" / "com~apple~CloudDocs"
+    if mobile_docs.exists():
+        return mobile_docs / "LHM_Backups"
+    # Fallback: CloudStorage mount (may need entitlements)
+    cloud_base = Path.home() / "Library" / "CloudStorage"
+    matches = sorted(cloud_base.glob("iCloudDrive-*"), key=lambda p: p.stat().st_mtime, reverse=True)
+    if matches:
+        return matches[0] / "LHM_Backups"
+    return None
+
+
+def _get_gdrive_dir():
+    return _find_cloud_dir("GDrive-bob@lighthousemacro.com*", "")
+
 
 # Cloud retention (days)
 CLOUD_RETENTION_DAYS = 30
@@ -139,9 +167,13 @@ def cloud_sync(dry_run=False):
         log(f"CLOUD SYNC: Database not found at {DB_SOURCE}")
         return False
 
+    icloud = _get_icloud_dir()
+    gdrive_base = _get_gdrive_dir()
+    gdrive_backups = (gdrive_base / "LHM_Backups") if gdrive_base else None
+
     destinations = {
-        "iCloud": ICLOUD_DIR,
-        "GDrive": GDRIVE_DIR,
+        "iCloud": icloud,
+        "GDrive": gdrive_backups,
         "Dropbox": DROPBOX_DIR,
     }
 
@@ -150,6 +182,9 @@ def cloud_sync(dry_run=False):
     for name, dest_dir in destinations.items():
         try:
             # Check if cloud storage mount exists
+            if dest_dir is None:
+                log(f"CLOUD SYNC [{name}]: Mount not found, skipping.")
+                continue
             if not dest_dir.parent.exists():
                 log(f"CLOUD SYNC [{name}]: Mount point not found, skipping.")
                 continue
@@ -169,8 +204,8 @@ def cloud_sync(dry_run=False):
                 log(f"CLOUD SYNC [{name}]: {backup_name} already exists, skipping.")
 
             # For GDrive, also sync Strategy and Brand folders
-            if name == "GDrive":
-                gdrive_lhm = dest_dir.parent / "LHM"
+            if name == "GDrive" and gdrive_base:
+                gdrive_lhm = gdrive_base / "LHM"
                 gdrive_lhm.mkdir(parents=True, exist_ok=True)
 
                 for folder in ["Strategy", "Brand"]:
