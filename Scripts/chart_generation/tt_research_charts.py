@@ -112,12 +112,12 @@ set_theme('white')
 # PALETTE & HELPERS
 # =========================================================================
 
-PALETTE_WHITE = [C['ocean_blue'], C['dusk_orange'], C['teal_green'],
-                 C['hot_magenta'], C['electric_cyan'], '#8B5CF6',
-                 '#F59E0B', '#10B981', '#EF4444', '#6366F1']
+PALETTE_WHITE = [C['ocean_blue'], C['dusk_orange'], C['hot_magenta'],
+                 '#8B5CF6', C['electric_cyan'], '#F59E0B',
+                 '#10B981', '#EF4444', '#6366F1', C['teal_green']]
 
-PALETTE_DARK = ['#00BFFF', '#FF6723', '#34D399', '#FF2389',
-                '#FBBF24', '#A78BFA', '#00FFFF', '#F87171',
+PALETTE_DARK = ['#00BFFF', '#FF6723', '#FF2389', '#A78BFA',
+                '#FBBF24', '#34D399', '#00FFFF', '#F87171',
                 '#818CF8', '#FB923C']
 
 def get_palette():
@@ -229,10 +229,10 @@ def brand_fig(fig, title, subtitle=None, source=None):
     bbar.axhspan(0, 1, 0.67, 1.0, color=DUSK)
     bbar.set_xlim(0, 1); bbar.set_ylim(0, 1); bbar.axis('off')
 
-    fig.suptitle(title, fontsize=15, fontweight='bold', y=0.945,
+    fig.suptitle(title, fontsize=15, fontweight='bold', y=0.95,
                  color=THEME['fg'])
     if subtitle:
-        fig.text(0.5, 0.91, subtitle, fontsize=9, ha='center',
+        fig.text(0.5, 0.925, subtitle, fontsize=9, ha='center',
                  color=OCEAN, style='italic')
 
 
@@ -307,8 +307,8 @@ def chart_01_scoring_matrix():
     bh = 0.25
 
     ax.barh(y + bh, fin, bh, label='Financial', color=clr('blue'), alpha=0.9)
-    ax.barh(y, use, bh, label='Usage', color=clr('green'), alpha=0.9)
-    ax.barh(y - bh, val, bh, label='Valuation', color=clr('orange'), alpha=0.9)
+    ax.barh(y, use, bh, label='Usage', color=clr('orange'), alpha=0.9)
+    ax.barh(y - bh, val, bh, label='Valuation', color=clr('magenta'), alpha=0.9)
 
     for i, t in enumerate(total):
         ax.text(max(fin[i], use[i], val[i]) + 2, y[i], f'{t:.0f}',
