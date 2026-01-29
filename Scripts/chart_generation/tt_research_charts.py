@@ -113,11 +113,11 @@ set_theme('white')
 # =========================================================================
 
 PALETTE_WHITE = [C['ocean_blue'], C['dusk_orange'], C['hot_magenta'],
-                 '#8B5CF6', C['electric_cyan'], '#F59E0B',
+                 '#8B5CF6', '#00D4FF', '#F59E0B',
                  '#10B981', '#EF4444', '#6366F1', C['teal_green']]
 
 PALETTE_DARK = ['#00BFFF', '#FF6723', '#FF2389', '#A78BFA',
-                '#FBBF24', '#34D399', '#00FFFF', '#F87171',
+                '#FBBF24', '#34D399', '#00D4FF', '#F87171',
                 '#818CF8', '#FB923C']
 
 def get_palette():
@@ -131,7 +131,7 @@ def clr(name):
         'blue': '#00BFFF',
         'orange': '#FF8844',
         'red': '#FF4455',
-        'cyan': '#00FFFF',
+        'cyan': '#00D4FF',
         'magenta': '#FF2389',
         'teal': '#34D399',
     }
@@ -140,7 +140,7 @@ def clr(name):
         'blue': C['ocean_blue'],
         'orange': C['dusk_orange'],
         'red': C['pure_red'],
-        'cyan': C['electric_cyan'],
+        'cyan': '#00D4FF',
         'magenta': C['hot_magenta'],
         'teal': C['teal_green'],
     }
@@ -163,7 +163,7 @@ SECTOR_COLORS_DARK = {
     'DeFi - Lending': '#00DDAA',
     'DeFi - Derivatives': '#FF2389',
     'Layer 1 (Settlement)': '#FF8844',
-    'Layer 2 (Scaling)': '#00FFFF',
+    'Layer 2 (Scaling)': '#00D4FF',
     'Liquid Staking': '#A78BFA',
     'Infrastructure': '#FBBF24',
     'Uncategorized': '#6a7a8a',
@@ -191,6 +191,30 @@ def brand_ax(ax, title, subtitle=None):
     ax.grid(False)
 
 
+def style_twin_ax(ax2, color):
+    """Style a twinx axis: tick colors match series, spines themed."""
+    ax2.tick_params(axis='y', colors=color, labelsize=9)
+    ax2.yaxis.label.set_color(color)
+    ax2.tick_params(axis='x', colors=THEME['fg'], labelsize=9)
+    for spine in ax2.spines.values():
+        spine.set_linewidth(0.5)
+        spine.set_color(THEME['spine'])
+    ax2.grid(False)
+
+
+def add_last_value_label(ax, x_data, y_data, color, fmt='{:.1f}', side='right'):
+    """Add bold last-value label on the y-axis in series color."""
+    if len(x_data) == 0 or len(y_data) == 0:
+        return
+    last_y = float(y_data.iloc[-1]) if hasattr(y_data, 'iloc') else float(y_data[-1])
+    label = fmt.format(last_y)
+    if side == 'right':
+        ax.annotate(label, xy=(1.0, last_y), xycoords=('axes fraction', 'data'),
+                    fontsize=9, fontweight='bold', color=color,
+                    ha='left', va='center',
+                    xytext=(6, 0), textcoords='offset points')
+
+
 def brand_fig(fig, title, subtitle=None, source=None):
     """Apply LHM branding at figure level."""
     fig.patch.set_facecolor(THEME['bg'])
@@ -206,17 +230,6 @@ def brand_fig(fig, title, subtitle=None, source=None):
     fig.text(0.97, 0.98, datetime.now().strftime('%B %d, %Y'),
              fontsize=9, color=THEME['subtitle'], ha='right', va='top')
 
-    # Bottom-right watermark — same size, italic, same Ocean Blue
-    # Positioned below the bottom accent bar (bar at 0.025, height 0.004)
-    fig.text(0.97, 0.005, 'MACRO, ILLUMINATED.', fontsize=11,
-             color=OCEAN, ha='right', va='bottom', style='italic', fontweight='bold')
-
-    # Source line
-    if source:
-        date_str = datetime.now().strftime('%m.%d.%Y')
-        fig.text(0.03, 0.005, f'Lighthouse Macro | {source}; {date_str}',
-                 fontsize=7, color=THEME['muted'], ha='left', va='bottom', style='italic')
-
     # Top accent bar — Ocean Blue + Dusk Orange (brand standard)
     bar = fig.add_axes([0.03, 0.955, 0.94, 0.004])
     bar.axhspan(0, 1, 0, 0.67, color=OCEAN)
@@ -224,10 +237,20 @@ def brand_fig(fig, title, subtitle=None, source=None):
     bar.set_xlim(0, 1); bar.set_ylim(0, 1); bar.axis('off')
 
     # Bottom accent bar — mirror of top
-    bbar = fig.add_axes([0.03, 0.025, 0.94, 0.004])
+    bbar = fig.add_axes([0.03, 0.035, 0.94, 0.004])
     bbar.axhspan(0, 1, 0, 0.67, color=OCEAN)
     bbar.axhspan(0, 1, 0.67, 1.0, color=DUSK)
     bbar.set_xlim(0, 1); bbar.set_ylim(0, 1); bbar.axis('off')
+
+    # Bottom-right watermark — below the bottom accent bar, fully visible
+    fig.text(0.97, 0.015, 'MACRO, ILLUMINATED.', fontsize=11,
+             color=OCEAN, ha='right', va='top', style='italic', fontweight='bold')
+
+    # Source line
+    if source:
+        date_str = datetime.now().strftime('%m.%d.%Y')
+        fig.text(0.03, 0.015, f'Lighthouse Macro | {source}; {date_str}',
+                 fontsize=7, color=THEME['muted'], ha='left', va='top', style='italic')
 
     fig.suptitle(title, fontsize=15, fontweight='bold', y=0.95,
                  color=THEME['fg'])
@@ -238,7 +261,7 @@ def brand_fig(fig, title, subtitle=None, source=None):
 
 def save(fig, name):
     """Save chart and close."""
-    fig.savefig(OUT / name, dpi=200, bbox_inches='tight',
+    fig.savefig(OUT / name, dpi=200, bbox_inches='tight', pad_inches=0.15,
                 facecolor=THEME['bg'], edgecolor='none')
     plt.close(fig)
     print(f'  Saved: {name}')
@@ -307,8 +330,8 @@ def chart_01_scoring_matrix():
     bh = 0.25
 
     ax.barh(y + bh, fin, bh, label='Financial', color=clr('blue'), alpha=0.9)
-    ax.barh(y, use, bh, label='Usage', color=clr('orange'), alpha=0.9)
-    ax.barh(y - bh, val, bh, label='Valuation', color=clr('magenta'), alpha=0.9)
+    ax.barh(y, val, bh, label='Valuation', color=clr('orange'), alpha=0.9)
+    ax.barh(y - bh, use, bh, label='Usage', color=clr('cyan'), alpha=0.9)
 
     for i, t in enumerate(total):
         ax.text(max(fin[i], use[i], val[i]) + 2, y[i], f'{t:.0f}',
@@ -396,8 +419,10 @@ def chart_03_revenue_trends():
         sub = rev_df[rev_df['project_id'] == pid].copy()
         if sub.empty: continue
         sub = sub[['date', 'value']].set_index('date').resample('W').mean().reset_index()
-        ax.plot(sub['date'], sub['value'] / 1e6, color=get_palette()[i % len(get_palette())],
+        c = get_palette()[i % len(get_palette())]
+        ax.plot(sub['date'], sub['value'] / 1e6, color=c,
                 linewidth=1.8, label=names.get(pid, pid), alpha=0.85)
+        add_last_value_label(ax, sub['date'], sub['value'] / 1e6, c, fmt='${:.1f}M')
 
     ax.set_ylabel('Weekly Revenue ($M)', fontsize=10)
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.1f}M'))
@@ -421,8 +446,10 @@ def chart_04_dau_trends():
         sub = dau_df[dau_df['project_id'] == pid].copy()
         if sub.empty: continue
         sub = sub[['date', 'value']].set_index('date').resample('W').mean().reset_index()
-        ax.plot(sub['date'], sub['value'] / 1e3, color=get_palette()[i % len(get_palette())],
+        c = get_palette()[i % len(get_palette())]
+        ax.plot(sub['date'], sub['value'] / 1e3, color=c,
                 linewidth=1.8, label=names.get(pid, pid), alpha=0.85)
+        add_last_value_label(ax, sub['date'], sub['value'] / 1e3, c, fmt='{:.0f}K')
 
     ax.set_ylabel('Daily Active Users (K)', fontsize=10)
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'{x:.0f}K'))
@@ -524,7 +551,7 @@ def chart_07_subsidy_score():
     reasonable = combined[combined['subsidy_score'] <= 5].sort_values('subsidy_score', ascending=True)
     extreme = combined[combined['subsidy_score'] > 5].sort_values('subsidy_score', ascending=True)
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 7), facecolor=THEME['bg'],
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 8), facecolor=THEME['bg'],
                                      gridspec_kw={'width_ratios': [3, 1], 'wspace': 0.3})
 
     # Left: Reasonable subsidy scores
@@ -551,7 +578,7 @@ def chart_07_subsidy_score():
         ax1.text(0.95, 0.97, 'Ponzi (>2.0)', fontsize=7, color=clr('red'),
                  transform=ax1.transAxes, ha='right', va='top')
 
-    brand_ax(ax1, 'Subsidy Score (Reasonable)', 'Token Incentives / Revenue | 30d Avg')
+    brand_ax(ax1, 'Reasonable (<5x)', '')
 
     # Right: Extreme subsidy scores
     if not extreme.empty:
@@ -563,15 +590,16 @@ def chart_07_subsidy_score():
                      va='center', fontsize=8, fontweight='bold', color=clr('red'))
         ax2.set_yticks(y2)
         ax2.set_yticklabels(extreme['display_name'], fontsize=8)
-        brand_ax(ax2, 'Extreme Subsidy', 'Security budget exceeds revenue')
+        brand_ax(ax2, 'Extreme (>5x)', '')
     else:
         ax2.text(0.5, 0.5, 'No extreme\nsubsidies', transform=ax2.transAxes,
                  ha='center', va='center', fontsize=10, color=THEME['spine'])
         ax2.axis('off')
 
-    brand_fig(fig, 'Subsidy Score Analysis',
-              'Token Incentives per $1 of Revenue | <0.5 = Organic | >2.0 = Unsustainable',
-              source='Token Terminal')
+    fig.subplots_adjust(top=0.84)
+    brand_fig(fig, 'Subsidy Score Analysis', source='Token Terminal')
+    fig.text(0.5, 0.90, 'Token Incentives per $1 of Revenue | <0.5 = Organic | >2.0 = Unsustainable',
+             fontsize=9, ha='center', color='#0089D1', style='italic')
     save(fig, '07_subsidy_score.png')
 
 
@@ -585,7 +613,7 @@ def chart_08_fee_revenue_waterfall():
     w = 0.35
 
     ax.bar(x - w/2, df['ann_fees'] / 1e6, w, label='Fees', color=clr('blue'), alpha=0.85)
-    ax.bar(x + w/2, df['ann_revenue'] / 1e6, w, label='Revenue', color=clr('green'), alpha=0.85)
+    ax.bar(x + w/2, df['ann_revenue'] / 1e6, w, label='Revenue', color=clr('orange'), alpha=0.85)
 
     # Take rate label
     for i, (_, row) in enumerate(df.iterrows()):
@@ -601,9 +629,9 @@ def chart_08_fee_revenue_waterfall():
     ax.legend(fontsize=9, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
     brand_ax(ax, 'Fees vs Revenue (Take Rate)', 'Top 12 by Fees | % = Revenue/Fees')
+    fig.subplots_adjust(bottom=0.2)
     brand_fig(fig, '', source='Token Terminal')
     fig.suptitle('')
-    fig.tight_layout(rect=[0, 0, 1, 0.95])
     save(fig, '08_fee_revenue_waterfall.png')
 
 
@@ -681,8 +709,10 @@ def chart_11_tvl_trends():
         sub = tvl_df[tvl_df['project_id'] == pid].copy()
         if sub.empty: continue
         sub = sub[['date', 'value']].set_index('date').resample('W').mean().reset_index()
-        ax.plot(sub['date'], sub['value'] / 1e9, color=get_palette()[i % len(get_palette())],
+        c = get_palette()[i % len(get_palette())]
+        ax.plot(sub['date'], sub['value'] / 1e9, color=c,
                 linewidth=1.8, label=names.get(pid, pid), alpha=0.85)
+        add_last_value_label(ax, sub['date'], sub['value'] / 1e9, c, fmt='${:.1f}B')
 
     ax.set_ylabel('TVL ($B)', fontsize=10)
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.1f}B'))
@@ -706,8 +736,10 @@ def chart_12_fee_trends():
         sub = fee_df[fee_df['project_id'] == pid].copy()
         if sub.empty: continue
         sub = sub[['date', 'value']].set_index('date').resample('W').mean().reset_index()
-        ax.plot(sub['date'], sub['value'] / 1e6, color=get_palette()[i % len(get_palette())],
+        c = get_palette()[i % len(get_palette())]
+        ax.plot(sub['date'], sub['value'] / 1e6, color=c,
                 linewidth=1.8, label=names.get(pid, pid), alpha=0.85)
+        add_last_value_label(ax, sub['date'], sub['value'] / 1e6, c, fmt='${:.1f}M')
 
     ax.set_ylabel('Weekly Fees ($M)', fontsize=10)
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.1f}M'))
@@ -812,8 +844,10 @@ def chart_15_token_incentives_trends():
         sub = sub[sub['value'] > 0]
         if sub.empty: continue
         sub = sub[['date', 'value']].set_index('date').resample('W').mean().reset_index()
-        ax.plot(sub['date'], sub['value'] / 1e6, color=get_palette()[i % len(get_palette())],
+        c = get_palette()[i % len(get_palette())]
+        ax.plot(sub['date'], sub['value'] / 1e6, color=c,
                 linewidth=1.8, label=names.get(pid, pid), alpha=0.85)
+        add_last_value_label(ax, sub['date'], sub['value'] / 1e6, c, fmt='${:.1f}M')
 
     ax.set_ylabel('Token Incentives ($M/wk)', fontsize=10)
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.1f}M'))
@@ -874,8 +908,10 @@ def chart_17_price_trends():
         base = sub['value'].iloc[0]
         if base > 0:
             sub['norm'] = sub['value'] / base * 100
-            ax.plot(sub['date'], sub['norm'], color=get_palette()[i % len(get_palette())],
+            c = get_palette()[i % len(get_palette())]
+            ax.plot(sub['date'], sub['norm'], color=c,
                     linewidth=1.8, label=names.get(pid, pid), alpha=0.85)
+            add_last_value_label(ax, sub['date'], sub['norm'], c, fmt='{:.0f}')
 
     ax.axhline(100, color=THEME['spine'], linestyle='--', linewidth=0.5)
     ax.set_ylabel('Indexed Price (100 = 6M ago)', fontsize=10)
@@ -1036,8 +1072,8 @@ def chart_21_crypto_rev_vs_rrp():
 
     fig, ax = plt.subplots(figsize=(12, 6), facecolor=THEME['bg'])
     ax.bar(agg_rev['date'], agg_rev['value'] / 1e6, width=5,
-           color=clr('green'), alpha=0.6, label='Total Protocol Revenue ($M/wk)')
-    ax.set_ylabel('Weekly Revenue ($M)', fontsize=10, color=clr('green'))
+           color=clr('orange'), alpha=0.6, label='Total Protocol Revenue ($M/wk)')
+    ax.set_ylabel('Weekly Revenue ($M)', fontsize=10, color=clr('orange'))
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.0f}M'))
 
     ax2 = ax.twinx()
@@ -1046,6 +1082,12 @@ def chart_21_crypto_rev_vs_rrp():
                  linewidth=2.5, label='RRP ($B)', alpha=0.8)
         ax2.set_ylabel('RRP ($B)', fontsize=10, color=clr('blue'))
         ax2.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.0f}B'))
+        style_twin_ax(ax2, clr('blue'))
+        add_last_value_label(ax2, rrp['date'], rrp['value'], clr('blue'), fmt='${:.0f}B')
+
+    # Last value label for bars (LHS)
+    if not agg_rev.empty:
+        add_last_value_label(ax, agg_rev['date'], agg_rev['value'] / 1e6, clr('orange'), fmt='${:.1f}M', side='right')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1071,10 +1113,10 @@ def chart_22_crypto_dau_vs_nfci():
     nfci = get_macro_ts('NFCI', 365)
 
     fig, ax = plt.subplots(figsize=(12, 6), facecolor=THEME['bg'])
-    ax.plot(agg_dau['date'], agg_dau['value'] / 1e6, color=clr('green'),
+    ax.plot(agg_dau['date'], agg_dau['value'] / 1e6, color=clr('orange'),
             linewidth=2, label='Total Crypto DAU (M)', alpha=0.85)
-    ax.fill_between(agg_dau['date'], agg_dau['value'] / 1e6, alpha=0.15, color=clr('green'))
-    ax.set_ylabel('Total DAU (M)', fontsize=10, color=clr('green'))
+    ax.fill_between(agg_dau['date'], agg_dau['value'] / 1e6, alpha=0.15, color=clr('orange'))
+    ax.set_ylabel('Total DAU (M)', fontsize=10, color=clr('orange'))
 
     ax2 = ax.twinx()
     if not nfci.empty:
@@ -1083,6 +1125,12 @@ def chart_22_crypto_dau_vs_nfci():
         ax2.axhline(0, color=THEME['spine'], linewidth=0.5)
         ax2.set_ylabel('NFCI (Neg = Loose)', fontsize=10, color=clr('blue'))
         ax2.invert_yaxis()  # Invert so loose conditions (neg) show at top
+        style_twin_ax(ax2, clr('blue'))
+        add_last_value_label(ax2, nfci['date'], nfci['value'], clr('blue'), fmt='{:.2f}')
+
+    # Last value for DAU (LHS)
+    if not agg_dau.empty:
+        add_last_value_label(ax, agg_dau['date'], agg_dau['value'] / 1e6, clr('orange'), fmt='{:.1f}M')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1109,10 +1157,10 @@ def chart_23_crypto_fees_vs_hy_spreads():
     hy = get_macro_ts('BAMLH0A0HYM2', 365)
 
     fig, ax = plt.subplots(figsize=(12, 6), facecolor=THEME['bg'])
-    ax.plot(agg_fees['date'], agg_fees['value'] / 1e6, color=clr('green'),
+    ax.plot(agg_fees['date'], agg_fees['value'] / 1e6, color=clr('magenta'),
             linewidth=2, label='Total Crypto Fees ($M/wk)', alpha=0.85)
-    ax.fill_between(agg_fees['date'], agg_fees['value'] / 1e6, alpha=0.15, color=clr('green'))
-    ax.set_ylabel('Weekly Fees ($M)', fontsize=10, color=clr('green'))
+    ax.fill_between(agg_fees['date'], agg_fees['value'] / 1e6, alpha=0.15, color=clr('magenta'))
+    ax.set_ylabel('Weekly Fees ($M)', fontsize=10, color=clr('magenta'))
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.0f}M'))
 
     ax2 = ax.twinx()
@@ -1122,6 +1170,12 @@ def chart_23_crypto_fees_vs_hy_spreads():
                  linewidth=2, label='HY OAS (bps)', alpha=0.8)
         ax2.set_ylabel('HY Spread (bps)', fontsize=10, color=clr('orange'))
         ax2.invert_yaxis()  # Tight spreads (bullish) at top
+        style_twin_ax(ax2, clr('orange'))
+        add_last_value_label(ax2, hy['date'], hy['value'] * 100, clr('orange'), fmt='{:.0f} bps')
+
+    # Last value for fees (LHS)
+    if not agg_fees.empty:
+        add_last_value_label(ax, agg_fees['date'], agg_fees['value'] / 1e6, clr('magenta'), fmt='${:.1f}M')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1162,6 +1216,12 @@ def chart_24_defi_tvl_vs_vix():
         ax2.axhline(20, color=clr('orange'), linestyle='--', alpha=0.3)
         ax2.set_ylabel('VIX', fontsize=10, color=clr('magenta'))
         ax2.invert_yaxis()  # Low VIX (bullish) at top
+        style_twin_ax(ax2, clr('magenta'))
+        add_last_value_label(ax2, vix['date'], vix['value'], clr('magenta'), fmt='{:.1f}')
+
+    # Last value for TVL (LHS)
+    if not agg_tvl.empty:
+        add_last_value_label(ax, agg_tvl['date'], agg_tvl['value'] / 1e9, clr('green'), fmt='${:.1f}B')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1189,8 +1249,8 @@ def chart_25_crypto_rev_vs_yield_curve():
 
     fig, ax = plt.subplots(figsize=(12, 6), facecolor=THEME['bg'])
     ax.bar(agg_rev['date'], agg_rev['value'] / 1e6, width=5,
-           color=clr('green'), alpha=0.6, label='Total Protocol Revenue ($M/wk)')
-    ax.set_ylabel('Weekly Revenue ($M)', fontsize=10, color=clr('green'))
+           color=clr('orange'), alpha=0.6, label='Total Protocol Revenue ($M/wk)')
+    ax.set_ylabel('Weekly Revenue ($M)', fontsize=10, color=clr('orange'))
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:.0f}M'))
 
     ax2 = ax.twinx()
@@ -1198,13 +1258,19 @@ def chart_25_crypto_rev_vs_yield_curve():
         pos = t10y2y['value'] >= 0
         neg = t10y2y['value'] < 0
         ax2.fill_between(t10y2y['date'], t10y2y['value'],
-                         where=pos, alpha=0.15, color=clr('green'))
+                         where=pos, alpha=0.15, color=clr('blue'))
         ax2.fill_between(t10y2y['date'], t10y2y['value'],
                          where=neg, alpha=0.15, color=clr('red'))
         ax2.plot(t10y2y['date'], t10y2y['value'], color=clr('blue'),
                  linewidth=2, label='10Y-2Y Spread (%)', alpha=0.8)
         ax2.axhline(0, color=THEME['spine'], linewidth=0.5)
         ax2.set_ylabel('Yield Curve (10Y-2Y %)', fontsize=10, color=clr('blue'))
+        style_twin_ax(ax2, clr('blue'))
+        add_last_value_label(ax2, t10y2y['date'], t10y2y['value'], clr('blue'), fmt='{:.2f}%')
+
+    # Last value for revenue bars (LHS)
+    if not agg_rev.empty:
+        add_last_value_label(ax, agg_rev['date'], agg_rev['value'] / 1e6, clr('orange'), fmt='${:.1f}M')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
