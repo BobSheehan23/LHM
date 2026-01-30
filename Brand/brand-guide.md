@@ -8,13 +8,26 @@
 
 ## Color Palette
 
+### Nautical 8-Color Palette
+
 | Color | Hex | Usage |
 |-------|-----|-------|
-| Ocean Blue | `#0089D1` | Primary brand color, headers, borders, accents |
-| Dusk Orange | `#FF4500` | Secondary accent, highlights, call-to-action elements |
-| Carolina Blue | `#00BFFF` | Tertiary accent, gradients, subtle highlights |
-| White | `#FFFFFF` | Backgrounds, text on dark |
-| Dark Gray | `#333333` | Body text |
+| Ocean | `#0089D1` | Primary brand color, headers, borders, accents |
+| Dusk | `#FF6723` | Warnings, accent bar |
+| Sky | `#4FC3F7` | Volatility, momentum (bright cerulean) |
+| Venus | `#FF2389` | Critical alerts |
+| Sea | `#00BB99` | Secondary series, Chart 1 primary |
+| Doldrums | `#D3D6D9` | Backgrounds, grids |
+| Starboard | `#00FF00` | Extreme bullish |
+| Port | `#FF0000` | Crisis zones |
+
+### Chart Background & Neutrals
+
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Chart Background | `#0A1628` | Dark navy background for all charts |
+| White | `#FFFFFF` | Text on dark backgrounds |
+| Dark Gray | `#333333` | Body text on light backgrounds |
 | Light Gray | `#F5F5F5` | Background alternates, subtle separators |
 
 ## Typography
