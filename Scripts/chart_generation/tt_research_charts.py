@@ -45,13 +45,13 @@ def set_theme(mode='white'):
     global THEME, OUT
     if mode == 'dark':
         THEME = {
-            'bg': '#1B2A49',
+            'bg': '#0A1628',
             'fg': '#e6edf3',
             'muted': '#8b949e',
             'spine': '#2a4060',
-            'brand_color': '#00BFFF',
-            'brand2_color': C['hot_magenta'],
-            'primary': '#00BFFF',
+            'brand_color': '#4FC3F7',
+            'brand2_color': C['dusk_orange'],
+            'primary': '#4FC3F7',
             'subtitle': '#7a8a9e',
             'text_strong': '#e6edf3',
             'text_label': '#c0cad8',
@@ -60,7 +60,7 @@ def set_theme(mode='white'):
             'legend_bg': '#1e3350',
             'legend_fg': '#e6edf3',
             'fill_alpha': 0.25,
-            'table_header_bg': '#0a1628',
+            'table_header_bg': '#0d1f3c',
             'table_row_green': '#1a3328',
             'table_row_blue': '#1a2a40',
             'table_row_yellow': '#2a2a1a',
@@ -80,7 +80,7 @@ def set_theme(mode='white'):
             'muted': '#555555',
             'spine': '#999999',
             'brand_color': C['ocean_blue'],
-            'brand2_color': C['hot_magenta'],
+            'brand2_color': C['dusk_orange'],
             'primary': C['ocean_blue'],
             'subtitle': '#888888',
             'text_strong': '#333333',
@@ -116,8 +116,8 @@ PALETTE_WHITE = [C['ocean_blue'], C['dusk_orange'], C['hot_magenta'],
                  '#8B5CF6', '#00D4FF', '#F59E0B',
                  '#10B981', '#EF4444', '#6366F1', C['teal_green']]
 
-PALETTE_DARK = ['#00BFFF', '#FF6723', '#FF2389', '#A78BFA',
-                '#FBBF24', '#34D399', '#00D4FF', '#F87171',
+PALETTE_DARK = ['#4FC3F7', '#FF6723', '#FF2389', '#A78BFA',
+                '#FBBF24', '#34D399', '#00BB99', '#F87171',
                 '#818CF8', '#FB923C']
 
 def get_palette():
@@ -128,10 +128,10 @@ def clr(name):
     """Get theme-appropriate semantic color."""
     dark_map = {
         'green': '#34D399',
-        'blue': '#00BFFF',
-        'orange': '#FF8844',
+        'blue': '#4FC3F7',
+        'orange': '#FF6723',
         'red': '#FF4455',
-        'cyan': '#00D4FF',
+        'cyan': '#4FC3F7',
         'magenta': '#FF2389',
         'teal': '#34D399',
     }
@@ -140,8 +140,8 @@ def clr(name):
         'blue': C['ocean_blue'],
         'orange': C['dusk_orange'],
         'red': C['pure_red'],
-        'cyan': '#00D4FF',
-        'magenta': C['hot_magenta'],
+        'cyan': '#4FC3F7',
+        'magenta': C['dusk_orange'],
         'teal': C['teal_green'],
     }
     m = dark_map if THEME['mode'] == 'dark' else white_map
@@ -159,11 +159,11 @@ SECTOR_COLORS_WHITE = {
 }
 
 SECTOR_COLORS_DARK = {
-    'DeFi - DEX': '#00BFFF',
+    'DeFi - DEX': '#4FC3F7',
     'DeFi - Lending': '#00DDAA',
     'DeFi - Derivatives': '#FF2389',
-    'Layer 1 (Settlement)': '#FF8844',
-    'Layer 2 (Scaling)': '#00D4FF',
+    'Layer 1 (Settlement)': '#FF6723',
+    'Layer 2 (Scaling)': '#4FC3F7',
     'Liquid Staking': '#A78BFA',
     'Infrastructure': '#FBBF24',
     'Uncategorized': '#6a7a8a',
@@ -220,7 +220,7 @@ def brand_fig(fig, title, subtitle=None, source=None):
     fig.patch.set_facecolor(THEME['bg'])
 
     OCEAN = '#0089D1'
-    DUSK = '#FF4500'
+    DUSK = '#FF6723'
 
     # Top-left watermark — Ocean Blue, bold
     fig.text(0.03, 0.98, 'LIGHTHOUSE MACRO', fontsize=11,
@@ -329,9 +329,9 @@ def chart_01_scoring_matrix():
     y = np.arange(len(protocols))
     bh = 0.25
 
-    ax.barh(y + bh, fin, bh, label='Financial', color=clr('blue'), alpha=0.9)
+    ax.barh(y + bh, fin, bh, label='Financial', color=C['teal_green'] if THEME['mode'] == 'white' else '#00BB99', alpha=0.9)
     ax.barh(y, val, bh, label='Valuation', color=clr('orange'), alpha=0.9)
-    ax.barh(y - bh, use, bh, label='Usage', color=clr('cyan'), alpha=0.9)
+    ax.barh(y - bh, use, bh, label='Usage', color=clr('blue'), alpha=0.9)
 
     for i, t in enumerate(total):
         ax.text(max(fin[i], use[i], val[i]) + 2, y[i], f'{t:.0f}',
@@ -380,7 +380,7 @@ def chart_02_valuation_map():
     for _, row in vdf.iterrows():
         if row['ann_revenue'] > 3e6 or row['pf_ratio'] < 5 or row['overall_score'] >= 70:
             ax.annotate(row['display_name'], (row['ann_revenue'] / 1e6, row['pf_ratio']),
-                        fontsize=7.5, ha='left', va='bottom',
+                        fontsize=7.5, ha='left', va='bottom', color=THEME['text_label'],
                         xytext=(5, 5), textcoords='offset points')
 
     ax.set_xscale('log')
@@ -509,7 +509,7 @@ def chart_06_tvl_rankings():
     ax.barh(y, tvl_df['tvl'] / 1e9, color=colors, alpha=0.85, edgecolor=THEME['bar_edge'], linewidth=0.5)
     for i, (_, row) in enumerate(tvl_df.iterrows()):
         ax.text(row['tvl'] / 1e9 + 0.3, y[i], f'${row["tvl"]/1e9:.1f}B',
-                va='center', fontsize=8, fontweight='bold')
+                va='center', fontsize=8, fontweight='bold', color=THEME['text_strong'])
 
     ax.set_yticks(y)
     ax.set_yticklabels(tvl_df['display_name'], fontsize=9)
@@ -568,7 +568,7 @@ def chart_07_subsidy_score():
                  edgecolor=THEME['bar_edge'], linewidth=0.5)
         for i, (_, row) in enumerate(reasonable.iterrows()):
             ax1.text(row['subsidy_score'] + 0.05, y[i], f'{row["subsidy_score"]:.2f}x',
-                     va='center', fontsize=8, fontweight='bold')
+                     va='center', fontsize=8, fontweight='bold', color=THEME['text_strong'])
         ax1.set_yticks(y)
         ax1.set_yticklabels(reasonable['display_name'], fontsize=8)
         ax1.axvline(0.5, color=clr('green'), linestyle='--', alpha=0.5, linewidth=1)
@@ -653,7 +653,7 @@ def chart_09_pe_ratio_spectrum():
     ax.barh(y, df['pf_ratio'], color=colors, alpha=0.85, edgecolor=THEME['bar_edge'], linewidth=0.5)
     for i, (_, row) in enumerate(df.iterrows()):
         ax.text(row['pf_ratio'] + 1, y[i], f'{row["pf_ratio"]:.1f}x',
-                va='center', fontsize=8)
+                va='center', fontsize=8, color=THEME['text_strong'])
 
     ax.set_yticks(y)
     ax.set_yticklabels(df['display_name'], fontsize=9)
@@ -683,7 +683,7 @@ def chart_10_float_ratio():
     ax.barh(y, df['float_ratio'] * 100, color=colors, alpha=0.85, edgecolor=THEME['bar_edge'], linewidth=0.5)
     for i, (_, row) in enumerate(df.iterrows()):
         ax.text(row['float_ratio'] * 100 + 1, y[i], f'{row["float_ratio"]:.0%}',
-                va='center', fontsize=8)
+                va='center', fontsize=8, color=THEME['text_strong'])
 
     ax.set_yticks(y)
     ax.set_yticklabels(df['display_name'], fontsize=9)
@@ -763,7 +763,7 @@ def chart_13_dau_rankings():
     ax.barh(y, df['dau'] / 1e3, color=colors, alpha=0.85, edgecolor=THEME['bar_edge'], linewidth=0.5)
     for i, (_, row) in enumerate(df.iterrows()):
         ax.text(row['dau'] / 1e3 + 5, y[i], f'{row["dau"]/1e3:.0f}K',
-                va='center', fontsize=8, fontweight='bold')
+                va='center', fontsize=8, fontweight='bold', color=THEME['text_strong'])
 
     ax.set_yticks(y)
     ax.set_yticklabels(df['display_name'], fontsize=9)
@@ -880,7 +880,7 @@ def chart_16_earnings_heatmap():
         offset = 1 if val >= 0 else -1
         ax.text(val + offset, y[i], f'${val:.1f}M',
                 va='center', fontsize=7.5, fontweight='bold',
-                ha='left' if val >= 0 else 'right')
+                ha='left' if val >= 0 else 'right', color=THEME['text_strong'])
 
     ax.set_yticks(y)
     ax.set_yticklabels(df['display_name'], fontsize=8)
@@ -939,7 +939,7 @@ def chart_18_developer_activity():
     ax.barh(y, df['active_developers'], color=colors, alpha=0.85, edgecolor=THEME['bar_edge'], linewidth=0.5)
     for i, (_, row) in enumerate(df.iterrows()):
         ax.text(row['active_developers'] + 0.5, y[i], f'{int(row["active_developers"])}',
-                va='center', fontsize=8, fontweight='bold')
+                va='center', fontsize=8, fontweight='bold', color=THEME['text_strong'])
 
     ax.set_yticks(y)
     ax.set_yticklabels(df['display_name'], fontsize=9)
@@ -965,7 +965,8 @@ def chart_19_market_cap_vs_revenue():
         if row['ann_revenue'] > 5e6 or row['market_cap'] > 2e9:
             ax.annotate(row['display_name'],
                         (row['ann_revenue'] / 1e6, row['market_cap'] / 1e9),
-                        fontsize=7, xytext=(5, 5), textcoords='offset points')
+                        fontsize=7, xytext=(5, 5), textcoords='offset points',
+                        color=THEME['text_label'])
 
     ax.set_xscale('log')
     ax.set_yscale('log')
@@ -1087,7 +1088,7 @@ def chart_21_crypto_rev_vs_rrp():
 
     # Last value label for bars (LHS)
     if not agg_rev.empty:
-        add_last_value_label(ax, agg_rev['date'], agg_rev['value'] / 1e6, clr('orange'), fmt='${:.1f}M', side='right')
+        add_last_value_label(ax, agg_rev['date'], agg_rev['value'] / 1e6, clr('orange'), fmt='${:.1f}M', side='left')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1130,7 +1131,7 @@ def chart_22_crypto_dau_vs_nfci():
 
     # Last value for DAU (LHS)
     if not agg_dau.empty:
-        add_last_value_label(ax, agg_dau['date'], agg_dau['value'] / 1e6, clr('orange'), fmt='{:.1f}M')
+        add_last_value_label(ax, agg_dau['date'], agg_dau['value'] / 1e6, clr('orange'), fmt='{:.1f}M', side='left')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1175,7 +1176,7 @@ def chart_23_crypto_fees_vs_hy_spreads():
 
     # Last value for fees (LHS)
     if not agg_fees.empty:
-        add_last_value_label(ax, agg_fees['date'], agg_fees['value'] / 1e6, clr('magenta'), fmt='${:.1f}M')
+        add_last_value_label(ax, agg_fees['date'], agg_fees['value'] / 1e6, clr('magenta'), fmt='${:.1f}M', side='left')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1221,7 +1222,7 @@ def chart_24_defi_tvl_vs_vix():
 
     # Last value for TVL (LHS)
     if not agg_tvl.empty:
-        add_last_value_label(ax, agg_tvl['date'], agg_tvl['value'] / 1e9, clr('green'), fmt='${:.1f}B')
+        add_last_value_label(ax, agg_tvl['date'], agg_tvl['value'] / 1e9, clr('green'), fmt='${:.1f}B', side='left')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
@@ -1268,9 +1269,9 @@ def chart_25_crypto_rev_vs_yield_curve():
         style_twin_ax(ax2, clr('blue'))
         add_last_value_label(ax2, t10y2y['date'], t10y2y['value'], clr('blue'), fmt='{:.2f}%')
 
-    # Last value for revenue bars (LHS)
+    # Last value for revenue bars (LHS axis)
     if not agg_rev.empty:
-        add_last_value_label(ax, agg_rev['date'], agg_rev['value'] / 1e6, clr('orange'), fmt='${:.1f}M')
+        add_last_value_label(ax, agg_rev['date'], agg_rev['value'] / 1e6, clr('orange'), fmt='${:.1f}M', side='left')
 
     ax.legend(loc='upper left', fontsize=8, framealpha=0.95, facecolor=THEME['legend_bg'],
                 edgecolor=THEME['spine'], labelcolor=THEME['legend_fg'])
