@@ -380,6 +380,387 @@ LEADING                         COINCIDENT              LAGGING
 
 ---
 
+## Alternative Inflation Measures (Trimmed Mean, Median, Diffusion)
+
+### Trimmed Mean CPI & PCE
+
+Standard CPI/PCE are weighted averages. One extreme component (motor vehicle insurance at +20%) can distort the signal. Trimmed means strip the tails.
+
+| **Indicator** | **FRED Code** | **Frequency** | **Methodology** | **Interpretation** |
+|---|---|---|---|---|
+| **16% Trimmed Mean CPI (Cleveland Fed)** | TRMMEANCPIM159SFRBCLE (MoM SA) | Monthly | Removes top/bottom 8% of item-level price changes | Core inflation stripping outliers |
+| **16% Trimmed Mean CPI (1M Ann)** | TRMMEANCPIM094SFRBCLE | Monthly | 1-month annualized rate | Short-term trimmed momentum |
+| **16% Trimmed Mean CPI (12M)** | TRMMEANCPIM157SFRBCLE | Monthly | 12-month percent change | Year-over-year trimmed trend |
+| **16% Trimmed Mean CPI (Ann Rate)** | TRMMEANCPIM158SFRBCLE | Monthly | Annualized rate | Running trimmed rate |
+| **Trimmed Mean PCE (1M Ann, Dallas Fed)** | PCETRIM1M158SFRBDAL | Monthly | Removes top/bottom ~24% by expenditure weight | Fed's cleanest signal |
+| **Trimmed Mean PCE (6M Ann)** | PCETRIM6M680SFRBDAL | Monthly | 6-month annualized rate | Medium-term trimmed trend |
+| **Trimmed Mean PCE (12M)** | PCETRIM12M159SFRBDAL | Monthly | 12-month percent change | Annual trimmed PCE |
+| **Median CPI (Cleveland Fed)** | MEDCPIM158SFRBCLE | Monthly | Median item-level price change | Single "typical" component |
+
+#### Why These Matter
+
+Trimmed mean and median CPI were the **most accurate** inflation measures during the 2021-2023 episode. When headline CPI hit 9.1% (June 2022), trimmed mean peaked at 7.2% and median at 7.0%. They correctly signaled that core inflation was "only" 6-7%, not 9%. On the way down, trimmed mean at 3.3% correctly signals that core inflation is **sticky at 3%+** even as headline approaches 2.8%.
+
+The Dallas Fed trimmed mean PCE is particularly useful because it strips more aggressively (~24% vs 16% for Cleveland) and maps directly to the Fed's preferred measure (PCE). When the 6M annualized trimmed mean PCE diverges from the 12M, it signals momentum change.
+
+#### Regime Thresholds: Trimmed Mean & Median
+
+| **Indicator** | **On Target** | **Elevated** | **Crisis** |
+|---|---|---|---|
+| **Trimmed Mean CPI 12M** | <3.0% | 3.0-4.5% | >4.5% |
+| **Trimmed Mean PCE 12M** | <2.5% | 2.5-3.5% | >3.5% |
+| **Trimmed Mean PCE 6M Ann** | <2.5% | 2.5-3.5% | >3.5% |
+| **Median CPI** | <3.5% | 3.5-5.0% | >5.0% |
+
+#### Derived Trimmed Mean Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Trimmed Mean Momentum** | 6M Ann Trimmed PCE - 12M Trimmed PCE | >+0.3 ppts | Accelerating underneath the surface |
+| **Trimmed-Headline Spread** | Trimmed Mean CPI - Headline CPI | >+0.5 ppts | Headline understating breadth of pressure |
+| **Median-Mean Spread** | Median CPI - Trimmed Mean CPI | >+0.3 ppts | Distribution skewed (many items accelerating) |
+
+---
+
+### CPI Diffusion & Breadth Metrics
+
+Diffusion indices answer: "What **share** of the CPI basket is inflating above threshold?" A single number (headline CPI at 2.8%) can hide very different regimes. If 80% of items are running above 3%, that's broad-based pressure. If only 20% are, it's concentrated in a few outliers.
+
+| **Metric** | **Definition** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **% of CPI Items >3% YoY** | Share of CPI basket (by weight) inflating >3% | >60% | Broad-based inflation |
+| **% of CPI Items >2% YoY** | Share inflating above Fed target proxy | >70% | Wide pressure |
+| **% of CPI Items Accelerating** | Share where 3M ann > 12M YoY | >55% | Momentum broadening |
+| **CPI Dispersion (Std Dev)** | Cross-sectional std dev of item-level YoY changes | >3.0 ppts | High dispersion = regime uncertainty |
+
+**Interpretation Framework:**
+
+```
+NARROW INFLATION                      BROAD-BASED INFLATION
+(Few outliers driving)                (Systemic pressure)
+────────────────────────────────────────────────────────────
+<30% items >3%    30-60% items >3%    >60% items >3%
+Low dispersion    Medium dispersion   High dispersion
+Easy to fix       Fed dilemma         Requires demand destruction
+```
+
+**Current Context:** Even as headline CPI has fallen to 2.8%, breadth metrics remain elevated. Roughly 55-60% of the CPI basket is still running above 3% YoY. This is the "last mile" problem expressed differently: it's not just a few sticky categories, it's broad.
+
+#### Concentration Analysis
+
+Sometimes inflation is driven by just 2-3 large categories (shelter, auto insurance, medical care). When that happens, headline overstates the signal. Tracking the contribution of the top-3 and top-5 categories to overall inflation reveals concentration risk.
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Top-3 Category Contribution** | Sum of 3 largest contributors to YoY CPI | >70% of total | Concentrated (misleading headline) |
+| **Top-5 Category Contribution** | Sum of 5 largest contributors | >85% of total | Highly concentrated |
+| **Shelter Contribution Share** | Shelter contribution / Total CPI YoY | >50% | Shelter-dominated (will fade mechanically) |
+
+**Current State:** Shelter, motor vehicle insurance, and medical care account for roughly 60-70% of core CPI inflation. This concentration is actually **good news** for the disinflation thesis because shelter is mechanically lagging (will fade) and auto insurance is a one-time adjustment. But it also means that if these categories don't cooperate, core CPI won't budge.
+
+---
+
+## Item-Level CPI Detail (Category Deep Dives)
+
+### Key CPI Categories and Weights (2025 Relative Importance)
+
+| **Category** | **Approx Weight** | **Current YoY** | **Direction** | **Signal** |
+|---|---|---|---|---|
+| **Shelter (Rent + OER)** | ~34% | ~5.1% | Decelerating (slowly) | Mechanical disinflation ahead |
+| **Food at Home** | ~8% | ~1.5% | Normalized | Supply chains healed |
+| **Food Away from Home** | ~6% | ~3.8% | Sticky | Wage-driven (restaurant labor) |
+| **Energy** | ~7% | Volatile | Base-effect dependent | Not a trend signal |
+| **Motor Vehicle Insurance** | ~3% | ~14% | Decelerating from 20%+ | Major outlier, distorting core |
+| **Medical Care Services** | ~7% | ~3.5% | Sticky | Structural (wages + regulatory) |
+| **Transportation Services** | ~6% | ~8% | Elevated | Includes insurance, airfares |
+| **Apparel** | ~3% | ~1% | Low | Globalized, deflationary secular trend |
+| **New Vehicles** | ~4% | ~0.5% | Normalizing | Supply chain recovery complete |
+| **Used Vehicles** | ~2% | ~1% | Volatile | Auction prices stabilized |
+| **Recreation** | ~6% | ~1.5% | Moderate | Discretionary, consumer-sensitive |
+| **Education & Communication** | ~6% | ~2% | Stable | Slow-moving institutional pricing |
+
+### Motor Vehicle Insurance Deep Dive
+
+Motor vehicle insurance has been the single most distortionary CPI component of 2023-2025. It surged 20%+ YoY as insurers repriced for:
+- Higher vehicle replacement costs (post-pandemic)
+- Increased claim severity (labor + parts inflation)
+- Accident frequency recovery (return to pre-pandemic driving)
+
+This is a **lagging** adjustment, not a forward signal. Insurers reprice annually based on prior-year loss experience. The ~14% current rate will normalize to 3-5% by mid-2026 as the repricing cycle completes. Because auto insurance is ~3% of CPI, it alone contributes ~0.4 ppts to headline. When it normalizes, that's 0.3 ppts of free disinflation.
+
+### Food Prices: At Home vs Away
+
+| **Component** | **Driver** | **Current** | **Outlook** |
+|---|---|---|---|
+| **Food at Home** | Global commodity prices, supply chains, dollar | ~1.5% YoY | Normalized. Modest risk from dollar weakness. |
+| **Food Away from Home** | Restaurant wages, commercial rent, food costs | ~3.8% YoY | Sticky. Wage floor means 3%+ structural. |
+
+The spread between food at home and food away from home is a clean proxy for domestic service-sector wage pressure. When the spread widens (food away >> food at home), it confirms that labor costs, not commodities, are the inflation problem.
+
+---
+
+## Wage-Price Transmission: ECI and Unit Labor Costs
+
+### Employment Cost Index (ECI)
+
+The ECI is the **gold standard** for measuring labor cost pressure because it controls for compositional shifts (doesn't get distorted by low-wage vs high-wage job mix changes like AHE does).
+
+| **Indicator** | **FRED Code** | **Frequency** | **Lead/Lag** | **Interpretation** |
+|---|---|---|---|---|
+| **ECI Total Compensation** | ECIALLCIV | Quarterly | Coincident-Lagging | All-in labor costs (wages + benefits) |
+| **ECI Wages & Salaries** | ECIWAG | Quarterly | Coincident | Wage component only |
+
+#### Regime Thresholds: ECI
+
+| **Indicator** | **On Target** | **Elevated** | **Crisis** |
+|---|---|---|---|
+| **ECI Total QoQ Ann** | <3.0% | 3.0-4.5% | >4.5% |
+| **ECI Total YoY** | <3.5% | 3.5-5.0% | >5.0% |
+| **ECI Wages QoQ Ann** | <3.5% | 3.5-4.5% | >4.5% |
+
+**Why ECI > AHE:** Average Hourly Earnings (AHE) can fall just because the economy is adding more low-wage jobs (compositional shift). That looks like wage disinflation but it's actually just mix shift. ECI holds the job mix constant. If ECI is still elevated, wage pressure is real.
+
+**Current State:** ECI total compensation running ~3.8% YoY (Q3 2025). Down from 4.5%+ peak but still above the ~3.0% level consistent with 2% inflation (assuming ~1.5% productivity growth).
+
+### Unit Labor Costs (ULC)
+
+Unit labor costs = compensation per hour / output per hour. It's the single best predictor of underlying services inflation at a 6-12 month horizon.
+
+| **Indicator** | **FRED Code** | **Frequency** | **Lead/Lag** | **Interpretation** |
+|---|---|---|---|---|
+| **Unit Labor Costs (Nonfarm Business)** | ULCNFB | Quarterly | **Leads services CPI by 6-12 mo** | Wage pressure net of productivity |
+| **Nonfarm Unit Labor Costs (Alt)** | PRS85006092 | Quarterly | Leading | Alternative measure |
+
+#### The Wage-Price Framework
+
+```
+ULC = Compensation Growth - Productivity Growth
+
+If Compensation Growth = 4.0% and Productivity = 1.5%:
+   → ULC = 2.5% → Consistent with 2.5% services inflation → Slightly above target
+
+If Compensation Growth = 4.0% and Productivity = 0.5%:
+   → ULC = 3.5% → Consistent with 3.5% services inflation → Problem
+
+If Compensation Growth = 3.0% and Productivity = 1.5%:
+   → ULC = 1.5% → Consistent with sub-2% inflation → Fed target achieved
+```
+
+#### Regime Thresholds: ULC
+
+| **ULC YoY** | **Regime** | **Implication** |
+|---|---|---|
+| <2.0% | Deflationary | Wage growth insufficient, demand risk |
+| 2.0-3.0% | On Target | Consistent with 2% inflation + normal productivity |
+| 3.0-4.0% | Elevated | Services inflation will stay sticky |
+| >4.0% | Crisis | Wage-price spiral risk |
+
+**Current State:** ULC running ~2.5-3.0% YoY, down from 6%+ peak. This is in the "slightly elevated" zone. Productivity at ~1.5% is doing the heavy lifting. If productivity fades (as cyclical slowdowns typically cause), ULC will reaccelerate even without wage growth.
+
+**The Key Relationship:** ULC leads supercore (services ex-shelter) by 2-3 quarters. If ULC stays in the 2.5-3.0% range, supercore won't break below 3.0% easily. This is why the "last mile" is structural.
+
+---
+
+## Import/Export Prices & Dollar Channel
+
+### The Import Price Mechanism
+
+Import prices transmit **global disinflationary/inflationary forces** into domestic CPI. A strong dollar compresses import prices (deflationary). A weak dollar inflates them. Import prices lead goods CPI by 3-6 months.
+
+| **Indicator** | **FRED Code** | **Frequency** | **Lead/Lag** | **Interpretation** |
+|---|---|---|---|---|
+| **Import Price Index** | IR | Monthly | **Leads goods CPI by 3-6 mo** | Global price pass-through |
+| **Export Price Index** | IQ | Monthly | Coincident | Domestic competitiveness signal |
+| **Trade-Weighted Dollar** | DTWEXBGS | Daily | **Leads import prices by 3-6 mo** | Dollar → Import prices → CPI |
+
+#### The Dollar Transmission Chain
+
+```
+Dollar Appreciates →
+Import Prices Fall (3-6 mo lag) →
+Goods CPI Falls (3-6 mo lag) →
+Headline CPI Compressed (3-6 mo lag)
+
+Total Chain: ~9-18 months from dollar move to CPI impact
+```
+
+A **10% dollar appreciation** typically results in ~1.0-1.5 ppt reduction in goods CPI over 12-18 months. The current trade-weighted dollar has been strong, contributing to goods deflation.
+
+#### Regime Thresholds: Import Prices
+
+| **Indicator** | **Deflationary** | **Neutral** | **Inflationary** |
+|---|---|---|---|
+| **Import Prices YoY** | <-3% | -3% to +3% | >+3% |
+| **Import Prices ex-Petroleum YoY** | <-2% | -2% to +2% | >+2% |
+| **Trade-Weighted Dollar YoY%** | >+5% (deflationary) | -5% to +5% | <-5% (inflationary) |
+
+### Tariff Pass-Through Channel (2025-2026 Risk)
+
+Tariffs are a direct tax on imports. They transmit to consumer prices with a 3-9 month lag depending on the product category.
+
+**Pass-Through Rates by Category:**
+
+| **Category** | **Tariff Pass-Through** | **Lag** | **CPI Weight** | **Max CPI Impact** |
+|---|---|---|---|---|
+| Consumer electronics | 40-60% | 3-6 mo | ~3% | 0.1-0.2 ppts per 10% tariff |
+| Apparel | 60-80% | 3-6 mo | ~3% | 0.2-0.3 ppts per 10% tariff |
+| Autos/Parts | 30-50% | 6-12 mo | ~6% | 0.2-0.3 ppts per 10% tariff |
+| Food/Ag imports | 80-95% | 1-3 mo | ~4% | 0.3-0.4 ppts per 10% tariff |
+
+**Current Risk:** Tariff escalation in 2025-2026 creates an **upside risk to inflation** that isn't reflected in the baseline PCI. A broad 10% tariff on Chinese imports could add 0.3-0.5 ppts to headline CPI over 6-12 months. A universal 10% tariff could add 0.8-1.2 ppts. This would reverse goods disinflation and push PCI back above +1.0.
+
+**The Tariff-Fed Trap:** If tariffs raise inflation, the Fed faces an impossible choice. Tariff inflation is supply-side (not demand-driven), so hiking to fight it causes unnecessary demand destruction. But if the Fed ignores it, expectations could de-anchor. Historical precedent: the Fed typically "looks through" one-time tariff adjustments unless they bleed into expectations.
+
+---
+
+## Commodity Prices & Upstream Inflation
+
+### The Commodity-to-CPI Pipeline
+
+Commodities sit at the very beginning of the inflation pipeline. They lead PPI by 6-12 months and CPI by 9-18 months. But the relationship is asymmetric: commodity spikes pass through quickly, commodity declines pass through slowly (the "rockets and feathers" problem).
+
+| **Commodity** | **CPI Channel** | **Pass-Through Lag** | **Current Signal** |
+|---|---|---|---|
+| **Crude Oil (WTI/Brent)** | Gasoline → Energy CPI (40% weight) | 2-4 weeks | Neutral (~$75) |
+| **Natural Gas** | Utilities → Energy CPI | 1-3 months | Benign |
+| **Agriculture (Grains)** | Food at Home CPI | 3-6 months | Stable |
+| **Industrial Metals (Copper)** | Goods CPI (construction, durables) | 6-12 months | Reflation signal |
+| **Lumber** | Housing costs (new construction) | 6-12 months | Normalized |
+
+**Energy as CPI Wildcard:** Energy is ~7% of CPI but drives 80% of month-to-month headline volatility. Oil at $75 is neutral. Above $90, it adds ~0.3 ppts to headline. Above $100, it starts bleeding into core via transportation services. Below $60, it's actively deflationary but signals demand destruction (bad for a different reason).
+
+---
+
+## Fiscal Inflation Channel
+
+### Government Spending as Inflation Driver
+
+Fiscal policy creates inflation through two mechanisms:
+
+**1. Direct Demand:** Government spending increases aggregate demand without expanding productive capacity (in the short run). Post-pandemic fiscal stimulus ($5T+) was the proximate cause of 2021-2022 inflation.
+
+**2. Deficit Monetization (Soft):** Large structural deficits require massive Treasury issuance. If the Fed accommodates (buys Treasuries or keeps rates low), it's quasi-monetization. If the Fed doesn't accommodate, yields rise and crowd out private investment.
+
+| **Metric** | **Definition** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Federal Deficit/GDP** | Annual deficit as % of GDP | >5% (non-recession) | Fiscal dominance risk |
+| **Fiscal Impulse** | Change in structural deficit YoY | >+1 ppt | Demand injection |
+| **Transfer Payments Growth** | YoY growth in government transfers | >5% | Consumer income support |
+
+**The 2026 Fiscal Dominance Regime:** We have $2T+ annual deficits, no QE, RRP at zero, and the Fed trying to fight inflation. The fiscal impulse is persistently inflationary at a time when monetary policy is trying to be restrictive. This conflict is **the** macro story of 2026. It means the term premium must reprice higher (to ~150 bps), long yields stay elevated regardless of Fed cuts, and inflation has a structural floor from deficit spending.
+
+**Cross-Pillar Link (Pillar 8, Government):** Fiscal dominance feeds directly into inflation via demand and indirectly via term premium → financial conditions → asset prices. See Pillar 8 for full fiscal framework.
+
+---
+
+## PCE vs CPI: Structural Comparison
+
+CPI and PCE measure inflation differently. Understanding the structural divergence is critical for interpreting the Fed's reaction function.
+
+| **Feature** | **CPI** | **PCE** |
+|---|---|---|
+| **Publisher** | BLS | BEA |
+| **Basket** | Fixed urban consumer basket | All consumer spending (inc. employer-paid health) |
+| **Weight Update** | Bi-annual (lagging) | Monthly (chain-weighted) |
+| **Shelter Weight** | ~34% | ~18% |
+| **Healthcare Weight** | ~7% (out-of-pocket only) | ~17% (includes employer/govt paid) |
+| **Substitution** | Laspeyres (no substitution) | Fisher Ideal (allows substitution) |
+| **Typical Spread** | CPI runs ~0.3-0.4 ppts higher | PCE lower due to substitution + weight diff |
+| **Fed Target** | Not targeted | **2.0% symmetric target** |
+
+**Why the Spread Matters:** CPI > PCE is normal (~0.3 ppts). When the spread widens beyond 0.5 ppts, it usually means shelter inflation is the culprit (higher weight in CPI). The current CPI-PCE spread gives insight into **how much of the "inflation problem" is shelter** (mechanical, will fade) vs. broad-based.
+
+### PCE Component Detail (From DB)
+
+The database contains extensive PCE price index decomposition:
+
+| **Component** | **DB Series** | **Use Case** |
+|---|---|---|
+| **PCE Goods** | BEA_PCE_Price_Index_Goods | Goods deflator |
+| **PCE Services** | BEA_PCE_Price_Index_Services | Services deflator |
+| **PCE Durables** | BEA_PCE_Price_Index_Durable_goods | Durable goods pricing |
+| **PCE Nondurables** | BEA_PCE_Price_Index_Nondurable_goods | Nondurable goods pricing |
+| **PCE Housing** | BEA_PCE_Price_Index_Housing | PCE shelter equivalent |
+| **PCE Health Care** | BEA_PCE_Price_Index_Health_care | Medical inflation (broader than CPI) |
+| **PCE Transport Services** | BEA_PCE_Price_Index_Transportation_services | Transport inflation |
+| **PCE Food Services** | BEA_PCE_Price_Index_Food_services_and_accommodations | Restaurant/hotel inflation |
+| **PCE Financial** | BEA_PCE_Price_Index_Financial_services_and_insurance | Financial services inflation |
+| **PCE ex-Food/Energy** | BEA_PCE_Price_Index_PCE_excluding_food_and_energy | Core PCE |
+| **PCE ex-Food/Energy/Housing** | BEA_PCE_Price_Index_PCE_excluding_food,_energy,_and_housing | "Super-supercore" |
+| **PCE Services ex-Energy/Housing** | BEA_PCE_Price_Index_PCE_services_excluding_energy_and_housing | PCE supercore |
+| **Market-Based PCE** | BEA_PCE_Price_Index_Market-based_PCE | Excludes imputed prices |
+| **Market-Based Core PCE** | BEA_PCE_Price_Index_Market-based_PCE_excluding_food_and_energy | Cleanest core measure |
+
+**Market-Based PCE** is worth watching separately. It strips out imputed components (like financial services consumed without payment). Market-based core PCE sometimes diverges from standard core PCE, and when it does, the market-based version is more "honest" about what consumers are actually experiencing.
+
+---
+
+## GDP Price Deflators (From DB)
+
+GDP price indices capture inflation at the broadest level of the economy, including investment, government, and trade prices beyond just consumption.
+
+| **Component** | **DB Series** | **Interpretation** |
+|---|---|---|
+| **GDP Deflator** | BEA_GDP_Price_Index_Gross_domestic_product | Broadest inflation measure |
+| **PCE Deflator** | BEA_GDP_Price_Index_Personal_consumption_expenditures | Consumption inflation |
+| **Fixed Investment** | BEA_GDP_Price_Index_Fixed_investment | Capex cost inflation |
+| **Residential** | BEA_GDP_Price_Index_Residential | Housing construction costs |
+| **Nonresidential** | BEA_GDP_Price_Index_Nonresidential | Business construction costs |
+| **Equipment** | BEA_GDP_Price_Index_Equipment | Equipment cost inflation |
+| **Government** | BEA_GDP_Price_Index_Government_consumption_expenditures_and_gross_investment | Public sector costs |
+| **Exports** | BEA_GDP_Price_Index_Exports | Export price inflation |
+| **Imports** | BEA_GDP_Price_Index_Imports | Import price inflation |
+
+**When GDP Deflator Diverges from PCE:** If the GDP deflator is running hotter than PCE, it means investment/government costs are inflating faster than consumption. This happened in 2023-2024 as construction costs surged. It signals future consumer-facing inflation as business cost pressures eventually pass through.
+
+---
+
+## FOMC Projections & the Dot Plot Lens
+
+### Summary of Economic Projections (SEP)
+
+The FOMC publishes quarterly projections for core PCE, which reveal the committee's inflation expectations and reaction function.
+
+| **Metric** | **Source** | **Frequency** | **Why It Matters** |
+|---|---|---|---|
+| **Median Core PCE Projection (Current Year)** | FOMC SEP | Quarterly (Mar, Jun, Sep, Dec) | Near-term inflation view |
+| **Median Core PCE Projection (Next Year)** | FOMC SEP | Quarterly | Forward inflation expectations |
+| **Longer-Run Core PCE Projection** | FOMC SEP | Quarterly | Should be 2.0% (if not, target shift) |
+| **Range of Core PCE Projections** | FOMC SEP | Quarterly | Committee disagreement = uncertainty |
+
+**The Gap Trade:** When market-implied inflation expectations (5Y breakeven) diverge from FOMC projections, one of them is wrong. Historically, the market corrects toward the FOMC's longer-run view. But if the FOMC keeps revising their near-term projections higher (2.6% → 2.8% → 3.0%), it signals they're losing the inflation fight.
+
+---
+
+## Historical Validation: Pre-Recession Inflation Dynamics
+
+### Pattern Recognition Across Cycles
+
+Inflation behaves **differently** before recessions vs. during mid-cycle slowdowns. Understanding the historical patterns helps calibrate whether current dynamics are "last mile" or "pre-recession."
+
+| **Period** | **Core CPI at Entry** | **What Happened** | **Outcome** |
+|---|---|---|---|
+| **1990 (Gulf War)** | 5.0% | Oil spike + rate hikes | Recession, core fell to 3.0% over 18 months |
+| **2000 (Dot-Com)** | 2.6% | Asset bubble burst, no inflation driver | Mild recession, core stable at 2.5% |
+| **2007 (GFC)** | 2.3% | Housing bust → demand collapse | Core fell to 0.6%, deflation scare |
+| **2020 (COVID)** | 2.3% | Demand shock, supply chain preserved | Core fell to 1.2%, then massive overshoot |
+| **2025-26 (Current)** | 3.3% | Services sticky, goods deflating | **?** |
+
+**Key Insight:** Inflation typically falls 1-2 ppts during recession as demand collapses. But starting from 3.3% core (current), even a recession only gets you to ~2.0-2.5% core. That's *on target* but not below. The risk is that the post-recession bounce reaccelerates inflation before it settles, as happened in the 1970s double-dip.
+
+### The Goods-Services Spread as Cycle Indicator
+
+| **Period** | **Goods CPI** | **Services CPI** | **Spread** | **Cycle Phase** |
+|---|---|---|---|---|
+| **Late 1990s** | -1.0% | +3.5% | -4.5 ppts | Late cycle (wage-driven services) |
+| **2003-2006** | +0.5% | +3.0% | -2.5 ppts | Mid-cycle expansion |
+| **2015-2019** | -0.5% | +3.0% | -3.5 ppts | Late cycle (globalization offset) |
+| **Dec 2025** | -1.2% | +4.8% | -6.0 ppts | **Extreme divergence** |
+
+The current 6.0 ppt goods-services spread is the widest on record. Historical normalization happens either through goods re-inflating (tariffs, dollar weakness) or services decelerating (recession, labor market cracking). The direction of convergence is the macro call.
+
+---
+
 ## Integration with Three-Engine Framework
 
 ### Pillar 2 ↔ Pillar 2 (Internal Price Dynamics)
