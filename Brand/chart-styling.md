@@ -119,6 +119,9 @@ This creates breathing room between the end of the data lines and the right spin
 
 - **Always `dropna()` before plotting** to prevent line breaks at NaN gaps
 - FRED data frequently has sporadic NaN values that create orphaned data points
+- **Quarterly data** (e.g. ECI): forward-fill to monthly frequency before plotting
+- **Volatile series:** Smooth with 3-month moving average where appropriate (e.g. UMich expectations, dollar YoY)
+- **Shifted series:** When showing a lead/lag relationship, shift the LAGGING series backward (not the leading series forward) to preserve right-side padding for pills
 
 ```python
 g_plot = data['yoy'].dropna()
