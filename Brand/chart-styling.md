@@ -31,7 +31,9 @@ All educational, research, and deck charts follow this format unless explicitly 
 ### Subplot Margins (fig.subplots_adjust)
 
 ```python
-fig.subplots_adjust(top=0.88, bottom=0.08, left=0.04, right=0.90)
+# Symmetric for dual-axis charts:
+fig.subplots_adjust(top=0.88, bottom=0.08, left=0.06, right=0.94)
+# For single-axis charts, left can be tighter (0.04) if no LHS pill needed
 ```
 
 ### Accent Bar Implementation

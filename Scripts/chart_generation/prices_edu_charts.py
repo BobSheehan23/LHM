@@ -131,7 +131,7 @@ def new_fig(figsize=(14, 8)):
     ax.set_facecolor(THEME['bg'])
     # Reserve margins: top for brand/title/subtitle, bottom for accent bar/source
     # Extra right/left margin so end-of-line pills have room outside spines
-    fig.subplots_adjust(top=0.88, bottom=0.08, left=0.04, right=0.90)
+    fig.subplots_adjust(top=0.88, bottom=0.08, left=0.06, right=0.94)
     return fig, ax
 
 
