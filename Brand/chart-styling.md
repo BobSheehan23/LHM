@@ -88,11 +88,19 @@ ax.annotate(label, xy=(1.0, last_y), xycoords=('axes fraction', 'data'),
 ```
 
 ### Dual-Axis Charts
+- **RHS = Primary = Blue (the "star" series). ALWAYS.**
+- **LHS = Secondary = Orange (Dusk). ALWAYS.**
 - **RHS pill**: Primary axis series, placed at `x=1.0` (right spine), `ha='left'`
 - **LHS pill**: Secondary axis series, placed at `x=0.0` (left spine), `ha='right'`
+- Tick labels colored to match their series (blue RHS, orange LHS)
+- For "same scale" dual-axis charts (e.g. both in % YoY), use twinx with matched ylim for colored tick labels
 
 ### Single-Axis Charts
 - RHS pill only
+
+### Legend Labels
+- Always include last value in legend label: `f'Core PCE ({val:.1f}%)'`
+- Smoothed series should show the smoothed value (not raw) in both legend and pill
 
 ---
 
