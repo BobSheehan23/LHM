@@ -234,6 +234,20 @@ ax.legend(loc='upper left', **legend_style)
 
 ---
 
+## Outer Border
+
+Every chart gets a 1.5pt border at the absolute figure edge, using the theme's spine color.
+
+```python
+fig.patches.append(plt.Rectangle(
+    (0, 0), 1, 1, transform=fig.transFigure,
+    fill=False, edgecolor=THEME['spine'], linewidth=1.5,
+    zorder=100, clip_on=False
+))
+```
+
+---
+
 ## Save Settings
 
 ```python
