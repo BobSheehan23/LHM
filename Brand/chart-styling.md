@@ -147,7 +147,7 @@ Use on expectations charts where 3% is the de-anchoring threshold.
 Every chart should have an annotation box with 1-2 line commentary summarizing the takeaway. Positioned in dead space where there is no data.
 
 ```python
-takeaway = "Your insight here.\nSecond line if needed."
+takeaway = f"Flexible inflation normalized.\nSticky at {sticky.iloc[-1]:.1f}% is the structural floor."
 ax.text(x, y, takeaway, transform=ax.transAxes,
         fontsize=10, color=THEME['fg'], ha='center', va='top',
         style='italic',
@@ -160,6 +160,7 @@ ax.text(x, y, takeaway, transform=ax.transAxes,
 - **Background**: Theme background color (opaque)
 - **Text**: Theme foreground, italic, fontsize 10
 - **Position**: Find the largest empty area on the chart. Avoid overlapping data, recession shading, or legend.
+- **CRITICAL: All annotation text must be dynamic** — use f-strings with live data values. Never hardcode numbers.
 
 ---
 
