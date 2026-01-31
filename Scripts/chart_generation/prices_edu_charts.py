@@ -121,6 +121,39 @@ def yoy_pct(df, col='value'):
     return df[col].pct_change(12, fill_method=None) * 100
 
 
+def fetch_fred_yoy(series_id, start='1999-01-01', trim='2000-01-01'):
+    """Fetch FRED series, compute YoY%, drop NaN, trim to start date."""
+    df = fetch_fred(series_id, start=start)
+    df['yoy'] = yoy_pct(df)
+    if trim:
+        df = df.loc[trim:]
+    return df['yoy'].dropna()
+
+
+def fetch_fred_level(series_id, start='2000-01-01'):
+    """Fetch FRED series as-is (already a rate/level, not an index)."""
+    df = fetch_fred(series_id, start=start)
+    return df['value'].dropna()
+
+
+def fetch_quarterly_as_monthly(series_id, start='1999-01-01', trim='2000-01-01'):
+    """Fetch quarterly FRED series, compute YoY (4-period), forward-fill to monthly."""
+    df = fetch_fred(series_id, start=start)
+    df['yoy'] = df['value'].pct_change(4, fill_method=None) * 100  # Quarterly YoY
+    # Resample to monthly, forward-fill quarterly values
+    monthly = df['yoy'].resample('MS').ffill()
+    if trim:
+        monthly = monthly.loc[trim:]
+    return monthly.dropna()
+
+
+def rolling_zscore(series, window=60):
+    """Compute rolling z-score over a given window (months)."""
+    mu = series.rolling(window, min_periods=24).mean()
+    sigma = series.rolling(window, min_periods=24).std()
+    return (series - mu) / sigma
+
+
 # ============================================
 # CHART STYLING HELPERS (matching labor format)
 # ============================================
@@ -133,6 +166,42 @@ def new_fig(figsize=(14, 8)):
     # Extra right/left margin so end-of-line pills have room outside spines
     fig.subplots_adjust(top=0.88, bottom=0.08, left=0.06, right=0.94)
     return fig, ax
+
+
+def style_dual_ax(ax1, ax2, c1, c2):
+    """Apply full styling to a dual-axis chart: spines, tick colors, no tick marks, formatters."""
+    style_ax(ax1, right_primary=False)
+    ax1.grid(False)
+    ax2.grid(False)
+    for spine in ax2.spines.values():
+        spine.set_color(THEME['spine'])
+        spine.set_linewidth(0.5)
+    ax1.tick_params(axis='both', which='both', length=0)
+    ax1.tick_params(axis='y', labelcolor=c1, labelsize=10)
+    ax1.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}%'))
+    ax2.tick_params(axis='both', which='both', length=0)
+    ax2.tick_params(axis='y', labelcolor=c2, labelsize=10)
+    ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}%'))
+    ax1.yaxis.set_tick_params(which='both', right=False)
+    ax2.yaxis.set_tick_params(which='both', left=False)
+
+
+def style_single_ax(ax):
+    """Apply full styling to a single-axis chart: spines, ticks on RHS, no tick marks."""
+    style_ax(ax, right_primary=True)
+    ax.tick_params(axis='both', which='both', length=0)
+    ax.tick_params(axis='y', labelcolor=THEME['fg'], labelsize=10)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}%'))
+
+
+def add_annotation_box(ax, text, x=0.52, y=0.92):
+    """Add takeaway annotation box in dead space."""
+    ax.text(x, y, text, transform=ax.transAxes,
+            fontsize=10, color=THEME['fg'], ha='center', va='top',
+            style='italic',
+            bbox=dict(boxstyle='round,pad=0.5',
+                      facecolor=THEME['bg'], edgecolor='#0089D1',
+                      alpha=0.9))
 
 
 def style_ax(ax, right_primary=True):
@@ -196,7 +265,7 @@ def brand_fig(fig, title, subtitle=None, source=None):
                  color=OCEAN, style='italic')
 
 
-def add_last_value_label(ax, y_data, color, fmt='{:.1f}%', side='right'):
+def add_last_value_label(ax, y_data, color, fmt='{:.1f}%', side='right', fontsize=9, pad=0.3):
     """Add colored pill with bold white text on the axis edge.
     side='right' places on RHS spine, side='left' places on LHS spine.
     """
@@ -204,16 +273,16 @@ def add_last_value_label(ax, y_data, color, fmt='{:.1f}%', side='right'):
         return
     last_y = float(y_data.iloc[-1]) if hasattr(y_data, 'iloc') else float(y_data[-1])
     label = fmt.format(last_y)
-    pill = dict(boxstyle='round,pad=0.3', facecolor=color, edgecolor=color, alpha=0.95)
+    pill = dict(boxstyle=f'round,pad={pad}', facecolor=color, edgecolor=color, alpha=0.95)
     if side == 'right':
         ax.annotate(label, xy=(1.0, last_y), xycoords=('axes fraction', 'data'),
-                    fontsize=9, fontweight='bold', color='white',
+                    fontsize=fontsize, fontweight='bold', color='white',
                     ha='left', va='center',
                     xytext=(6, 0), textcoords='offset points',
                     bbox=pill)
     else:
         ax.annotate(label, xy=(0.0, last_y), xycoords=('axes fraction', 'data'),
-                    fontsize=9, fontweight='bold', color='white',
+                    fontsize=fontsize, fontweight='bold', color='white',
                     ha='right', va='center',
                     xytext=(-6, 0), textcoords='offset points',
                     bbox=pill)
@@ -277,22 +346,22 @@ def chart_01():
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
 
-    c1 = THEME['primary']    # goods = sky/ocean
-    c2 = THEME['secondary']  # services = dusk
+    c_primary = THEME['primary']    # RHS = blue
+    c_secondary = THEME['secondary']  # LHS = orange
 
     # Drop NaN before plotting so line doesn't break at gaps
     g_plot = goods['yoy'].dropna()
     s_plot = services['yoy'].dropna()
 
-    # Plot goods on LHS
-    ax1.plot(g_plot.index, g_plot, color=c1, linewidth=2.5,
-             label='Core Goods CPI (LHS)')
-    # Plot services on RHS
-    ax2.plot(s_plot.index, s_plot, color=c2, linewidth=2.5,
-             label='Core Services CPI (RHS)')
+    # Goods on LHS (secondary/orange), Services on RHS (primary/blue)
+    ax1.plot(g_plot.index, g_plot, color=c_secondary, linewidth=2.5,
+             label=f'Core Goods CPI ({g_plot.iloc[-1]:.1f}%)')
+    ax2.plot(s_plot.index, s_plot, color=c_primary, linewidth=2.5,
+             label=f'Core Services CPI ({s_plot.iloc[-1]:.1f}%)')
 
-    # Zero line
-    ax1.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+    # Zero line and 2% target
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(2.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
 
     # Same scale, aligned at zero
     g_data = goods['yoy'].dropna()
@@ -315,11 +384,11 @@ def chart_01():
 
     # Kill ALL tick marks on both axes (major + minor, both sides)
     ax1.tick_params(axis='both', which='both', length=0)
-    ax1.tick_params(axis='y', labelcolor=c1, labelsize=10)
+    ax1.tick_params(axis='y', labelcolor=c_secondary, labelsize=10)
     ax1.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.0f}%'))
 
     ax2.tick_params(axis='both', which='both', length=0)
-    ax2.tick_params(axis='y', labelcolor=c2, labelsize=10)
+    ax2.tick_params(axis='y', labelcolor=c_primary, labelsize=10)
     ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.0f}%'))
 
     # Also kill any secondary tick marks ax1 might draw on right via twinx
@@ -329,9 +398,9 @@ def chart_01():
     set_xlim_to_data(ax1, goods.index)
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
-    # Last value labels: goods on LHS, services on RHS
-    add_last_value_label(ax1, g_data, color=c1, side='left')
-    add_last_value_label(ax2, s_data, color=c2, side='right')
+    # Last value labels: goods on LHS (orange), services on RHS (blue)
+    add_last_value_label(ax1, g_data, color=c_secondary, side='left')
+    add_last_value_label(ax2, s_data, color=c_primary, side='right')
 
     # Recession shading
     add_recessions(ax1)
@@ -340,6 +409,10 @@ def chart_01():
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    # Label the 2% target line
+    ax1.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
+             alpha=0.7, style='italic', transform=ax1.get_yaxis_transform())
 
     # Annotation box — takeaway in the dead space, right of recession bars
     takeaway = "Services inflation running 2x goods.\nThe last mile problem is a services problem."
@@ -359,10 +432,564 @@ def chart_01():
 
 
 # ============================================
+# CHART 2: Headline CPI vs Core PCE YoY
+# ============================================
+def chart_02():
+    """Headline CPI vs Core PCE: The Gap That Matters."""
+    print('\nChart 2: Headline CPI vs Core PCE...')
+
+    cpi = fetch_fred_yoy('CPIAUCSL')
+    pce = fetch_fred_yoy('PCEPILFE')
+
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
+
+    # CPI on LHS (secondary/orange), Core PCE on RHS (primary/blue)
+    ax1.plot(cpi.index, cpi, color=c_secondary, linewidth=2.5, label=f'Headline CPI YoY ({cpi.iloc[-1]:.1f}%)')
+    ax2.plot(pce.index, pce, color=c_primary, linewidth=2.5, label=f'Core PCE YoY ({pce.iloc[-1]:.1f}%)')
+
+    ax1.axhline(2.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    # Label the 2% target line
+    ax1.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
+             alpha=0.7, style='italic', transform=ax1.get_yaxis_transform())
+
+    # Same scale
+    all_min = min(cpi.min(), pce.min())
+    all_max = max(cpi.max(), pce.max())
+    pad = (all_max - all_min) * 0.08
+    ax1.set_ylim(all_min - pad, all_max + pad)
+    ax2.set_ylim(all_min - pad, all_max + pad)
+
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, cpi.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax1, cpi, color=c_secondary, side='left')
+    add_last_value_label(ax2, pce, color=c_primary, side='right')
+
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    pce_last = pce.iloc[-1]
+    pce_above = ((pce_last / 2.0) - 1) * 100
+    add_annotation_box(ax1,
+        f"The Fed targets Core PCE, not headline CPI.\nAt {pce_last:.1f}%, we're {pce_above:.0f}% above the 2% goal.",
+        x=0.50, y=0.92)
+
+    brand_fig(fig, 'Headline CPI vs Core PCE: The Gap That Matters',
+              subtitle='The number the Fed actually watches',
+              source='BLS, BEA')
+
+    return save_fig(fig, 'chart_02_headline_vs_core.png')
+
+
+# ============================================
+# CHART 3: The Shelter Lag Trap
+# ============================================
+def chart_03():
+    """Shelter CPI, Rent CPI, OER YoY — the mechanical lag."""
+    print('\nChart 3: Shelter Lag Trap...')
+
+    shelter = fetch_fred_yoy('CUSR0000SAH1')
+    rent = fetch_fred_yoy('CUSR0000SEHA')
+    oer = fetch_fred_yoy('CUSR0000SEHC')
+
+    fig, ax = new_fig()
+    c1, c2, c3 = THEME['primary'], THEME['secondary'], THEME['tertiary']
+
+    ax.plot(shelter.index, shelter, color=c1, linewidth=2.5, label=f'Shelter CPI ({shelter.iloc[-1]:.1f}%)')
+    ax.plot(rent.index, rent, color=c2, linewidth=2.5, label=f'Rent of Primary Residence ({rent.iloc[-1]:.1f}%)')
+    ax.plot(oer.index, oer, color=c3, linewidth=2.5, label=f"Owners' Equivalent Rent ({oer.iloc[-1]:.1f}%)")
+
+    ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax.axhline(2.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
+            alpha=0.7, style='italic', transform=ax.get_yaxis_transform())
+
+    style_single_ax(ax)
+    ax.tick_params(axis='both', which='both', length=0)
+    set_xlim_to_data(ax, shelter.index)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax, shelter, color=c1, side='right', fontsize=7, pad=0.2)
+    add_last_value_label(ax, rent, color=c2, side='right', fontsize=7, pad=0.2)
+    add_last_value_label(ax, oer, color=c3, side='right', fontsize=7, pad=0.2)
+
+    add_recessions(ax)
+    ax.legend(loc='upper left', **legend_style())
+
+    add_annotation_box(ax,
+        f"Shelter = 34% of CPI weight.\nThe lag is mechanical, the decline is baked in.",
+        x=0.50, y=0.92)
+
+    brand_fig(fig, 'The Shelter Lag Trap',
+              subtitle='Market rents lead CPI shelter by 12-18 months',
+              source='BLS CPI')
+
+    return save_fig(fig, 'chart_03_shelter_lag.png')
+
+
+# ============================================
+# CHART 4: Sticky vs Flexible CPI
+# ============================================
+def _chart_04_core(shifted=False):
+    """Atlanta Fed Sticky vs Flexible CPI — persistence signal. Shared logic for shifted/unshifted."""
+
+    # These are 12M trimmed-mean annualized rates from Atlanta Fed
+    sticky = fetch_fred_level('CORESTICKM159SFRBATL', start='1999-01-01')
+    flexible = fetch_fred_level('COREFLEXCPIM159SFRBATL', start='1999-01-01')
+
+    # Trim to 2000+
+    sticky = sticky.loc['2000-01-01':]
+    flexible = flexible.loc['2000-01-01':]
+
+    # Optionally shift sticky backward 6 months to show flexible's lead visually
+    # Label says "Flexible shifted +6mo" so the reader gets the concept
+    if shifted:
+        sticky_plot = sticky.copy()
+        sticky_plot.index = sticky_plot.index - pd.DateOffset(months=12)
+        sticky_label = f'Sticky CPI (shifted -12mo, {sticky.iloc[-1]:.1f}%)'
+        flexible_plot = flexible
+        flex_label = f'Flexible CPI ({flexible.iloc[-1]:.1f}%)'
+        subtitle = 'Flexible leads Sticky by ~12 months'
+        filename = 'chart_04b_sticky_vs_flexible_shifted.png'
+    else:
+        sticky_plot = sticky
+        sticky_label = f'Sticky CPI ({sticky.iloc[-1]:.1f}%)'
+        flexible_plot = flexible
+        flex_label = f'Flexible CPI ({flexible.iloc[-1]:.1f}%)'
+        subtitle = 'Atlanta Fed decomposition reveals the structural floor'
+        filename = 'chart_04_sticky_vs_flexible.png'
+
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
+
+    # Flexible on LHS (secondary/orange), Sticky on RHS (primary/blue) — sticky is the story
+    ax1.plot(flexible_plot.index, flexible_plot, color=c_secondary, linewidth=2.5, label=flex_label)
+    ax2.plot(sticky_plot.index, sticky_plot, color=c_primary, linewidth=2.5, label=sticky_label)
+
+    ax1.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    # Data-driven ranges
+    f_pad = (flexible_plot.max() - flexible_plot.min()) * 0.08
+    s_pad = (sticky_plot.max() - sticky_plot.min()) * 0.08
+    ax1.set_ylim(flexible_plot.min() - f_pad, flexible_plot.max() + f_pad)
+    ax2.set_ylim(sticky_plot.min() - s_pad, sticky_plot.max() + s_pad)
+
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, flexible_plot.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax1, flexible_plot, color=c_secondary, side='left')
+    add_last_value_label(ax2, sticky_plot, color=c_primary, side='right')
+
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    add_annotation_box(ax1,
+        f"Flexible inflation normalized.\nSticky at {sticky.iloc[-1]:.1f}% is {sticky.iloc[-1]/2:.1f}x the target.",
+        x=0.50, y=0.92)
+
+    brand_fig(fig, 'Sticky vs Flexible: The Persistence Problem',
+              subtitle=subtitle,
+              source='Atlanta Fed')
+
+    return save_fig(fig, filename)
+
+
+def chart_04():
+    """Chart 4a: unshifted."""
+    print('\nChart 4: Sticky vs Flexible CPI...')
+    path_a = _chart_04_core(shifted=False)
+    print('\nChart 4b: Sticky vs Flexible CPI (shifted)...')
+    path_b = _chart_04_core(shifted=True)
+    return path_a
+
+
+# ============================================
+# CHART 5: PPI Leads CPI
+# ============================================
+def chart_05():
+    """PPI Final Demand vs CPI YoY — the pipeline signal."""
+    print('\nChart 5: PPI vs CPI...')
+
+    ppi = fetch_fred_yoy('PPIFIS')
+    cpi = fetch_fred_yoy('CPIAUCSL')
+
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
+
+    # CPI on LHS (secondary/orange), PPI on RHS (primary/blue) — PPI is the leading signal
+    ax1.plot(cpi.index, cpi, color=c_secondary, linewidth=2.5, label=f'CPI YoY ({cpi.iloc[-1]:.1f}%)')
+    ax2.plot(ppi.index, ppi, color=c_primary, linewidth=2.5, label=f'PPI Final Demand YoY ({ppi.iloc[-1]:.1f}%)')
+
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(2.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
+             alpha=0.7, style='italic', transform=ax1.get_yaxis_transform())
+
+    # Same scale
+    all_min = min(ppi.min(), cpi.min())
+    all_max = max(ppi.max(), cpi.max())
+    pad = (all_max - all_min) * 0.08
+    ax1.set_ylim(all_min - pad, all_max + pad)
+    ax2.set_ylim(all_min - pad, all_max + pad)
+
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, ppi.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax1, cpi, color=c_secondary, side='left')
+    add_last_value_label(ax2, ppi, color=c_primary, side='right')
+
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    ppi_last, cpi_last = ppi.iloc[-1], cpi.iloc[-1]
+    ppi_vs = "below" if ppi_last < cpi_last else "above"
+    add_annotation_box(ax1,
+        f"PPI ({ppi_last:.1f}%) {ppi_vs} CPI ({cpi_last:.1f}%) = {'dis' if ppi_last < cpi_last else ''}inflationary\npressure in the pipeline. Pass-through takes 3-6 months.",
+        x=0.50, y=0.92)
+
+    brand_fig(fig, 'The Pipeline: PPI Leads CPI',
+              subtitle='Producer prices signal what consumer prices do next',
+              source='BLS PPI, CPI')
+
+    return save_fig(fig, 'chart_05_ppi_leads_cpi.png')
+
+
+# ============================================
+# CHART 6: Inflation Expectations
+# ============================================
+def chart_06():
+    """5Y5Y Forward vs UMich 1Y — anchoring test."""
+    print('\nChart 6: Inflation Expectations...')
+
+    fwd_raw = fetch_fred_level('T5YIFR', start='2003-01-01')
+    fwd = fwd_raw.rolling(20, min_periods=5).mean().dropna()  # Smooth daily noise
+    umich = fetch_fred_level('MICH', start='2003-01-01')
+
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
+
+    # Smooth UMich with 3-month MA to reduce noise
+    umich_smooth = umich.rolling(3, min_periods=1).mean()
+
+    # UMich on LHS (secondary/orange), 5Y5Y on RHS (primary/blue) — 5Y5Y is the anchoring signal
+    ax1.plot(umich_smooth.index, umich_smooth, color=c_secondary, linewidth=2.5, label=f'UMich 1Y Expectations, 3mMA ({umich_smooth.iloc[-1]:.1f}%)')
+    ax2.plot(fwd.index, fwd, color=c_primary, linewidth=2.5, label=f'5Y5Y Forward ({fwd.iloc[-1]:.1f}%)')
+
+    # 2% target line and 3% danger zone on RHS scale (5Y5Y)
+    ax2.axhline(2.0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax2.axhline(3.0, color=COLORS['venus'], linewidth=0.8, alpha=0.4, linestyle='--')
+    ax2.text(1.01, 2.05, '2% Target', fontsize=8, color=COLORS['doldrums'],
+             alpha=0.7, style='italic', transform=ax2.get_yaxis_transform(), ha='left')
+    ax2.text(1.01, 3.05, '3% Danger', fontsize=8, color=COLORS['venus'],
+             alpha=0.7, style='italic', transform=ax2.get_yaxis_transform(), ha='left')
+
+    # Independent scales — these series have very different ranges
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, fwd.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax1, umich_smooth, color=c_secondary, side='left')
+    add_last_value_label(ax2, fwd, color=c_primary, side='right')
+
+    add_recessions(ax1, start_date='2003-01-01')
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    add_annotation_box(ax1,
+        f"5Y5Y at {fwd.iloc[-1]:.2f}%: {'drifting, not de-anchored' if fwd.iloc[-1] < 3.0 else 'de-anchoring risk'}.\nIf this breaks 3%, all bets are off.",
+        x=0.50, y=0.12)
+
+    brand_fig(fig, 'Inflation Expectations: Are They Anchored?',
+              subtitle='The line between controlled and uncontrolled inflation',
+              source='FRED, UMich')
+
+    return save_fig(fig, 'chart_06_expectations.png')
+
+
+# ============================================
+# CHART 7: Trimmed Mean vs Core PCE
+# ============================================
+def chart_07():
+    """Dallas Fed Trimmed Mean PCE vs Core PCE — signal beneath noise."""
+    print('\nChart 7: Trimmed Mean vs Core PCE...')
+
+    trimmed = fetch_fred_level('PCETRIM12M159SFRBDAL', start='2000-01-01')
+    core_pce = fetch_fred_yoy('PCEPILFE')
+
+    fig, ax = new_fig()
+    c1, c2 = THEME['primary'], THEME['secondary']
+
+    ax.plot(trimmed.index, trimmed, color=c1, linewidth=2.5, label=f'Trimmed Mean PCE 12M ({trimmed.iloc[-1]:.1f}%)')
+    ax.plot(core_pce.index, core_pce, color=c2, linewidth=2.5, label=f'Core PCE YoY ({core_pce.iloc[-1]:.1f}%)')
+
+    ax.axhline(2.0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    style_single_ax(ax)
+    ax.tick_params(axis='both', which='both', length=0)
+    set_xlim_to_data(ax, trimmed.index)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax, trimmed, color=c1, side='right')
+
+    add_recessions(ax)
+    ax.legend(loc='upper left', **legend_style())
+
+    add_annotation_box(ax,
+        f"Trimmed mean strips the noise.\nAt {trimmed.iloc[-1]:.1f}%, the stickiness is broad-based.",
+        x=0.45, y=0.92)
+
+    brand_fig(fig, 'Trimmed Mean vs Core: The Signal Beneath the Noise',
+              subtitle='Dallas Fed trimmed mean confirms persistent inflation',
+              source='Dallas Fed, BEA')
+
+    return save_fig(fig, 'chart_07_trimmed_mean.png')
+
+
+# ============================================
+# CHART 8: Wages vs Prices (ECI vs Core PCE)
+# ============================================
+def chart_08():
+    """ECI Total Compensation vs Core PCE — wage-price spiral check."""
+    print('\nChart 8: ECI vs Core PCE...')
+
+    eci = fetch_quarterly_as_monthly('ECIALLCIV')
+    core_pce = fetch_fred_yoy('PCEPILFE')
+
+    fig, ax = new_fig()
+    c1, c2 = THEME['primary'], THEME['secondary']
+
+    ax.plot(eci.index, eci, color=c1, linewidth=2.5, label=f'ECI Total Compensation YoY ({eci.iloc[-1]:.1f}%)')
+    ax.plot(core_pce.index, core_pce, color=c2, linewidth=2.5, label=f'Core PCE YoY ({core_pce.iloc[-1]:.1f}%)')
+
+    ax.axhline(2.0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    style_single_ax(ax)
+    ax.tick_params(axis='both', which='both', length=0)
+    set_xlim_to_data(ax, eci.index)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax, eci, color=c1, side='right')
+
+    add_recessions(ax)
+    ax.legend(loc='upper left', **legend_style())
+
+    eci_last, pce_last = eci.iloc[-1], core_pce.iloc[-1]
+    spiral_status = "No wage-price spiral." if eci_last > pce_last else "Wages falling behind prices."
+    add_annotation_box(ax,
+        f"{spiral_status} ECI at {eci_last:.1f}% vs Core PCE\nat {pce_last:.1f}%. Equilibrium, not resolution.",
+        x=0.50, y=0.92)
+
+    brand_fig(fig, 'Wages vs Prices: The Spiral Check',
+              subtitle='ECI compensation growth vs core inflation',
+              source='BLS ECI, BEA')
+
+    return save_fig(fig, 'chart_08_wages_vs_prices.png')
+
+
+# ============================================
+# CHART 9: Dollar Channel — Goods Deflation
+# ============================================
+def chart_09():
+    """Trade-Weighted Dollar (inverted) vs Core Goods CPI YoY."""
+    print('\nChart 9: Dollar vs Goods CPI...')
+
+    dollar = fetch_fred_level('DTWEXBGS', start='1999-01-01')
+    goods = fetch_fred_yoy('CUSR0000SACL1E')
+
+    # Resample daily dollar to monthly, then compute YoY
+    dollar_monthly = dollar.resample('MS').mean()
+    dollar_yoy = dollar_monthly.pct_change(12) * 100
+    dollar_yoy = dollar_yoy.dropna()
+    dollar_yoy = dollar_yoy.loc['2000-01-01':]
+
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
+
+    # Dollar (inverted) on LHS (secondary/orange), Goods CPI on RHS (primary/blue) — goods is the story
+    inv_dollar_plot = -dollar_yoy
+    ax1.plot(dollar_yoy.index, inv_dollar_plot, color=c_secondary, linewidth=2.5,
+             label=f'Dollar YoY % (inverted, {inv_dollar_plot.iloc[-1]:.1f}%)')
+    ax2.plot(goods.index, goods, color=c_primary, linewidth=2.5,
+             label=f'Core Goods CPI YoY ({goods.iloc[-1]:.1f}%)')
+
+    ax1.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    # Align both axes at zero
+    d_max = max(abs(inv_dollar_plot.min()), abs(inv_dollar_plot.max())) * 1.1
+    g_max = max(abs(goods.min()), abs(goods.max())) * 1.1
+    ax1.set_ylim(-d_max, d_max)
+    ax2.set_ylim(-g_max, g_max)
+
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, dollar_yoy.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax1, inv_dollar_plot, color=c_secondary, side='left')
+    add_last_value_label(ax2, goods, color=c_primary, side='right')
+
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    dollar_dir = "Strong" if dollar_yoy.iloc[-1] > 0 else "Weak"
+    goods_dir = "deflation" if goods.iloc[-1] < 0 else "inflation"
+    add_annotation_box(ax1,
+        f"{dollar_dir} dollar ({dollar_yoy.iloc[-1]:.1f}% YoY) \u2192 goods {goods_dir}.\nThe 9-18 month lag is mechanical.",
+        x=0.50, y=0.92)
+
+    brand_fig(fig, 'The Dollar Channel: Goods Deflation Explained',
+              subtitle='Trade-weighted dollar (inverted) vs core goods CPI',
+              source='FRED, BLS')
+
+    return save_fig(fig, 'chart_09_dollar_goods.png')
+
+
+# ============================================
+# CHART 10: PCI Composite with Regime Bands
+# ============================================
+def chart_10():
+    """Prices Composite Index (PCI) with regime bands."""
+    print('\nChart 10: PCI Composite...')
+
+    # Fetch components
+    core_pce_idx = fetch_fred('PCEPILFE', start='1995-01-01')
+    core_pce_idx['yoy'] = yoy_pct(core_pce_idx)
+    # 3M annualized
+    core_pce_idx['mom'] = core_pce_idx['value'].pct_change(1, fill_method=None)
+    core_pce_idx['ann3m'] = (((1 + core_pce_idx['mom']).rolling(3).apply(
+        lambda x: x.prod(), raw=True)) ** 4 - 1) * 100
+
+    shelter = fetch_fred('CUSR0000SAH1', start='1995-01-01')
+    shelter['yoy'] = yoy_pct(shelter)
+
+    sticky = fetch_fred_level('CORESTICKM159SFRBATL', start='1995-01-01')
+
+    fwd5y5y = fetch_fred_level('T5YIFR', start='2003-01-01')
+
+    goods = fetch_fred('CUSR0000SACL1E', start='1995-01-01')
+    goods['yoy'] = yoy_pct(goods)
+
+    # Services ex-shelter proxy: use supercore
+    # CUSR0000SASLE (services) minus shelter contribution approximation
+    # Simpler: use core services as proxy since we don't have clean ex-shelter
+    services = fetch_fred('CUSR0000SASLE', start='1995-01-01')
+    services['yoy'] = yoy_pct(services)
+
+    # Align all to common date range
+    start_date = '2004-01-01'  # 5Y5Y starts 2003, need buffer for z-scores
+
+    # Build DataFrame
+    pci_df = pd.DataFrame({
+        'core_pce_3m': core_pce_idx['ann3m'],
+        'services_yoy': services['yoy'],
+        'shelter_yoy': shelter['yoy'],
+        'sticky': sticky,
+        'fwd5y5y': fwd5y5y,
+        'goods_yoy': goods['yoy'],
+    })
+    pci_df = pci_df.loc[start_date:].dropna()
+
+    # Z-scores (rolling 60-month)
+    z_core = rolling_zscore(pci_df['core_pce_3m'])
+    z_svc = rolling_zscore(pci_df['services_yoy'])
+    z_shelter = rolling_zscore(pci_df['shelter_yoy'])
+    z_sticky = rolling_zscore(pci_df['sticky'])
+    z_fwd = rolling_zscore(pci_df['fwd5y5y'])
+    z_goods = rolling_zscore(pci_df['goods_yoy'])
+
+    # PCI formula
+    pci = (0.30 * z_core + 0.20 * z_svc + 0.15 * z_shelter
+           + 0.15 * z_sticky + 0.10 * z_fwd + 0.10 * (-z_goods))
+    pci = pci.dropna()
+
+    fig, ax = new_fig()
+    c1 = THEME['primary']
+
+    # Regime bands
+    ax.axhspan(1.5, 3.0, color=COLORS['port'], alpha=0.08)     # Crisis
+    ax.axhspan(1.0, 1.5, color=COLORS['dusk'], alpha=0.08)     # High
+    ax.axhspan(0.5, 1.0, color=COLORS['dusk'], alpha=0.04)     # Elevated
+    ax.axhspan(-0.5, 0.5, color=COLORS['sea'], alpha=0.04)     # On target
+    ax.axhspan(-3.0, -0.5, color=COLORS['sky'], alpha=0.04)    # Deflationary
+
+    ax.plot(pci.index, pci, color=c1, linewidth=2.5, label=f'PCI ({pci.iloc[-1]:.2f})')
+    ax.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    style_single_ax(ax)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}'))
+    ax.tick_params(axis='both', which='both', length=0)
+    set_xlim_to_data(ax, pci.index)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax, pci, color=c1, fmt='{:.2f}', side='right')
+
+    # Regime labels on right side
+    ax.text(1.02, 1.75, 'CRISIS', transform=ax.get_yaxis_transform(),
+            fontsize=7, color=COLORS['port'], va='center', fontweight='bold', alpha=0.7)
+    ax.text(1.02, 1.25, 'HIGH', transform=ax.get_yaxis_transform(),
+            fontsize=7, color=COLORS['dusk'], va='center', fontweight='bold', alpha=0.7)
+    ax.text(1.02, 0.75, 'ELEVATED', transform=ax.get_yaxis_transform(),
+            fontsize=7, color=COLORS['dusk'], va='center', fontweight='bold', alpha=0.5)
+    ax.text(1.02, 0.0, 'TARGET', transform=ax.get_yaxis_transform(),
+            fontsize=7, color=COLORS['sea'], va='center', fontweight='bold', alpha=0.7)
+
+    ax.legend(loc='upper left', **legend_style())
+
+    pci_last = pci.iloc[-1]
+    if pci_last > 1.5: regime = "Crisis"
+    elif pci_last > 1.0: regime = "High"
+    elif pci_last > 0.5: regime = "Elevated"
+    elif pci_last > -0.5: regime = "On Target"
+    else: regime = "Deflationary"
+    add_annotation_box(ax,
+        f"PCI at {pci_last:.2f}: {regime} regime.\nNot crisis, not target. The Fed is boxed in.",
+        x=0.35, y=0.92)
+
+    brand_fig(fig, 'Prices Composite Index (PCI)',
+              subtitle='Synthesizing all inflation signals into one regime indicator',
+              source='FRED, BLS, BEA, Atlanta Fed')
+
+    return save_fig(fig, 'chart_10_pci_composite.png')
+
+
+# ============================================
 # MAIN
 # ============================================
 CHART_MAP = {
     1: chart_01,
+    2: chart_02,
+    3: chart_03,
+    4: chart_04,
+    5: chart_05,
+    6: chart_06,
+    7: chart_07,
+    8: chart_08,
+    9: chart_09,
+    10: chart_10,
 }
 
 
