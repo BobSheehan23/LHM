@@ -119,13 +119,26 @@ ax.plot(g_plot.index, g_plot, ...)
 
 ---
 
-## Zero Line
+## Reference Lines
 
+### Zero Line (Doldrums)
 ```python
-ax.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+ax.axhline(0, color='#D3D6D9', linewidth=0.8, alpha=0.5, linestyle='--')
 ```
-
 Full-width dashed line. Extends to spines on both sides.
+
+### 2% Target Line (Venus)
+```python
+ax.axhline(2, color='#FF2389', linewidth=1.0, alpha=0.7, linestyle='--')
+ax.text(x, 2.05, '2% Target', color='#FF2389', fontsize=8, ha='left', va='bottom')
+```
+Use on charts where the Fed's 2% target is relevant (inflation measures, PCE, sticky CPI, etc.).
+
+### 3% Danger Zone (Sea)
+```python
+ax.axhline(3, color='#00BB99', linewidth=1.0, alpha=0.7, linestyle='--')
+```
+Use on expectations charts where 3% is the de-anchoring threshold.
 
 ---
 

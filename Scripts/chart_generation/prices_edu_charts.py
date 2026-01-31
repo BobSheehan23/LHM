@@ -317,6 +317,14 @@ def legend_style():
 
 def save_fig(fig, filename):
     """Save figure to output directory."""
+    # Add outer border at absolute figure edge
+    border_color = THEME['spine']
+    fig.patches.append(plt.Rectangle(
+        (0, 0), 1, 1, transform=fig.transFigure,
+        fill=False, edgecolor=border_color, linewidth=1.5,
+        zorder=100, clip_on=False
+    ))
+
     filepath = os.path.join(OUTPUT_DIR, filename)
     fig.savefig(filepath, dpi=200, bbox_inches='tight', pad_inches=0.15,
                 facecolor=THEME['bg'], edgecolor='none')
@@ -538,8 +546,9 @@ def chart_03():
 # ============================================
 # CHART 4: Sticky vs Flexible CPI
 # ============================================
-def _chart_04_core(shifted=False):
-    """Atlanta Fed Sticky vs Flexible CPI — persistence signal. Shared logic for shifted/unshifted."""
+def chart_04():
+    """Atlanta Fed Sticky vs Flexible CPI — shifted 12 months to show lead relationship."""
+    print('\nChart 4: Sticky vs Flexible CPI (shifted 12mo)...')
 
     # These are 12M trimmed-mean annualized rates from Atlanta Fed
     sticky = fetch_fred_level('CORESTICKM159SFRBATL', start='1999-01-01')
@@ -549,23 +558,12 @@ def _chart_04_core(shifted=False):
     sticky = sticky.loc['2000-01-01':]
     flexible = flexible.loc['2000-01-01':]
 
-    # Optionally shift sticky backward 6 months to show flexible's lead visually
-    # Label says "Flexible shifted +6mo" so the reader gets the concept
-    if shifted:
-        sticky_plot = sticky.copy()
-        sticky_plot.index = sticky_plot.index - pd.DateOffset(months=12)
-        sticky_label = f'Sticky CPI (shifted -12mo, {sticky.iloc[-1]:.1f}%)'
-        flexible_plot = flexible
-        flex_label = f'Flexible CPI ({flexible.iloc[-1]:.1f}%)'
-        subtitle = 'Flexible leads Sticky by ~12 months'
-        filename = 'chart_04b_sticky_vs_flexible_shifted.png'
-    else:
-        sticky_plot = sticky
-        sticky_label = f'Sticky CPI ({sticky.iloc[-1]:.1f}%)'
-        flexible_plot = flexible
-        flex_label = f'Flexible CPI ({flexible.iloc[-1]:.1f}%)'
-        subtitle = 'Atlanta Fed decomposition reveals the structural floor'
-        filename = 'chart_04_sticky_vs_flexible.png'
+    # Shift sticky backward 12 months to show flexible's lead visually
+    sticky_plot = sticky.copy()
+    sticky_plot.index = sticky_plot.index - pd.DateOffset(months=12)
+    sticky_label = f'Sticky CPI (shifted -12mo, {sticky.iloc[-1]:.1f}%)'
+    flexible_plot = flexible
+    flex_label = f'Flexible CPI ({flexible.iloc[-1]:.1f}%)'
 
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
@@ -601,19 +599,10 @@ def _chart_04_core(shifted=False):
         x=0.50, y=0.92)
 
     brand_fig(fig, 'Sticky vs Flexible: The Persistence Problem',
-              subtitle=subtitle,
+              subtitle='Flexible leads Sticky by ~12 months',
               source='Atlanta Fed')
 
-    return save_fig(fig, filename)
-
-
-def chart_04():
-    """Chart 4a: unshifted."""
-    print('\nChart 4: Sticky vs Flexible CPI...')
-    path_a = _chart_04_core(shifted=False)
-    print('\nChart 4b: Sticky vs Flexible CPI (shifted)...')
-    path_b = _chart_04_core(shifted=True)
-    return path_a
+    return save_fig(fig, 'chart_04_sticky_vs_flexible.png')
 
 
 # ============================================
@@ -695,11 +684,11 @@ def chart_06():
     ax2.plot(fwd.index, fwd, color=c_primary, linewidth=2.5, label=f'5Y5Y Forward ({fwd.iloc[-1]:.1f}%)')
 
     # 2% target line and 3% danger zone on RHS scale (5Y5Y)
-    ax2.axhline(2.0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
-    ax2.axhline(3.0, color=COLORS['venus'], linewidth=0.8, alpha=0.4, linestyle='--')
-    ax2.text(1.01, 2.05, '2% Target', fontsize=8, color=COLORS['doldrums'],
+    ax2.axhline(2.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax2.axhline(3.0, color=COLORS['sea'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax2.text(1.01, 2.05, '2% Target', fontsize=8, color=COLORS['venus'],
              alpha=0.7, style='italic', transform=ax2.get_yaxis_transform(), ha='left')
-    ax2.text(1.01, 3.05, '3% Danger', fontsize=8, color=COLORS['venus'],
+    ax2.text(1.01, 3.05, '3% Danger', fontsize=8, color=COLORS['sea'],
              alpha=0.7, style='italic', transform=ax2.get_yaxis_transform(), ha='left')
 
     # Independent scales — these series have very different ranges
@@ -737,25 +726,40 @@ def chart_07():
     trimmed = fetch_fred_level('PCETRIM12M159SFRBDAL', start='2000-01-01')
     core_pce = fetch_fred_yoy('PCEPILFE')
 
-    fig, ax = new_fig()
-    c1, c2 = THEME['primary'], THEME['secondary']
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
 
-    ax.plot(trimmed.index, trimmed, color=c1, linewidth=2.5, label=f'Trimmed Mean PCE 12M ({trimmed.iloc[-1]:.1f}%)')
-    ax.plot(core_pce.index, core_pce, color=c2, linewidth=2.5, label=f'Core PCE YoY ({core_pce.iloc[-1]:.1f}%)')
+    # Core PCE on LHS (secondary/orange), Trimmed Mean on RHS (primary/blue)
+    ax1.plot(core_pce.index, core_pce, color=c_secondary, linewidth=2.5, label=f'Core PCE YoY ({core_pce.iloc[-1]:.1f}%)')
+    ax2.plot(trimmed.index, trimmed, color=c_primary, linewidth=2.5, label=f'Trimmed Mean PCE 12M ({trimmed.iloc[-1]:.1f}%)')
 
-    ax.axhline(2.0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(2.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
+             alpha=0.7, style='italic', transform=ax1.get_yaxis_transform())
 
-    style_single_ax(ax)
-    ax.tick_params(axis='both', which='both', length=0)
-    set_xlim_to_data(ax, trimmed.index)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    # Same scale
+    all_min = min(trimmed.min(), core_pce.min())
+    all_max = max(trimmed.max(), core_pce.max())
+    pad = (all_max - all_min) * 0.08
+    ax1.set_ylim(all_min - pad, all_max + pad)
+    ax2.set_ylim(all_min - pad, all_max + pad)
 
-    add_last_value_label(ax, trimmed, color=c1, side='right')
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, trimmed.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
-    add_recessions(ax)
-    ax.legend(loc='upper left', **legend_style())
+    add_last_value_label(ax1, core_pce, color=c_secondary, side='left')
+    add_last_value_label(ax2, trimmed, color=c_primary, side='right')
 
-    add_annotation_box(ax,
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    add_annotation_box(ax1,
         f"Trimmed mean strips the noise.\nAt {trimmed.iloc[-1]:.1f}%, the stickiness is broad-based.",
         x=0.45, y=0.92)
 
@@ -776,27 +780,42 @@ def chart_08():
     eci = fetch_quarterly_as_monthly('ECIALLCIV')
     core_pce = fetch_fred_yoy('PCEPILFE')
 
-    fig, ax = new_fig()
-    c1, c2 = THEME['primary'], THEME['secondary']
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
 
-    ax.plot(eci.index, eci, color=c1, linewidth=2.5, label=f'ECI Total Compensation YoY ({eci.iloc[-1]:.1f}%)')
-    ax.plot(core_pce.index, core_pce, color=c2, linewidth=2.5, label=f'Core PCE YoY ({core_pce.iloc[-1]:.1f}%)')
+    # Core PCE on LHS (secondary/orange), ECI on RHS (primary/blue) — wages are the story
+    ax1.plot(core_pce.index, core_pce, color=c_secondary, linewidth=2.5, label=f'Core PCE YoY ({core_pce.iloc[-1]:.1f}%)')
+    ax2.plot(eci.index, eci, color=c_primary, linewidth=2.5, label=f'ECI Total Compensation YoY ({eci.iloc[-1]:.1f}%)')
 
-    ax.axhline(2.0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(2.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
+             alpha=0.7, style='italic', transform=ax1.get_yaxis_transform())
 
-    style_single_ax(ax)
-    ax.tick_params(axis='both', which='both', length=0)
-    set_xlim_to_data(ax, eci.index)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    # Same scale
+    all_min = min(eci.min(), core_pce.min())
+    all_max = max(eci.max(), core_pce.max())
+    pad = (all_max - all_min) * 0.08
+    ax1.set_ylim(all_min - pad, all_max + pad)
+    ax2.set_ylim(all_min - pad, all_max + pad)
 
-    add_last_value_label(ax, eci, color=c1, side='right')
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, eci.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
-    add_recessions(ax)
-    ax.legend(loc='upper left', **legend_style())
+    add_last_value_label(ax1, core_pce, color=c_secondary, side='left')
+    add_last_value_label(ax2, eci, color=c_primary, side='right')
+
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
 
     eci_last, pce_last = eci.iloc[-1], core_pce.iloc[-1]
     spiral_status = "No wage-price spiral." if eci_last > pce_last else "Wages falling behind prices."
-    add_annotation_box(ax,
+    add_annotation_box(ax1,
         f"{spiral_status} ECI at {eci_last:.1f}% vs Core PCE\nat {pce_last:.1f}%. Equilibrium, not resolution.",
         x=0.50, y=0.92)
 
@@ -810,44 +829,55 @@ def chart_08():
 # ============================================
 # CHART 9: Dollar Channel — Goods Deflation
 # ============================================
-def chart_09():
-    """Trade-Weighted Dollar (inverted) vs Core Goods CPI YoY."""
-    print('\nChart 9: Dollar vs Goods CPI...')
+def _chart_09_core(shifted=False):
+    """Dollar vs Goods CPI — shared logic for shifted/unshifted."""
 
     dollar = fetch_fred_level('DTWEXBGS', start='1999-01-01')
     goods = fetch_fred_yoy('CUSR0000SACL1E')
 
-    # Resample daily dollar to monthly, then compute YoY
+    # Resample daily dollar to monthly, then compute YoY, then 3mMA
     dollar_monthly = dollar.resample('MS').mean()
-    dollar_yoy = dollar_monthly.pct_change(12) * 100
+    dollar_yoy_raw = dollar_monthly.pct_change(12) * 100
+    dollar_yoy = dollar_yoy_raw.rolling(3, min_periods=1).mean()
     dollar_yoy = dollar_yoy.dropna()
     dollar_yoy = dollar_yoy.loc['2000-01-01':]
+
+    inv_dollar_plot = -dollar_yoy
+
+    if shifted:
+        # Shift goods backward 18 months to show dollar's lead
+        goods_plot = goods.copy()
+        goods_plot.index = goods_plot.index - pd.DateOffset(months=18)
+        goods_label = f'Core Goods CPI YoY (shifted -18mo, {goods.iloc[-1]:.1f}%)'
+        subtitle = 'Dollar leads goods inflation by ~18 months'
+        filename = 'chart_09_dollar_goods.png'
+    else:
+        goods_plot = goods
+        goods_label = f'Core Goods CPI YoY ({goods.iloc[-1]:.1f}%)'
+        subtitle = 'Trade-weighted dollar (inverted) vs core goods CPI'
+        filename = 'chart_09_dollar_goods.png'
 
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
     c_primary, c_secondary = THEME['primary'], THEME['secondary']
 
-    # Dollar (inverted) on LHS (secondary/orange), Goods CPI on RHS (primary/blue) — goods is the story
-    inv_dollar_plot = -dollar_yoy
+    # Dollar (inverted) on LHS (secondary/orange), Goods CPI on RHS (primary/blue)
     ax1.plot(dollar_yoy.index, inv_dollar_plot, color=c_secondary, linewidth=2.5,
              label=f'Dollar YoY % (inverted, {inv_dollar_plot.iloc[-1]:.1f}%)')
-    ax2.plot(goods.index, goods, color=c_primary, linewidth=2.5,
-             label=f'Core Goods CPI YoY ({goods.iloc[-1]:.1f}%)')
+    ax2.plot(goods_plot.index, goods_plot, color=c_primary, linewidth=2.5,
+             label=goods_label)
 
     ax1.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
 
-    # Align both axes at zero
-    d_max = max(abs(inv_dollar_plot.min()), abs(inv_dollar_plot.max())) * 1.1
-    g_max = max(abs(goods.min()), abs(goods.max())) * 1.1
-    ax1.set_ylim(-d_max, d_max)
-    ax2.set_ylim(-g_max, g_max)
+    ax1.set_ylim(-20, 13)
+    ax2.set_ylim(-4, 13)
 
     style_dual_ax(ax1, ax2, c_secondary, c_primary)
-    set_xlim_to_data(ax1, dollar_yoy.index)
+    set_xlim_to_data(ax1, inv_dollar_plot.index)
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
     add_last_value_label(ax1, inv_dollar_plot, color=c_secondary, side='left')
-    add_last_value_label(ax2, goods, color=c_primary, side='right')
+    add_last_value_label(ax2, goods_plot, color=c_primary, side='right')
 
     add_recessions(ax1)
 
@@ -862,10 +892,16 @@ def chart_09():
         x=0.50, y=0.92)
 
     brand_fig(fig, 'The Dollar Channel: Goods Deflation Explained',
-              subtitle='Trade-weighted dollar (inverted) vs core goods CPI',
+              subtitle=subtitle,
               source='FRED, BLS')
 
-    return save_fig(fig, 'chart_09_dollar_goods.png')
+    return save_fig(fig, filename)
+
+
+def chart_09():
+    """Chart 9: shifted only."""
+    print('\nChart 9: Dollar vs Goods CPI (shifted)...')
+    return _chart_09_core(shifted=True)
 
 
 # ============================================
@@ -929,12 +965,12 @@ def chart_10():
     fig, ax = new_fig()
     c1 = THEME['primary']
 
-    # Regime bands
-    ax.axhspan(1.5, 3.0, color=COLORS['port'], alpha=0.08)     # Crisis
-    ax.axhspan(1.0, 1.5, color=COLORS['dusk'], alpha=0.08)     # High
-    ax.axhspan(0.5, 1.0, color=COLORS['dusk'], alpha=0.04)     # Elevated
-    ax.axhspan(-0.5, 0.5, color=COLORS['sea'], alpha=0.04)     # On target
-    ax.axhspan(-3.0, -0.5, color=COLORS['sky'], alpha=0.04)    # Deflationary
+    # Regime bands — bright and visible
+    ax.axhspan(1.5, 3.0, color=COLORS['port'], alpha=0.25)     # Crisis
+    ax.axhspan(1.0, 1.5, color=COLORS['dusk'], alpha=0.20)     # High
+    ax.axhspan(0.5, 1.0, color=COLORS['dusk'], alpha=0.12)     # Elevated
+    ax.axhspan(-0.5, 0.5, color=COLORS['sea'], alpha=0.12)     # On target
+    ax.axhspan(-3.0, -0.5, color=COLORS['sky'], alpha=0.12)    # Deflationary
 
     ax.plot(pci.index, pci, color=c1, linewidth=2.5, label=f'PCI ({pci.iloc[-1]:.2f})')
     ax.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
@@ -947,15 +983,17 @@ def chart_10():
 
     add_last_value_label(ax, pci, color=c1, fmt='{:.2f}', side='right')
 
-    # Regime labels on right side
-    ax.text(1.02, 1.75, 'CRISIS', transform=ax.get_yaxis_transform(),
-            fontsize=7, color=COLORS['port'], va='center', fontweight='bold', alpha=0.7)
-    ax.text(1.02, 1.25, 'HIGH', transform=ax.get_yaxis_transform(),
-            fontsize=7, color=COLORS['dusk'], va='center', fontweight='bold', alpha=0.7)
-    ax.text(1.02, 0.75, 'ELEVATED', transform=ax.get_yaxis_transform(),
-            fontsize=7, color=COLORS['dusk'], va='center', fontweight='bold', alpha=0.5)
-    ax.text(1.02, 0.0, 'TARGET', transform=ax.get_yaxis_transform(),
-            fontsize=7, color=COLORS['sea'], va='center', fontweight='bold', alpha=0.7)
+    # Regime labels inside data area, right-aligned
+    ax.text(0.98, 1.75, 'CRISIS', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['port'], va='center', ha='right', fontweight='bold', alpha=0.8)
+    ax.text(0.98, 1.25, 'HIGH', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['dusk'], va='center', ha='right', fontweight='bold', alpha=0.8)
+    ax.text(0.98, 0.75, 'ELEVATED', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['dusk'], va='center', ha='right', fontweight='bold', alpha=0.6)
+    ax.text(0.99, 0.25, 'TARGET', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['sea'], va='center', ha='right', fontweight='bold', alpha=0.8)
+    ax.text(0.98, -1.0, 'DEFLATIONARY', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['sky'], va='center', ha='right', fontweight='bold', alpha=0.8)
 
     ax.legend(loc='upper left', **legend_style())
 
