@@ -1044,4 +1044,4 @@ None of those are happening. Labor is softening but not collapsing. Fed is restr
 
 *Bob Sheehan, CFA, CMT*
 *Founder & CIO, Lighthouse Macro*
-*January 15, 2026*
+*January 31, 2026*
