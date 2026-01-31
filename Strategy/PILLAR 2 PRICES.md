@@ -969,6 +969,53 @@ If the following conditions are met, inflation is **re-accelerating** beyond "st
 
 ---
 
+## Structural Inflation Forces (Medium-Term, 3-5 Year Horizon)
+
+These are non-cyclical forces that create a persistent floor under inflation, making the 2010s regime of sub-2% inflation unlikely to return.
+
+### 1. Deglobalization & Supply Chain Restructuring
+
+China's share of U.S. imports has declined from ~22% (2017 peak) to ~14% (2024). Mexico surpassed China as the largest U.S. import source in 2023. Reshoring/friend-shoring to higher-cost locations raises input costs during the transition period. Net effect: modest inflationary tailwind (+0.1-0.3 ppts to goods CPI) for the next 3-5 years until automation offsets.
+
+### 2. Energy Transition
+
+Building renewable capacity is resource-intensive: copper (EVs use 3-4x more than ICE), lithium, nickel, grid infrastructure. Short-run inflationary (commodity demand surge), long-run disinflationary (near-zero marginal cost energy). Timeline: inflationary pressure for ~5-10 years, then deflationary abundance.
+
+### 3. Demographics & Structural Labor Tightness
+
+Prime-age LFPR has recovered to record highs (~83.7%). Total LFPR remains structurally depressed (~62.3% vs 67.3% in 2000) due to Baby Boomer retirements. This creates a persistent labor supply constraint that puts a floor under wage growth even during cyclical slowdowns. The unemployment rate *understates* labor market tightness relative to the 2010s.
+
+### 4. Housing Supply Deficit
+
+Chronic underbuilding since the GFC (2010-2020) created a structural housing shortage of 3-5 million units. Even with cooler demand, rents have a structural floor because vacancy rates are historically low. New construction is rate-sensitive (higher mortgage rates → fewer starts → less supply → rents stay elevated). Shelter inflation will normalize cyclically but won't return to the 1-2% YoY of the 2010s.
+
+### 5. Fiscal Dominance Regime (2025-2026)
+
+$2T+ annual deficits with debt/GDP near 120%. Interest expense has surged from 1.5% of GDP (2021) to 3.5%+ (2024). Every 100 bps of higher rates adds ~$300B in annual interest costs. The fiscal impulse is persistently inflationary at a time monetary policy is trying to be restrictive. This conflict is the macro story of 2026.
+
+**Combined Structural Floor:** These five forces together suggest a **structural inflation floor of 2.5-3.0%** for the medium term (2025-2028). The Fed's 2.0% target may require either accepting higher equilibrium inflation or engineering sufficient demand destruction to offset structural tailwinds.
+
+---
+
+## Four Inflation Scenarios (12-24 Month Horizon)
+
+| **Scenario** | **Probability** | **Core PCE Path** | **Fed Response** | **Market Impact** |
+|---|---|---|---|---|
+| **1. Soft Landing** | ~25-30% | Glides to 2.0-2.5% | Gradual cuts to 3.5-4.0% | Equities supported, risk-on |
+| **2. Inflation Rekindling** | ~20-25% | Reaccelerates to 3.5%+ | Hike or extend hold | Rates reprice higher, equities correct |
+| **3. Hard Landing** | ~20-25% | Undershoots <2.0% | Aggressive cuts | Recession, bear market |
+| **4. New Normal (3%)** | ~25-30% | Stabilizes at 2.8-3.2% | Implicit tolerance | Bond yields reprice, multiples compress |
+
+**Our Base Case (Scenario 4):** Inflation stabilizes near 3%, and the market gradually adjusts to a higher equilibrium. The structural forces (deglobalization, demographics, fiscal dominance, housing supply) prevent a return to 2.0%, but the Fed avoids engineering a recession to force it. This is the "policy trap" scenario where the Fed implicitly accepts 3% inflation rather than breaking the economy to hit 2%.
+
+---
+
+## Reference: Published Analysis
+
+**"The Last Mile of Disinflation"** (The Beacon, October 6, 2025) covers the complete narrative arc of the 2021-2025 inflation episode: demand overshoot from fiscal transfers, supply chain amplification, goods-services divergence, the shelter lag trap, wage-services linkage, demographics, deglobalization, energy transition, and the four scenarios framework. See `Outputs/beacon/last_mile_disinflation/` for the full piece with 15 charts.
+
+---
+
 ## Conclusion: The "Last Mile" is Structural, Not Cyclical
 
 Inflation isn't a number. It's a **regime**. And the regime has changed.
