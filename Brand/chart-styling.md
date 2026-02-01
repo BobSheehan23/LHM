@@ -481,7 +481,7 @@ Output structure:
 | **Sky** | `#4FC3F7` | Primary data (dark theme) |
 | **Venus** | `#FF2389` | 2% target lines, critical alerts |
 | **Sea** | `#00BB99` | Tertiary series, on-target regime bands |
-| **Doldrums** | `#D3D6D9` | Zero lines, grids |
+| **Doldrums** | `#D3D6D9` | Zero lines |
 | **Starboard** | `#00FF00` | Extreme bullish |
 | **Port** | `#FF0000` | Crisis regime bands |
 
