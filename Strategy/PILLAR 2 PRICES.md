@@ -468,20 +468,22 @@ Sometimes inflation is driven by just 2-3 large categories (shelter, auto insura
 
 ### Key CPI Categories and Weights (2025 Relative Importance)
 
-| **Category** | **Approx Weight** | **Current YoY** | **Direction** | **Signal** |
-|---|---|---|---|---|
-| **Shelter (Rent + OER)** | ~34% | ~5.1% | Decelerating (slowly) | Mechanical disinflation ahead |
-| **Food at Home** | ~8% | ~1.5% | Normalized | Supply chains healed |
-| **Food Away from Home** | ~6% | ~3.8% | Sticky | Wage-driven (restaurant labor) |
-| **Energy** | ~7% | Volatile | Base-effect dependent | Not a trend signal |
-| **Motor Vehicle Insurance** | ~3% | ~14% | Decelerating from 20%+ | Major outlier, distorting core |
-| **Medical Care Services** | ~7% | ~3.5% | Sticky | Structural (wages + regulatory) |
-| **Transportation Services** | ~6% | ~8% | Elevated | Includes insurance, airfares |
-| **Apparel** | ~3% | ~1% | Low | Globalized, deflationary secular trend |
-| **New Vehicles** | ~4% | ~0.5% | Normalizing | Supply chain recovery complete |
-| **Used Vehicles** | ~2% | ~1% | Volatile | Auction prices stabilized |
-| **Recreation** | ~6% | ~1.5% | Moderate | Discretionary, consumer-sensitive |
-| **Education & Communication** | ~6% | ~2% | Stable | Slow-moving institutional pricing |
+*YoY rates are illustrative. Pull latest from BLS CPI release for current readings.*
+
+| **Category** | **Approx Weight** | **Structural Driver** | **What to Watch** |
+|---|---|---|---|
+| **Shelter (Rent + OER)** | ~34% | Lease renewals, supply/demand | Compare to market rents (12-month lag) |
+| **Food at Home** | ~8% | Global commodity prices, dollar | Normalized post-pandemic |
+| **Food Away from Home** | ~6% | Restaurant wages, commercial rent | Wage floor = structural 3%+ |
+| **Energy** | ~7% | Oil, natural gas, base effects | Volatile, not a trend signal |
+| **Motor Vehicle Insurance** | ~3% | Lagging repricing for claim severity | One-time adjustment, will normalize |
+| **Medical Care Services** | ~7% | Wages + regulatory pricing | Structural, slow-moving |
+| **Transportation Services** | ~6% | Includes insurance, airfares | Volatile, insurance-dominated recently |
+| **Apparel** | ~3% | Globalized, import-driven | Deflationary secular trend |
+| **New Vehicles** | ~4% | Supply chain, tariff-sensitive | Normalized, tariff risk ahead |
+| **Used Vehicles** | ~2% | Auction prices, inventory | Volatile, sentiment-driven |
+| **Recreation** | ~6% | Discretionary, consumer-sensitive | Watch for demand weakness |
+| **Education & Communication** | ~6% | Institutional pricing cycles | Slow-moving, stable |
 
 ### Motor Vehicle Insurance Deep Dive
 
