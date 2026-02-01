@@ -422,8 +422,11 @@ def chart_01():
     ax1.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
              alpha=0.7, style='italic', transform=ax1.get_yaxis_transform())
 
-    # Annotation box — takeaway in the dead space, right of recession bars
-    takeaway = "Services inflation running 2x goods.\nThe last mile problem is a services problem."
+    # Annotation box — dynamic takeaway
+    g_last = g_data.iloc[-1]
+    s_last = s_data.iloc[-1]
+    spread = s_last - g_last
+    takeaway = f"Goods-services spread: {spread:.1f} ppts.\nThe last mile is a services problem."
     ax1.text(0.52, 0.92, takeaway, transform=ax1.transAxes,
              fontsize=10, color=THEME['fg'], ha='center', va='top',
              style='italic',
@@ -432,8 +435,9 @@ def chart_01():
                        alpha=0.9))
 
     # TT deck branding at figure level
+    g_sub = "deflating" if g_data.iloc[-1] < 0 else "subdued" if g_data.iloc[-1] < 2 else "rising"
     brand_fig(fig, 'The Great Divergence: Core Goods vs Core Services',
-              subtitle='Goods deflating while services remain sticky',
+              subtitle=f'Goods {g_sub} while services remain sticky',
               source='BLS CPI')
 
     return save_fig(fig, 'chart_01_goods_vs_services.png')
@@ -891,7 +895,8 @@ def _chart_09_core(shifted=False):
         f"{dollar_dir} dollar ({dollar_yoy.iloc[-1]:.1f}% YoY) \u2192 goods {goods_dir}.\nThe 9-18 month lag is mechanical.",
         x=0.50, y=0.92)
 
-    brand_fig(fig, 'The Dollar Channel: Goods Deflation Explained',
+    goods_title_word = "Deflation" if goods.iloc[-1] < 0 else "Disinflation"
+    brand_fig(fig, f'The Dollar Channel: Goods {goods_title_word} Explained',
               subtitle=subtitle,
               source='FRED, BLS')
 
@@ -1003,8 +1008,18 @@ def chart_10():
     elif pci_last > 0.5: regime = "Elevated"
     elif pci_last > -0.5: regime = "On Target"
     else: regime = "Deflationary"
+    if regime == "On Target":
+        regime_note = "Policy flexibility restored."
+    elif regime == "Elevated":
+        regime_note = "Fed can't ease aggressively."
+    elif regime == "High":
+        regime_note = "No cuts possible."
+    elif regime == "Crisis":
+        regime_note = "Inflation emergency."
+    else:
+        regime_note = "Easing urgently needed."
     add_annotation_box(ax,
-        f"PCI at {pci_last:.2f}: {regime} regime.\nNot crisis, not target. The Fed is boxed in.",
+        f"PCI at {pci_last:.2f}: {regime} regime.\n{regime_note}",
         x=0.35, y=0.92)
 
     brand_fig(fig, 'Prices Composite Index (PCI)',
