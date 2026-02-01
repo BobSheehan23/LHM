@@ -448,7 +448,7 @@ Low dispersion    Medium dispersion   High dispersion
 Easy to fix       Fed dilemma         Requires demand destruction
 ```
 
-**Current Context:** Even as headline CPI has fallen to 2.8%, breadth metrics remain elevated. Roughly 55-60% of the CPI basket is still running above 3% YoY. This is the "last mile" problem expressed differently: it's not just a few sticky categories, it's broad.
+**Current Context:** Even as headline CPI has fallen to 2.7%, breadth metrics have improved but remain above comfortable levels. The median CPI at 3.4% suggests the "typical" CPI component is still running above target. This is the persistence problem expressed differently: it's not just a few sticky categories, it's broad-based.
 
 #### Concentration Analysis
 
