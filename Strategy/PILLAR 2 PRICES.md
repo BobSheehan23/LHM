@@ -792,9 +792,9 @@ Workers Demand Higher Nominal Wages →
 Unit Labor Costs ↑ → Services Inflation ↑ (Reinforcing)
 ```
 
-**Current Linkage:** Core CPI at 3.3%, AHE at 3.9% YoY → Real wage growth **+0.6%** (positive but thin). If inflation reaccelerates, real wages turn negative, intensifying wage demands.
+**Current Linkage:** Track Core CPI vs AHE YoY. When AHE > Core CPI, real wage growth is positive but thin. If inflation reaccelerates, real wages turn negative, intensifying wage demands.
 
-**Cross-Pillar Signal:** When **PCI > +0.5** (elevated inflation) AND **LFI > +0.8** (labor fragility), the Fed faces a **policy dilemma**: cut to support labor (fuels inflation) vs. hold to fight inflation (deepens recession). Current: **PCI +0.7, LFI +0.93**. **Dilemma active.**
+**Cross-Pillar Signal:** When **PCI > +0.5** (elevated inflation) AND **LFI > +0.8** (labor fragility), the Fed faces a **policy dilemma**: cut to support labor (fuels inflation) vs. hold to fight inflation (deepens recession). Check current PCI and LFI readings to assess whether the dilemma is active.
 
 ---
 
