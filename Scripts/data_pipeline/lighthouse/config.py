@@ -83,18 +83,55 @@ FRED_CURATED = {
     "JTS1000QUR": "JOLTS Quits Rate",
     "JTS1000HIR": "JOLTS Hires Rate",
 
-    # Inflation
+    # Inflation - Headline & Core
     "CPIAUCSL": "CPI All Urban Consumers",
     "CPILFESL": "Core CPI",
     "PCEPI": "PCE Price Index",
     "PCEPILFE": "Core PCE",
+
+    # Inflation - CPI Aggregates
+    "CUSR0000SACL1E": "CPI Core Goods",
+    "CUSR0000SAS": "CPI Services All",
+    "CUSR0000SASLE": "CPI Services Less Energy",
+    "CUSR0000SASL2RS": "CPI Services Less Rent of Shelter",
+    "CUSR0000SAC": "CPI Commodities",
+    "CUSR0000SACL1": "CPI Commodities Less Food",
+
+    # Inflation - CPI Services Detail (not in CPI Components below)
+    "CUSR0000SEMD": "CPI Hospital Services",
+    "CUSR0000SEMC": "CPI Professional Medical Services",
+    "CUSR0000SAS2RS": "CPI Rent of Shelter",
+
+    # Inflation - CPI Goods Detail (not in CPI Components below)
+    "CPIAPPSL": "CPI Apparel",
+    "CPIUFDSL": "CPI Food",
+    "CPIENGSL": "CPI Energy",
+    "CPIMEDSL": "CPI Medical Care",
+    "CUSR0000SACE": "CPI Energy Commodities",
+
+    # Inflation - Alternative Measures
     "MEDCPIM158SFRBCLE": "Median CPI",
     "CORESTICKM159SFRBATL": "Sticky Core CPI",
     "PCETRIM12M159SFRBDAL": "Trimmed Mean PCE Inflation Rate",
+
+    # Inflation - PPI Pipeline
     "PPIFIS": "PPI Final Demand",
-    "CUSR0000SACL1E": "CPI Core Goods",
-    "CUSR0000SAS": "CPI Core Services",
+    "PPIDSS": "PPI Final Demand Services SA",
+    "PPIFGS": "PPI Final Demand Goods",
+    "PPIFDF": "PPI Final Demand Foods",
+    "PPIIDC": "PPI Intermediate Demand Processed Goods",
+    "PPIITM": "PPI Intermediate Demand Unprocessed Goods",
+    "WPSFD4131": "PPI Final Demand Less Foods Energy Trade",
+    "WPUFD49116": "PPI Final Demand Services Less Trade",
+    "WPSFD41312": "PPI Final Demand Goods Less Foods Energy",
+
+    # Inflation - Expectations
     "MICH": "UMich 1Y Inflation Expectations",
+    "EXPINF1YR": "Cleveland Fed 1Y Inflation Expectations",
+    "EXPINF2YR": "Cleveland Fed 2Y Inflation Expectations",
+    "EXPINF5YR": "Cleveland Fed 5Y Inflation Expectations",
+    "EXPINF10YR": "Cleveland Fed 10Y Inflation Expectations",
+    "EXPINF30YR": "Cleveland Fed 30Y Inflation Expectations",
 
     # Growth & Activity
     "GDP": "Nominal GDP",
@@ -170,26 +207,50 @@ FRED_CURATED = {
     "U1RATE": "Unemployment Rate U1 (15+ weeks)",
     "U2RATE": "Unemployment Rate U2 (Job Losers)",
 
-    # CPI Components
+    # CPI Components - Shelter
     "CUSR0000SAH1": "CPI Shelter",
-    "CUSR0000SAH2": "CPI Fuel Utilities",
-    "CUSR0000SAM1": "CPI Medical Care Services",
-    "CUSR0000SAM2": "CPI Medical Care Commodities",
-    "CUSR0000SAS4": "CPI Transportation Services",
-    "CUSR0000SETB01": "CPI Gasoline",
-    "CUSR0000SETA02": "CPI Used Cars Trucks",
-    "CUSR0000SETA01": "CPI New Vehicles",
     "CUSR0000SEHA": "CPI Rent Primary Residence",
     "CUSR0000SEHC": "CPI Owners Equivalent Rent",
+
+    # CPI Components - Food & Energy
     "CUSR0000SAF11": "CPI Food at Home",
     "CUSR0000SEFV": "CPI Food Away from Home",
+    "CUSR0000SAH2": "CPI Fuel Utilities",
+    "CUSR0000SETB01": "CPI Gasoline",
+    "CUSR0000SEHF01": "CPI Electricity",
+    "CUSR0000SEHF02": "CPI Utility Piped Gas",
 
-    # PCE Components
+    # CPI Components - Medical
+    "CUSR0000SAM1": "CPI Medical Care Services",
+    "CUSR0000SAM2": "CPI Medical Care Commodities",
+
+    # CPI Components - Transportation & Vehicles
+    "CUSR0000SAS4": "CPI Transportation Services",
+    "CUSR0000SETA02": "CPI Used Cars Trucks",
+    "CUSR0000SETA01": "CPI New Vehicles",
+    "CUSR0000SETC": "CPI Motor Vehicle Maintenance Repair",
+    "CUSR0000SETE": "CPI Airline Fares",
+
+    # CPI Components - Other
+    "CUSR0000SAE1": "CPI Education",
+    "CUSR0000SAR": "CPI Recreation",
+    "CUSR0000SEHE": "CPI Household Furnishings Operations",
+    "CUSR0000SEEB": "CPI Tuition Other School Fees Childcare",
+    "CUSR0000SEGA": "CPI Tobacco Products",
+    "CUSR0000SEHF": "CPI Lodging Away from Home",
+    "CUSR0000SS62031": "CPI Admission Movies Theaters Concerts",
+
+    # PCE Components - Aggregates
     "DGDSRG3M086SBEA": "PCE Goods",
     "DSERRG3M086SBEA": "PCE Services",
     "PCEDG": "PCE Durable Goods",
     "PCEND": "PCE Nondurable Goods",
     "PCES": "PCE Services",
+
+    # PCE Components - Supercore & Special Aggregates
+    "IA001260M": "PCE Services Ex Energy Housing Monthly",
+    "IA001176M": "PCE Ex Food Energy Housing Monthly",
+    "JCXFE": "PCE Chain Price Index Less Food Energy",
 
     # Financial Conditions
     "NFCI": "Chicago Fed NFCI",
