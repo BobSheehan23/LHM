@@ -300,7 +300,7 @@ Inflation volatility matters because it creates **uncertainty premium** in asset
 | **Core PCE MoM Std Dev (12M)** | <0.15% | 0.15-0.25% | **>0.25%** |
 | **Inflation Surprise (MAE)** | <0.1 ppts | 0.1-0.2 ppts | **>0.2 ppts** |
 
-**Current State:** CPI MoM volatility has normalized from crisis levels (0.6% std dev in 2022) to **0.25%** (Dec 2025)—still elevated vs. pre-pandemic (0.15%). This residual volatility keeps the Fed data-dependent and markets uncertain.
+**Interpretation:** CPI MoM volatility has normalized from crisis levels (0.6% std dev in 2022) toward pre-pandemic norms (~0.15%). Residual elevation above 0.2% keeps the Fed data-dependent and markets uncertain. Track the 6-month rolling std dev of MoM readings.
 
 ---
 
