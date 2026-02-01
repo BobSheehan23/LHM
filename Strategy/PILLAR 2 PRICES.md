@@ -496,10 +496,10 @@ This is a **lagging** adjustment, not a forward signal. Insurers reprice annuall
 
 ### Food Prices: At Home vs Away
 
-| **Component** | **Driver** | **Current** | **Outlook** |
+| **Component** | **Driver** | **Structural Range** | **What to Watch** |
 |---|---|---|---|
-| **Food at Home** | Global commodity prices, supply chains, dollar | ~1.5% YoY | Normalized. Modest risk from dollar weakness. |
-| **Food Away from Home** | Restaurant wages, commercial rent, food costs | ~3.8% YoY | Sticky. Wage floor means 3%+ structural. |
+| **Food at Home** | Global commodity prices, supply chains, dollar | 1-2% normalized | Dollar weakness or commodity spike reverses |
+| **Food Away from Home** | Restaurant wages, commercial rent, food costs | 3-4% structural | Wage floor from labor costs = sticky |
 
 The spread between food at home and food away from home is a clean proxy for domestic service-sector wage pressure. When the spread widens (food away >> food at home), it confirms that labor costs, not commodities, are the inflation problem.
 
