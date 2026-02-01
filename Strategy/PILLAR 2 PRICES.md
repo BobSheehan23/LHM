@@ -71,7 +71,7 @@ The headline number drives media coverage, political pressure, and consumer psyc
 | **PCE YoY%** | <0.5% | 0.5-2.5% | **2.5-4.0%** | >4.0% |
 | **3M Ann Momentum** | <-2 ppts | -2 to +2 ppts | +2 to +5 ppts | >+5 ppts |
 
-**The 3% Line:** Headline CPI above 3.0% YoY creates political pressure on the Fed. Below 2.0% allows dovish flexibility. We're at **2.8%**—close enough to 3.0% that the Fed can't declare victory, but low enough that they're uncomfortable staying restrictive if labor cracks.
+**The 3% Line:** Headline CPI above 3.0% YoY creates political pressure on the Fed. Below 2.0% allows dovish flexibility. We're at **2.7%**, below the political pressure line but Core PCE at **2.8%** keeps the Fed from declaring victory.
 
 ---
 
