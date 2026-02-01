@@ -229,11 +229,10 @@ FRED_CURATED = {
     "CUSR0000SETA02": "CPI Used Cars Trucks",
     "CUSR0000SETA01": "CPI New Vehicles",
     "CUSR0000SETC": "CPI Motor Vehicle Maintenance Repair",
-    "CUSR0000SETE": "CPI Airline Fares",
+    "CUSR0000SETG01": "CPI Airline Fares",
 
     # CPI Components - Other
     "CUSR0000SAE1": "CPI Education",
-    "CUSR0000SAR": "CPI Recreation",
     "CUSR0000SEHE": "CPI Household Furnishings Operations",
     "CUSR0000SEEB": "CPI Tuition Other School Fees Childcare",
     "CUSR0000SEGA": "CPI Tobacco Products",

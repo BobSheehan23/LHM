@@ -13,7 +13,7 @@ from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle,
-    PageBreak, HRFlowable
+    PageBreak, HRFlowable, KeepTogether, CondPageBreak
 )
 from PIL import Image as PILImage
 
@@ -34,10 +34,10 @@ BASE_PATH = '/Users/bob/LHM'
 ARTICLE_DIR = f'{BASE_PATH}/Outputs/Educational_Charts/Prices_Post_2'
 CHART_DIR = f'{ARTICLE_DIR}/white'
 DARK_CHART_DIR = f'{ARTICLE_DIR}/dark'
-OUTPUT_PDF = f'{ARTICLE_DIR}/The Last Mile Problem - What Inflation Data Actually Tells Us.pdf'
+OUTPUT_PDF = f'{ARTICLE_DIR}/Prices The Transmission Belt.pdf'
 
 PAGE_W, PAGE_H = letter
-CONTENT_W = PAGE_W - 1.2 * inch  # 0.6" margins each side
+CONTENT_W = PAGE_W - 0.6 * inch  # 0.3" margins each side
 
 
 def create_header_footer(canvas, doc):
@@ -53,15 +53,15 @@ def create_header_footer(canvas, doc):
     # Header text — white on colored bar
     canvas.setFillColor(WHITE)
     canvas.setFont('Helvetica-Bold', 10)
-    canvas.drawString(0.5 * inch, PAGE_H - 0.28 * inch, "LIGHTHOUSE MACRO")
-    canvas.drawRightString(PAGE_W - 0.5 * inch, PAGE_H - 0.28 * inch, "Prices: The Last Mile")
+    canvas.drawString(0.3 * inch, PAGE_H - 0.28 * inch, "LIGHTHOUSE MACRO")
+    canvas.drawRightString(PAGE_W - 0.3 * inch, PAGE_H - 0.28 * inch, "Prices: The Transmission Belt")
 
     # Footer text
     canvas.setFillColor(DARK_GRAY)
     canvas.setFont('Helvetica', 8)
-    canvas.drawString(0.5 * inch, 0.4 * inch, f"Generated: {datetime.now().strftime('%Y-%m-%d')}")
-    canvas.drawCentredString(PAGE_W / 2, 0.4 * inch, "MACRO, ILLUMINATED.")
-    canvas.drawRightString(PAGE_W - 0.5 * inch, 0.4 * inch, f"Page {doc.page}")
+    canvas.drawString(0.3 * inch, 0.35 * inch, f"Generated: {datetime.now().strftime('%Y-%m-%d')}")
+    canvas.drawCentredString(PAGE_W / 2, 0.35 * inch, "MACRO, ILLUMINATED.")
+    canvas.drawRightString(PAGE_W - 0.3 * inch, 0.35 * inch, f"Page {doc.page}")
 
     # Footer accent bar
     canvas.setFillColor(OCEAN_BLUE)
@@ -235,10 +235,10 @@ def build_pdf():
     doc = SimpleDocTemplate(
         OUTPUT_PDF,
         pagesize=letter,
-        rightMargin=0.6 * inch,
-        leftMargin=0.6 * inch,
-        topMargin=0.8 * inch,
-        bottomMargin=0.7 * inch,
+        rightMargin=0.3 * inch,
+        leftMargin=0.3 * inch,
+        topMargin=0.55 * inch,
+        bottomMargin=0.5 * inch,
     )
 
     story = []
@@ -247,8 +247,7 @@ def build_pdf():
     # TITLE PAGE
     # ==========================================
     story.append(Spacer(1, 1.5 * inch))
-    story.append(Paragraph("THE LAST MILE", title_style))
-    story.append(Paragraph("PROBLEM", title_style))
+    story.append(Paragraph("PRICES: THE TRANSMISSION BELT", title_style))
     story.append(Spacer(1, 0.3 * inch))
 
     # Accent bar
@@ -260,7 +259,7 @@ def build_pdf():
     story.append(accent)
 
     story.append(Spacer(1, 0.3 * inch))
-    story.append(Paragraph("What Inflation Data Actually Tells Us", subtitle_style))
+    story.append(Paragraph("The Diagnostic Dozen: A Framework for Reading the Macro Cycle (2 of 12)", subtitle_style))
     story.append(Spacer(1, 0.3 * inch))
     story.append(Paragraph(
         '<i>"The headline is improving. The details are stuck.<br/>'
@@ -492,20 +491,22 @@ def build_pdf():
         "CPI shelter should approach 3.0% by mid-2026. This is arithmetic, not a forecast. The decline is baked in.",
         body_style
     ))
-    story.append(Paragraph(
-        "The contribution math: shelter at 3.2% with 34% CPI weight contributes 1.09 percentage points "
-        "to headline. As it continues declining toward 3.0%, the remaining mechanical disinflation is "
-        "modest, perhaps 0.07 points. The big shelter unwind is mostly behind us. That's actually the "
-        "problem: the easy shelter-driven disinflation is fading, and what's left is the hard part.",
-        body_style
-    ))
-    story.append(Paragraph(
-        "The bad news: even after shelter normalizes, services ex-shelter remains sticky. "
-        "Shelter was masking the problem, not causing it. The goal post moves. When shelter finally "
-        "cooperates in Q2-Q3 2026, the Fed will be watching supercore (services ex-shelter), and "
-        "supercore is still elevated.",
-        body_style
-    ))
+    story.append(KeepTogether([
+        Paragraph(
+            "The contribution math: shelter at 3.2% with 34% CPI weight contributes 1.09 percentage points "
+            "to headline. As it continues declining toward 3.0%, the remaining mechanical disinflation is "
+            "modest, perhaps 0.07 points. The big shelter unwind is mostly behind us. That's actually the "
+            "problem: the easy shelter-driven disinflation is fading, and what's left is the hard part.",
+            body_style
+        ),
+        Paragraph(
+            "The bad news: even after shelter normalizes, services ex-shelter remains sticky. "
+            "Shelter was masking the problem, not causing it. The goal post moves. When shelter finally "
+            "cooperates in Q2-Q3 2026, the Fed will be watching supercore (services ex-shelter), and "
+            "supercore is still elevated.",
+            body_style
+        ),
+    ]))
 
     story.append(PageBreak())
 
@@ -658,7 +659,7 @@ def build_pdf():
         body_style
     ))
     story.append(Paragraph(
-        "At 2.5%, the trimmed mean confirms the same story as sticky CPI: the underlying inflation trend "
+        "At 2.8%, the trimmed mean confirms the same story as sticky CPI: the underlying inflation trend "
         "is above target, and the stickiness is broad-based, not driven by one or two categories.",
         body_style
     ))
@@ -686,14 +687,14 @@ def build_pdf():
         body_style
     ))
     story.append(Paragraph(
-        "ECI Total Compensation is running at 3.6%, above Core PCE at 2.8%. That's positive real wages, "
+        "ECI Total Compensation is running at 3.5%, above Core PCE at 2.8%. That's positive real wages, "
         "which is good for workers and consumers. But it's also the reason services inflation won't come down "
         "easily. Labor costs are the largest input for most service businesses.",
         body_style
     ))
     story.append(Paragraph(
-        "The math: unit labor costs equal compensation growth minus productivity growth. At 3.6% "
-        "compensation and 1.5% productivity, ULC runs at roughly 2.1%. That's consistent with services "
+        "The math: unit labor costs equal compensation growth minus productivity growth. At 3.5% "
+        "compensation and 1.5% productivity, ULC runs at roughly 2.0%. That's consistent with services "
         "inflation in the 2.5-3.0% range. Not crisis. Not target. Stuck.",
         body_style
     ))
@@ -827,8 +828,8 @@ def build_pdf():
         "Core PCE at 2.8%, still 40% above target",
         "Core services at 3.0%, barely budging",
         "Sticky CPI at 3.0%, 1.5x the target",
-        "Trimmed Mean at 2.5%, confirming breadth",
-        "ECI at 3.6%, wages above inflation sustaining services stickiness",
+        "Trimmed Mean at 2.8%, confirming breadth",
+        "ECI at 3.5%, wages above inflation sustaining services stickiness",
         "PPI at 3.0%, above CPI, suggesting pipeline pressure ahead",
     ]:
         story.append(Paragraph(f'\u2022 {b}', bullet_style))
