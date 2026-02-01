@@ -567,6 +567,8 @@ If Compensation Growth = 3.0% and Productivity = 1.5%:
 
 **The Key Relationship:** ULC leads supercore (services ex-shelter) by 2-3 quarters. When ULC is in the 2.0-3.0% range, supercore won't break below 3.0% easily. This is why the "last mile" is structural. Track ECI releases quarterly for the labor cost signal.
 
+**Phillips Curve Reassertion (2020s):** The Phillips curve relationship between unemployment and services inflation, dormant through the 2010s, has reasserted with the strongest correlation since the 1990s. Unemployment leads core services ex-shelter by roughly one month with a -0.38 correlation. Regression fit: CSS = -0.27 × UNRATE + 4.54 (R² = 0.14). The low R² indicates significant dispersion, but the directional signal is consistent: at 4.4% unemployment, the Phillips curve implies services inflation near 3-4%, not 2%. Reaching 2% services inflation likely requires unemployment rising toward 4.5-5.0%. This quantifies the narrow path the Fed is attempting to navigate. Monitor unemployment releases alongside ECI for the dual labor-cost signal.
+
 ---
 
 ## Import/Export Prices & Dollar Channel

@@ -90,6 +90,11 @@ FRED_CURATED = {
     "PCEPILFE": "Core PCE",
     "MEDCPIM158SFRBCLE": "Median CPI",
     "CORESTICKM159SFRBATL": "Sticky Core CPI",
+    "PCETRIM12M159SFRBDAL": "Trimmed Mean PCE Inflation Rate",
+    "PPIFIS": "PPI Final Demand",
+    "CUSR0000SACL1E": "CPI Core Goods",
+    "CUSR0000SAS": "CPI Core Services",
+    "MICH": "UMich 1Y Inflation Expectations",
 
     # Growth & Activity
     "GDP": "Nominal GDP",
