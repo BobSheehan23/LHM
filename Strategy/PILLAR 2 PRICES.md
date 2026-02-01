@@ -855,9 +855,9 @@ Credit Spreads Widen → Corporate Borrowing Costs ↑ →
 Default Risk ↑
 ```
 
-**Current Linkage:** Inflation volatility normalized but still elevated. HY OAS at 290 bps (historically tight). The compression reflects **consensus complacency** about the "soft landing." When inflation reaccelerates or recession hits, spreads widen violently.
+**Current Linkage:** Inflation volatility drives credit uncertainty premium. When HY OAS is tight while PCI remains elevated, it reflects consensus complacency. Any inflation surprise widens spreads violently.
 
-**Cross-Pillar Signal:** When **PCI volatility** spikes, credit spreads follow with 1-3 month lag. Current: volatility contained → spreads tight. Risk: any inflation surprise → spreads blow out.
+**Cross-Pillar Signal:** When **PCI volatility** spikes, credit spreads follow with 1-3 month lag. Track the divergence between PCI regime (elevated) and HY OAS (tight) as a contrarian risk signal.
 
 ---
 
