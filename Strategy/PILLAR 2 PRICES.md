@@ -492,7 +492,7 @@ Motor vehicle insurance has been the single most distortionary CPI component of 
 - Increased claim severity (labor + parts inflation)
 - Accident frequency recovery (return to pre-pandemic driving)
 
-This is a **lagging** adjustment, not a forward signal. Insurers reprice annually based on prior-year loss experience. The ~14% current rate will normalize to 3-5% by mid-2026 as the repricing cycle completes. Because auto insurance is ~3% of CPI, it alone contributes ~0.4 ppts to headline. When it normalizes, that's 0.3 ppts of free disinflation.
+This is a **lagging** adjustment, not a forward signal. Insurers reprice annually based on prior-year loss experience. The elevated rate will normalize to 3-5% as the repricing cycle completes. Because auto insurance is ~3% of CPI, elevated readings contribute disproportionately to core. When it normalizes, that's free disinflation that says nothing about underlying pressure.
 
 ### Food Prices: At Home vs Away
 
