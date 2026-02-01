@@ -140,7 +140,7 @@ Goods and services inflation behave completely differently. Goods are globally t
 | **Services ex-Shelter** | <3.0% | 3.0-4.0% | **>4.0%** |
 | **Goods-Services Spread** | <-4 ppts | -4 to -1 ppts | >-1 ppt |
 
-**The Bifurcation:** Core goods CPI peaked at +12.3% YoY (Feb 2022) and is now at **-1.2%** (Dec 2025)—**deflationary**. Core services peaked at +7.2% (March 2023) and is now at **4.8%** (Dec 2025)—**still elevated**. The divergence is 6.0 percentage points. This is the "last mile" problem: goods disinflation is done, services won't budge without demand destruction.
+**The Bifurcation:** Core goods CPI peaked at +12.3% YoY (Feb 2022) and is now at **+1.4%** (Dec 2025), barely positive. Core services peaked at +7.2% (March 2023) and is now at **3.0%** (Dec 2025), significantly improved but still above target. The goods-services spread has narrowed from a record 10+ ppts at peak to **1.6 ppts** currently. The direction of convergence tells the macro story: goods normalized from below, services came down from above. The last mile problem is whether services can break below 3.0% without labor market deterioration.
 
 ---
 
