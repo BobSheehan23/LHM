@@ -873,11 +873,11 @@ Financial Conditions → Dealer Balance Sheets →
 Liquidity Transmission
 ```
 
-**Current Linkage:** Core PCE at 3.2% (60% above target) → Fed Funds at 4.25-4.50% → Real policy rate +1.15% (restrictive). LCI at -0.8 (thin cushion). The Fed **cannot ease aggressively** while PCI > +0.5.
+**Current Linkage:** Core PCE determines Fed Funds → Real policy rate → Financial conditions → Liquidity transmission. The Fed **cannot ease aggressively** while PCI > +0.5.
 
 **The Plumbing Trap:** If Fed cuts (to support labor/growth), inflation may reignite → forced to reverse → volatility spike. If Fed holds (to fight inflation), growth crashes → financial stress → forced to cut anyway. **Policy trap.**
 
-**Cross-Pillar Signal:** When **PCI > +0.5** (elevated inflation) AND **LCI < -0.5** (thin cushion), the Fed has **no room** to ease even if growth/labor weaken. Current: **PCI +0.7, LCI -0.8**. **Trap engaged.**
+**Cross-Pillar Signal:** When **PCI > +0.5** (elevated inflation) AND **LCI < -0.5** (thin cushion), the Fed has **no room** to ease even if growth/labor weaken. Check current PCI and LCI to assess whether the trap is engaged.
 
 ---
 
