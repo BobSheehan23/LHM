@@ -35,7 +35,7 @@ Inflation is the **transmission belt** of monetary policy. Without it, the Fed i
 
 Get the inflation call right, and you've triangulated the Fed's reaction function. Miss it, and you're trading narratives about "transitory" nonsense.
 
-**Current State:** Inflation has decelerated from 7.0% (June 2022) to 2.8% (December 2025) headline, 3.2% core. But the **composition** tells a different story: goods deflation masking services persistence. Shelter inflation lagging reality. Supercore (services ex-shelter) stuck at 3.5%. This isn't disinflation. This is regime change.
+**Current State:** Inflation has decelerated from 9.1% (June 2022) to 2.7% (December 2025) headline, 2.8% core PCE. But the **composition** tells a different story: goods barely positive at +1.4%, services still at 3.0%, shelter unwinding but the easy gains are behind us. Supercore (services ex-shelter) remains elevated. This isn't complete disinflation. This is the last mile.
 
 ---
 

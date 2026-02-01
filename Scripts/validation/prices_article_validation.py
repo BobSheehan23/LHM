@@ -152,42 +152,95 @@ print(f"  (Article claims 0.72 at 4.5 months)")
 
 
 # ============================================
-# CLAIM 5: Trimmed mean 35-40% lower forecast error (2021-2023)
+# CLAIM 5: Trimmed mean lower forecast error than core/headline
+# Academic benchmark: 20-25% lower RMSE for current trend,
+# 10-17% for future trend (arXiv 2207.12494v3, 1970-2024)
 # ============================================
 print("\n" + "=" * 70)
-print("CLAIM 5: Trimmed Mean forecast accuracy vs Headline (2021-2023)")
+print("CLAIM 5: Trimmed Mean forecast accuracy")
 print("=" * 70)
 
-trimmed_pce = fetch_level('PCETRIM12M159SFRBDAL', start='2019-01-01')
-core_pce = fetch_yoy('PCEPILFE', start='2019-01-01')
-headline_cpi = fetch_yoy('CPIAUCSL', start='2019-01-01')
+# Use full available history for trimmed mean (starts ~2004)
+trimmed_pce = fetch_level('PCETRIM12M159SFRBDAL', start='2004-01-01')
+core_pce = fetch_yoy('PCEPILFE', start='2004-01-01')
+headline_pce = fetch_yoy('PCEPI', start='2004-01-01')  # Headline PCE (apples-to-apples)
+headline_cpi = fetch_yoy('CPIAUCSL', start='2004-01-01')
 
 df_tm = pd.DataFrame({
     'trimmed_pce': trimmed_pce['value'],
     'core_pce_yoy': core_pce['yoy'],
+    'headline_pce_yoy': headline_pce['yoy'],
     'headline_cpi_yoy': headline_cpi['yoy'],
 }).dropna()
 
-# Core PCE 6 months forward
+# Target: Core PCE 12 months forward (future trend)
+df_tm['core_pce_fwd_12m'] = df_tm['core_pce_yoy'].shift(-12)
+# Also test 6 months forward
 df_tm['core_pce_fwd_6m'] = df_tm['core_pce_yoy'].shift(-6)
-df_tm_clean = df_tm.dropna()
 
-# Focus on 2021-2023
-df_tm_eval = df_tm_clean.loc['2021-01-01':'2023-06-01']
+# --- Full sample ---
+for horizon_name, horizon_col in [('6-month', 'core_pce_fwd_6m'), ('12-month', 'core_pce_fwd_12m')]:
+    df_eval = df_tm.dropna(subset=[horizon_col])
 
-if len(df_tm_eval) > 0:
-    # MAE: using current reading as "forecast" of 6-month forward core PCE
-    mae_headline = np.abs(df_tm_eval['headline_cpi_yoy'] - df_tm_eval['core_pce_fwd_6m']).mean()
-    mae_trimmed = np.abs(df_tm_eval['trimmed_pce'] - df_tm_eval['core_pce_fwd_6m']).mean()
+    if len(df_eval) < 24:
+        print(f"\n  Insufficient data for {horizon_name} horizon")
+        continue
 
-    improvement = (mae_headline - mae_trimmed) / mae_headline * 100
+    target = df_eval[horizon_col].values
 
-    print(f"\nSample: 2021-01 to 2023-06 (N={len(df_tm_eval)})")
-    print(f"\nMAE (Headline CPI → Core PCE 6m fwd): {mae_headline:.2f} ppts")
-    print(f"MAE (Trimmed Mean → Core PCE 6m fwd):  {mae_trimmed:.2f} ppts")
-    print(f"Improvement: {improvement:.1f}%  (Article claims 35-40%)")
-else:
-    print("  Insufficient data for 2021-2023 evaluation window")
+    # RMSE for each predictor
+    rmse_trimmed = np.sqrt(np.mean((df_eval['trimmed_pce'].values - target) ** 2))
+    rmse_core = np.sqrt(np.mean((df_eval['core_pce_yoy'].values - target) ** 2))
+    rmse_headline_pce = np.sqrt(np.mean((df_eval['headline_pce_yoy'].values - target) ** 2))
+    rmse_headline_cpi = np.sqrt(np.mean((df_eval['headline_cpi_yoy'].values - target) ** 2))
+
+    # MAE for comparison
+    mae_trimmed = np.abs(df_eval['trimmed_pce'].values - target).mean()
+    mae_core = np.abs(df_eval['core_pce_yoy'].values - target).mean()
+    mae_headline_pce = np.abs(df_eval['headline_pce_yoy'].values - target).mean()
+    mae_headline_cpi = np.abs(df_eval['headline_cpi_yoy'].values - target).mean()
+
+    impr_vs_core_rmse = (rmse_core - rmse_trimmed) / rmse_core * 100
+    impr_vs_hdl_pce_rmse = (rmse_headline_pce - rmse_trimmed) / rmse_headline_pce * 100
+    impr_vs_hdl_cpi_rmse = (rmse_headline_cpi - rmse_trimmed) / rmse_headline_cpi * 100
+
+    impr_vs_core_mae = (mae_core - mae_trimmed) / mae_core * 100
+    impr_vs_hdl_cpi_mae = (mae_headline_cpi - mae_trimmed) / mae_headline_cpi * 100
+
+    print(f"\n--- {horizon_name} forward Core PCE ---")
+    print(f"Sample: {df_eval.index[0].strftime('%Y-%m')} to {df_eval.index[-1].strftime('%Y-%m')} (N={len(df_eval)})")
+    print(f"\n  RMSE:")
+    print(f"    Trimmed Mean PCE:  {rmse_trimmed:.3f}")
+    print(f"    Core PCE:          {rmse_core:.3f}  (Trimmed {impr_vs_core_rmse:+.1f}% better)")
+    print(f"    Headline PCE:      {rmse_headline_pce:.3f}  (Trimmed {impr_vs_hdl_pce_rmse:+.1f}% better)")
+    print(f"    Headline CPI:      {rmse_headline_cpi:.3f}  (Trimmed {impr_vs_hdl_cpi_rmse:+.1f}% better)")
+    print(f"\n  MAE:")
+    print(f"    Trimmed Mean PCE:  {mae_trimmed:.3f}")
+    print(f"    Core PCE:          {mae_core:.3f}  (Trimmed {impr_vs_core_mae:+.1f}% better)")
+    print(f"    Headline CPI:      {mae_headline_cpi:.3f}  (Trimmed {impr_vs_hdl_cpi_mae:+.1f}% better)")
+
+# --- 2021-2023 volatile subperiod ---
+print("\n--- 2021-2023 volatile subperiod (6-month horizon) ---")
+df_vol = df_tm.dropna(subset=['core_pce_fwd_6m']).loc['2021-01-01':'2023-06-01']
+if len(df_vol) > 0:
+    target_vol = df_vol['core_pce_fwd_6m'].values
+    rmse_trimmed_vol = np.sqrt(np.mean((df_vol['trimmed_pce'].values - target_vol) ** 2))
+    rmse_core_vol = np.sqrt(np.mean((df_vol['core_pce_yoy'].values - target_vol) ** 2))
+    rmse_hdl_cpi_vol = np.sqrt(np.mean((df_vol['headline_cpi_yoy'].values - target_vol) ** 2))
+
+    impr_vol_core = (rmse_core_vol - rmse_trimmed_vol) / rmse_core_vol * 100
+    impr_vol_cpi = (rmse_hdl_cpi_vol - rmse_trimmed_vol) / rmse_hdl_cpi_vol * 100
+
+    print(f"  N={len(df_vol)}")
+    print(f"  RMSE Trimmed Mean: {rmse_trimmed_vol:.3f}")
+    print(f"  RMSE Core PCE:     {rmse_core_vol:.3f}  (Trimmed {impr_vol_core:+.1f}% better)")
+    print(f"  RMSE Headline CPI: {rmse_hdl_cpi_vol:.3f}  (Trimmed {impr_vol_cpi:+.1f}% better)")
+
+print("\n  Academic benchmark (arXiv 2207.12494v3, 1970-2024):")
+print("    Trimmed mean vs core PCE: 20-25% lower RMSE (current trend)")
+print("    Trimmed mean vs core PCE: 10-17% lower RMSE (future trend)")
+print("    Full sample (1970-2024): ~13% improvement")
+print("    2000-2024 sample: ~17% improvement")
 
 
 # ============================================
