@@ -346,11 +346,11 @@ PCI = 0.30 × z(Core_PCE_3M_Ann)
 | **Dec 2021** | +1.8 | Crisis | Fed behind curve, forced to hike 525 bps |
 | **June 2022** | +2.4 | Peak Crisis | CPI 9.1%, most aggressive tightening since Volcker |
 | **Dec 2023** | +0.9 | Elevated | Disinflation underway but sticky services |
-| **Dec 2025** | **+0.7** | **Elevated** | **"Last mile" problem, Fed on hold** |
+| **Dec 2025** | **TBD** | **Compute dynamically** | **Last mile: shelter largely unwound, services sticky** |
 
-**Current Assessment (Dec 2025):** PCI at **+0.7** places inflation in the "Elevated" regime. This is the zone where headline numbers look better (2.8% CPI) but composition is problematic: core PCE 3M annualized at 3.4%, services ex-shelter at 3.6%, shelter at 5.1%, sticky at 4.2%. Goods deflation (-1.2%) is masking services persistence.
+**Assessment Framework:** PCI above +0.5 = Fed constrained. PCI above +1.0 = no cuts possible. PCI below +0.5 = policy flexibility restored. Compute PCI dynamically using the z-score formula and latest readings.
 
-The Fed can't cut aggressively with PCI > +0.5. The market is priced for **100-150 bps of cuts in 2026**. The inflation data says **0-50 bps max unless something breaks**.
+The key tension: as shelter unwinds and goods normalize, the PCI components that drove the crisis are fading. But services ex-shelter, sticky CPI, and ECI remain elevated enough to keep the composite in cautious territory. The question is whether the improving momentum (Core PCE 3M annualized trending below 12M) translates into sustained PCI improvement or whether pipeline pressure (PPI above CPI) reaccelerates the composite.
 
 ---
 
