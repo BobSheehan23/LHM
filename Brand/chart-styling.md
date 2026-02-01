@@ -1,7 +1,7 @@
 # Lighthouse Macro — Chart Styling Specification
 
-**Version:** 2.0 (TT Deck Standard)
-**Last Updated:** January 31, 2026
+**Version:** 3.0 (TT Deck Standard)
+**Last Updated:** February 1, 2026
 **Purpose:** Canonical reference for all Lighthouse Macro chart generation. Update this file when standards change.
 
 ---
@@ -21,19 +21,20 @@ All educational, research, and deck charts follow this format unless explicitly 
 | **MACRO, ILLUMINATED.** | Bottom-right | Ocean `#0089D1`, bold italic, fontsize 13 |
 | **Source line** | Bottom-left | Muted, italic, fontsize 9, format: `Lighthouse Macro | {Source}; mm.dd.yyyy` |
 
+**Note:** Branding elements (watermarks, accent bars) always use Ocean/Dusk regardless of theme. They are not theme-driven.
+
 ### Title & Subtitle
 
 | Element | Style |
 |---|---|
-| **Title** | fontsize 15, bold, centered, `y=0.945` |
-| **Subtitle** | fontsize 14, italic, Ocean `#0089D1`, centered, `y=0.895` |
+| **Title** | fontsize 15, bold, centered, `y=0.945`, theme foreground color |
+| **Subtitle** | fontsize 14, italic, Ocean `#0089D1` (always Ocean, not theme-driven), centered, `y=0.895` |
 
 ### Subplot Margins (fig.subplots_adjust)
 
 ```python
-# Symmetric for dual-axis charts:
+# Standard for all charts:
 fig.subplots_adjust(top=0.88, bottom=0.08, left=0.06, right=0.94)
-# For single-axis charts, left can be tighter (0.04) if no LHS pill needed
 ```
 
 ### Accent Bar Implementation
@@ -51,6 +52,25 @@ bbar.axhspan(0, 1, 0, 0.67, color='#0089D1')
 bbar.axhspan(0, 1, 0.67, 1.0, color='#FF6723')
 bbar.set_xlim(0, 1); bbar.set_ylim(0, 1); bbar.axis('off')
 ```
+
+---
+
+## Helper Functions (Core API)
+
+These are the standard helper functions used by all chart scripts. They encapsulate the styling rules below.
+
+| Function | Purpose | Key Parameters |
+|---|---|---|
+| `new_fig(figsize=(14, 8))` | Creates figure with theme background and standard margins | `figsize` |
+| `style_ax(ax, right_primary=True)` | Core spine/grid styling. Sets all 4 spines visible at 0.5pt, grid off, tick colors. `right_primary=True` puts ticks on RHS | `right_primary` |
+| `style_dual_ax(ax1, ax2, c1, c2)` | Full dual-axis styling: calls `style_ax`, colors tick labels to series, applies `%.1f` formatters, kills all tick marks | `c1` (LHS color), `c2` (RHS color) |
+| `style_single_ax(ax)` | Full single-axis styling: calls `style_ax(right_primary=True)`, kills tick marks, applies `%.1f` formatter | None |
+| `set_xlim_to_data(ax, idx)` | Sets x-axis limits with 30-day left and 180-day right padding | `idx` (DatetimeIndex) |
+| `brand_fig(fig, title, subtitle, source)` | Applies all figure-level branding (watermarks, bars, title) | `title`, `subtitle`, `source` |
+| `add_last_value_label(ax, y_data, color, ...)` | Adds colored pill on axis edge | `fmt`, `side`, `fontsize`, `pad` |
+| `add_annotation_box(ax, text, x, y)` | Adds takeaway box in dead space | `x=0.52`, `y=0.92` defaults |
+| `add_recessions(ax, start_date)` | Adds recession shading bands | `start_date` (optional filter) |
+| `legend_style()` | Returns legend kwargs dict | None |
 
 ---
 
@@ -74,29 +94,103 @@ bbar.set_xlim(0, 1); bbar.set_ylim(0, 1); bbar.axis('off')
 
 ---
 
+## Dual-Axis Charts
+
+### Axis Assignment
+- **RHS = Primary = Blue (the "star" series). ALWAYS.**
+- **LHS = Secondary = Orange (Dusk). ALWAYS.**
+- Tick labels colored to match their series (blue RHS, orange LHS)
+
+### Styling Flow
+```python
+# Option A: Use the helper (handles everything)
+style_dual_ax(ax1, ax2, c1=c_secondary, c2=c_primary)
+
+# Option B: Manual (when you need custom formatters)
+style_ax(ax1, right_primary=False)
+ax1.grid(False); ax2.grid(False)
+for spine in ax2.spines.values():
+    spine.set_color(THEME['spine']); spine.set_linewidth(0.5)
+ax1.tick_params(axis='both', which='both', length=0)
+ax1.tick_params(axis='y', labelcolor=c_secondary, labelsize=10)
+ax1.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}%'))
+ax2.tick_params(axis='both', which='both', length=0)
+ax2.tick_params(axis='y', labelcolor=c_primary, labelsize=10)
+ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}%'))
+ax1.yaxis.set_tick_params(which='both', right=False)
+ax2.yaxis.set_tick_params(which='both', left=False)
+```
+
+### Same-Scale Dual-Axis (Matched Y-Limits)
+When both series are in the same units (e.g. both % YoY), match y-limits so scales are identical:
+
+```python
+all_min = min(series1.min(), series2.min())
+all_max = max(series1.max(), series2.max())
+pad = (all_max - all_min) * 0.08
+ax1.set_ylim(all_min - pad, all_max + pad)
+ax2.set_ylim(all_min - pad, all_max + pad)
+```
+
+Use same-scale when series are directly comparable (goods vs services, headline vs core, etc.).
+
+### Independent-Scale Dual-Axis
+When series have different magnitudes or units, compute padding independently per axis:
+
+```python
+pad1 = (s1.max() - s1.min()) * 0.08
+pad2 = (s2.max() - s2.min()) * 0.08
+ax1.set_ylim(s1.min() - pad1, s1.max() + pad1)
+ax2.set_ylim(s2.min() - pad2, s2.max() + pad2)
+```
+
+Use independent scales for lead/lag comparisons, shifted series, or different unit types.
+
+### Combined Legend (Dual-Axis)
+```python
+lines1, labels1 = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+```
+
+---
+
+## Single-Axis Charts
+
+- Ticks on RHS (`right_primary=True`)
+- RHS pill only
+- Use `style_single_ax(ax)` which handles everything
+
+---
+
 ## Last-Value Pills
 
 Colored rounded pills with bold white text, positioned on the axis edge.
 
 ```python
-pill = dict(boxstyle='round,pad=0.3', facecolor=series_color, edgecolor=series_color, alpha=0.95)
-ax.annotate(label, xy=(1.0, last_y), xycoords=('axes fraction', 'data'),
-            fontsize=9, fontweight='bold', color='white',
-            ha='left', va='center',
-            xytext=(6, 0), textcoords='offset points',
-            bbox=pill)
+def add_last_value_label(ax, y_data, color, fmt='{:.1f}%', side='right', fontsize=9, pad=0.3):
+    last_y = float(y_data.iloc[-1])
+    label = fmt.format(last_y)
+    pill = dict(boxstyle=f'round,pad={pad}', facecolor=color, edgecolor=color, alpha=0.95)
+    if side == 'right':
+        ax.annotate(label, xy=(1.0, last_y), xycoords=('axes fraction', 'data'),
+                    fontsize=fontsize, fontweight='bold', color='white',
+                    ha='left', va='center',
+                    xytext=(6, 0), textcoords='offset points', bbox=pill)
+    else:
+        ax.annotate(label, xy=(0.0, last_y), xycoords=('axes fraction', 'data'),
+                    fontsize=fontsize, fontweight='bold', color='white',
+                    ha='right', va='center',
+                    xytext=(-6, 0), textcoords='offset points', bbox=pill)
 ```
 
-### Dual-Axis Charts
-- **RHS = Primary = Blue (the "star" series). ALWAYS.**
-- **LHS = Secondary = Orange (Dusk). ALWAYS.**
-- **RHS pill**: Primary axis series, placed at `x=1.0` (right spine), `ha='left'`
-- **LHS pill**: Secondary axis series, placed at `x=0.0` (left spine), `ha='right'`
-- Tick labels colored to match their series (blue RHS, orange LHS)
-- For "same scale" dual-axis charts (e.g. both in % YoY), use twinx with matched ylim for colored tick labels
-
-### Single-Axis Charts
-- RHS pill only
+### Parameters
+| Param | Default | When to Override |
+|---|---|---|
+| `fmt` | `'{:.1f}%'` | Use `'{:.2f}'` for z-scores (no %), `'{:.0f}%'` for integer-scale charts |
+| `fontsize` | `9` | Use `7` for cramped multi-pill charts (e.g. 3+ series on one axis) |
+| `pad` | `0.3` | Use `0.2` for smaller pills when space is tight |
+| `side` | `'right'` | Use `'left'` for secondary axis (LHS) on dual-axis charts |
 
 ### Legend Labels
 - Always include last value in legend label: `f'Core PCE ({val:.1f}%)'`
@@ -121,7 +215,8 @@ This creates breathing room between the end of the data lines and the right spin
 - FRED data frequently has sporadic NaN values that create orphaned data points
 - **Quarterly data** (e.g. ECI): forward-fill to monthly frequency before plotting
 - **Volatile series:** Smooth with 3-month moving average where appropriate (e.g. UMich expectations, dollar YoY)
-- **Shifted series:** When showing a lead/lag relationship, shift the LAGGING series backward (not the leading series forward) to preserve right-side padding for pills
+- **Non-volatile series:** Plot raw. Do not smooth core CPI, core PCE, or other already-smoothed measures
+- **Shifted series:** When showing a lead/lag relationship, shift the LAGGING series backward (not the leading series forward) to preserve right-side padding for pills. Note: shifted series need special legend labels indicating the shift (e.g. "shifted 12mo")
 
 ```python
 g_plot = data['yoy'].dropna()
@@ -136,7 +231,9 @@ ax.plot(g_plot.index, g_plot, ...)
 ```python
 ax.axhline(0, color='#D3D6D9', linewidth=0.8, alpha=0.5, linestyle='--')
 ```
-Full-width dashed line. Extends to spines on both sides.
+Full-width dashed line. Use `COLORS['doldrums']` (`#D3D6D9`) for standard charts.
+
+**Note:** Some charts use `THEME['muted']` for the zero line (e.g. composite z-score charts where the zero line should match the axis text). Either is acceptable, but prefer Doldrums for YoY% charts and theme muted for z-score charts.
 
 ### 2% Target Line (Venus)
 ```python
@@ -144,6 +241,12 @@ ax.axhline(2, color='#FF2389', linewidth=1.0, alpha=0.7, linestyle='--')
 ax.text(x, 2.05, '2% Target', color='#FF2389', fontsize=8, ha='left', va='bottom')
 ```
 Use on charts where the Fed's 2% target is relevant (inflation measures, PCE, sticky CPI, etc.).
+
+**Label positioning:** Use `ax.get_yaxis_transform()` for x-coordinate when you want labels anchored to the y-axis data value:
+```python
+ax.text(0.02, 2.15, '2% Target', fontsize=8, color=COLORS['venus'],
+        alpha=0.7, style='italic', transform=ax.get_yaxis_transform())
+```
 
 ### 3% Danger Zone (Sea)
 ```python
@@ -158,20 +261,60 @@ Use on expectations charts where 3% is the de-anchoring threshold.
 Every chart should have an annotation box with 1-2 line commentary summarizing the takeaway. Positioned in dead space where there is no data.
 
 ```python
-takeaway = f"Flexible inflation normalized.\nSticky at {sticky.iloc[-1]:.1f}% is the structural floor."
-ax.text(x, y, takeaway, transform=ax.transAxes,
-        fontsize=10, color=THEME['fg'], ha='center', va='top',
-        style='italic',
-        bbox=dict(boxstyle='round,pad=0.5',
-                  facecolor=THEME['bg'], edgecolor='#0089D1',
-                  alpha=0.9))
+def add_annotation_box(ax, text, x=0.52, y=0.92):
+    ax.text(x, y, text, transform=ax.transAxes,
+            fontsize=10, color=THEME['fg'], ha='center', va='top',
+            style='italic',
+            bbox=dict(boxstyle='round,pad=0.5',
+                      facecolor=THEME['bg'], edgecolor='#0089D1',
+                      alpha=0.9))
 ```
 
-- **Border color**: Always Ocean `#0089D1`
+- **Border color**: Always Ocean `#0089D1` (hardcoded, not theme-driven)
 - **Background**: Theme background color (opaque)
 - **Text**: Theme foreground, italic, fontsize 10
-- **Position**: Find the largest empty area on the chart. Avoid overlapping data, recession shading, or legend.
+- **Default position**: `x=0.52, y=0.92` (slightly right of center, near top)
 - **CRITICAL: All annotation text must be dynamic** — use f-strings with live data values. Never hardcode numbers.
+
+### Position Guidelines
+Override `x` and `y` to place the box in the largest empty area:
+
+| Scenario | Suggested Position |
+|---|---|
+| Data heavy on left, empty right-top | `x=0.52, y=0.92` (default) |
+| Data heavy on top, empty bottom | `x=0.52, y=0.12` |
+| Data heavy on right, empty left-top | `x=0.35, y=0.92` |
+| Centered data, empty corners | `x=0.45, y=0.92` |
+
+Always verify visually that the box does not overlap data, legend, recession shading, or pills.
+
+---
+
+## Regime Band Charts (Composite Indices)
+
+For composite z-score indicators (PCI, LCI, MSI, etc.), use colored regime bands:
+
+```python
+# Regime bands with axhspan
+ax.axhspan(1.5, 3.0, color=COLORS['port'], alpha=0.25)     # Crisis
+ax.axhspan(1.0, 1.5, color=COLORS['dusk'], alpha=0.20)     # High
+ax.axhspan(0.5, 1.0, color=COLORS['dusk'], alpha=0.12)     # Elevated
+ax.axhspan(-0.5, 0.5, color=COLORS['sea'], alpha=0.12)     # On target
+ax.axhspan(-3.0, -0.5, color=COLORS['sky'], alpha=0.12)    # Deflationary/Low
+
+# Regime labels — right-aligned inside chart area
+ax.text(0.98, 1.75, 'CRISIS', transform=ax.get_yaxis_transform(),
+        fontsize=9, color=COLORS['port'], va='center', ha='right',
+        fontweight='bold', alpha=0.8)
+# ... repeat for each zone with appropriate y-coordinate centered in band
+```
+
+### Regime Chart Specifics
+- Use `style_single_ax(ax)` (single axis, ticks on RHS)
+- Y-axis formatter: `f'{x:.1f}'` (no % sign for z-scores)
+- Pill format: `fmt='{:.2f}'` (two decimal places, no %)
+- Legend label: `f'PCI ({pci.iloc[-1]:.2f})'`
+- Annotation should dynamically determine the current regime name
 
 ---
 
@@ -188,6 +331,8 @@ RECESSIONS = [
 ax.axvspan(start, end, color=color, alpha=alpha, zorder=0)
 ```
 
+The `add_recessions(ax, start_date)` helper handles this automatically. Pass `start_date` to skip recessions that ended before the chart's data range.
+
 ---
 
 ## Legend
@@ -199,7 +344,7 @@ legend_style = dict(
     edgecolor=THEME['spine'],
     labelcolor=THEME['legend_fg'],
 )
-ax.legend(loc='upper left', **legend_style)
+ax.legend(loc='upper left', **legend_style())
 ```
 
 ---
@@ -216,7 +361,9 @@ ax.legend(loc='upper left', **legend_style)
 | Background | Dark Navy | `#0A1628` |
 | Foreground text | Light | `#e6edf3` |
 | Muted text | Gray | `#8b949e` |
+| Spine | Dark Blue | `#1e3350` |
 | Legend bg | Dark Blue | `#0f1f38` |
+| Legend fg | Light | `#e6edf3` |
 
 ### White Theme
 | Role | Color | Hex |
@@ -228,9 +375,61 @@ ax.legend(loc='upper left', **legend_style)
 | Background | White | `#ffffff` |
 | Foreground text | Dark | `#1a1a1a` |
 | Muted text | Gray | `#555555` |
+| Spine | Light Gray | `#cccccc` |
 | Legend bg | Light | `#f8f8f8` |
+| Legend fg | Dark | `#1a1a1a` |
 
 **Rationale**: Sky replaces Ocean on dark theme because Ocean has insufficient contrast against dark navy.
+
+### Full Theme Dictionary
+
+```python
+# Dark theme
+THEME = {
+    'bg': '#0A1628',
+    'fg': '#e6edf3',
+    'muted': '#8b949e',
+    'spine': '#1e3350',
+    'zero_line': '#e6edf3',      # Available but prefer COLORS['doldrums'] for standard zero lines
+    'recession': '#ffffff',
+    'recession_alpha': 0.06,
+    'brand_color': '#4FC3F7',    # Sky
+    'brand2_color': '#FF6723',   # Dusk
+    'primary': '#4FC3F7',        # Sky
+    'secondary': '#FF6723',      # Dusk
+    'tertiary': '#00BB99',       # Sea
+    'accent': '#FF2389',         # Venus
+    'fill_alpha': 0.20,          # For area fills if needed
+    'box_bg': '#0A1628',         # Annotation box background
+    'box_edge': '#4FC3F7',       # Annotation box edge (note: currently hardcoded as Ocean in helper)
+    'legend_bg': '#0f1f38',
+    'legend_fg': '#e6edf3',
+    'mode': 'dark',
+}
+
+# White theme
+THEME = {
+    'bg': '#ffffff',
+    'fg': '#1a1a1a',
+    'muted': '#555555',
+    'spine': '#cccccc',
+    'zero_line': '#333333',
+    'recession': 'gray',
+    'recession_alpha': 0.12,
+    'brand_color': '#0089D1',    # Ocean
+    'brand2_color': '#FF6723',   # Dusk
+    'primary': '#0089D1',        # Ocean
+    'secondary': '#FF6723',      # Dusk
+    'tertiary': '#00BB99',       # Sea
+    'accent': '#FF2389',         # Venus
+    'fill_alpha': 0.15,
+    'box_bg': '#ffffff',
+    'box_edge': '#0089D1',       # Ocean
+    'legend_bg': '#f8f8f8',
+    'legend_fg': '#1a1a1a',
+    'mode': 'white',
+}
+```
 
 ---
 
@@ -270,6 +469,21 @@ Output structure:
   /Outputs/.../dark/chart_XX_name.png
   /Outputs/.../white/chart_XX_name.png
 ```
+
+---
+
+## Nautical 8-Color Palette (Quick Reference)
+
+| Name | Hex | Usage |
+|---|---|---|
+| **Ocean** | `#0089D1` | Primary data (white theme), borders, branding |
+| **Dusk** | `#FF6723` | Secondary series, accent bar segment |
+| **Sky** | `#4FC3F7` | Primary data (dark theme) |
+| **Venus** | `#FF2389` | 2% target lines, critical alerts |
+| **Sea** | `#00BB99` | Tertiary series, on-target regime bands |
+| **Doldrums** | `#D3D6D9` | Zero lines, grids |
+| **Starboard** | `#00FF00` | Extreme bullish |
+| **Port** | `#FF0000` | Crisis regime bands |
 
 ---
 
