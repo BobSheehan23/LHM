@@ -15,7 +15,7 @@ Supply Shocks (if overtightening)
 
 **The Insight:** We're stuck in the "last mile." Goods disinflation is complete. Services inflation is structural. Shelter lags reality by 12-18 months. The Fed is flying blind with a 40-year-old playbook.
 
-When core PCE was 2.0% (pre-pandemic), the Fed had a symmetric target—willing to let it run hot to 2.5% occasionally. That world is dead. We're now in a 3.0% equilibrium with no clear path back to 2.0% without breaking something.
+When core PCE was 2.0% (pre-pandemic), the Fed had a symmetric target, willing to let it run hot to 2.5% occasionally. That world is dead. Five structural forces (deglobalization, energy transition, demographics, housing underbuilding, fiscal deficits) have shifted the equilibrium higher, likely to the 2.5-3.0% range. The path back to 2.0% may require breaking something.
 
 The beauty of inflation data: it's the **only** macro variable that directly determines monetary policy. GDP can disappoint. Employment can soften. But if inflation stays elevated, the Fed stays restrictive. Period.
 
