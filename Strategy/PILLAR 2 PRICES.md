@@ -759,9 +759,9 @@ Inflation behaves **differently** before recessions vs. during mid-cycle slowdow
 | **Late 1990s** | -1.0% | +3.5% | -4.5 ppts | Late cycle (wage-driven services) |
 | **2003-2006** | +0.5% | +3.0% | -2.5 ppts | Mid-cycle expansion |
 | **2015-2019** | -0.5% | +3.0% | -3.5 ppts | Late cycle (globalization offset) |
-| **Dec 2025** | -1.2% | +4.8% | -6.0 ppts | **Extreme divergence** |
+| **Dec 2025** | +1.4% | +3.0% | -1.6 ppts | **Convergence underway** |
 
-The current 6.0 ppt goods-services spread is the widest on record. Historical normalization happens either through goods re-inflating (tariffs, dollar weakness) or services decelerating (recession, labor market cracking). The direction of convergence is the macro call.
+The goods-services spread peaked above 10 ppts in early 2023 (the widest on record) and has narrowed substantially to 1.6 ppts as goods normalized and services decelerated. The convergence happened mostly from both sides: goods came up from deflation, services came down from 7%+. But at 1.6 ppts, the spread is still positive (services > goods), and the question is whether services can break below 3.0% without labor market deterioration.
 
 ---
 
