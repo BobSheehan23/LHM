@@ -917,28 +917,31 @@ Liquidity Transmission
 | **5Y5Y Forward** | *pull from FRED* | 2.0-2.5% anchored, >2.5% drifting | Fed credibility anchor |
 | **PCI** | *computed from composite* | <+0.5 on target | Master regime indicator |
 
-### Narrative Synthesis
+### Narrative Synthesis Framework
 
-Inflation has **decelerated** from crisis levels (9.1% CPI peak June 2022) to **superficially manageable** levels (2.8% CPI Dec 2025). But the **composition** tells the real story:
+The assessment framework follows a consistent structure. Update readings dynamically.
 
-**The Good News:**
-- **Goods deflation complete:** Core goods at -1.2%, adding ~0.3 ppts of disinflation to headline
-- **Shelter pipeline disinflation:** Market rents at 2.8% imply CPI shelter will drop to ~3.0% by Q2 2026 (mechanical)
-- **Expectations stable:** 5Y5Y forward at 2.48%, not spiraling higher
-- **PPI benign:** Producer prices at 2.6%, no upstream pressure building
+**Disinflationary Forces (check these for progress):**
+- Core goods: Below 2%? Goods disinflation still contributing. Above 2%? Tariff/dollar risk materializing.
+- Shelter CPI: Declining toward 3%? Mechanical pipeline intact. Stalling above 3.5%? New lease inflation or supply shock.
+- Market rents (Zillow/Apartment List) at or below 3%? Pipeline confirms further CPI shelter decline.
+- 5Y5Y forward below 2.3%? Expectations well-anchored.
+- PPI below CPI? Disinflationary pipeline. PPI above CPI? Inflationary pipeline.
 
-**The Bad News:**
-- **Services persistence:** Core services ex-shelter stuck at 3.6%, wage-driven, structural
-- **Sticky inflation elevated:** Sticky CPI at 4.2%, double the 2.0% target
-- **Core PCE gap:** 3.2% vs 2.0% target = **60% overshoot** for 30+ consecutive months
-- **Real rates restrictive:** Fed Funds 4.35% - Core PCE 3.2% = +1.15% real rate (65 bps above neutral)
+**Sticky Forces (check these for the last mile):**
+- Core services ex-shelter: Below 3.0% = victory. Above 3.5% = structural wage floor.
+- Sticky CPI: Below 3.0% historically requires recession. At or above 3.0% = persistence problem.
+- ECI total compensation: Below 3.0% consistent with 2% inflation (assuming 1.5% productivity). Above 3.5% = wage floor.
+- Core PCE 3M annualized vs 12M: 3M < 12M = improving momentum. 3M > 12M = accelerating.
+- Trimmed mean PCE (12M vs 6M): Convergence toward 2% confirms breadth of disinflation.
+- Median CPI: The "typical" CPI component. Above 3.0% = broad-based stickiness.
 
 **Cross-Pillar Confirmation:**
-- **Labor Pillar:** LFI +0.93 (fragility) suggests wage pressure will fade → services disinflation ahead (6-9 month lag)
-- **Plumbing Pillar:** LCI -0.8 (thin cushion) limits Fed's ability to ease aggressively even if inflation cooperates
-- **Growth Pillar:** GCI -0.4 (contraction risk) suggests demand destruction → disinflationary impulse
+- **Labor Pillar (LFI):** Elevated fragility → wage pressure fades → services disinflation with 6-9 month lag
+- **Plumbing Pillar (LCI):** Thin cushion → limits Fed's ability to ease even if inflation cooperates
+- **Growth Pillar (GCI):** Contraction risk → demand destruction → disinflationary impulse with 9-12 month lag
 
-**MRI (Macro Risk Index):** Estimated **+1.1** (HIGH RISK). Inflation contributes **+0.7 (PCI)** to the composite, pushing MRI into defensive territory despite superficially "better" headline prints.
+**MRI Contribution:** PCI feeds directly into MRI. When PCI > +0.5 (elevated inflation regime), it constrains the Fed and pushes MRI toward defensive territory regardless of other pillar readings.
 
 ---
 
