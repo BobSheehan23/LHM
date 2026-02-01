@@ -653,7 +653,7 @@ Fiscal policy creates inflation through two mechanisms:
 | **Fiscal Impulse** | Change in structural deficit YoY | >+1 ppt | Demand injection |
 | **Transfer Payments Growth** | YoY growth in government transfers | >5% | Consumer income support |
 
-**The 2026 Fiscal Dominance Regime:** We have $2T+ annual deficits, no QE, RRP at zero, and the Fed trying to fight inflation. The fiscal impulse is persistently inflationary at a time when monetary policy is trying to be restrictive. This conflict is **the** macro story of 2026. It means the term premium must reprice higher (to ~150 bps), long yields stay elevated regardless of Fed cuts, and inflation has a structural floor from deficit spending.
+**The Fiscal Dominance Regime:** $2T+ annual deficits, no QE, RRP exhausted, and the Fed trying to fight inflation. The fiscal impulse is persistently inflationary at a time when monetary policy is trying to be restrictive. This conflict means the term premium must reprice higher, long yields stay elevated regardless of Fed cuts, and inflation has a structural floor from deficit spending.
 
 **Cross-Pillar Link (Pillar 8, Government):** Fiscal dominance feeds directly into inflation via demand and indirectly via term premium → financial conditions → asset prices. See Pillar 8 for full fiscal framework.
 
