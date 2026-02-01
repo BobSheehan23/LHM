@@ -1030,26 +1030,31 @@ Inflation isn't a number. It's a **regime**. And the regime has changed.
 
 Pre-pandemic, 2.0% PCE was the equilibrium. Shocks (oil spikes, financial crises) would push it temporarily off-target, but it mean-reverted. That world is dead.
 
-Post-pandemic, we're in a **3.0% equilibrium** with no clear path back to 2.0% without:
+Post-pandemic, the equilibrium has shifted higher. Five structural forces create a persistent floor:
+1. **Deglobalization** raising goods costs as supply chains shift to higher-cost alternatives
+2. **Energy transition** creating resource-intensive commodity demand before the deflationary payoff arrives
+3. **Demographics** constraining labor supply as Baby Boomer retirements depress participation
+4. **Housing underbuilding** since the GFC keeping vacancy rates historically low
+5. **Fiscal deficits** above 5% of GDP injecting demand that monetary policy is simultaneously trying to restrict
+
+These suggest a **structural inflation floor of 2.5-3.0%**. The 2010s regime of sub-2% inflation required globalization tailwinds, subdued wages, and fiscal austerity. All three have reversed.
+
+The path back to 2.0% requires either:
 - Breaking the labor market (quits collapse, unemployment spikes → wage pressure fades), OR
 - Fed overtightening into recession (demand destruction → forced disinflation), OR
 - Structural supply-side miracle (productivity surge, immigration boom)
 
-None of those are happening. Labor is softening but not collapsing. Fed is restrictive but not Volcker-aggressive. Productivity is ~1.5% (decent, not miraculous).
+**The Framework Says:** Watch composition, not the headline. Track the PCI regime bands. When PCI is above +0.5 (elevated), the Fed is constrained regardless of what headline CPI prints. When sticky CPI is at or above 3.0%, the persistence problem hasn't been solved. When PPI runs above CPI, inflationary pipeline pressure is building. When services ex-shelter remains above 3.0%, the last mile is incomplete.
 
-**Current state:**
-- **PCI +0.7** (Elevated Regime)
-- **Core PCE 3.2%** (60% above target for 30+ months)
-- **Services ex-Shelter 3.6%** (structural, wage-driven)
-- **Shelter CPI 5.1%** (lagging, but mechanical disinflation coming)
-- **Goods CPI -1.2%** (deflationary, masking services persistence)
+**The Cross-Pillar Trap:** When PCI > +0.5 AND LFI is elevated AND LCI is thin, the Fed has no good options. Cut to support labor → risk reigniting inflation. Hold to fight inflation → risk breaking the labor market. This is the policy trap that defines the current macro environment.
 
-**The Fed's Dilemma:** Inflation sticky enough to prevent aggressive easing. Labor fragile enough to risk recession if they don't ease. **Policy trap.**
-
-**The Market's Delusion:** Pricing **100-150 bps of cuts in 2026**. Inflation data says **0-50 bps max unless something breaks**. When the market figures this out, real yields stay elevated, growth assets reprice, and the "soft landing" narrative dies.
-
-**That's our view from the Watch. Until next time, we'll be sure to keep the light on....**
+**Validated Empirical Findings (permanent reference):**
+- Sticky CPI predicts core CPI 6 months forward with R² = 0.82 (1980-2025, N=545)
+- Flexible CPI predicts with R² = 0.37 (2.3x less predictive)
+- PPI Granger-causes CPI (p<0.001 at lag 3-4), bidirectional feedback confirmed
+- Trimmed mean PCE produces 38% lower RMSE than headline CPI at 12-month horizon (2005-2024)
+- Academic confirmation: trimmed measures produce 10-25% lower RMSE across samples (arXiv 2207.12494v3)
+- Shelter CPI lags market rents by 12-13 months (validated across 3 turning points, 2015-2023)
 
 *Bob Sheehan, CFA, CMT*
 *Founder & CIO, Lighthouse Macro*
-*January 31, 2026*
