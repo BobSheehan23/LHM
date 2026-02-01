@@ -175,7 +175,7 @@ Shelter is 34% of CPI and 18% of Core PCE. It's also the **most lagging** compon
 | **OER YoY%** | <2.0% | 2.0-4.0% | **4.0-6.0%** | >6.0% |
 | **Zillow Rent YoY%** | <1.0% | 1.0-3.0% | 3.0-5.0% | >5.0% |
 
-**The Lag Trap:** Market rents (Zillow, Apartment List) peaked at +16.0% YoY in February 2022 and are now **+2.8%** (Dec 2025). CPI Shelter peaked at +8.2% in March 2023 (13-month lag) and is now **5.1%** (Dec 2025). Based on the 12-month lag, CPI Shelter should hit **~3.0%** by Q2 2026. **This is mechanical disinflation baked into the pipeline.** The Fed knows this. The market doesn't.
+**The Lag Trap:** Market rents (Zillow, Apartment List) peaked at +16.0% YoY in February 2022 and have normalized to approximately +2.4%. CPI Shelter peaked at +8.2% in March 2023 (13-month lag) and is now **3.2%** (Dec 2025), declining 0.7 ppts over the last 6 months. Rent of Primary Residence is at **2.9%** and OER at **3.4%**. The big shelter unwind is mostly behind us. The remaining mechanical disinflation is modest, as shelter approaches its structural floor near 3.0%.
 
 ---
 

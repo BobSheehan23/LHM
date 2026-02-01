@@ -305,6 +305,112 @@ g_last = goods['yoy'].dropna().iloc[-1]
 s_last = services['yoy'].dropna().iloc[-1]
 print(f"  Goods-Services Spread: {g_last - s_last:.1f} ppts ({g_last:.1f}% - {s_last:.1f}%)")
 
+# ============================================
+# ADDITIONAL PILLAR DOC CLAIMS
+# ============================================
+print("\n" + "=" * 70)
+print("ADDITIONAL PILLAR DOC VALIDATIONS")
+print("=" * 70)
+
+# UMich 1Y expectations
+try:
+    umich = fred.get_series('MICH', observation_start='2020-01-01')
+    print(f"  UMich 1Y Expectations: {umich.dropna().iloc[-1]:.1f}%  ({umich.dropna().index[-1].strftime('%Y-%m')})")
+except Exception as e:
+    print(f"  UMich 1Y: ERROR - {e}")
+
+# Flexible CPI
+try:
+    flex_cpi = fetch_level('COREFLEXXM159SFRBATL', start='2020-01-01')
+    print(f"  Flexible CPI: {flex_cpi['value'].dropna().iloc[-1]:.1f}%  ({flex_cpi['value'].dropna().index[-1].strftime('%Y-%m')})")
+except:
+    try:
+        flex_cpi = fetch_level('FLEXCPIM159SFRBATL', start='2020-01-01')
+        print(f"  Flexible CPI: {flex_cpi['value'].dropna().iloc[-1]:.1f}%  ({flex_cpi['value'].dropna().index[-1].strftime('%Y-%m')})")
+    except Exception as e:
+        print(f"  Flexible CPI: ERROR - {e}")
+
+# Sticky-Flexible spread
+try:
+    sticky_val = fred.get_series('CORESTICKM159SFRBATL', observation_start='2020-01-01').dropna().iloc[-1]
+    try:
+        flex_val = fred.get_series('FLEXCPIM159SFRBATL', observation_start='2020-01-01').dropna().iloc[-1]
+    except:
+        flex_val = fred.get_series('COREFLEXXM159SFRBATL', observation_start='2020-01-01').dropna().iloc[-1]
+    print(f"  Sticky-Flexible Spread: {sticky_val - flex_val:.1f} ppts (Sticky {sticky_val:.1f}% - Flex {flex_val:.1f}%)")
+except Exception as e:
+    print(f"  Sticky-Flexible Spread: ERROR - {e}")
+
+# PPI-CPI spread (pipeline direction)
+ppi_last = ppi['yoy'].dropna().iloc[-1]
+cpi_last = cpi['yoy'].dropna().iloc[-1]
+print(f"\n  PPI-CPI Spread: {ppi_last - cpi_last:+.1f} ppts (PPI {ppi_last:.1f}% vs CPI {cpi_last:.1f}%)")
+if ppi_last > cpi_last:
+    print(f"    → PPI ABOVE CPI = inflationary pipeline pressure")
+else:
+    print(f"    → PPI BELOW CPI = disinflationary pipeline pressure")
+
+# 5Y Breakeven
+try:
+    be5y = fred.get_series('T5YIE', observation_start='2024-01-01')
+    print(f"\n  5Y Breakeven: {be5y.dropna().iloc[-1]:.2f}%  ({be5y.dropna().index[-1].strftime('%Y-%m-%d')})")
+except Exception as e:
+    print(f"  5Y Breakeven: ERROR - {e}")
+
+# 10Y Breakeven
+try:
+    be10y = fred.get_series('T10YIE', observation_start='2024-01-01')
+    print(f"  10Y Breakeven: {be10y.dropna().iloc[-1]:.2f}%  ({be10y.dropna().index[-1].strftime('%Y-%m-%d')})")
+except Exception as e:
+    print(f"  10Y Breakeven: ERROR - {e}")
+
+# Rent of Primary Residence YoY
+try:
+    rent = fetch_yoy('CUSR0000SEHA')
+    print(f"\n  Rent of Primary Residence YoY: {rent['yoy'].dropna().iloc[-1]:.1f}%  ({rent['yoy'].dropna().index[-1].strftime('%Y-%m')})")
+except Exception as e:
+    print(f"  Rent CPI: ERROR - {e}")
+
+# OER YoY
+try:
+    oer = fetch_yoy('CUSR0000SEHC')
+    print(f"  OER YoY: {oer['yoy'].dropna().iloc[-1]:.1f}%  ({oer['yoy'].dropna().index[-1].strftime('%Y-%m')})")
+except Exception as e:
+    print(f"  OER: ERROR - {e}")
+
+# Trimmed Mean PCE 6M annualized
+try:
+    tm6m = fetch_level('PCETRIM6M680SFRBDAL')
+    print(f"\n  Trimmed Mean PCE 6M Ann: {tm6m['value'].dropna().iloc[-1]:.1f}%  ({tm6m['value'].dropna().index[-1].strftime('%Y-%m')})")
+except Exception as e:
+    print(f"  Trimmed Mean 6M: ERROR - {e}")
+
+# Median CPI
+try:
+    median_cpi = fetch_level('MEDCPIM158SFRBCLE')
+    print(f"  Median CPI: {median_cpi['value'].dropna().iloc[-1]:.1f}%  ({median_cpi['value'].dropna().index[-1].strftime('%Y-%m')})")
+except Exception as e:
+    print(f"  Median CPI: ERROR - {e}")
+
+# Shelter lag validation: peak dates
+print("\n--- Shelter Lag Validation ---")
+shelter = fetch_yoy('CUSR0000SAH1')
+shelter_yoy = shelter['yoy'].dropna()
+# Find peak after 2020
+post2020 = shelter_yoy.loc['2020-01-01':]
+peak_date = post2020.idxmax()
+peak_val = post2020.max()
+print(f"  Shelter CPI YoY Peak: {peak_val:.1f}% on {peak_date.strftime('%Y-%m')}")
+
+# Current trajectory
+last_val = shelter_yoy.iloc[-1]
+last_date = shelter_yoy.index[-1]
+print(f"  Current Shelter CPI YoY: {last_val:.1f}% ({last_date.strftime('%Y-%m')})")
+# 6 months ago
+six_ago = shelter_yoy.iloc[-7]
+print(f"  6 months ago: {six_ago:.1f}%")
+print(f"  6-month decline: {last_val - six_ago:+.1f} ppts")
+
 print("\n" + "=" * 70)
 print("VALIDATION COMPLETE")
 print("=" * 70)
