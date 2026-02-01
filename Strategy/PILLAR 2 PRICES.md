@@ -561,9 +561,9 @@ If Compensation Growth = 3.0% and Productivity = 1.5%:
 | 3.0-4.0% | Elevated | Services inflation will stay sticky |
 | >4.0% | Crisis | Wage-price spiral risk |
 
-**Current State:** ULC running ~2.5-3.0% YoY, down from 6%+ peak. This is in the "slightly elevated" zone. Productivity at ~1.5% is doing the heavy lifting. If productivity fades (as cyclical slowdowns typically cause), ULC will reaccelerate even without wage growth.
+**Framework:** ULC = compensation growth - productivity growth. At ECI 3.6% and productivity ~1.5%, ULC runs approximately 2.1%, consistent with services inflation in the 2.5-3.0% range. If productivity fades (as cyclical slowdowns typically cause), ULC reaccelerates even without wage growth.
 
-**The Key Relationship:** ULC leads supercore (services ex-shelter) by 2-3 quarters. If ULC stays in the 2.5-3.0% range, supercore won't break below 3.0% easily. This is why the "last mile" is structural.
+**The Key Relationship:** ULC leads supercore (services ex-shelter) by 2-3 quarters. When ULC is in the 2.0-3.0% range, supercore won't break below 3.0% easily. This is why the "last mile" is structural. Track ECI releases quarterly for the labor cost signal.
 
 ---
 
