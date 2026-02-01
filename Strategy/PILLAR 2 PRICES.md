@@ -105,7 +105,7 @@ Core inflation (ex-food, ex-energy) is what the Fed actually cares about. Less v
 | **Core PCE YoY%** | <1.5% | 1.5-2.5% | **2.5-4.0%** | >4.0% |
 | **Core PCE 3M Ann** | <1.5% | 1.5-2.5% | **2.5-4.0%** | >4.0% |
 
-**The 2.0% Delusion:** The Fed's 2.0% symmetric target was credible when core PCE averaged 1.8% for a decade (2010-2020). Post-pandemic, we've been above 2.5% for 30+ consecutive months. Either the target moves, or the Fed breaks the economy trying to hit it. Current core PCE: **3.2%**—60% above target.
+**The 2.0% Delusion:** The Fed's 2.0% symmetric target was credible when core PCE averaged 1.8% for a decade (2010-2020). Post-pandemic, we've been above 2.5% for 30+ consecutive months. Either the target moves, or the Fed breaks the economy trying to hit it. Current core PCE: **2.8%**, still 40% above target. Core PCE 3M annualized at **2.3%** suggests momentum is improving, but the 12-month figure hasn't broken below 2.5% yet.
 
 ---
 
