@@ -1016,7 +1016,7 @@ $2T+ annual deficits with debt/GDP near 120%. Interest expense has surged from 1
 | **3. Hard Landing** | ~20-25% | Undershoots <2.0% | Aggressive cuts | Recession, bear market |
 | **4. New Normal (3%)** | ~25-30% | Stabilizes at 2.8-3.2% | Implicit tolerance | Bond yields reprice, multiples compress |
 
-**Our Base Case (Scenario 4):** Inflation stabilizes near 3%, and the market gradually adjusts to a higher equilibrium. The structural forces (deglobalization, demographics, fiscal dominance, housing supply) prevent a return to 2.0%, but the Fed avoids engineering a recession to force it. This is the "policy trap" scenario where the Fed implicitly accepts 3% inflation rather than breaking the economy to hit 2%.
+**Base Case Assessment:** Evaluate which scenario is most likely by checking: (1) Core PCE trajectory (3M vs 12M momentum), (2) Services ex-shelter direction, (3) PCI regime band, (4) Cross-pillar signals (LFI, LCI, GCI). The structural forces (deglobalization, demographics, fiscal dominance, housing supply) create a floor that makes Scenario 1 (soft landing to 2%) the hardest to achieve. The "New Normal" scenario where inflation stabilizes near 2.5-3.0% and the Fed implicitly adjusts expectations remains the structural base case absent a demand shock.
 
 ---
 
