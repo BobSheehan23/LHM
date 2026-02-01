@@ -460,7 +460,7 @@ Sometimes inflation is driven by just 2-3 large categories (shelter, auto insura
 | **Top-5 Category Contribution** | Sum of 5 largest contributors | >85% of total | Highly concentrated |
 | **Shelter Contribution Share** | Shelter contribution / Total CPI YoY | >50% | Shelter-dominated (will fade mechanically) |
 
-**Current State:** Shelter, motor vehicle insurance, and medical care account for roughly 60-70% of core CPI inflation. This concentration is actually **good news** for the disinflation thesis because shelter is mechanically lagging (will fade) and auto insurance is a one-time adjustment. But it also means that if these categories don't cooperate, core CPI won't budge.
+**Interpretation:** When the top-3 contributors account for >70% of core CPI, headline disinflation depends on those few categories cooperating. Shelter is mechanical (will fade with lag). Auto insurance is a one-time adjustment (will normalize). But if these categories stall, core CPI stalls. Track concentration as a risk indicator for disinflation forecasts.
 
 ---
 
