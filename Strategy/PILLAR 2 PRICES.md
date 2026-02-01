@@ -810,7 +810,7 @@ Real Disposable Income ↓ →
 Consumer Spending ↓ → GDP Growth ↓
 ```
 
-**Current Linkage:** Real DPI growth **+1.2% YoY** (modest). If inflation reaccelerates, real income turns negative, crushing consumption (68% of GDP).
+**Current Linkage:** Track real DPI growth YoY. When positive, consumers have purchasing power buffer. When negative, consumption (68% of GDP) comes under pressure.
 
 ```
 C. Prices → Fed Policy → Financial Conditions → Growth
