@@ -399,7 +399,11 @@ Standard CPI/PCE are weighted averages. One extreme component (motor vehicle ins
 
 #### Why These Matter
 
-Trimmed mean and median CPI were the **most accurate** inflation measures during the 2021-2023 episode. When headline CPI hit 9.1% (June 2022), trimmed mean peaked at 7.2% and median at 7.0%. They correctly signaled that core inflation was "only" 6-7%, not 9%. On the way down, trimmed mean at 3.3% correctly signals that core inflation is **sticky at 3%+** even as headline approaches 2.8%.
+Trimmed mean and median CPI were the **most accurate** inflation measures during the 2021-2023 episode. When headline CPI hit 9.1% (June 2022), trimmed mean peaked at 7.2% and median at 7.0%. They correctly signaled that core inflation was "only" 6-7%, not 9%.
+
+**Validated forecast accuracy (2005-2024):** Trimmed mean PCE produces **38% lower RMSE** than headline CPI at predicting core PCE 12 months forward, and **20% lower RMSE** than headline PCE. Even during the volatile 2021-2023 subperiod, trimmed mean outperformed headline CPI by 16%. Academic research (Dolmas & Koenig, arXiv 2207.12494v3, 1970-2024) confirms trimmed and median measures produce 20-25% lower RMSE against current trend inflation and 10-17% lower for future trend.
+
+The Dallas Fed trimmed mean PCE 12M is at **2.5%** and the 6M annualized at **2.3%** (both as of Nov 2025). Median CPI (Cleveland Fed) is at **3.4%** (Dec 2025). The convergence of 12M and 6M trimmed mean suggests momentum is improving, though the 12M hasn't broken below 2.5% yet.
 
 The Dallas Fed trimmed mean PCE is particularly useful because it strips more aggressively (~24% vs 16% for Cleveland) and maps directly to the Fed's preferred measure (PCE). When the 6M annualized trimmed mean PCE diverges from the 12M, it signals momentum change.
 
