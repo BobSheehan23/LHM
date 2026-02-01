@@ -524,7 +524,7 @@ The ECI is the **gold standard** for measuring labor cost pressure because it co
 
 **Why ECI > AHE:** Average Hourly Earnings (AHE) can fall just because the economy is adding more low-wage jobs (compositional shift). That looks like wage disinflation but it's actually just mix shift. ECI holds the job mix constant. If ECI is still elevated, wage pressure is real.
 
-**Current State:** ECI total compensation running ~3.8% YoY (Q3 2025). Down from 4.5%+ peak but still above the ~3.0% level consistent with 2% inflation (assuming ~1.5% productivity growth).
+**Current State:** ECI total compensation running **3.6%** YoY (Q3 2025). Down from 4.5%+ peak but still above the ~3.0% level consistent with 2% inflation (assuming ~1.5% productivity growth). At 3.6% compensation and ~1.5% productivity, unit labor costs run approximately 2.1%, consistent with services inflation in the 2.5-3.0% range. Not crisis. Not target. Stuck.
 
 ### Unit Labor Costs (ULC)
 
