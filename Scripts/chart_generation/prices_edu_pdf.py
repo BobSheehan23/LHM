@@ -323,7 +323,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # THE CORE INSIGHT: COMPOSITION OVER LEVEL
@@ -373,7 +373,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 1: The Great Divergence
@@ -409,7 +409,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 2: The Gap That Matters
@@ -450,7 +450,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 3: The Shelter Lag Trap
@@ -479,13 +479,14 @@ def build_pdf():
         ['Jun 2020 (-1.2% trough)', 'Jun 2021 (+1.9% trough)', '12 months'],
         ['Jan 2019 (+3.2% local peak)', 'Feb 2020 (+3.8% local peak)', '13 months'],
     ]
-    story.append(lhm_table(shelter_data, [2.4 * inch, 2.4 * inch, 1.4 * inch]))
-    story.append(Spacer(1, 6))
-
-    story.append(Paragraph(
-        "Average lag: 12.7 months. Range: 10-14 months.",
-        body_style
-    ))
+    story.append(KeepTogether([
+        lhm_table(shelter_data, [2.4 * inch, 2.4 * inch, 1.4 * inch]),
+        Spacer(1, 6),
+        Paragraph(
+            "Average lag: 12.7 months. Range: 10-14 months.",
+            body_style
+        ),
+    ]))
     story.append(Paragraph(
         "Market rents have decelerated to approximately +2.4% year-over-year. Applying the 12-month lag, "
         "CPI shelter should approach 3.0% by mid-2026. This is arithmetic, not a forecast. The decline is baked in.",
@@ -508,7 +509,7 @@ def build_pdf():
         ),
     ]))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 4: The Persistence Problem
@@ -559,7 +560,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 5: The Pipeline
@@ -593,7 +594,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 6: Expectations
@@ -629,7 +630,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 7: Trimmed Mean
@@ -664,7 +665,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 8: Wages vs Prices
@@ -712,7 +713,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 9: Dollar Channel
@@ -749,7 +750,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # SECTION 10: PCI Composite
@@ -778,8 +779,6 @@ def build_pdf():
         story.append(Paragraph(f'\u2022 {c}', bullet_style))
 
     story.append(Spacer(1, 8))
-    story.append(Paragraph('Regime Bands', h2_style))
-
     regime_data = [
         ['PCI Range', 'Regime', 'Interpretation'],
         ['> +1.5', 'Crisis', 'Inflation emergency, Fed forced to act'],
@@ -788,7 +787,10 @@ def build_pdf():
         ['-0.5 to +0.5', 'On Target', 'Policy flexibility restored'],
         ['< -0.5', 'Deflationary', 'Easing urgently needed'],
     ]
-    story.append(lhm_table(regime_data, [1.5 * inch, 1.5 * inch, 3.2 * inch]))
+    story.append(KeepTogether([
+        Paragraph('Regime Bands', h2_style),
+        lhm_table(regime_data, [1.5 * inch, 1.5 * inch, 3.2 * inch]),
+    ]))
 
     story.append(Spacer(1, 8))
     story.append(Paragraph(
@@ -806,7 +808,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # WHERE WE ARE NOW
@@ -850,7 +852,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # THE CONSENSUS TRAP
@@ -904,7 +906,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # WHAT TO WATCH
@@ -917,54 +919,62 @@ def build_pdf():
     ))
 
     # Core Trend
-    story.append(Paragraph('Core Trend (Fed Reaction Function)', h2_style))
-    story.append(lhm_table(
-        [
-            ['Indicator', 'Source', 'Frequency', 'Watch For'],
-            ['Core PCE YoY', 'FRED: PCEPILFE', 'Monthly', 'Sustained move below 2.5%'],
-            ['Core PCE 3M Ann.', 'Derived', 'Monthly', 'Direction more than level'],
-            ['Trimmed Mean PCE', 'FRED: PCETRIM12M...', 'Monthly', 'Convergence toward 2%'],
-            ['Sticky CPI', 'Atlanta Fed', 'Monthly', 'Break below 3.0%'],
-        ],
-        [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
-    ))
+    story.append(KeepTogether([
+        Paragraph('Core Trend (Fed Reaction Function)', h2_style),
+        lhm_table(
+            [
+                ['Indicator', 'Source', 'Frequency', 'Watch For'],
+                ['Core PCE YoY', 'FRED: PCEPILFE', 'Monthly', 'Sustained move below 2.5%'],
+                ['Core PCE 3M Ann.', 'Derived', 'Monthly', 'Direction more than level'],
+                ['Trimmed Mean PCE', 'FRED: PCETRIM12M...', 'Monthly', 'Convergence toward 2%'],
+                ['Sticky CPI', 'Atlanta Fed', 'Monthly', 'Break below 3.0%'],
+            ],
+            [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
+        ),
+    ]))
     story.append(Spacer(1, 10))
 
     # Components
-    story.append(Paragraph('Components (Where the Pressure Lives)', h2_style))
-    story.append(lhm_table(
-        [
-            ['Indicator', 'Source', 'Frequency', 'Watch For'],
-            ['Shelter CPI', 'FRED: CUSR0000SAH1', 'Monthly', 'Decline toward 3%'],
-            ['Services ex-Shelter', 'BLS', 'Monthly', 'Below 3.0% = victory'],
-            ['Core Goods CPI', 'FRED: CUSR...SACL1E', 'Monthly', 'Above 2% (tariffs, dollar)'],
-        ],
-        [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
-    ))
+    story.append(KeepTogether([
+        Paragraph('Components (Where the Pressure Lives)', h2_style),
+        lhm_table(
+            [
+                ['Indicator', 'Source', 'Frequency', 'Watch For'],
+                ['Shelter CPI', 'FRED: CUSR0000SAH1', 'Monthly', 'Decline toward 3%'],
+                ['Services ex-Shelter', 'BLS', 'Monthly', 'Below 3.0% = victory'],
+                ['Core Goods CPI', 'FRED: CUSR...SACL1E', 'Monthly', 'Above 2% (tariffs, dollar)'],
+            ],
+            [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
+        ),
+    ]))
     story.append(Spacer(1, 10))
 
     # Expectations
-    story.append(Paragraph('Expectations (The Credibility Anchor)', h2_style))
-    story.append(lhm_table(
-        [
-            ['Indicator', 'Source', 'Frequency', 'Watch For'],
-            ['5Y5Y Forward', 'FRED: T5YIFR', 'Daily', '>2.5% caution, >3.0% alarm'],
-            ['UMich 1Y', 'Univ. of Michigan', 'Monthly', 'Extreme readings (>4% or <2%)'],
-        ],
-        [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
-    ))
+    story.append(KeepTogether([
+        Paragraph('Expectations (The Credibility Anchor)', h2_style),
+        lhm_table(
+            [
+                ['Indicator', 'Source', 'Frequency', 'Watch For'],
+                ['5Y5Y Forward', 'FRED: T5YIFR', 'Daily', '>2.5% caution, >3.0% alarm'],
+                ['UMich 1Y', 'Univ. of Michigan', 'Monthly', 'Extreme readings (>4% or <2%)'],
+            ],
+            [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
+        ),
+    ]))
     story.append(Spacer(1, 10))
 
     # Pipeline
-    story.append(Paragraph('Pipeline (What\'s Coming)', h2_style))
-    story.append(lhm_table(
-        [
-            ['Indicator', 'Source', 'Frequency', 'Watch For'],
-            ['PPI Final Demand', 'FRED: PPIFIS', 'Monthly', 'PPI above CPI = inflationary'],
-            ['ECI Total Comp', 'FRED: ECIALLCIV', 'Quarterly', 'Below 3.0% = services relief'],
-        ],
-        [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
-    ))
+    story.append(KeepTogether([
+        Paragraph('Pipeline (What\'s Coming)', h2_style),
+        lhm_table(
+            [
+                ['Indicator', 'Source', 'Frequency', 'Watch For'],
+                ['PPI Final Demand', 'FRED: PPIFIS', 'Monthly', 'PPI above CPI = inflationary'],
+                ['ECI Total Comp', 'FRED: ECIALLCIV', 'Quarterly', 'Below 3.0% = services relief'],
+            ],
+            [1.5 * inch, 1.6 * inch, 0.9 * inch, 2.2 * inch]
+        ),
+    ]))
 
     story.append(Spacer(1, 8))
     story.append(Paragraph(
@@ -973,7 +983,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # INVALIDATION CRITERIA
@@ -1026,7 +1036,7 @@ def build_pdf():
         body_style
     ))
 
-    story.append(PageBreak())
+    story.append(CondPageBreak(3.5 * inch))
 
     # ==========================================
     # THE BOTTOM LINE

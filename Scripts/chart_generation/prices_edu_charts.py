@@ -248,7 +248,7 @@ def brand_fig(fig, title, subtitle=None, source=None):
     bbar.set_xlim(0, 1); bbar.set_ylim(0, 1); bbar.axis('off')
 
     # Bottom-right watermark
-    fig.text(0.97, 0.015, 'MACRO, ILLUMINATED.', fontsize=13,
+    fig.text(0.97, 0.025, 'MACRO, ILLUMINATED.', fontsize=13,
              color=OCEAN, ha='right', va='top', style='italic', fontweight='bold')
 
     # Source line bottom-left
@@ -317,8 +317,8 @@ def legend_style():
 
 def save_fig(fig, filename):
     """Save figure to output directory."""
-    # Add outer border at absolute figure edge
-    border_color = THEME['spine']
+    # Add outer border at absolute figure edge (Ocean for white, Sky for dark)
+    border_color = THEME['primary']
     fig.patches.append(plt.Rectangle(
         (0, 0), 1, 1, transform=fig.transFigure,
         fill=False, edgecolor=border_color, linewidth=1.5,
