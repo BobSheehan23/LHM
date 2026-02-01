@@ -819,9 +819,9 @@ Elevated Inflation → Fed Stays Restrictive →
 Financial Conditions Tight → Investment ↓ → GDP Growth ↓
 ```
 
-**Current Linkage:** PCI at +0.7 (elevated) → Fed holds rates at 4.25-4.50% → Real policy rate +1.15% (restrictive) → GCI at -0.4 (contraction risk).
+**Current Linkage:** When PCI is elevated (>+0.5), the Fed holds or tightens. This keeps real policy rates restrictive, which pressures GCI with a 2-4 quarter lag.
 
-**Cross-Pillar Signal:** When **PCI** leads **GCI** by 2-4 quarters (inflation persistence delays easing, which delays growth recovery). Current trajectory: PCI elevated → Fed on hold → GCI deteriorates further.
+**Cross-Pillar Signal:** PCI leads GCI by 2-4 quarters. Inflation persistence delays easing, which delays growth recovery. When PCI is elevated → Fed on hold → GCI deteriorates further.
 
 ---
 
@@ -837,9 +837,9 @@ Savings Rate Compression → Credit Utilization ↑ →
 Consumer Stress
 ```
 
-**Current Linkage:** CPI at 2.8% eroding purchasing power. Savings rate at **4.5%** (near 2008 lows). Credit card balances at all-time high ($1.17T). Consumer cushion exhausted.
+**Current Linkage:** Persistent inflation erodes purchasing power. Track savings rate (near cycle lows) and credit card balances (at record highs). Consumer cushion depends on real wage growth staying positive.
 
-**Cross-Pillar Signal:** When **PCI > +0.5** (elevated inflation) AND **CCI < -0.5** (consumer stress), the consumer is caught in a **squeeze**: prices rising, income stagnant, savings depleted. Current: **PCI +0.7, CCI -0.4**. **Squeeze developing.**
+**Cross-Pillar Signal:** When **PCI > +0.5** (elevated inflation) AND **CCI < -0.5** (consumer stress), the consumer is caught in a **squeeze**: prices rising, income stagnant, savings depleted. Check current PCI and CCI to assess squeeze status.
 
 ---
 
