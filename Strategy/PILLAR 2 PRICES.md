@@ -901,20 +901,21 @@ Liquidity Transmission
 
 ---
 
-## Current State Assessment (January 2026)
+## Current State Assessment Template
 
-| **Indicator** | **Current Level** | **Threshold** | **Assessment** |
+*Numbers below reflect the latest validated readings. Update dynamically via `Scripts/validation/prices_article_validation.py`.*
+
+| **Indicator** | **Latest** | **Threshold** | **Assessment** |
 |---|---|---|---|
-| **Core PCE YoY** | 3.2% | 2.0% target | 🔴 **60% above target** |
-| **Core PCE 3M Ann** | 3.4% | <2.5% on target | 🔴 **Elevated** |
-| **Core CPI YoY** | 3.3% | <3.5% comfortable | 🟡 Caution |
-| **Services ex-Shelter** | 3.6% | <4.0% manageable | 🟡 **Sticky** |
-| **Shelter CPI YoY** | 5.1% | <4.0% comfortable | 🔴 **Elevated (but lagging)** |
-| **Goods CPI YoY** | -1.2% | Negative = deflationary | 🟢 Disinflationary |
-| **Sticky CPI YoY** | 4.2% | <4.5% manageable | 🟡 **Persistent** |
-| **5Y5Y Forward** | 2.48% | 2.0-2.5% anchored | 🟡 **Drifting high** |
-| **Zillow Rent YoY** | 2.8% | <3.0% comfortable | 🟢 Normalizing |
-| **PCI Estimate** | **+0.7** | <+0.5 on target | 🟡 **Elevated Regime** |
+| **Core PCE YoY** | *pull from FRED* | 2.0% target | Distance from target as % |
+| **Core PCE 3M Ann** | *derived* | <2.5% on target | Momentum vs level |
+| **Core CPI YoY** | *pull from FRED* | <3.5% comfortable | Regime classification |
+| **Services ex-Shelter** | *BLS release* | <3.0% victory, <4.0% manageable | The true last mile |
+| **Shelter CPI YoY** | *pull from FRED* | <4.0% comfortable | Lagging, track vs market rents |
+| **Goods CPI YoY** | *pull from FRED* | <0% deflationary, 0-1% neutral | Watch for tariff/dollar reversal |
+| **Sticky CPI YoY** | *Atlanta Fed* | <3.0% historically requires recession | Persistence gauge |
+| **5Y5Y Forward** | *pull from FRED* | 2.0-2.5% anchored, >2.5% drifting | Fed credibility anchor |
+| **PCI** | *computed from composite* | <+0.5 on target | Master regime indicator |
 
 ### Narrative Synthesis
 
