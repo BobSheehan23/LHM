@@ -113,6 +113,8 @@ Core inflation (ex-food, ex-energy) is what the Fed actually cares about. Less v
 
 Goods and services inflation behave completely differently. Goods are globally traded, responsive to supply chains, and disinflationary post-pandemic. Services are locally produced, wage-driven, and sticky.
 
+**Demand vs Supply Attribution (2021-2023):** Most rigorous economic research attributes the bulk of the 2021-2023 inflation surge to excess aggregate demand, with supply disruptions and energy shocks acting as multipliers rather than root causes. The evidence: the Global Supply Chain Pressure Index (NY Fed GSCPI) normalized by mid-2022, yet core inflation persisted through 2023. If supply disruptions were the primary driver, inflation would have collapsed when supply healed. It didn't. Goods cooled, but services (the labor-intensive, domestically-produced component) remained sticky. This pattern is inconsistent with a supply-driven shock and consistent with demand-driven inflation that persists until demand contracts or supply expands. Fed staff analysis, SF Fed research, and NBER studies converge on this conclusion.
+
 | **Indicator** | **FRED Code** | **Frequency** | **Lead/Lag** | **Interpretation** |
 |---|---|---|---|---|
 | **Core Goods CPI** | CUSR0000SACL1E | Monthly | Leading 3-6 mo | Durable + nondurable ex-food/energy |
