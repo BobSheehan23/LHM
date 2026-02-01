@@ -284,3 +284,15 @@ For the TT research deck implementation:
 ```
 /Users/bob/LHM/Scripts/chart_generation/tt_research_charts.py
 ```
+
+---
+
+## PDF Generation
+
+Branded PDFs follow the style established in:
+```
+/Users/bob/LHM/Scripts/generate_two_books_pdf.py  (canonical PDF style)
+/Users/bob/LHM/Scripts/chart_generation/prices_edu_pdf.py  (educational article PDF)
+```
+
+Key elements: full-width Ocean/Dusk header bar with white text, matching thin footer bar, Ocean Blue H1/H2 headings, Ocean Blue table headers with white text, justified body at 10pt. Open PDFs with PDF Expert.
