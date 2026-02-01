@@ -750,9 +750,9 @@ Inflation behaves **differently** before recessions vs. during mid-cycle slowdow
 | **2000 (Dot-Com)** | 2.6% | Asset bubble burst, no inflation driver | Mild recession, core stable at 2.5% |
 | **2007 (GFC)** | 2.3% | Housing bust → demand collapse | Core fell to 0.6%, deflation scare |
 | **2020 (COVID)** | 2.3% | Demand shock, supply chain preserved | Core fell to 1.2%, then massive overshoot |
-| **2025-26 (Current)** | 3.3% | Services sticky, goods deflating | **?** |
+| **2025-26 (Current)** | 2.6-2.8% | Services sticky, goods normalized | **?** |
 
-**Key Insight:** Inflation typically falls 1-2 ppts during recession as demand collapses. But starting from 3.3% core (current), even a recession only gets you to ~2.0-2.5% core. That's *on target* but not below. The risk is that the post-recession bounce reaccelerates inflation before it settles, as happened in the 1970s double-dip.
+**Key Insight:** Inflation typically falls 1-2 ppts during recession as demand collapses. Starting from current core CPI levels, a recession would likely push core to ~1.0-1.5%, which is below target and risks deflation scare. But starting from core PCE at 2.8%, a mild slowdown might only get you to 2.0-2.5%, which is on target. The composition matters: if services ex-shelter remains above 3%, even a recession may not deliver sustained sub-2% inflation given structural forces.
 
 ### The Goods-Services Spread as Cycle Indicator
 
