@@ -277,7 +277,7 @@ Inflation expectations matter because they become self-fulfilling. If consumers/
 | **UMich 1Y** | <3.0% | 3.0-4.0% | **>4.0%** |
 | **UMich 5-10Y** | 2.5-3.0% | **3.0-3.5%** | >3.5% |
 
-**The Anchoring Crisis:** 5Y5Y forward inflation peaked at 2.62% (April 2024) and is now **2.48%** (Jan 2026)—elevated but stable. UMich 1Y expectations peaked at 5.4% (March 2022) and are now **3.2%** (Dec 2025)—improved but still above target. The Fed is **desperate** to keep 5Y5Y below 2.5%. If it breaks 3.0%, credibility is lost and they'll hike into a recession to restore it.
+**The Anchoring Tension:** 5Y5Y forward inflation is at **2.19%** (Jan 2026), near the well-anchored range but above the 2.0% target. The 5Y breakeven is at **2.53%**, having crept above the 2.5% "drifting" threshold. UMich 1Y expectations peaked at 5.4% (March 2022) and are now **4.2%** (Dec 2025), still elevated and above the 4.0% "de-anchoring" threshold. The split between market expectations (calm) and consumer expectations (elevated) reflects the bifurcation in lived experience: bond traders see core PCE at 2.8%, consumers see grocery bills, insurance, and rent. If 5Y5Y breaks above 2.5%, the Fed gets nervous. If consumer expectations stay above 4.0%, the wage-setting behavior keeps services sticky.
 
 ---
 
