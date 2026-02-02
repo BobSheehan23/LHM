@@ -1046,6 +1046,124 @@ def chart_10():
 
 
 # ============================================
+# TABLE IMAGES (for Substack)
+# ============================================
+def _render_table(col_headers, rows, title, subtitle, filename, col_widths=None):
+    """Render a branded table as a PNG image."""
+    OCEAN = '#0089D1'
+    DUSK = '#FF6723'
+
+    n_cols = len(col_headers)
+    n_rows = len(rows)
+
+    fig_w = 10
+    fig_h = 3.2 + n_rows * 0.45
+    fig = plt.figure(figsize=(fig_w, fig_h), facecolor=THEME['bg'])
+
+    # Scale table position based on content height
+    table_top = 0.68 if n_rows <= 3 else 0.72
+    ax = fig.add_axes([0.05, 0.10, 0.90, table_top - 0.10])
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, n_rows + 1)
+    ax.axis('off')
+
+    if col_widths is None:
+        col_widths = [1.0 / n_cols] * n_cols
+    col_x = [sum(col_widths[:i]) for i in range(n_cols)]
+
+    # Header row
+    header_y = n_rows + 0.5
+    ax.axhspan(header_y - 0.4, header_y + 0.4, xmin=0, xmax=1,
+               facecolor=OCEAN, alpha=0.9, zorder=0)
+    for j, header in enumerate(col_headers):
+        ax.text(col_x[j] + col_widths[j] / 2, header_y, header,
+                ha='center', va='center', fontsize=11, fontweight='bold',
+                color='white', zorder=1)
+
+    # Data rows
+    for i, row in enumerate(rows):
+        y = n_rows - i - 0.5
+        # Alternating row background
+        if i % 2 == 1:
+            ax.axhspan(y - 0.4, y + 0.4, xmin=0, xmax=1,
+                       facecolor=THEME['spine'], alpha=0.3, zorder=0)
+        for j, cell in enumerate(row):
+            ax.text(col_x[j] + col_widths[j] / 2, y, cell,
+                    ha='center', va='center', fontsize=10,
+                    color=THEME['fg'], zorder=1)
+
+    # Grid lines
+    for i in range(n_rows + 2):
+        y = i - 0.1
+        ax.axhline(y, color=THEME['spine'], linewidth=0.5, alpha=0.5)
+
+    # Custom branding for tables (no accent bars crossing title)
+    OCEAN = '#0089D1'
+    DUSK = '#FF6723'
+    fig.patch.set_facecolor(THEME['bg'])
+
+    fig.text(0.03, 0.98, 'LIGHTHOUSE MACRO', fontsize=11,
+             color=OCEAN, fontweight='bold', va='top')
+    fig.text(0.97, 0.98, datetime.now().strftime('%B %d, %Y'),
+             fontsize=9, color=THEME['muted'], ha='right', va='top')
+
+    # Title and subtitle with clear spacing
+    fig.text(0.5, 0.93, title, fontsize=14, fontweight='bold',
+             ha='center', va='top', color=THEME['fg'])
+    if subtitle:
+        fig.text(0.5, 0.88, subtitle, fontsize=11, ha='center',
+                 va='top', color=OCEAN, style='italic')
+
+    # Bottom accent bar only
+    bbar = fig.add_axes([0.03, 0.035, 0.94, 0.004])
+    bbar.axhspan(0, 1, 0, 0.67, color=OCEAN)
+    bbar.axhspan(0, 1, 0.67, 1.0, color=DUSK)
+    bbar.set_xlim(0, 1); bbar.set_ylim(0, 1); bbar.axis('off')
+
+    fig.text(0.97, 0.025, 'MACRO, ILLUMINATED.', fontsize=11,
+             color=OCEAN, ha='right', va='top', style='italic', fontweight='bold')
+    date_str = datetime.now().strftime('%m.%d.%Y')
+    fig.text(0.03, 0.022, f'Lighthouse Macro; {date_str}',
+             fontsize=8, color=THEME['muted'], ha='left', va='top', style='italic')
+
+    return save_fig(fig, filename)
+
+
+def table_shelter_lag():
+    """Generate shelter lag table as branded PNG."""
+    print('\nTable: Shelter Lag...')
+    headers = ['Market Rent Peak/Trough', 'CPI Shelter Peak/Trough', 'Lag']
+    rows = [
+        ['Feb 2022 (+16.0% peak)', 'Mar 2023 (+8.2% peak)', '13 months'],
+        ['Jun 2020 (-1.2% trough)', 'Jun 2021 (+1.9% trough)', '12 months'],
+        ['Jan 2019 (+3.2% local peak)', 'Feb 2020 (+3.8% local peak)', '13 months'],
+    ]
+    return _render_table(headers, rows,
+                         'Shelter Lag: Market Rents Lead CPI by ~13 Months',
+                         'Every turning point since 2015 confirms the mechanical lag',
+                         'table_shelter_lag.png',
+                         col_widths=[0.40, 0.40, 0.20])
+
+
+def table_pci_regime():
+    """Generate PCI regime bands table as branded PNG."""
+    print('\nTable: PCI Regime Bands...')
+    headers = ['PCI Range', 'Regime', 'Interpretation']
+    rows = [
+        ['> +1.5', 'Crisis', 'Inflation emergency, Fed forced to act'],
+        ['+1.0 to +1.5', 'High', 'Aggressive restraint, no cuts possible'],
+        ['+0.5 to +1.0', 'Elevated', "Fed can't ease aggressively"],
+        ['-0.5 to +0.5', 'On Target', 'Policy flexibility restored'],
+        ['< -0.5', 'Deflationary', 'Easing urgently needed'],
+    ]
+    return _render_table(headers, rows,
+                         'PCI Regime Bands',
+                         'Mapping the inflation environment to Fed flexibility',
+                         'table_pci_regime.png',
+                         col_widths=[0.20, 0.20, 0.60])
+
+
+# ============================================
 # MAIN
 # ============================================
 CHART_MAP = {
@@ -1059,6 +1177,8 @@ CHART_MAP = {
     8: chart_08,
     9: chart_09,
     10: chart_10,
+    11: table_shelter_lag,
+    12: table_pci_regime,
 }
 
 
