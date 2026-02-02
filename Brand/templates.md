@@ -191,7 +191,7 @@
 ```
 
 **Format:** Markdown (Substack), PDF companion
-**Word count:** 3,000-3,500
+**Word count:** 3,000-3,500 (longer loses readers, especially on mobile)
 **Charts:** 8-10, dark theme for Substack, white theme for PDF
 **Tone:** Institutional but accessible. No formulas. Concepts and charts only.
 **Reference implementations:**
