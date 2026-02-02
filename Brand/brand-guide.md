@@ -73,11 +73,13 @@ Watermark styling:
 | Type | Value |
 |------|-------|
 | Name | Bob Sheehan, CFA, CMT |
-| Title | Founder & Chief Investment Officer |
+| Title | Founder & CIO |
+| Descriptor | Global Macro Intelligence |
 | Website | LighthouseMacro.com |
 | Email (Primary) | bob@lighthousemacro.com |
 | Email (Advisory) | advisory@lighthousemacro.com |
 | Email (Research) | research@lighthousemacro.com |
+| Research | research.lighthousemacro.com |
 | Phone | +1 (240) 672-7418 |
 | Twitter/X | @LHMacro |
 
@@ -92,8 +94,15 @@ Subscribe button: **"Join The Watch."**
 ## Document Footer Template
 
 ```
-Bob Sheehan, CFA, CMT | Founder & Chief Investment Officer
-Lighthouse Macro | LighthouseMacro.com | @LHMacro
+Bob Sheehan, CFA, CMT
+Founder & CIO | Lighthouse Macro
+Global Macro Intelligence
+MACRO, ILLUMINATED.
+
+Phone: +1 (240) 672-7418
+Website: lighthousemacro.com
+Research: research.lighthousemacro.com
+Twitter: @LHMacro
 ```
 
 ## Accent Bar
