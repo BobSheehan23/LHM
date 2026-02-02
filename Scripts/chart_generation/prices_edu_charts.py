@@ -154,6 +154,13 @@ def rolling_zscore(series, window=60):
     return (series - mu) / sigma
 
 
+def target_zscore(series, target=2.0, scale=1.0):
+    """Z-score relative to a fixed target level.
+    Returns how far above/below the target, normalized by scale.
+    scale controls sensitivity: smaller = more sensitive."""
+    return (series - target) / scale
+
+
 # ============================================
 # CHART STYLING HELPERS (matching labor format)
 # ============================================
@@ -254,7 +261,7 @@ def brand_fig(fig, title, subtitle=None, source=None):
     # Source line bottom-left
     if source:
         date_str = datetime.now().strftime('%m.%d.%Y')
-        fig.text(0.03, 0.015, f'Lighthouse Macro | {source}; {date_str}',
+        fig.text(0.03, 0.022, f'Lighthouse Macro | {source}; {date_str}',
                  fontsize=9, color=THEME['muted'], ha='left', va='top', style='italic')
 
     # Title and subtitle
@@ -873,8 +880,9 @@ def _chart_09_core(shifted=False):
 
     ax1.axhline(0, color=THEME['muted'], linewidth=0.8, alpha=0.5, linestyle='--')
 
-    ax1.set_ylim(-20, 13)
-    ax2.set_ylim(-4, 13)
+    # Scale axes so visual amplitudes align: ~3:1 ratio dollar-to-goods
+    ax1.set_ylim(-15, 10)
+    ax2.set_ylim(-5, 14)
 
     style_dual_ax(ax1, ax2, c_secondary, c_primary)
     set_xlim_to_data(ax1, inv_dollar_plot.index)
@@ -954,17 +962,25 @@ def chart_10():
     })
     pci_df = pci_df.loc[start_date:].dropna()
 
-    # Z-scores (rolling 60-month)
-    z_core = rolling_zscore(pci_df['core_pce_3m'])
-    z_svc = rolling_zscore(pci_df['services_yoy'])
-    z_shelter = rolling_zscore(pci_df['shelter_yoy'])
-    z_sticky = rolling_zscore(pci_df['sticky'])
-    z_fwd = rolling_zscore(pci_df['fwd5y5y'])
-    z_goods = rolling_zscore(pci_df['goods_yoy'])
+    # Target-based z-scores: measure distance from Fed-consistent targets
+    # Scale calibrated so 1.0 = meaningfully above target
+    # Core PCE 3m ann: target 2%, scale 1.5 (volatile, wider band)
+    # Services YoY: target 2.5% (Fed-consistent), scale 1.5
+    # Shelter YoY: target 2.5% (Fed-consistent), scale 1.5
+    # Sticky CPI: target 2.5% (Fed-consistent), scale 1.0
+    # 5Y5Y fwd: target 2.25% (anchored expectations), scale 0.3 (small moves matter)
+    # Goods YoY: target 0% (goods should be flat/deflating), scale 1.5
+    z_core = target_zscore(pci_df['core_pce_3m'], target=2.0, scale=1.5)
+    z_svc = target_zscore(pci_df['services_yoy'], target=2.5, scale=1.5)
+    z_shelter = target_zscore(pci_df['shelter_yoy'], target=2.5, scale=1.5)
+    z_sticky = target_zscore(pci_df['sticky'], target=2.5, scale=1.0)
+    z_fwd = target_zscore(pci_df['fwd5y5y'], target=2.25, scale=0.3)
+    z_goods = target_zscore(pci_df['goods_yoy'], target=0.0, scale=1.5)
 
-    # PCI formula
+    # PCI formula: positive = inflationary, negative = deflationary
+    # Goods inverted: positive goods inflation is inflationary
     pci = (0.30 * z_core + 0.20 * z_svc + 0.15 * z_shelter
-           + 0.15 * z_sticky + 0.10 * z_fwd + 0.10 * (-z_goods))
+           + 0.15 * z_sticky + 0.10 * z_fwd + 0.10 * z_goods)
     pci = pci.dropna()
 
     fig, ax = new_fig()

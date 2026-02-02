@@ -153,9 +153,56 @@
 
 ---
 
+## Educational Series (Pillar Posts)
+
+**Purpose:** Deep-dive article for each of the 12 pillars in the Diagnostic Dozen. Free on Substack with 8-10 charts. Teaches the framework one pillar at a time.
+
+**Structure:**
+```
+[Title: "[Pillar Name]: [Tagline]"]
+[Subtitle: "The Diagnostic Dozen: A Framework for Reading the Macro Cycle (N of 12)"]
+
+[Opening Hook - 2-3 paragraphs, why this pillar matters]
+
+[Core Insight - the conceptual unlock for this pillar]
+
+[What to Watch and Why - mental model for categorizing indicators]
+
+[The Indicators That Matter]
+  - 7-9 indicator subsections
+  - Each: mechanism → historical validation → chart
+  - One chart per subsection
+  - Final subsection: the pillar composite (PCI, LPI, etc.)
+
+[The Consensus Trap - how consensus misreads this pillar]
+
+[Where We Are Now - current readings concentrated here]
+
+[How to Track This Pillar - bulleted indicator list with FRED codes]
+
+[Invalidation Criteria - bull and bear case thresholds]
+
+[The Bottom Line - structural forces, regime summary]
+
+[Sign-off: "Join The Watch."]
+[Author block]
+[Next-in-series teaser]
+[Tags]
+```
+
+**Format:** Markdown (Substack), PDF companion
+**Word count:** 3,000-3,500
+**Charts:** 8-10, dark theme for Substack, white theme for PDF
+**Tone:** Institutional but accessible. No formulas. Concepts and charts only.
+**Reference implementations:**
+  - Labor: `/Users/bob/LHM/Outputs/Content/Educational_Series/01_Labor_Post.md`
+  - Prices: `/Users/bob/LHM/Outputs/Content/Educational_Series/02_Prices_Post.md`
+
+---
+
 ## Framework Documents
 
-**Purpose:** Methodology explanations (Three Pillars, MRI, LCI, etc.)
+**Purpose:** Methodology explanations (Diagnostic Dozen, MRI, LCI, etc.)
 
 **Structure:**
 ```
