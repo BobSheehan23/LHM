@@ -1039,9 +1039,11 @@ The question isn't whether the framework works. January proved it does. The ques
 
 | **Scenario** | **Probability** | **Liquidity Path** | **BTC Implication** | **Trigger** |
 |---|---|---|---|---|
-| **Base Case: Stabilization** | 60% | Liquidity stabilizes by end Q1, TGA normalizes to $700-750B | $85-90K | TGA drawdown, no new shocks |
-| **Bull Case: Coordination** | 25% | Fed/Treasury coordination, liquidity injection | $95-100K | TGA reduction below $800B + stablecoin inflows >$1B/week |
-| **Bear Case: Continued Contraction** | 15% | WALCL < $6.5T, TGA stays elevated, reserve breach | $70-75K | WALCL decline + TGA > $900B sustained |
+| **Base Case: Stabilization** | 55% | Liquidity stabilizes by end Q1, TGA normalizes to $700-750B | $85-90K | TGA drawdown, no new shocks |
+| **Bull Case: Coordination** | 20% | Fed/Treasury coordination, liquidity injection | $95-100K | TGA reduction below $800B + stablecoin inflows >$1B/week |
+| **Bear Case: Continued Contraction** | 25% | WALCL < $6.5T, TGA stays elevated, reserve breach | $70-75K | WALCL decline + TGA > $900B sustained |
+
+**February Update:** The $2.2B weekend liquidation (Feb 1-2) reduced probability of Bull Case (leverage not rebuilding aggressively) and increased probability of Bear Case (system fragility confirmed). March 31 quarter-end will be the next major test.
 
 ### Monitoring Triggers
 
