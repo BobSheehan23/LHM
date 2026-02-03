@@ -179,6 +179,30 @@ Shelter is 34% of CPI and 18% of Core PCE. It's also the **most lagging** compon
 
 **The Lag Trap:** Market rents (Zillow, Apartment List) peaked at +16.0% YoY in February 2022 and have normalized to approximately +2.4%. CPI Shelter peaked at +8.2% in March 2023 (13-month lag) and is now **3.2%** (Dec 2025), declining 0.7 ppts over the last 6 months. Rent of Primary Residence is at **2.9%** and OER at **3.4%**. The big shelter unwind is mostly behind us. The remaining mechanical disinflation is modest, as shelter approaches its structural floor near 3.0%.
 
+**Current Market Rent Data (Leading Indicators, January 2026):**
+
+| Source | Most Recent Reading | YoY% |
+|--------|---------------------|------|
+| Apartment List (Jan 2026) | $1,353/month median | -1.4% |
+| Zillow ZORI SFR (Nov 2025) | ~$2,000/month | +3.1% |
+| Zillow ZORI Multifamily (Nov 2025) | varies | +1.7% |
+| CoreLogic SFRI (Oct 2025) | varies | +0.9% |
+| Cleveland Fed NTRR (Q1 2025) | varies | -2.43% |
+
+**BLS Shelter Lag Mechanics (NBER Validation):**
+Three mechanisms create the 12-18 month lag: (1) Lease Structure: ~60% of rental units on 12-month leases, tenant mobility at 1.8%/month means only ~5% of rents reprice monthly. (2) Landlord Rent Smoothing: Per NBER Working Paper 34113 (Ball & Koh, 2025), landlords pass through only 21% of market rent increases to continuing tenants. (3) BLS Six-Month Comparison: methodology compares current rent to six months prior, attributing ~1/6 of observed increases per month. Ball & Koh find market-shelter gaps close only 25% within 12 months but 81% within four years.
+
+**Shelter Projection Framework (Q2-Q4 2026):**
+
+| Period | Projected CPI Shelter YoY |
+|--------|---------------------------|
+| Q1 2026 | 3.0-3.2% |
+| Q2 2026 | 2.5-3.0% |
+| Q3 2026 | 2.0-2.5% |
+| Q4 2026 | 1.5-2.0% |
+
+**Contribution Impact:** At current readings (36% weight x 3.2% YoY), shelter contributes ~1.15 pp to headline. If shelter normalizes to 2.5%, contribution falls to 0.90 pp, reducing headline by 0.25 pp mechanically. At projected Q4 2026 levels (1.5-2.0%), shelter contribution falls to ~0.6-0.7 pp, removing ~0.4-0.5 pp from headline.
+
 ---
 
 ### E. STICKY VS FLEXIBLE COMPONENTS (The Persistence Signal)
