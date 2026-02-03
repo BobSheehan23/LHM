@@ -811,6 +811,23 @@ CPI and PCE measure inflation differently. Understanding the structural divergen
 
 **Why the Spread Matters:** CPI > PCE is normal (~0.3 ppts). When the spread widens beyond 0.5 ppts, it usually means shelter inflation is the culprit (higher weight in CPI). The current CPI-PCE spread gives insight into **how much of the "inflation problem" is shelter** (mechanical, will fade) vs. broad-based.
 
+### PCE Component Decomposition (November 2025)
+
+| Component | YoY% | Weight | Contribution |
+|-----------|------|--------|-------------|
+| Core Goods | ~1.2% | ~30% | ~0.3 pp |
+| Housing Services | ~3.8% | ~15% | ~0.7 pp |
+| Non-Housing Core Services | ~3.3% | ~55% | ~1.9 pp |
+
+### FOMC December 2025 SEP Projections
+
+| Year | Core PCE Projection |
+|------|---------------------|
+| 2025 Q4 | 3.0% |
+| 2026 Q4 | 2.5% |
+| 2027 Q4 | 2.1% |
+| 2028 Q4 | 2.0% (target) |
+
 ### PCE Component Detail (From DB)
 
 The database contains extensive PCE price index decomposition:
