@@ -995,14 +995,16 @@ The fact that a $2.2B crypto liquidation is newsworthy tells you how sensitive t
 | **Indicator** | **Current** | **Threshold** | **Assessment** |
 |---|---|---|---|
 | **Reserve Balances** | ~$3.2T | LCLOR ~$3.0-3.2T | At threshold, buffer minimal |
-| **RRP Balance** | ~$0B | <$200B = exhausted | **Exhausted for 14+ months** |
+| **RRP Balance** | **$0B** | <$200B = exhausted | **Exhausted for 14+ months** |
 | **EFFR-IORB Spread** | ~0 bps | >+5 bps = stress | Normal (no acute stress) |
 | **SOFR-IORB Spread** | ~0 bps | >+5 bps = stress | Normal |
 | **TGA Balance** | ~$888B | >$800B = elevated | **Elevated, draining reserves** |
 | **WALCL** | $6.587T | <$6.5T = concerning | Approaching concerning threshold |
 | **Net Liquidity Index** | ~$5.70T | Declining = negative | **Declining, -$300B from peak** |
 | **Dealer Net UST Position** | Elevated | Rising = constrained | Stretched |
-| **LCI (estimated)** | -0.8 | <-0.5 = scarce | **Scarce regime** |
+| **LCI (corrected)** | **-2.10** | <-0.5 = scarce | **Scarce regime** |
+
+**Note:** The corrected LCI of -2.10 reflects the non-linear buffer fix. The old linear formula showed +2.63 "Ample" at these same conditions, which was methodologically flawed. See "LCI Methodology Note" section above.
 
 ### Crypto-Liquidity Indicators
 
