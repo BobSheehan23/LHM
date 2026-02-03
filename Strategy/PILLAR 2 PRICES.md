@@ -511,6 +511,91 @@ Sometimes inflation is driven by just 2-3 large categories (shelter, auto insura
 | **Recreation** | ~6% | Discretionary, consumer-sensitive | Watch for demand weakness |
 | **Education & Communication** | ~6% | Institutional pricing cycles | Slow-moving, stable |
 
+### Complete Item-Level Readings (December 2025, Released January 13, 2026)
+
+**Headline and Major Aggregates:**
+
+| Item | FRED Code | YoY% | MoM% | Weight |
+|------|-----------|------|------|--------|
+| All Items CPI-U | CPIAUCSL | 2.7% | +0.3% | 100.000% |
+| Core CPI (ex food/energy) | CPILFESL | 2.6% | +0.2% | 80.028% |
+| Food | CUUR0000SAF | 3.1% | +0.7% | 13.657% |
+| Energy | CUUR0000SAE | 2.3% | +0.3% | 6.315% |
+| Services less energy | CUUR0000SAS | 3.0% | +0.3% | 60.805% |
+| Commodities less food/energy | CUUR0000SACL1E | 1.4% | 0.0% | 19.223% |
+
+**Shelter Components (Weight: 35.5%):**
+
+| Item | FRED Code | YoY% | MoM% | Weight |
+|------|-----------|------|------|--------|
+| Shelter (total) | CUSR0000SAH1 | 3.2% | +0.4% | 35.514% |
+| Owners' Equivalent Rent | CUSR0000SEHC | 3.4% | +0.3% | 26.362% |
+| Rent of Primary Residence | CUSR0000SEHA | 2.9% | +0.3% | 7.491% |
+| Lodging Away From Home | CUSR0000SEHB | varies | +2.9% | 1.292% |
+
+**Food Components (Weight: 13.7%):**
+
+| Item | FRED Code | YoY% | Weight |
+|------|-----------|------|--------|
+| Food at Home | CUUR0000SAF11 | 2.4% | 7.973% |
+| Food Away from Home | CUUR0000SEFV | 4.1% | 5.684% |
+| Meats, Poultry, Fish, Eggs | CUUR0000SAF112 | 3.9% | 1.644% |
+| Dairy Products | CUUR0000SEFJ | -0.9% | 0.709% |
+| Fruits & Vegetables | CUUR0000SAF113 | 0.5% | 1.307% |
+
+**Energy Components (Weight: 6.3%):**
+
+| Item | FRED Code | YoY% | Weight |
+|------|-----------|------|--------|
+| Gasoline (all types) | CUSR0000SETB01 | -3.4% | 2.883% |
+| Electricity | CUSR0000SEHF01 | 6.7% | 2.432% |
+| Natural Gas (Piped) | CUSR0000SEHF02 | 10.8% | 0.777% |
+
+**Medical Care (Weight: 8.3%):**
+
+| Item | FRED Code | YoY% | Weight |
+|------|-----------|------|--------|
+| Medical Care Services | CUSR0000SAM2 | 3.5% | 6.779% |
+| Hospital Services | CUSR0000SEMD | 6.6% | 1.985% |
+| Physicians' Services | CUSR0000SEMC | 1.9% | 1.804% |
+| Prescription Drugs | CUUR0000SEMF01 | 2.0% | 0.917% |
+
+**Other Key Categories:**
+
+| Category | FRED Code | YoY% | Weight |
+|----------|-----------|------|--------|
+| Apparel | CUUR0000SAA | 0.6% | 2.461% |
+| Recreation | CUSR0000SAR | 3.0% | 5.292% |
+| Personal Care Services | CUSR0000SEGB | 3.7% | 0.659% |
+| Communication | CUSR0000SAE2 | -1.9% | 3.149% |
+| Computers/Peripherals | CUSR0000SEEE01 | -0.6% | 0.257% |
+| Smartphones | CUSR0000SEEE03 | -9.8% | ~0.39% |
+
+**Goods Categories Currently in Deflation:**
+
+| Category | December 2025 | Notes |
+|----------|--------------|-------|
+| Gasoline | -3.4% YoY | Energy deflation |
+| Airline Fares | -3.4% YoY | Transportation services |
+| Communication | -1.9% YoY | Tech deflation |
+| Smartphones | -9.8% YoY | Consistent deflation |
+| Computers | -0.6% YoY | Tech deflation |
+| Dairy Products | -0.9% YoY | Food component |
+
+### Contribution Breakdown (December 2025)
+
+| Category | Est. Contribution | Share of Total |
+|----------|-------------------|----------------|
+| Shelter (OER + Rent) | ~1.12 pp | ~41% |
+| Food (at home + away) | ~0.42 pp | ~16% |
+| Medical Care Services | ~0.24 pp | ~9% |
+| Energy | ~0.15 pp | ~6% |
+| Recreation | ~0.16 pp | ~6% |
+| Other | ~0.61 pp | ~22% |
+| **Total** | **2.7 pp** | **100%** |
+
+At the June 2022 peak, goods contributed 58% of inflation; today, goods contribution is minimal (~0.3-0.4 pp). Shelter dominance at 41% means mechanical disinflation from the shelter lag will be the primary driver of headline improvement through 2026.
+
 ### Motor Vehicle Insurance Deep Dive
 
 Motor vehicle insurance has been the single most distortionary CPI component of 2023-2025. It surged 20%+ YoY as insurers repriced for:
