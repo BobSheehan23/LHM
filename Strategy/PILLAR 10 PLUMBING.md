@@ -407,8 +407,25 @@ LCI = 0.25 × z(Reserves_vs_LCLOR)
 | **Dec 2021** | +1.8 | Abundant | Peak liquidity, everything rally |
 | **Sep 2022** | +0.6 | Ample | QT beginning, RRP still buffering |
 | **Mar 2023** | -0.9 | Scarce | SVB crisis, BTFP launched |
+| **Oct 2025** | -0.7 | Scarce | $19.16B crypto liquidation, SOFR spike to 4.30% |
 | **Dec 2024** | -0.3 | Tight | RRP exhausted, QT ongoing |
-| **Jan 2026** | -0.8 (est) | Scarce | RRP gone, TGA elevated, reserves declining |
+| **Feb 2026** | -2.1 (corrected) | Scarce | RRP at $0, $2.2B crypto liquidation, system unbuffered |
+
+### LCI Methodology Note: The Non-Linear Buffer Fix
+
+**Critical Update (January 2026):** The original LCI formula used linear scaling for all components. This created a methodological flaw: with RRP at $0, SOFR stable, and spreads compressed, the old LCI showed **+2.63 (Ample)** despite zero buffer capacity. The system looked healthy when it was structurally exposed.
+
+**The Fix:** We implemented non-linear buffer scoring with a hard floor:
+
+| **Component** | **Old Approach** | **New Approach** |
+|---|---|---|
+| **RRP Adequacy** | Linear z-score (50%) | Non-linear with hard floor: RRP < $50B → automatic -2.0 z-score |
+| **Current Stress** | Linear (50%) | Reduced to 30% weight |
+| **Buffer Capacity** | Implicit | Explicit 70% weight on structural capacity |
+
+**Result:** The corrected LCI for February 2026 shows **-2.10 (Scarce)**, which correctly reflects zero RRP buffer, even though current funding spreads show no acute stress. The philosophy changed from "measure current stress" to "measure shock absorption capacity."
+
+**Why This Matters:** LCI measures current stress, not capacity to absorb future shocks. RRP exhaustion doesn't register as "scarce" in the old formula until funding markets seize. The paradox: system looks normal until it doesn't. The new formula front-runs this by penalizing buffer exhaustion directly.
 
 **Pattern Recognition:** LCI below -0.5 for more than 4 weeks has preceded every significant funding market disruption since 2018. The signal isn't the level alone. It's the level plus the trajectory. A declining LCI approaching -0.5 with no buffer (RRP = 0) is a different animal than LCI at -0.5 with $1T in RRP cushion.
 
@@ -541,14 +558,20 @@ Stage 7: Crypto Liquidations     [REALIZED - January 2026]
 
 ## Statistical Validation: Does Liquidity Matter?
 
-The plumbing framework isn't just a narrative. It's empirically validated with rigorous statistical methods across two decades of data.
+The plumbing framework isn't just a narrative. It's empirically validated with rigorous statistical methods across two decades of data. This section documents the "Conks Rebuttal" analysis that disproved claims of "ZERO effect" from certain skeptics.
 
 ### Methodology
 
 **Sample:** 2003-2026 (SPX), 2014-2026 (BTC)
-**Liquidity Measure:** LCI composite
-**Methods:** Pearson/Spearman correlation, regime analysis, quintile sorting, extreme event analysis, rolling stability tests
+**Liquidity Measure:** LCI composite (multiple versions tested)
+**Methods:** Pearson/Spearman correlation, regime analysis, quintile sorting, extreme event analysis, rolling stability tests, Granger causality, Information Coefficient (IC), lead-lag analysis
 **Statistical Standard:** p < 0.01 (1% significance level)
+
+### The Claim We Tested
+
+"Funding markets have ZERO effect on crypto. Reserves have ZERO impact on equities."
+
+**Result:** These claims are empirically FALSE. The math is the math.
 
 ### SPX Results
 
