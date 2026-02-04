@@ -2418,3 +2418,24 @@ rsync(71158): error: unexpected end of file
 [2026-02-04 01:09:27] Synced to Claude Code: /Users/bob/.claude/CLAUDE.md
 [2026-02-04 01:09:27] Created web export: /Users/bob/LHM/Strategy/CLAUDE_WEB_EXPORT.md
 [2026-02-04 01:09:27] Created Gemini export: /Users/bob/LHM/Strategy/GEMINI_CONTEXT.md
+[2026-02-04 01:09:27] ============================================================
+[2026-02-04 01:09:27] LIGHTHOUSE MACRO - MULTI-DESTINATION SYNC
+[2026-02-04 01:09:27] ============================================================
+[2026-02-04 01:09:27] GIT SYNC: Starting...
+[2026-02-04 01:09:27] GIT SYNC: Committed: Daily pipeline sync 2026-02-04 01:09
+[2026-02-04 01:09:28] GIT SYNC: Pushed to origin/main.
+[2026-02-04 01:09:28] CLOUD SYNC: Starting...
+[2026-02-04 01:09:28] CLOUD SYNC [iCloud]: Lighthouse_Master_20260204.db already exists, skipping.
+[2026-02-04 01:09:28] CLOUD SYNC [GDrive]: Lighthouse_Master_20260204.db already exists, skipping.
+[2026-02-04 01:09:28] CLOUD SYNC [GDrive]: rsync Strategy failed: rsync(71273): error: CLAUDE_MASTER.md: mmap: Resource deadlock avoided
+rsync(71272): error: unexpected end of file
+
+[2026-02-04 01:09:28] CLOUD SYNC [GDrive]: rsync Brand failed: rsync(71275): error: brand-guide.md: mmap: Resource deadlock avoided
+rsync(71274): error: unexpected end of file
+
+[2026-02-04 01:09:28] CLOUD SYNC [Dropbox]: Lighthouse_Master_20260204.db already exists, skipping.
+[2026-02-04 01:09:28] ----------------------------------------
+[2026-02-04 01:09:28] SYNC SUMMARY:
+[2026-02-04 01:09:28]   GitHub: OK
+[2026-02-04 01:09:28]   Cloud: OK
+[2026-02-04 01:09:28] ============================================================
