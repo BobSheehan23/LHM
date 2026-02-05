@@ -441,12 +441,12 @@ THEME = {
 
 ## Outer Border
 
-Every chart gets a 1.5pt border at the absolute figure edge, using the theme's spine color.
+Every chart gets a **4.0pt Ocean border** at the absolute figure edge. Ocean regardless of theme.
 
 ```python
 fig.patches.append(plt.Rectangle(
     (0, 0), 1, 1, transform=fig.transFigure,
-    fill=False, edgecolor=THEME['spine'], linewidth=1.5,
+    fill=False, edgecolor='#0089D1', linewidth=4.0,
     zorder=100, clip_on=False
 ))
 ```

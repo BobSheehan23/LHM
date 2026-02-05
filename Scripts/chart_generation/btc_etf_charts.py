@@ -121,16 +121,10 @@ def prepare_data():
 
 
 def prepare_onchain_data():
-    """Prepare Base TVL and cbBTC data."""
+    """Prepare Base TVL data (cbBTC not separately trackable on DefiLlama)."""
     try:
         base = load_base_tvl()
-        cbbtc = load_cbbtc_supply()
-
-        # Merge
-        df = base.join(cbbtc, how='outer')
-        df = df.ffill().dropna()
-
-        return df
+        return base
     except Exception as e:
         print(f"Warning: Could not load on-chain data: {e}")
         return None
@@ -191,10 +185,10 @@ def style_dual_ax(ax1, ax2, c1, c2):
     ax2.tick_params(axis='y', labelcolor=c2, labelsize=10)
 
 
-def set_xlim_to_data(ax, idx):
-    """Set x-axis limits with 30-day left and 180-day right padding."""
-    padding_left = pd.Timedelta(days=30)
-    padding_right = pd.Timedelta(days=180)
+def set_xlim_to_data(ax, idx, padding_left_days=0):
+    """Set x-axis limits with optional left padding and ~2 month right padding."""
+    padding_left = pd.Timedelta(days=padding_left_days)
+    padding_right = pd.Timedelta(days=54)  # Extends to ~March 31, 2026
     ax.set_xlim(idx.min() - padding_left, idx.max() + padding_right)
 
 
@@ -317,7 +311,7 @@ def chart_01_etf_flows():
     flow_max = df['Cumulative_Flows'].max()
     ax1.set_ylim(min(0, flow_min * 1.1), flow_max * 1.15)
     ax2.set_ylim(df['BTC_Price'].min() * 0.9, df['BTC_Price'].max() * 1.1)
-    set_xlim_to_data(ax1, df.index)
+    set_xlim_to_data(ax1, df.index, padding_left_days=0)
 
     # Pills
     add_last_value_label(ax1, df['Cumulative_Flows'].iloc[-1], c_secondary, fmt='${:,.0f}M', side='left')
@@ -359,16 +353,16 @@ def chart_02_flow_momentum():
     c_secondary = THEME['secondary']  # Dusk - LHS
     c_primary = THEME['primary']      # Sky - RHS
 
-    # Calculate 20-day rolling sum
-    df['Flow_20d'] = df['Total'].rolling(20).sum()
+    # Calculate 30-day rolling sum
+    df['Flow_30d'] = df['Total'].rolling(30).sum()
 
-    # LHS: 20-day flow momentum (Dusk - Secondary)
-    ax1.fill_between(df.index, df['Flow_20d'], 0,
-                     where=df['Flow_20d'] >= 0, color=COLORS['sea'], alpha=0.3)
-    ax1.fill_between(df.index, df['Flow_20d'], 0,
-                     where=df['Flow_20d'] < 0, color=COLORS['venus'], alpha=0.3)
-    l1, = ax1.plot(df.index, df['Flow_20d'], color=c_secondary, linewidth=1.5,
-                   label=f'20-Day Flow Sum (${df["Flow_20d"].iloc[-1]:,.0f}M)')
+    # LHS: 30-day flow momentum (Dusk - Secondary)
+    ax1.fill_between(df.index, df['Flow_30d'], 0,
+                     where=df['Flow_30d'] >= 0, color=COLORS['sea'], alpha=0.3)
+    ax1.fill_between(df.index, df['Flow_30d'], 0,
+                     where=df['Flow_30d'] < 0, color=COLORS['venus'], alpha=0.3)
+    l1, = ax1.plot(df.index, df['Flow_30d'], color=c_secondary, linewidth=1.5,
+                   label=f'30-Day Flow Sum (${df["Flow_30d"].iloc[-1]:,.0f}M)')
 
     # RHS: Price (Sky - Primary)
     l2, = ax2.plot(df.index, df['BTC_Price'], color=c_primary, linewidth=2,
@@ -385,21 +379,21 @@ def chart_02_flow_momentum():
     ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x/1000:.0f}K'))
 
     # Set limits
-    flow_min = df['Flow_20d'].min()
-    flow_max = df['Flow_20d'].max()
+    flow_min = df['Flow_30d'].min()
+    flow_max = df['Flow_30d'].max()
     ax1.set_ylim(flow_min * 1.2, flow_max * 1.2)
     ax2.set_ylim(df['BTC_Price'].min() * 0.9, df['BTC_Price'].max() * 1.1)
-    set_xlim_to_data(ax1, df.index)
+    set_xlim_to_data(ax1, df.index, padding_left_days=0)
 
     # Pills
-    add_last_value_label(ax1, df['Flow_20d'].iloc[-1], c_secondary, fmt='${:,.0f}M', side='left')
+    add_last_value_label(ax1, df['Flow_30d'].iloc[-1], c_secondary, fmt='${:,.0f}M', side='left')
     add_last_value_label(ax2, df['BTC_Price'].iloc[-1], c_primary, fmt='${:,.0f}', side='right')
 
     # Branding
-    brand_fig(fig, 'FLOW MOMENTUM', '20-Day Rolling Flow Sum vs. BTC Price', source='Farside Investors, Yahoo Finance')
+    brand_fig(fig, 'FLOW MOMENTUM', '30-Day Rolling Flow Sum vs. BTC Price', source='Farside Investors, Yahoo Finance')
 
     # Count days of negative momentum
-    recent_neg = (df['Flow_20d'].iloc[-30:] < 0).sum()
+    recent_neg = (df['Flow_30d'].iloc[-30:] < 0).sum()
     add_annotation_box(ax1, f"Negative momentum: {recent_neg}/30 recent days", x=0.5, y=0.03)
 
     # Legend
@@ -416,59 +410,51 @@ def chart_02_flow_momentum():
 
 # ———————— CHART 3: ON-CHAIN REALITY ————————
 def chart_03_onchain():
-    """The On-Chain Reality - Base TVL vs cbBTC"""
+    """The On-Chain Reality - Base Chain TVL Growth"""
     if df_onchain is None:
         print("Skipping chart 3 - no on-chain data available")
         return
 
-    fig, ax1 = plt.subplots(figsize=(14, 8))
+    fig, ax = plt.subplots(figsize=(14, 8))
     fig.patch.set_facecolor(THEME['bg'])
-    ax2 = ax1.twinx()
 
     # Filter for last 12 months
     cutoff = df_onchain.index.max() - pd.Timedelta(days=365)
     df_recent = df_onchain[df_onchain.index >= cutoff].copy()
 
-    c_secondary = THEME['secondary']  # Dusk - LHS
-    c_primary = THEME['primary']      # Sky - RHS
+    c_primary = THEME['primary']  # Ocean
 
-    # LHS: cbBTC (Dusk - Secondary)
-    if 'cbBTC_TVL' in df_recent.columns:
-        l1, = ax1.plot(df_recent.index, df_recent['cbBTC_TVL'], color=c_secondary, linewidth=2,
-                       linestyle='--', label=f'cbBTC TVL (${df_recent["cbBTC_TVL"].iloc[-1]:.2f}B)')
-    else:
-        l1 = None
-
-    # RHS: Base TVL (Sky - Primary)
-    l2, = ax2.plot(df_recent.index, df_recent['Base_TVL'], color=c_primary, linewidth=2,
-                   label=f'Base Chain TVL (${df_recent["Base_TVL"].iloc[-1]:.1f}B)')
+    # Single axis: Base TVL
+    ax.fill_between(df_recent.index, df_recent['Base_TVL'], 0, color=c_primary, alpha=0.15)
+    l1, = ax.plot(df_recent.index, df_recent['Base_TVL'], color=c_primary, linewidth=2,
+                  label=f'Base Chain TVL (${df_recent["Base_TVL"].iloc[-1]:.1f}B)')
 
     # Styling
-    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    style_ax(ax)
+    ax.set_facecolor(THEME['bg'])
 
-    # Y-axis formatters
-    ax1.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x:.2f}B'))
-    ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x:.1f}B'))
+    # Y-axis formatter
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x:.1f}B'))
+    ax.tick_params(axis='y', labelcolor=c_primary, labelsize=10)
 
     # Set limits
-    if 'cbBTC_TVL' in df_recent.columns:
-        ax1.set_ylim(0, df_recent['cbBTC_TVL'].max() * 1.2)
-    ax2.set_ylim(0, df_recent['Base_TVL'].max() * 1.2)
-    set_xlim_to_data(ax1, df_recent.index)
+    ax.set_ylim(0, df_recent['Base_TVL'].max() * 1.2)
+    set_xlim_to_data(ax, df_recent.index, padding_left_days=0)
 
-    # Pills
-    if 'cbBTC_TVL' in df_recent.columns:
-        add_last_value_label(ax1, df_recent['cbBTC_TVL'].iloc[-1], c_secondary, fmt='${:.2f}B', side='left')
-    add_last_value_label(ax2, df_recent['Base_TVL'].iloc[-1], c_primary, fmt='${:.1f}B', side='right')
+    # Pill
+    add_last_value_label(ax, df_recent['Base_TVL'].iloc[-1], c_primary, fmt='${:.1f}B', side='right')
+
+    # Calculate growth
+    start_tvl = df_recent['Base_TVL'].iloc[0]
+    end_tvl = df_recent['Base_TVL'].iloc[-1]
+    growth_pct = (end_tvl - start_tvl) / start_tvl * 100
 
     # Branding
-    brand_fig(fig, 'THE ON-CHAIN REALITY', 'Base Chain TVL vs. cbBTC Supply', source='DefiLlama')
-    add_annotation_box(ax1, "Price falls, infrastructure grows. Vertical adoption.", x=0.5, y=0.03)
+    brand_fig(fig, 'THE ON-CHAIN REALITY', 'Base Chain Total Value Locked', source='DefiLlama')
+    add_annotation_box(ax, f"12-month TVL growth: +{growth_pct:.0f}%  |  Price falls, infrastructure grows.", x=0.5, y=0.03)
 
     # Legend
-    lines = [l for l in [l1, l2] if l is not None]
-    labels = [l.get_label() for l in lines]
-    ax1.legend(lines, labels, loc='upper left', **legend_style())
+    ax.legend(loc='upper left', **legend_style())
 
     # Margins and border
     fig.subplots_adjust(top=0.86, bottom=0.10, left=0.06, right=0.94)
@@ -477,10 +463,212 @@ def chart_03_onchain():
     save_fig(fig, 'chart_03_onchain_reality')
 
 
+# ———————— CHART 4: GBTC VS REST ————————
+def chart_04_gbtc_vs_rest():
+    """GBTC Exodus - Cumulative GBTC outflows vs rest of field inflows"""
+    # Need raw flows data
+    flows_raw = load_etf_flows()
+
+    fig, ax1 = plt.subplots(figsize=(14, 8))
+    fig.patch.set_facecolor(THEME['bg'])
+    ax2 = ax1.twinx()
+
+    c_secondary = THEME['secondary']  # Dusk - LHS (GBTC)
+    c_primary = THEME['primary']      # Ocean - RHS (Rest)
+
+    # Calculate cumulative flows
+    gbtc_cum = flows_raw['GBTC'].cumsum()
+    rest_cols = [c for c in flows_raw.columns if c not in ['GBTC', 'Total', 'BTC', 'Cumulative_Flows']]
+    rest_cum = flows_raw[rest_cols].sum(axis=1).cumsum()
+
+    # LHS: GBTC cumulative (Dusk - will be negative)
+    ax1.fill_between(gbtc_cum.index, gbtc_cum, 0, color=c_secondary, alpha=0.15)
+    l1, = ax1.plot(gbtc_cum.index, gbtc_cum, color=c_secondary, linewidth=2,
+                   label=f'GBTC Cum. Flows (${gbtc_cum.iloc[-1]/1000:.1f}B)')
+
+    # RHS: Rest of field cumulative (Ocean - positive)
+    ax2.fill_between(rest_cum.index, rest_cum, 0, color=c_primary, alpha=0.15)
+    l2, = ax2.plot(rest_cum.index, rest_cum, color=c_primary, linewidth=2,
+                   label=f'All Other ETFs (${rest_cum.iloc[-1]/1000:.1f}B)')
+
+    # Zero lines
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, linestyle='--', alpha=0.5)
+
+    # Styling
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+
+    # Y-axis formatters
+    ax1.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x/1000:.0f}B'))
+    ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x/1000:.0f}B'))
+
+    # Set limits
+    ax1.set_ylim(gbtc_cum.min() * 1.1, gbtc_cum.max() * 0.5 if gbtc_cum.max() > 0 else 1000)
+    ax2.set_ylim(0, rest_cum.max() * 1.15)
+    set_xlim_to_data(ax1, gbtc_cum.index, padding_left_days=0)
+
+    # Pills
+    add_last_value_label(ax1, gbtc_cum.iloc[-1], c_secondary, fmt='${:,.0f}M', side='left')
+    add_last_value_label(ax2, rest_cum.iloc[-1], c_primary, fmt='${:,.0f}M', side='right')
+
+    # Branding
+    brand_fig(fig, 'THE GBTC EXODUS', 'Grayscale Outflows vs. New ETF Inflows', source='Farside Investors')
+    add_annotation_box(ax1, f"GBTC: ${gbtc_cum.iloc[-1]/1000:.1f}B out  |  Others: +${rest_cum.iloc[-1]/1000:.1f}B in", x=0.5, y=0.03)
+
+    # Legend
+    lines = [l1, l2]
+    labels = [l.get_label() for l in lines]
+    ax1.legend(lines, labels, loc='upper left', **legend_style())
+
+    # Margins and border
+    fig.subplots_adjust(top=0.86, bottom=0.10, left=0.06, right=0.94)
+    add_outer_border(fig)
+
+    save_fig(fig, 'chart_04_gbtc_vs_rest')
+
+
+# ———————— CHART 5: LARGEST SINGLE-DAY FLOWS ————————
+def chart_05_largest_flows():
+    """Top 10 Largest Inflows and Outflows"""
+    flows_raw = load_etf_flows()
+
+    fig, ax = plt.subplots(figsize=(14, 8))
+    fig.patch.set_facecolor(THEME['bg'])
+
+    # Get top 10 inflows and outflows
+    top_inflows = flows_raw['Total'].nlargest(10)
+    top_outflows = flows_raw['Total'].nsmallest(10)
+
+    # Combine and sort by absolute value
+    combined = pd.concat([top_inflows, top_outflows]).sort_values()
+
+    # Colors based on sign
+    colors = [COLORS['venus'] if v < 0 else COLORS['sea'] for v in combined.values]
+
+    # Horizontal bar chart
+    y_pos = np.arange(len(combined))
+    bars = ax.barh(y_pos, combined.values, color=colors, alpha=0.8, height=0.7)
+
+    # Format y-axis labels as dates
+    date_labels = [d.strftime('%b %d, %Y') for d in combined.index]
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(date_labels, fontsize=9, color=THEME['fg'])
+
+    # Zero line
+    ax.axvline(0, color=COLORS['doldrums'], linewidth=1, linestyle='-', alpha=0.7)
+
+    # Styling
+    ax.set_facecolor(THEME['bg'])
+    for spine in ax.spines.values():
+        spine.set_color(THEME['spine'])
+        spine.set_linewidth(0.5)
+    ax.tick_params(axis='both', which='both', length=0, colors=THEME['muted'])
+    ax.tick_params(axis='x', labelsize=10, labelcolor=THEME['muted'])
+
+    # X-axis formatter
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x/1000:.1f}B' if abs(x) >= 1000 else f'${x:.0f}M'))
+
+    # Add value labels on bars
+    for bar, val in zip(bars, combined.values):
+        x_pos = val + (50 if val > 0 else -50)
+        ha = 'left' if val > 0 else 'right'
+        ax.text(x_pos, bar.get_y() + bar.get_height()/2,
+                f'${val:,.0f}M', va='center', ha=ha,
+                fontsize=8, color=THEME['fg'], fontweight='bold')
+
+    # Branding
+    brand_fig(fig, 'EXTREME FLOW DAYS', 'Top 10 Largest Daily Inflows & Outflows', source='Farside Investors')
+
+    # Find the biggest outflow
+    worst_day = flows_raw['Total'].idxmin()
+    worst_val = flows_raw['Total'].min()
+    add_annotation_box(ax, f"Largest outflow: ${worst_val:,.0f}M on {worst_day.strftime('%b %d, %Y')}", x=0.25, y=0.03)
+
+    # Margins and border
+    fig.subplots_adjust(top=0.86, bottom=0.10, left=0.15, right=0.94)
+    add_outer_border(fig)
+
+    save_fig(fig, 'chart_05_largest_flows')
+
+
+# ———————— CHART 6: DAILY FLOWS WITH ±2 STDEV BANDS ————————
+def chart_06_flow_bands():
+    """Daily Flows with Historical ±2 Std Dev Bands"""
+    flows_raw = load_etf_flows()
+
+    fig, ax = plt.subplots(figsize=(14, 8))
+    fig.patch.set_facecolor(THEME['bg'])
+
+    c_primary = THEME['primary']  # Ocean
+
+    # Calculate rolling mean and std (use 60-day for smoother bands)
+    window = 60
+    roll_mean = flows_raw['Total'].rolling(window).mean()
+    roll_std = flows_raw['Total'].rolling(window).std()
+
+    upper_2 = roll_mean + 2 * roll_std
+    lower_2 = roll_mean - 2 * roll_std
+
+    # Plot bands
+    ax.fill_between(flows_raw.index, lower_2, upper_2, color=c_primary, alpha=0.15, label='±2σ Band')
+
+    # Plot daily flows as bars (colored by sign)
+    pos_mask = flows_raw['Total'] >= 0
+    neg_mask = flows_raw['Total'] < 0
+
+    ax.bar(flows_raw.index[pos_mask], flows_raw['Total'][pos_mask],
+           color=COLORS['sea'], alpha=0.7, width=1)
+    ax.bar(flows_raw.index[neg_mask], flows_raw['Total'][neg_mask],
+           color=COLORS['venus'], alpha=0.7, width=1)
+
+    # Plot rolling mean
+    l1, = ax.plot(roll_mean.index, roll_mean, color=c_primary, linewidth=1.5,
+                  label=f'60-Day Mean (${roll_mean.iloc[-1]:,.0f}M)')
+
+    # Zero line
+    ax.axhline(0, color=COLORS['doldrums'], linewidth=1, linestyle='--', alpha=0.5)
+
+    # Styling
+    style_ax(ax)
+    ax.set_facecolor(THEME['bg'])
+    ax.tick_params(axis='y', labelcolor=c_primary, labelsize=10)
+
+    # Y-axis formatter
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x/1000:.1f}B' if abs(x) >= 1000 else f'${x:.0f}M'))
+
+    # Set limits
+    y_max = max(upper_2.max(), flows_raw['Total'].max()) * 1.1
+    y_min = min(lower_2.min(), flows_raw['Total'].min()) * 1.1
+    ax.set_ylim(y_min, y_max)
+    set_xlim_to_data(ax, flows_raw.index, padding_left_days=0)
+
+    # Count outliers
+    recent_90 = flows_raw['Total'].iloc[-90:]
+    recent_upper = upper_2.iloc[-90:]
+    recent_lower = lower_2.iloc[-90:]
+    outliers_up = (recent_90 > recent_upper).sum()
+    outliers_down = (recent_90 < recent_lower).sum()
+
+    # Branding
+    brand_fig(fig, 'FLOW VOLATILITY', 'Daily Flows with ±2σ Historical Bands', source='Farside Investors')
+    add_annotation_box(ax, f"Last 90 days: {outliers_up} above +2σ, {outliers_down} below -2σ", x=0.5, y=0.03)
+
+    # Legend
+    ax.legend(loc='upper left', **legend_style())
+
+    # Margins and border
+    fig.subplots_adjust(top=0.86, bottom=0.10, left=0.06, right=0.94)
+    add_outer_border(fig)
+
+    save_fig(fig, 'chart_06_flow_bands')
+
+
 # ———————— MAIN ————————
 if __name__ == '__main__':
     print("\nGenerating BTC ETF charts with REAL data...")
     chart_01_etf_flows()
     chart_02_flow_momentum()
     chart_03_onchain()
+    chart_04_gbtc_vs_rest()
+    chart_05_largest_flows()
+    chart_06_flow_bands()
     print("Done.")
