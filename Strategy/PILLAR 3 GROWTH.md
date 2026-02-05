@@ -773,13 +773,20 @@ Multiple providers now publish anonymized credit card transaction data:
 
 Google Mobility, OpenTable, and TSA data provide real-time activity signals.
 
-| **Indicator** | **Source** | **What It Measures** | **GDP Component** |
-|---|---|---|---|
-| **Retail & Recreation Mobility** | Google | Foot traffic to stores/restaurants | PCE Services |
-| **Workplace Mobility** | Google | Office attendance | Business activity |
-| **OpenTable Reservations** | OpenTable | Restaurant bookings vs. 2019 | Food services PCE |
-| **TSA Throughput** | TSA | Airport passenger volume | Travel/leisure |
-| **Hotel Occupancy** | STR | Room nights sold | Lodging services |
+| **Indicator** | **Source** | **What It Measures** | **GDP Component** | **Access** |
+|---|---|---|---|---|
+| **Retail & Recreation Mobility** | Google | Foot traffic to stores/restaurants | PCE Services | Discontinued 2022 |
+| **Workplace Mobility** | Google | Office attendance | Business activity | Discontinued 2022 |
+| **OpenTable Reservations** | OpenTable | Restaurant bookings vs. 2019 | Food services PCE | [opentable.com/state-of-industry](https://www.opentable.com/state-of-industry) |
+| **TSA Throughput** | TSA | Airport passenger volume | Travel/leisure | [tsa.gov/travel/passenger-volumes](https://www.tsa.gov/travel/passenger-volumes) |
+| **Hotel Occupancy** | STR | Room nights sold | Lodging services | Subscription ([str.com](https://str.com/)) |
+
+**Data Access Notes:**
+- **Google Mobility:** Discontinued October 2022. Historical data archived but no longer updated.
+- **Alternative Mobility:** Placer.ai, SafeGraph offer paid alternatives; Apple Maps data discontinued 2024.
+- **OpenTable:** Free weekly state-of-industry data comparing to 2019 baseline.
+- **TSA:** Free daily data, good for real-time travel demand.
+- **STR Hotel Data:** Subscription required; summary data sometimes in industry press.
 
 **COVID-Era Caveat:** Pre-2020 baselines are no longer valid for some metrics due to structural shifts (remote work, changed travel patterns). Compare to 2023-2024 baselines.
 
