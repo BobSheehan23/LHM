@@ -37,6 +37,8 @@ Get the inflation call right, and you've triangulated the Fed's reaction functio
 
 **Current State:** Inflation has decelerated from 9.1% (June 2022) to 2.7% (December 2025) headline, 2.8% core PCE. But the **composition** tells a different story: goods barely positive at +1.4%, services still at 3.0%, shelter unwinding but the easy gains are behind us. Supercore (services ex-shelter) remains elevated. This isn't complete disinflation. This is the last mile.
 
+As Chair Powell noted in January 2026: "We had 3.0 percent core PCE inflation… and that's pretty much what we had the year before. So, on net, no progress."
+
 ---
 
 ## Primary Indicators: The Complete Architecture
