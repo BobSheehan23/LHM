@@ -336,17 +336,18 @@ def legend_style():
     )
 
 
-def save_fig(fig, filename):
+def save_fig(fig, filename, tight_frame=False):
     """Save figure to output directory."""
-    border_color = THEME['primary']
+    border_color = COLORS['ocean']  # Always Ocean for border
+    border_width = 3.5  # Frame border
     fig.patches.append(plt.Rectangle(
         (0, 0), 1, 1, transform=fig.transFigure,
-        fill=False, edgecolor=border_color, linewidth=1.5,
+        fill=False, edgecolor=border_color, linewidth=border_width,
         zorder=100, clip_on=False
     ))
 
     filepath = os.path.join(OUTPUT_DIR, filename)
-    fig.savefig(filepath, dpi=200, bbox_inches='tight', pad_inches=0.15,
+    fig.savefig(filepath, dpi=200, bbox_inches='tight', pad_inches=0.10,
                 facecolor=THEME['bg'], edgecolor='none')
     plt.close(fig)
     print(f'  Saved: {filepath}')
@@ -675,7 +676,7 @@ def chart_07():
     # Use recent quarter data (last available)
     components = ['PCE\n(Consumption)', 'GPDI\n(Investment)', 'Government', 'Net Exports']
     values = [pce.iloc[-1], gpdi.iloc[-1], govt.iloc[-1], netex.iloc[-1]]
-    colors = [THEME['primary'], THEME['secondary'], THEME['tertiary'], COLORS['sea']]
+    colors = [COLORS['ocean'], COLORS['dusk'], COLORS['sky'], COLORS['sea']]
 
     bars = ax.bar(components, values, color=colors, edgecolor=THEME['spine'], linewidth=0.5)
 

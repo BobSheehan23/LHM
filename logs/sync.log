@@ -3225,3 +3225,47 @@ rsync(18407): error: unexpected end of file
 [2026-02-05 04:18:01]   GitHub: OK
 [2026-02-05 04:18:01]   Cloud: OK
 [2026-02-05 04:18:01] ============================================================
+[2026-02-05 05:29:08] ============================================================
+[2026-02-05 05:29:08] LIGHTHOUSE MACRO - MULTI-DESTINATION SYNC
+[2026-02-05 05:29:08] ============================================================
+[2026-02-05 05:29:08] GIT SYNC: Starting...
+[2026-02-05 05:29:08] GIT SYNC: Committed: Daily pipeline sync 2026-02-05 05:29
+[2026-02-05 05:29:09] GIT SYNC: Pushed to origin/main.
+[2026-02-05 05:29:09] CLOUD SYNC: Starting...
+[2026-02-05 05:29:09] CLOUD SYNC [iCloud]: Lighthouse_Master_20260205.db already exists, skipping.
+[2026-02-05 05:29:09] CLOUD SYNC [GDrive]: Lighthouse_Master_20260205.db already exists, skipping.
+[2026-02-05 05:29:09] CLOUD SYNC [GDrive]: rsync Strategy failed: rsync(22121): error: CLAUDE_MASTER.md: mmap: Resource deadlock avoided
+rsync(22120): error: unexpected end of file
+
+[2026-02-05 05:29:09] CLOUD SYNC [GDrive]: rsync Brand failed: rsync(22123): error: brand-guide.md: mmap: Resource deadlock avoided
+rsync(22122): error: unexpected end of file
+
+[2026-02-05 05:29:09] CLOUD SYNC [Dropbox]: Lighthouse_Master_20260205.db already exists, skipping.
+[2026-02-05 05:29:09] ----------------------------------------
+[2026-02-05 05:29:09] SYNC SUMMARY:
+[2026-02-05 05:29:09]   GitHub: OK
+[2026-02-05 05:29:09]   Cloud: OK
+[2026-02-05 05:29:09] ============================================================
+[2026-02-05 06:00:00] Updated LAST_SYNC to 2026-02-05
+[2026-02-05 06:00:00] Synced to Claude Code: /Users/bob/.claude/CLAUDE.md
+cp: /Users/bob/Desktop/LHM_CLAUDE_CONTEXT.md: Operation not permitted
+[2026-02-05 06:00:00] Created web export: /Users/bob/Desktop/LHM_CLAUDE_CONTEXT.md
+cp: /Users/bob/Desktop/LHM_GEMINI_CONTEXT.md: Operation not permitted
+[2026-02-05 06:00:00] Created Gemini export: /Users/bob/Desktop/LHM_GEMINI_CONTEXT.md
+========================================
+CLAUDE CONTEXT SYNCED - 2026-02-05 06:00:00
+========================================
+
+LAST_SYNC updated to: 2026-02-05
+
+AUTOMATIC:
+  1. Claude Code:    DONE
+  2. Desktop Export: DONE (~/Desktop/LHM_CLAUDE_CONTEXT.md)
+  3. Gemini Export:  DONE (~/Desktop/LHM_GEMINI_CONTEXT.md)
+
+MANUAL (copy from Desktop - accessible from phone via iCloud):
+  4. Claude.ai/iOS → paste LHM_CLAUDE_CONTEXT.md
+  5. Claude Desktop → paste to custom instructions
+  6. Gemini → paste LHM_GEMINI_CONTEXT.md
+
+========================================
