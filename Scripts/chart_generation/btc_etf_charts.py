@@ -245,10 +245,10 @@ def brand_fig(fig, title, subtitle, source='Lighthouse Macro'):
 
 
 def add_outer_border(fig):
-    """Add 1.5pt border at absolute figure edge."""
+    """Add 4pt Ocean border at absolute figure edge."""
     fig.patches.append(plt.Rectangle(
         (0, 0), 1, 1, transform=fig.transFigure,
-        fill=False, edgecolor=THEME['spine'], linewidth=1.5,
+        fill=False, edgecolor=COLORS['ocean'], linewidth=4.0,
         zorder=100, clip_on=False
     ))
 
@@ -274,7 +274,7 @@ def legend_style():
 def save_fig(fig, name):
     """Save with standard settings."""
     path = OUTPUT_DIR / f'{name}.png'
-    fig.savefig(path, dpi=200, bbox_inches='tight', pad_inches=0.15,
+    fig.savefig(path, dpi=200, bbox_inches='tight', pad_inches=0.10,
                 facecolor=THEME['bg'], edgecolor='none')
     print(f"Saved: {path}")
     plt.close(fig)
@@ -590,9 +590,9 @@ def chart_05_largest_flows():
     save_fig(fig, 'chart_05_largest_flows')
 
 
-# ———————— CHART 6: DAILY FLOWS WITH ±2 STDEV BANDS ————————
-def chart_06_flow_bands():
-    """Daily Flows with Historical ±2 Std Dev Bands"""
+# ———————— CHART 6: 30-DAY ROLLING FLOW Z-SCORE ————————
+def chart_06_flow_zscore_30d():
+    """30-Day Rolling Flow Sum Z-Score with Fixed ±1σ Bands"""
     flows_raw = load_etf_flows()
 
     fig, ax = plt.subplots(figsize=(14, 8))
@@ -600,66 +600,156 @@ def chart_06_flow_bands():
 
     c_primary = THEME['primary']  # Ocean
 
-    # Calculate rolling mean and std (use 60-day for smoother bands)
-    window = 60
-    roll_mean = flows_raw['Total'].rolling(window).mean()
-    roll_std = flows_raw['Total'].rolling(window).std()
+    # Calculate 30-day rolling sum
+    flow_30d = flows_raw['Total'].rolling(30).sum()
 
-    upper_2 = roll_mean + 2 * roll_std
-    lower_2 = roll_mean - 2 * roll_std
+    # Calculate z-score using full history mean and std of the 30-day sum
+    full_mean = flow_30d.mean()
+    full_std = flow_30d.std()
+    z_score = (flow_30d - full_mean) / full_std
+    z_score = z_score.dropna()
 
-    # Plot bands
-    ax.fill_between(flows_raw.index, lower_2, upper_2, color=c_primary, alpha=0.15, label='±2σ Band')
+    # Plot fixed ±1σ bands
+    ax.axhspan(-1, 1, color=c_primary, alpha=0.10)
+    ax.axhline(1, color=c_primary, linewidth=1, linestyle='--', alpha=0.5)
+    ax.axhline(-1, color=c_primary, linewidth=1, linestyle='--', alpha=0.5)
 
-    # Plot daily flows as bars (colored by sign)
-    pos_mask = flows_raw['Total'] >= 0
-    neg_mask = flows_raw['Total'] < 0
-
-    ax.bar(flows_raw.index[pos_mask], flows_raw['Total'][pos_mask],
-           color=COLORS['sea'], alpha=0.7, width=1)
-    ax.bar(flows_raw.index[neg_mask], flows_raw['Total'][neg_mask],
-           color=COLORS['venus'], alpha=0.7, width=1)
-
-    # Plot rolling mean
-    l1, = ax.plot(roll_mean.index, roll_mean, color=c_primary, linewidth=1.5,
-                  label=f'60-Day Mean (${roll_mean.iloc[-1]:,.0f}M)')
+    # Plot z-score as line with fill
+    ax.fill_between(z_score.index, z_score, 0,
+                    where=z_score >= 0, color=COLORS['sea'], alpha=0.3)
+    ax.fill_between(z_score.index, z_score, 0,
+                    where=z_score < 0, color=COLORS['venus'], alpha=0.3)
+    ax.plot(z_score.index, z_score, color=c_primary, linewidth=1.5)
 
     # Zero line
-    ax.axhline(0, color=COLORS['doldrums'], linewidth=1, linestyle='--', alpha=0.5)
+    ax.axhline(0, color=COLORS['doldrums'], linewidth=1, linestyle='-', alpha=0.7)
 
     # Styling
     style_ax(ax)
     ax.set_facecolor(THEME['bg'])
     ax.tick_params(axis='y', labelcolor=c_primary, labelsize=10)
 
-    # Y-axis formatter
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x/1000:.1f}B' if abs(x) >= 1000 else f'${x:.0f}M'))
+    # Y-axis formatter (z-score, no $)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}σ'))
 
     # Set limits
-    y_max = max(upper_2.max(), flows_raw['Total'].max()) * 1.1
-    y_min = min(lower_2.min(), flows_raw['Total'].min()) * 1.1
+    y_max = max(z_score.max() * 1.1, 2)
+    y_min = min(z_score.min() * 1.1, -2)
     ax.set_ylim(y_min, y_max)
-    set_xlim_to_data(ax, flows_raw.index, padding_left_days=0)
+    set_xlim_to_data(ax, z_score.index, padding_left_days=0)
+
+    # Pill for current value
+    add_last_value_label(ax, z_score.iloc[-1], c_primary, fmt='{:.2f}σ', side='right')
 
     # Count outliers
-    recent_90 = flows_raw['Total'].iloc[-90:]
-    recent_upper = upper_2.iloc[-90:]
-    recent_lower = lower_2.iloc[-90:]
-    outliers_up = (recent_90 > recent_upper).sum()
-    outliers_down = (recent_90 < recent_lower).sum()
+    outliers_up = (z_score > 1).sum()
+    outliers_down = (z_score < -1).sum()
+    current_z = z_score.iloc[-1]
+
+    # Determine regime
+    if current_z < -1:
+        regime = "Outflow regime"
+    elif current_z > 1:
+        regime = "Inflow regime"
+    else:
+        regime = "Normal regime"
 
     # Branding
-    brand_fig(fig, 'FLOW VOLATILITY', 'Daily Flows with ±2σ Historical Bands', source='Farside Investors')
-    add_annotation_box(ax, f"Last 90 days: {outliers_up} above +2σ, {outliers_down} below -2σ", x=0.5, y=0.03)
+    brand_fig(fig, 'FLOW MOMENTUM Z-SCORE (30D)', '30-Day Rolling Flow Sum (Standardized)', source='Farside Investors')
+    add_annotation_box(ax, f"{regime}  |  {outliers_down} periods below -1σ historically", x=0.5, y=0.03)
 
-    # Legend
-    ax.legend(loc='upper left', **legend_style())
+    # Add +1/-1 labels
+    ax.text(0.02, 1.1, '+1σ', fontsize=9, color=c_primary, alpha=0.7,
+            transform=ax.get_yaxis_transform(), va='bottom')
+    ax.text(0.02, -1.1, '-1σ', fontsize=9, color=c_primary, alpha=0.7,
+            transform=ax.get_yaxis_transform(), va='top')
 
     # Margins and border
     fig.subplots_adjust(top=0.86, bottom=0.10, left=0.06, right=0.94)
     add_outer_border(fig)
 
-    save_fig(fig, 'chart_06_flow_bands')
+    save_fig(fig, 'chart_06_flow_zscore_30d')
+
+
+# ———————— CHART 7: 90-DAY ROLLING FLOW Z-SCORE ————————
+def chart_07_flow_zscore_90d():
+    """90-Day Rolling Flow Sum Z-Score with Fixed ±1σ Bands"""
+    flows_raw = load_etf_flows()
+
+    fig, ax = plt.subplots(figsize=(14, 8))
+    fig.patch.set_facecolor(THEME['bg'])
+
+    c_primary = THEME['primary']  # Ocean
+
+    # Calculate 90-day rolling sum
+    flow_90d = flows_raw['Total'].rolling(90).sum()
+
+    # Calculate z-score using full history mean and std of the 90-day sum
+    full_mean = flow_90d.mean()
+    full_std = flow_90d.std()
+    z_score = (flow_90d - full_mean) / full_std
+    z_score = z_score.dropna()
+
+    # Plot fixed ±1σ bands
+    ax.axhspan(-1, 1, color=c_primary, alpha=0.10)
+    ax.axhline(1, color=c_primary, linewidth=1, linestyle='--', alpha=0.5)
+    ax.axhline(-1, color=c_primary, linewidth=1, linestyle='--', alpha=0.5)
+
+    # Plot z-score as line with fill
+    ax.fill_between(z_score.index, z_score, 0,
+                    where=z_score >= 0, color=COLORS['sea'], alpha=0.3)
+    ax.fill_between(z_score.index, z_score, 0,
+                    where=z_score < 0, color=COLORS['venus'], alpha=0.3)
+    ax.plot(z_score.index, z_score, color=c_primary, linewidth=1.5)
+
+    # Zero line
+    ax.axhline(0, color=COLORS['doldrums'], linewidth=1, linestyle='-', alpha=0.7)
+
+    # Styling
+    style_ax(ax)
+    ax.set_facecolor(THEME['bg'])
+    ax.tick_params(axis='y', labelcolor=c_primary, labelsize=10)
+
+    # Y-axis formatter (z-score, no $)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}σ'))
+
+    # Set limits
+    y_max = max(z_score.max() * 1.1, 2)
+    y_min = min(z_score.min() * 1.1, -2)
+    ax.set_ylim(y_min, y_max)
+    set_xlim_to_data(ax, z_score.index, padding_left_days=0)
+
+    # Pill for current value
+    add_last_value_label(ax, z_score.iloc[-1], c_primary, fmt='{:.2f}σ', side='right')
+
+    # Count outliers
+    outliers_up = (z_score > 1).sum()
+    outliers_down = (z_score < -1).sum()
+    current_z = z_score.iloc[-1]
+
+    # Determine regime
+    if current_z < -1:
+        regime = "Outflow regime"
+    elif current_z > 1:
+        regime = "Inflow regime"
+    else:
+        regime = "Normal regime"
+
+    # Branding
+    brand_fig(fig, 'FLOW MOMENTUM Z-SCORE (90D)', '90-Day Rolling Flow Sum (Standardized)', source='Farside Investors')
+    add_annotation_box(ax, f"{regime}  |  {outliers_down} periods below -1σ historically", x=0.5, y=0.03)
+
+    # Add +1/-1 labels
+    ax.text(0.02, 1.1, '+1σ', fontsize=9, color=c_primary, alpha=0.7,
+            transform=ax.get_yaxis_transform(), va='bottom')
+    ax.text(0.02, -1.1, '-1σ', fontsize=9, color=c_primary, alpha=0.7,
+            transform=ax.get_yaxis_transform(), va='top')
+
+    # Margins and border
+    fig.subplots_adjust(top=0.86, bottom=0.10, left=0.06, right=0.94)
+    add_outer_border(fig)
+
+    save_fig(fig, 'chart_07_flow_zscore_90d')
 
 
 # ———————— MAIN ————————
@@ -670,5 +760,6 @@ if __name__ == '__main__':
     chart_03_onchain()
     chart_04_gbtc_vs_rest()
     chart_05_largest_flows()
-    chart_06_flow_bands()
+    chart_06_flow_zscore_30d()
+    chart_07_flow_zscore_90d()
     print("Done.")

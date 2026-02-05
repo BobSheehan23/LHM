@@ -456,7 +456,7 @@ fig.patches.append(plt.Rectangle(
 ## Save Settings
 
 ```python
-fig.savefig(path, dpi=200, bbox_inches='tight', pad_inches=0.15,
+fig.savefig(path, dpi=200, bbox_inches='tight', pad_inches=0.10,
             facecolor=THEME['bg'], edgecolor='none')
 ```
 
