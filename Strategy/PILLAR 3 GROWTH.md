@@ -794,13 +794,20 @@ Google Mobility, OpenTable, and TSA data provide real-time activity signals.
 
 ### Freight & Logistics Data (Goods Economy Pulse)
 
-| **Indicator** | **Source** | **Frequency** | **What It Captures** |
-|---|---|---|---|
-| **Cass Freight Index** | Cass Information Systems | Monthly | Freight shipments and expenditures |
-| **ATA Truck Tonnage** | American Trucking Associations | Monthly | Trucking volume |
-| **AAR Rail Traffic** | Association of American Railroads | Weekly | Carloads + intermodal |
-| **Port of LA/Long Beach TEUs** | Port authorities | Monthly | Import/export volume |
-| **Drewry Container Index** | Drewry | Weekly | Shipping rates (supply chain stress) |
+| **Indicator** | **Source** | **Frequency** | **What It Captures** | **Access** |
+|---|---|---|---|---|
+| **Cass Freight Index** | Cass Information Systems | Monthly | Freight shipments and expenditures | [cassinfo.com/freight-audit-payment/cass-transportation-indexes](https://www.cassinfo.com/freight-audit-payment/cass-transportation-indexes) |
+| **ATA Truck Tonnage** | American Trucking Associations | Monthly | Trucking volume | [trucking.org/economics-and-industry-data](https://www.trucking.org/economics-and-industry-data) |
+| **AAR Rail Traffic** | Association of American Railroads | Weekly | Carloads + intermodal | [aar.org/data-center/rail-traffic-data](https://www.aar.org/data-center/rail-traffic-data/) |
+| **Port of LA/Long Beach TEUs** | Port authorities | Monthly | Import/export volume | [portoflosangeles.org/business/statistics](https://www.portoflosangeles.org/business/statistics) |
+| **Drewry Container Index** | Drewry | Weekly | Shipping rates (supply chain stress) | [drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update](https://www.drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update) |
+
+**Data Access Notes:**
+- **Cass Freight:** Free monthly reports, highly regarded for trucking/LTL trends.
+- **ATA Truck Tonnage:** Free monthly press release, FRED code: TRUCKD11.
+- **AAR Rail:** Free weekly summary, detailed data requires subscription.
+- **Port Data:** Free monthly TEU data from both LA and Long Beach ports.
+- **Drewry:** Headline index free, detailed routes require subscription.
 
 **The Freight Signal:** Freight data leads IP by 1-2 months. When truck tonnage and rail traffic diverge from IP, trust freight (it's harder to manipulate physical shipments).
 
@@ -818,11 +825,13 @@ Google Mobility, OpenTable, and TSA data provide real-time activity signals.
 
 Electricity demand correlates with industrial and commercial activity. Unlike survey data, it can't be manipulated.
 
-| **Metric** | **Source** | **Interpretation** |
-|---|---|---|
-| **Total Electricity Demand YoY** | EIA | Broad economic activity |
-| **Industrial Electricity YoY** | EIA | Manufacturing proxy |
-| **Commercial Electricity YoY** | EIA | Services/office activity |
+| **Metric** | **Source** | **Interpretation** | **Access** |
+|---|---|---|---|
+| **Total Electricity Demand YoY** | EIA | Broad economic activity | [eia.gov/electricity/data.php](https://www.eia.gov/electricity/data.php) |
+| **Industrial Electricity YoY** | EIA | Manufacturing proxy | Same (filter by sector) |
+| **Commercial Electricity YoY** | EIA | Services/office activity | Same (filter by sector) |
+
+**FRED Codes:** ELEC (total), IPN31152S (industrial proxy via IP utilities)
 
 **Regime Thresholds:**
 
