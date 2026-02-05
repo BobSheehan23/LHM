@@ -186,6 +186,8 @@ Shelter is 34% of CPI and 18% of Core PCE. It's also the **most lagging** compon
 | Source | Most Recent Reading | YoY% |
 |--------|---------------------|------|
 | Apartment List (Jan 2026) | $1,353/month median | -1.4% |
+
+**Apartment List Detail (January 2026):** National vacancy rates hit **7.3%**, the highest since their index began in 2017. A record **41% of all rental listings** now include concessions. This is the clearest evidence that market rents have turned decisively negative and the shelter disinflation pipeline remains intact.
 | Zillow ZORI SFR (Nov 2025) | ~$2,000/month | +3.1% |
 | Zillow ZORI Multifamily (Nov 2025) | varies | +1.7% |
 | CoreLogic SFRI (Oct 2025) | varies | +0.9% |
