@@ -14,6 +14,8 @@ Usage:
 import os
 import argparse
 import time
+import ssl
+import certifi
 from datetime import datetime
 import pandas as pd
 import numpy as np
@@ -22,6 +24,10 @@ import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
 from matplotlib.ticker import FuncFormatter
 from fredapi import Fred
+
+# Fix SSL certificate issue
+os.environ['SSL_CERT_FILE'] = certifi.where()
+os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 # ============================================
 # PATHS & CONFIG
@@ -70,11 +76,16 @@ def set_theme(mode='dark'):
             'zero_line': '#e6edf3',
             'recession': '#ffffff',
             'recession_alpha': 0.06,
-            'brand_color': COLORS['sky'],
-            'brand2_color': COLORS['dusk'],
+            # Primary 5 palette - use any across deck for variety
+            'ocean': COLORS['ocean'],
+            'dusk': COLORS['dusk'],
+            'sky': COLORS['sky'],
+            'sea': COLORS['sea'],
+            'venus': COLORS['venus'],
+            # Defaults for dual-axis charts (can override per chart)
             'primary': COLORS['sky'],
             'secondary': COLORS['dusk'],
-            'tertiary': COLORS['sea'],       # Sea as tertiary in dark (sky is primary)
+            'tertiary': COLORS['sea'],
             'quaternary': COLORS['ocean'],
             'accent': COLORS['venus'],
             'fill_alpha': 0.20,
@@ -93,11 +104,16 @@ def set_theme(mode='dark'):
             'zero_line': '#333333',
             'recession': 'gray',
             'recession_alpha': 0.12,
-            'brand_color': COLORS['ocean'],
-            'brand2_color': COLORS['dusk'],
+            # Primary 5 palette - use any across deck for variety
+            'ocean': COLORS['ocean'],
+            'dusk': COLORS['dusk'],
+            'sky': COLORS['sky'],
+            'sea': COLORS['sea'],
+            'venus': COLORS['venus'],
+            # Defaults for dual-axis charts (can override per chart)
             'primary': COLORS['ocean'],
             'secondary': COLORS['dusk'],
-            'tertiary': COLORS['sky'],   # Sky as tertiary in white theme (pops against white bg)
+            'tertiary': COLORS['sky'],
             'quaternary': COLORS['sea'],
             'accent': COLORS['venus'],
             'fill_alpha': 0.15,
@@ -474,11 +490,11 @@ def chart_03():
     ax.axhline(50, color=COLORS['venus'], linewidth=1.2, alpha=0.7, linestyle='--')
     ax.axhline(48, color=COLORS['dusk'], linewidth=0.8, alpha=0.5, linestyle='--')
 
-    # Labels positioned to avoid data overlap
-    ax.text(0.75, 51.5, '50 = Expansion/Contraction', fontsize=8, color=COLORS['venus'],
-            alpha=0.8, style='italic', transform=ax.get_yaxis_transform())
-    ax.text(0.75, 46.5, '48 = Recession Warning', fontsize=8, color=COLORS['dusk'],
-            alpha=0.7, style='italic', transform=ax.get_yaxis_transform())
+    # Labels positioned on left side to avoid data overlap on right
+    ax.text(0.35, 51.5, '50 = Expansion / Contraction', fontsize=9, color=COLORS['venus'],
+            alpha=0.95, fontweight='bold', transform=ax.get_yaxis_transform())
+    ax.text(0.35, 46.0, '48 = Recession Warning', fontsize=9, color=COLORS['dusk'],
+            alpha=0.95, fontweight='bold', transform=ax.get_yaxis_transform())
 
     style_single_ax(ax)
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.0f}'))
@@ -516,7 +532,7 @@ def chart_04():
 
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
-    c_primary, c_secondary = THEME['primary'], THEME['secondary']
+    c_primary, c_secondary = COLORS['ocean'], COLORS['dusk']  # Ocean + Dusk
 
     # Investment on LHS (secondary), Orders on RHS (primary) — orders lead
     ax1.plot(investment.index, investment, color=c_secondary, linewidth=2.5,
@@ -543,7 +559,7 @@ def chart_04():
     signal = "cutting" if orders_last < 0 else "expanding"
     add_annotation_box(ax1,
         f"Core capex orders at {orders_last:.1f}%: CEOs are {signal}.\nOrders lead investment by 3-6 months.",
-        x=0.50, y=0.92)
+        x=0.50, y=0.15)  # Moved to bottom to avoid overlap with data
 
     brand_fig(fig, 'Core Capital Goods Orders: CEO Confidence',
               subtitle='Orders lead business investment by 3-6 months',
@@ -659,7 +675,7 @@ def chart_07():
     # Use recent quarter data (last available)
     components = ['PCE\n(Consumption)', 'GPDI\n(Investment)', 'Government', 'Net Exports']
     values = [pce.iloc[-1], gpdi.iloc[-1], govt.iloc[-1], netex.iloc[-1]]
-    colors = [THEME['primary'], THEME['secondary'], THEME['tertiary'], COLORS['venus']]
+    colors = [THEME['primary'], THEME['secondary'], THEME['tertiary'], COLORS['sea']]
 
     bars = ax.bar(components, values, color=colors, edgecolor=THEME['spine'], linewidth=0.5)
 
@@ -680,7 +696,7 @@ def chart_07():
     gdp_total = sum(values) * 0.5  # Rough approximation
     add_annotation_box(ax,
         f"GDP growth decomposition by component.\nConsumption (PCE) drives ~68% of GDP.",
-        x=0.50, y=0.92)
+        x=0.25, y=0.45)  # Moved to left middle to avoid bar overlap
 
     brand_fig(fig, 'GDP Component Contributions',
               subtitle='What is driving (or dragging) growth?',
@@ -871,17 +887,17 @@ def chart_10():
 
     add_last_value_label(ax, gci, color=c1, fmt='{:.2f}', side='right')
 
-    # Regime labels
-    ax.text(0.98, 1.5, 'STRONG', transform=ax.get_yaxis_transform(),
-            fontsize=9, color=COLORS['starboard'], va='center', ha='right', fontweight='bold', alpha=0.8)
-    ax.text(0.98, 0.75, 'MODERATE', transform=ax.get_yaxis_transform(),
-            fontsize=9, color=COLORS['sea'], va='center', ha='right', fontweight='bold', alpha=0.8)
-    ax.text(0.98, 0.0, 'NEUTRAL', transform=ax.get_yaxis_transform(),
-            fontsize=9, color=THEME['muted'], va='center', ha='right', fontweight='bold', alpha=0.6)
-    ax.text(0.98, -0.75, 'CONTRACTION RISK', transform=ax.get_yaxis_transform(),
-            fontsize=9, color=COLORS['dusk'], va='center', ha='right', fontweight='bold', alpha=0.8)
-    ax.text(0.98, -1.5, 'RECESSION', transform=ax.get_yaxis_transform(),
-            fontsize=9, color=COLORS['port'], va='center', ha='right', fontweight='bold', alpha=0.8)
+    # Regime labels - positioned on left to avoid data overlap
+    ax.text(0.14, 1.5, 'STRONG', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['starboard'], va='center', ha='left', fontweight='bold', alpha=0.8)
+    ax.text(0.14, 0.75, 'MODERATE', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['sea'], va='center', ha='left', fontweight='bold', alpha=0.8)
+    ax.text(0.14, 0.0, 'NEUTRAL', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=THEME['muted'], va='center', ha='left', fontweight='bold', alpha=0.6)
+    ax.text(0.14, -0.75, 'CONTRACTION', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['dusk'], va='center', ha='left', fontweight='bold', alpha=0.8)
+    ax.text(0.14, -1.5, 'RECESSION', transform=ax.get_yaxis_transform(),
+            fontsize=9, color=COLORS['port'], va='center', ha='left', fontweight='bold', alpha=0.8)
 
     add_recessions(ax, start_date=start_date)
     ax.legend(loc='upper left', **legend_style())
