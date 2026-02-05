@@ -21,7 +21,7 @@ from pathlib import Path
 # CONFIGURATION
 # ==========================================
 
-DB_PATH = Path("/Users/bob/Desktop/HorizonJan2026_LiveData/Lighthouse_Master.db")
+DB_PATH = Path("/Users/bob/LHM/Data/databases/Lighthouse_Master.db")
 
 API_KEYS = {
     "FRED": "11893c506c07b3b8647bf16cf60586e8",
@@ -321,6 +321,73 @@ FRED_CURATED = {
     "LES1252881600Q": "Median Usual Weekly Earnings",
     "ECIWAG": "Employment Cost Index Wages Salaries",
     "ECIALLCIV": "Employment Cost Index Total",
+
+    # ===== PILLAR 2 (PRICES) ADDITIONS =====
+
+    # CPI Components - Granular Detail
+    "CUSR0000SAE2": "CPI Education Communication",
+    "CUSR0000SEEE01": "CPI Computers Peripherals",
+    "CUSR0000SEHB": "CPI Lodging Away from Home",
+    "CUUR0000SACL1E": "CPI Core Goods NSA",
+    "CUUR0000SAF11": "CPI Food at Home NSA",
+    "CUUR0000SAF112": "CPI Cereals Bakery NSA",
+    "CUUR0000SAF113": "CPI Meats Poultry Fish Eggs NSA",
+    "CUUR0000SAS": "CPI Services NSA",
+    "CUUR0000SEFJ": "CPI Household Furnishings NSA",
+    "CUUR0000SEFV": "CPI Food Away from Home NSA",
+
+    # PPI Pipeline Detail
+    "PPIACO": "PPI All Commodities",
+    "PPICPE": "PPI Crude Petroleum",
+    "PPICRM": "PPI Crude Materials",
+    "PPIFES": "PPI Final Demand Services",
+
+    # GDP Deflator
+    "GDPDEF": "GDP Implicit Price Deflator",
+
+    # Trimmed Mean Inflation Measures
+    "TRMMEANCPIM094SFRBCLE": "Trimmed Mean CPI 16pct",
+    "TRMMEANCPIM157SFRBCLE": "Trimmed Mean CPI Annualized",
+    "PCETRIM1M158SFRBDAL": "Trimmed Mean PCE 1M",
+    "PCETRIM6M680SFRBDAL": "Trimmed Mean PCE 6M",
+
+    # ===== PILLAR 3 (GROWTH) ADDITIONS =====
+
+    # Housing Detail
+    "HOUST1F": "Housing Starts Single Family",
+
+    # Retail Detail
+    "RSXFSN": "Advance Retail Sales Retail Trade",
+
+    # Industrial Production Detail
+    "IPMAN": "Industrial Production Manufacturing",
+    "IPMINE": "Industrial Production Mining",
+    "IPUTL": "Industrial Production Utilities",
+    "IPBUSEQ": "Industrial Production Business Equipment",
+    "IPCONGD": "Industrial Production Consumer Goods",
+    "IPDMAT": "Industrial Production Durable Materials",
+    "IPNMAT": "Industrial Production Nondurable Materials",
+
+    # Capacity Utilization
+    "TCU": "Total Capacity Utilization",
+    "MCUMFN": "Manufacturing Capacity Utilization",
+
+    # ADP Employment
+    "ADPMNUSNERSA": "ADP National Employment",
+
+    # Real Personal Income/Consumption
+    "DSPIC96": "Real Disposable Personal Income",
+    "PCEC96": "Real Personal Consumption Expenditures",
+
+    # GDP Components
+    "PNFI": "Private Nonresidential Fixed Investment",
+    "PRFI": "Private Residential Fixed Investment",
+    "EXPGS": "Exports Goods and Services",
+    "IMPGS": "Imports Goods and Services",
+
+    # Business Surveys
+    "BSCICP02USM460S": "Business Confidence Indicator",
+    "BSCICP03USM665S": "Consumer Confidence Indicator OECD",
 }
 
 # ==========================================

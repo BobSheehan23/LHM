@@ -370,7 +370,8 @@ ax.legend(loc='upper left', **legend_style())
 |---|---|---|
 | Primary series | Ocean | `#0089D1` |
 | Secondary series | Dusk | `#FF6723` |
-| Tertiary series | Sea | `#00BB99` |
+| Tertiary series | Sky | `#4FC3F7` |
+| Quaternary series | Sea | `#00BB99` |
 | Accent | Venus | `#FF2389` |
 | Background | White | `#ffffff` |
 | Foreground text | Dark | `#1a1a1a` |
