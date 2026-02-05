@@ -72,7 +72,7 @@ FRED_CURATED = {
     "PCEPILFE": "Core PCE",
     "MEDCPIM158SFRBCLE": "Median CPI",
     "CORESTICKM159SFRBATL": "Sticky Core CPI",
-    "COREFLEXM159SFRBATL": "Flexible Core CPI",
+    "COREFLEXCPIM159SFRBATL": "Flexible Core CPI",
 
     # Atlanta Fed Wage Growth Tracker
     "FRBATLWGT12MMUMHGO": "Atlanta Fed Wage Growth 12M Overall",
@@ -213,20 +213,13 @@ FRED_CURATED = {
 
     # ===== GAP FILLERS =====
 
-    # ISM / PMI (Business Surveys)
-    "MANEMP": "ISM Manufacturing Employment",
-    "NAPM": "ISM Manufacturing PMI",
-    "NAPMNOI": "ISM Manufacturing New Orders",
-    "NAPMII": "ISM Manufacturing Inventories",
-    "NAPMPRI": "ISM Manufacturing Prices",
-    "NAPMSDI": "ISM Manufacturing Supplier Deliveries",
-    "NAPMPI": "ISM Manufacturing Production",
-    "NMFCI": "ISM Non-Manufacturing Composite",
-    "NMFBAI": "ISM Non-Manufacturing Business Activity",
-    "NMFNOI": "ISM Non-Manufacturing New Orders",
+    # ISM / PMI - NOTE: ISM data was removed from FRED in June 2016 due to licensing
+    # NAPM, NAPMNOI, NAPMII, etc. are no longer available via FRED API
+    # Use Regional Fed surveys as proxies or get ISM data from other sources
+    "MANEMP": "Manufacturing Employment",
 
-    # NFIB Small Business
-    "NFIB": "NFIB Small Business Optimism",
+    # NFIB - NOTE: NFIB Small Business Optimism not available on FRED
+    # Must be sourced directly from nfib.com
 
     # Regional Fed Surveys
     "GACDISA066MSFRBNY": "Empire State Manufacturing",
@@ -242,7 +235,7 @@ FRED_CURATED = {
     "AMTMNO": "Manufacturers Total New Orders",
     "ACDGNO": "Durable Goods Orders Ex Defense",
     "ANDENO": "Nondefense Capital Goods Orders Ex Aircraft",
-    "AMDMNO": "Durable Manufacturers New Orders",
+    # Note: AMDMNO discontinued, use DGORDER and ADXTNO instead
     "AMNMNO": "Nondurable Manufacturers New Orders",
 
     # Trade Balance & Trade
@@ -261,7 +254,7 @@ FRED_CURATED = {
     "TSIFRGHT": "Transportation Services Index Freight",
     "TSITTL": "Transportation Services Index Total",
     "FRGSHPUSM649NCIS": "Cass Freight Shipments Index",
-    "LOADFAC": "Air Revenue Passenger Load Factor",
+    # Note: LOADFAC discontinued
 
     # Auto/Vehicle Sales
     "ALTSALES": "Light Vehicle Sales Total",
@@ -287,7 +280,7 @@ FRED_CURATED = {
 
     # Housing Detail
     "HSN1F": "New Home Sales",
-    "NHSPSTOT": "New Home Sales Price Total",
+    "MSPNHSUS": "Median New Home Sales Price",
     "MSACSR": "Months Supply New Houses",
     "HOSINVUSM495N": "Housing Inventory Total",
     "EXHOSLUSM495S": "Existing Home Sales",
@@ -312,7 +305,7 @@ FRED_CURATED = {
     # Inventories
     "ISRATIO": "Inventory Sales Ratio Total",
     "MNFCTRIRSA": "Manufacturers Inventory Sales Ratio",
-    "MRTSIR4423USS": "Retail Inventory Sales Ratio",
+    "RETAILIRSA": "Retail Inventories",
     "WHLSLRIRSA": "Wholesale Inventory Sales Ratio",
     "BUSINV": "Total Business Inventories",
     "RETAILIMSA": "Retail Inventories Ex Autos",
@@ -371,7 +364,7 @@ FRED_CURATED = {
     # Industrial Production Detail
     "IPMAN": "Industrial Production Manufacturing",
     "IPMINE": "Industrial Production Mining",
-    "IPUTL": "Industrial Production Utilities",
+    "IPUTIL": "Industrial Production Utilities",
     "IPBUSEQ": "Industrial Production Business Equipment",
     "IPCONGD": "Industrial Production Consumer Goods",
     "IPDMAT": "Industrial Production Durable Materials",

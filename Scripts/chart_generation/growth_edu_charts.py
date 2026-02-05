@@ -375,7 +375,7 @@ def chart_01():
     for i in range(1, len(ip_2nd)):
         if pd.notna(ip_2nd.iloc[i]) and ip_2nd.iloc[i] < 0:
             ax.axvspan(ip_2nd.index[i-1], ip_2nd.index[i],
-                       color=COLORS['dusk'], alpha=0.08, zorder=0)
+                       color=COLORS['dusk'], alpha=0.30, zorder=0)
 
     ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
 
@@ -454,68 +454,63 @@ def chart_02():
 
 
 # ============================================
-# CHART 3: ISM Manufacturing with 50-Line
+# CHART 3: Regional Fed Manufacturing Surveys (ISM proxy)
 # ============================================
 def chart_03():
-    """ISM Manufacturing PMI with 50-line and recession shading."""
+    """Regional Fed Manufacturing Surveys as ISM proxy."""
     print('\nChart 3: ISM Manufacturing PMI...')
 
-    # ISM is not directly on FRED, use NAPMPMI (NAPM/ISM composite)
-    ism = fetch_fred_level('MANEMP', start='1990-01-01')  # Using manufacturing employment as proxy
-    # Actually let's use the real ISM proxy available on FRED
-    try:
-        ism = fetch_fred_level('NAPM', start='1990-01-01')
-    except:
-        # Fallback to manufacturing new orders if NAPM not available
-        ism = fetch_fred_level('AMTMNO', start='1990-01-01')
-        # Normalize to PMI-like scale
-        ism = (ism / ism.rolling(12).mean() - 1) * 50 + 50
+    # ISM is not on FRED (removed 2016 due to licensing)
+    # Use Regional Fed surveys instead - these are diffusion indexes like ISM
+    # Above 0 = expansion, below 0 = contraction (vs ISM's 50 threshold)
 
-    # Let's use a better proxy: UMCSENT rescaled or just note we need ISM data
-    # For now, create synthetic PMI-like data from manufacturing indicators
-    ip_mom = fetch_fred('INDPRO', start='1989-01-01')
-    ip_mom['mom'] = ip_mom['value'].pct_change(1, fill_method=None) * 100
-    ip_mom = ip_mom['mom'].dropna().loc['1990-01-01':]
+    empire = fetch_fred_level('GACDISA066MSFRBNY', start='2000-01-01')  # Empire State
+    philly = fetch_fred_level('GACDFSA066MSFRBPHI', start='2000-01-01')  # Philly Fed
 
-    # Create PMI-like diffusion from IP momentum (rough approximation)
-    # This is a placeholder - in production would scrape ISM directly
-    ism_proxy = 50 + ip_mom.rolling(3).mean() * 5
-    ism_proxy = ism_proxy.clip(30, 70)
+    # Average the two for a composite regional indicator
+    # Align dates
+    common_idx = empire.index.intersection(philly.index)
+    regional_avg = (empire[common_idx] + philly[common_idx]) / 2
 
     fig, ax = new_fig()
     c1 = THEME['primary']
+    c2 = THEME['secondary']
+    c3 = THEME['tertiary']
 
-    ax.plot(ism_proxy.index, ism_proxy, color=c1, linewidth=2.5,
-            label=f'ISM Manufacturing Proxy ({ism_proxy.iloc[-1]:.1f})')
+    # Plot both individual and average
+    ax.plot(empire.index, empire, color=c2, linewidth=1.5, alpha=0.6,
+            label=f'Empire State ({empire.iloc[-1]:.1f})')
+    ax.plot(philly.index, philly, color=c3, linewidth=1.5, alpha=0.6,
+            label=f'Philly Fed ({philly.iloc[-1]:.1f})')
+    ax.plot(regional_avg.index, regional_avg, color=c1, linewidth=2.5,
+            label=f'Regional Average ({regional_avg.iloc[-1]:.1f})')
 
-    ax.axhline(50, color=COLORS['venus'], linewidth=1.2, alpha=0.7, linestyle='--')
-    ax.axhline(48, color=COLORS['dusk'], linewidth=0.8, alpha=0.5, linestyle='--')
+    # Zero line (expansion/contraction threshold for regional surveys)
+    ax.axhline(0, color=COLORS['venus'], linewidth=1.2, alpha=0.7, linestyle='--')
 
-    # Labels positioned on left side to avoid data overlap on right
-    ax.text(0.35, 51.5, '50 = Expansion / Contraction', fontsize=9, color=COLORS['venus'],
-            alpha=0.95, fontweight='bold', transform=ax.get_yaxis_transform())
-    ax.text(0.35, 46.0, '48 = Recession Warning', fontsize=9, color=COLORS['dusk'],
+    # Label
+    ax.text(0.35, 2, '0 = Expansion / Contraction', fontsize=9, color=COLORS['venus'],
             alpha=0.95, fontweight='bold', transform=ax.get_yaxis_transform())
 
     style_single_ax(ax)
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.0f}'))
     ax.tick_params(axis='both', which='both', length=0)
-    set_xlim_to_data(ax, ism_proxy.index)
+    set_xlim_to_data(ax, regional_avg.index)
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
-    add_last_value_label(ax, ism_proxy, color=c1, fmt='{:.1f}', side='right')
+    add_last_value_label(ax, regional_avg, color=c1, fmt='{:.1f}', side='right')
     add_recessions(ax)
     ax.legend(loc='upper left', **legend_style())
 
-    ism_last = ism_proxy.iloc[-1]
-    status = "expansion" if ism_last > 50 else "contraction"
+    avg_last = regional_avg.iloc[-1]
+    status = "expansion" if avg_last > 0 else "contraction"
     add_annotation_box(ax,
-        f"ISM at {ism_last:.1f}: manufacturing in {status}.\nBelow 48 sustained = recession historically imminent.",
+        f"Regional avg at {avg_last:.1f}: manufacturing in {status}.\nISM (Jan 2026): 52.6, first expansion in 26 months.",
         x=0.50, y=0.12)
 
-    brand_fig(fig, 'ISM Manufacturing: The 50-Line',
-              subtitle='Above 50 = expansion, below 48 = recession warning',
-              source='ISM (proxy from IP)')
+    brand_fig(fig, 'Regional Fed Manufacturing Surveys',
+              subtitle='Above 0 = expansion (similar to ISM above 50)',
+              source='NY Fed, Philadelphia Fed')
 
     return save_fig(fig, 'chart_03_ism_manufacturing.png')
 
@@ -588,7 +583,7 @@ def chart_05():
 
     # Shade negative regions
     ax.fill_between(hours.index, hours, 0, where=(hours < 0),
-                    color=COLORS['dusk'], alpha=0.15, interpolate=True)
+                    color=COLORS['dusk'], alpha=0.25, interpolate=True)
 
     style_single_ax(ax)
     ax.tick_params(axis='both', which='both', length=0)
@@ -616,21 +611,23 @@ def chart_05():
 # CHART 6: Housing Starts with Recession Shading
 # ============================================
 def chart_06():
-    """Housing Starts YoY vs GDP YoY with lead shift."""
+    """Housing Starts YoY (6MMA) vs GDP YoY."""
     print('\nChart 6: Housing Starts vs GDP...')
 
-    starts = fetch_fred_yoy('HOUST')
+    starts_raw = fetch_fred_yoy('HOUST')
+    # Apply 3-month moving average to smooth monthly noise without distorting peaks
+    starts = starts_raw.rolling(3).mean()
     gdp = fetch_quarterly_as_monthly('GDPC1')
 
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
     c_primary, c_secondary = THEME['primary'], THEME['secondary']
 
-    # GDP on LHS (secondary), Housing on RHS (primary)
+    # GDP on LHS (secondary), Housing 6MMA on RHS (primary)
     ax1.plot(gdp.index, gdp, color=c_secondary, linewidth=2.5,
              label=f'Real GDP YoY ({gdp.iloc[-1]:.1f}%)')
     ax2.plot(starts.index, starts, color=c_primary, linewidth=2.5,
-             label=f'Housing Starts YoY ({starts.iloc[-1]:.1f}%)')
+             label=f'Housing Starts YoY 3MMA ({starts.iloc[-1]:.1f}%)')
 
     ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
 
@@ -648,11 +645,11 @@ def chart_06():
     ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
 
     add_annotation_box(ax1,
-        f"Housing starts ({starts.iloc[-1]:.1f}%) vs GDP ({gdp.iloc[-1]:.1f}%).\nHousing typically peaks 18-24+ months before recessions.",
-        x=0.50, y=0.12)
+        f"Housing starts 3MMA ({starts.iloc[-1]:.1f}%) vs GDP ({gdp.iloc[-1]:.1f}%).\nHousing typically peaks 18-24+ months before recessions.",
+        x=0.57, y=0.20)
 
     brand_fig(fig, 'Housing Starts: The Long Lead',
-              subtitle='Housing peaks 12-18 months before GDP turns',
+              subtitle='Housing peaks 18-24+ months before GDP turns',
               source='Census Bureau, BEA')
 
     return save_fig(fig, 'chart_06_housing_starts.png')
@@ -714,12 +711,12 @@ def chart_08():
     """Goods GDP vs Services GDP — the divergence."""
     print('\nChart 8: Goods vs Services GDP...')
 
-    # Use goods and services consumption as proxies - both quarterly for consistent history
-    goods = fetch_quarterly_as_monthly('DGDSRC1')  # Real goods consumption
-    services = fetch_quarterly_as_monthly('PCESVC96')  # Real PCE services (longer history)
+    # Use monthly PCE goods and services for longer history
+    goods = fetch_fred_yoy('PCEDG')  # PCE Durable Goods + Nondurable
+    services = fetch_fred_yoy('PCES')  # PCE Services (monthly, goes back to 1959)
 
-    goods_plot = goods.dropna()
-    services_plot = services.dropna()
+    goods_plot = goods.loc['2000-01-01':].dropna()
+    services_plot = services.loc['2000-01-01':].dropna()
 
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
@@ -794,7 +791,7 @@ def chart_09():
 
     # Shade negative regions
     ax.fill_between(retail_yoy.index, retail_yoy, 0, where=(retail_yoy < 0),
-                    color=COLORS['dusk'], alpha=0.15, interpolate=True)
+                    color=COLORS['dusk'], alpha=0.25, interpolate=True)
 
     style_single_ax(ax)
     ax.tick_params(axis='both', which='both', length=0)
