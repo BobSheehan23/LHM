@@ -739,12 +739,18 @@ The WEI is a composite of 10 weekly indicators scaled to represent GDP growth.
 
 Multiple providers now publish anonymized credit card transaction data:
 
-| **Source** | **Coverage** | **Frequency** | **Lag** |
-|---|---|---|---|
-| **Bank of America** | BAC cardholders | Weekly | 3-5 days |
-| **JPMorgan Chase** | Chase cardholders | Weekly | 3-5 days |
-| **Affinity Solutions** | Multi-issuer panel | Weekly | 7 days |
-| **Earnest Research** | Panel data | Weekly | 5-7 days |
+| **Source** | **Coverage** | **Frequency** | **Lag** | **Access** |
+|---|---|---|---|---|
+| **Bank of America** | BAC cardholders | Weekly | 3-5 days | Public research reports |
+| **JPMorgan Chase** | Chase cardholders | Weekly | 3-5 days | Public research reports |
+| **Affinity Solutions** | Multi-issuer panel | Weekly | 7 days | Subscription |
+| **Earnest Research** | Panel data | Weekly | 5-7 days | Subscription |
+
+**Data Access Notes:**
+- **Bank of America:** Free weekly reports at [institute.bankofamerica.com](https://institute.bankofamerica.com/) under "Consumer Checkpoint"
+- **JPMorgan Chase:** Free weekly reports via Chase Institute, search "Chase Consumer Spending"
+- **Affinity Solutions / Earnest Research:** Subscription-based, used by hedge funds
+- **Alternative:** Census Bureau publishes experimental credit card spending data via [census.gov/economic-indicators](https://www.census.gov/economic-indicators/)
 
 **What to Watch:**
 - **YoY growth in total spending:** Proxy for nominal PCE
