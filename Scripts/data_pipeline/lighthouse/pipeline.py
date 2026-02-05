@@ -16,7 +16,8 @@ from typing import Tuple, Optional
 from .config import DB_PATH, validate_api_keys, API_KEYS
 from .fetchers import FREDFetcher, BLSFetcher, BEAFetcher, NYFedFetcher, OFRFetcher
 from .market_fetchers import MarketDataFetcher
-from .crypto_fetchers import CryptoFetcher
+from .crypto_free_fetchers import FreeCryptoFetcher  # Replaced TokenTerminal with free APIs
+from .breadth_fetcher import BreadthDataFetcher  # New: DIY breadth from S&P 500 components
 from .quality import update_quality_flags
 
 # Configure logging
@@ -131,7 +132,7 @@ def run_daily_update(
 
     # Default to all sources
     if sources is None:
-        sources = ["FRED", "BLS", "BEA", "NYFED", "OFR", "MARKET", "CRYPTO"]
+        sources = ["FRED", "BLS", "BEA", "NYFED", "OFR", "MARKET", "CRYPTO", "BREADTH"]
 
     # Track totals
     total_series = 0
@@ -221,10 +222,10 @@ def run_daily_update(
             results["MARKET"] = (0, 0)
 
     if "CRYPTO" in sources:
-        print("\n--- CRYPTO (Token Terminal) ---")
+        print("\n--- CRYPTO (DefiLlama + CoinGecko) ---")
         try:
-            fetcher = CryptoFetcher(conn, API_KEYS.get("TOKEN_TERMINAL"))
-            crypto_series, crypto_obs = fetcher.fetch_all(days=30)
+            fetcher = FreeCryptoFetcher(conn)
+            crypto_series, crypto_obs = fetcher.fetch_all(price_days=30)
             results["CRYPTO"] = (crypto_series, crypto_obs)
             total_series += crypto_series
             total_obs += crypto_obs
@@ -232,6 +233,19 @@ def run_daily_update(
             logger.error(f"CRYPTO failed: {e}")
             errors.append(f"CRYPTO: {e}")
             results["CRYPTO"] = (0, 0)
+
+    if "BREADTH" in sources:
+        print("\n--- MARKET BREADTH (S&P 500 Components) ---")
+        try:
+            fetcher = BreadthDataFetcher(conn)
+            breadth_series, breadth_obs = fetcher.fetch_and_compute(lookback_years=3)
+            results["BREADTH"] = (breadth_series, breadth_obs)
+            total_series += breadth_series
+            total_obs += breadth_obs
+        except Exception as e:
+            logger.error(f"BREADTH failed: {e}")
+            errors.append(f"BREADTH: {e}")
+            results["BREADTH"] = (0, 0)
 
     # Run quality checks
     if not skip_quality:
