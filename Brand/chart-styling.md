@@ -351,12 +351,15 @@ ax.legend(loc='upper left', **legend_style())
 
 ## Color Assignments by Theme
 
+**UPDATED (Feb 2026):** Ocean is PRIMARY for BOTH themes. Brand consistency > contrast optimization.
+
 ### Dark Theme
 | Role | Color | Hex |
 |---|---|---|
-| Primary series | Sky | `#4FC3F7` |
+| Primary series | Ocean | `#0089D1` |
 | Secondary series | Dusk | `#FF6723` |
-| Tertiary series | Sea | `#00BB99` |
+| Tertiary series | Sky | `#4FC3F7` |
+| Quaternary series | Sea | `#00BB99` |
 | Accent | Venus | `#FF2389` |
 | Background | Dark Navy | `#0A1628` |
 | Foreground text | Light | `#e6edf3` |
@@ -380,7 +383,7 @@ ax.legend(loc='upper left', **legend_style())
 | Legend bg | Light | `#f8f8f8` |
 | Legend fg | Dark | `#1a1a1a` |
 
-**Rationale**: Sky replaces Ocean on dark theme because Ocean has insufficient contrast against dark navy.
+**Rationale**: Ocean is the brand color and should be primary on all charts regardless of theme.
 
 ### Full Theme Dictionary
 
