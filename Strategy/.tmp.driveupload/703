@@ -287,7 +287,7 @@ Housing is **15-20% of GDP** (residential investment + consumer spending on hous
 | **Building Permits** | PERMIT | Monthly | **Leads starts 1-2 mo** | Future construction pipeline |
 | **New Home Sales** | HSN1F | Monthly | Coincident | Builder sales (forward-looking) |
 | **Existing Home Sales** | EXHOSLUSM495S | Monthly | Lagging | Resale market (backward-looking) |
-| **Home Builder Confidence (NAHB)** | NAHB (web) | Monthly | Leads starts 1-3 mo | Sentiment gauge |
+| **Home Builder Confidence (NAHB)** | [nahb.org HMI](https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index) | Monthly | Leads starts 1-3 mo | Sentiment gauge |
 | **Residential Fixed Investment** | PRFI | Quarterly | Coincident | GDP housing component |
 
 #### Derived Housing Metrics
