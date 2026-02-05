@@ -339,7 +339,7 @@ def legend_style():
 def save_fig(fig, filename, tight_frame=False):
     """Save figure to output directory."""
     border_color = COLORS['ocean']  # Always Ocean for border
-    border_width = 3.5  # Frame border
+    border_width = 4.0  # Frame border
     fig.patches.append(plt.Rectangle(
         (0, 0), 1, 1, transform=fig.transFigure,
         fill=False, edgecolor=border_color, linewidth=border_width,
