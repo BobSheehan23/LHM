@@ -76,21 +76,21 @@ def set_theme(mode='dark'):
             'zero_line': '#e6edf3',
             'recession': '#ffffff',
             'recession_alpha': 0.06,
-            # Primary 5 palette - use any across deck for variety
+            # Primary 5 palette
             'ocean': COLORS['ocean'],
             'dusk': COLORS['dusk'],
             'sky': COLORS['sky'],
             'sea': COLORS['sea'],
             'venus': COLORS['venus'],
-            # Defaults for dual-axis charts (can override per chart)
-            'primary': COLORS['sky'],
+            # Ocean always primary (brand color)
+            'primary': COLORS['ocean'],
             'secondary': COLORS['dusk'],
-            'tertiary': COLORS['sea'],
-            'quaternary': COLORS['ocean'],
+            'tertiary': COLORS['sky'],
+            'quaternary': COLORS['sea'],
             'accent': COLORS['venus'],
             'fill_alpha': 0.20,
             'box_bg': '#0A1628',
-            'box_edge': COLORS['sky'],
+            'box_edge': COLORS['ocean'],
             'legend_bg': '#0f1f38',
             'legend_fg': '#e6edf3',
             'mode': 'dark',
@@ -393,7 +393,7 @@ def chart_01():
     momentum = "decelerating" if ip_2nd_last < 0 else "accelerating"
     add_annotation_box(ax,
         f"IP at {ip_last:.1f}% YoY, {momentum}.\nOrange shading = negative second derivative.",
-        x=0.50, y=0.12)
+        x=0.55, y=0.12)
 
     brand_fig(fig, 'Industrial Production: The Second Derivative',
               subtitle='Momentum breaks (shaded) precede level declines',
@@ -416,7 +416,7 @@ def chart_02():
     ax2 = ax1.twinx()
     c_primary, c_secondary = THEME['primary'], THEME['secondary']
 
-    # GDP on LHS (secondary), IP on RHS (primary) — IP is the leading signal
+    # GDP on LHS (secondary), IP on RHS (primary) — IP leads by ~3 months
     ax1.plot(gdp.index, gdp, color=c_secondary, linewidth=2.5, label=f'Real GDP YoY ({gdp.iloc[-1]:.1f}%)')
     ax2.plot(ip.index, ip, color=c_primary, linewidth=2.5, label=f'Industrial Production YoY ({ip.iloc[-1]:.1f}%)')
 
@@ -443,7 +443,7 @@ def chart_02():
     ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
 
     add_annotation_box(ax1,
-        f"IP ({ip.iloc[-1]:.1f}%) leads GDP ({gdp.iloc[-1]:.1f}%) at turning points.\nIP is the monthly GDP proxy.",
+        f"IP ({ip.iloc[-1]:.1f}%) leads GDP ({gdp.iloc[-1]:.1f}%) at turning points.\nIP leads by 1-2 quarters.",
         x=0.50, y=0.92)
 
     brand_fig(fig, 'Industrial Production vs Real GDP',
@@ -535,7 +535,7 @@ def chart_04():
     ax2 = ax1.twinx()
     c_primary, c_secondary = COLORS['ocean'], COLORS['dusk']  # Ocean + Dusk
 
-    # Investment on LHS (secondary), Orders on RHS (primary) — orders lead
+    # Investment on LHS (secondary), Orders on RHS (primary) — orders lead by ~4 months
     ax1.plot(investment.index, investment, color=c_secondary, linewidth=2.5,
              label=f'Nonres Fixed Investment YoY ({investment.iloc[-1]:.1f}%)')
     ax2.plot(orders.index, orders, color=c_primary, linewidth=2.5,
@@ -560,7 +560,7 @@ def chart_04():
     signal = "cutting" if orders_last < 0 else "expanding"
     add_annotation_box(ax1,
         f"Core capex orders at {orders_last:.1f}%: CEOs are {signal}.\nOrders lead investment by 3-6 months.",
-        x=0.50, y=0.15)  # Moved to bottom to avoid overlap with data
+        x=0.60, y=0.15)  # Moved to bottom right
 
     brand_fig(fig, 'Core Capital Goods Orders: CEO Confidence',
               subtitle='Orders lead business investment by 3-6 months',
@@ -616,43 +616,44 @@ def chart_05():
 # CHART 6: Housing Starts with Recession Shading
 # ============================================
 def chart_06():
-    """Housing Starts (level, millions annualized) with recession shading."""
-    print('\nChart 6: Housing Starts...')
+    """Housing Starts YoY vs GDP YoY with lead shift."""
+    print('\nChart 6: Housing Starts vs GDP...')
 
-    starts = fetch_fred_level('HOUST', start='1990-01-01')
-    starts = starts / 1000  # Convert to millions
+    starts = fetch_fred_yoy('HOUST')
+    gdp = fetch_quarterly_as_monthly('GDPC1')
 
-    fig, ax = new_fig()
-    c1 = THEME['primary']
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
 
-    ax.plot(starts.index, starts, color=c1, linewidth=2.5,
-            label=f'Housing Starts ({starts.iloc[-1]:.2f}M)')
+    # GDP on LHS (secondary), Housing on RHS (primary)
+    ax1.plot(gdp.index, gdp, color=c_secondary, linewidth=2.5,
+             label=f'Real GDP YoY ({gdp.iloc[-1]:.1f}%)')
+    ax2.plot(starts.index, starts, color=c_primary, linewidth=2.5,
+             label=f'Housing Starts YoY ({starts.iloc[-1]:.1f}%)')
 
-    ax.axhline(1.0, color=COLORS['venus'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
 
-    style_single_ax(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}M'))
-    ax.tick_params(axis='both', which='both', length=0)
-    set_xlim_to_data(ax, starts.index)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, gdp.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
-    add_last_value_label(ax, starts, color=c1, fmt='{:.2f}M', side='right')
-    add_recessions(ax, start_date='1990-01-01')
-    ax.legend(loc='upper left', **legend_style())
+    add_last_value_label(ax1, gdp, color=c_secondary, side='left')
+    add_last_value_label(ax2, starts, color=c_primary, side='right')
 
-    # Find peak
-    peak_val = starts.max()
-    peak_date = starts.idxmax()
-    current = starts.iloc[-1]
-    pct_from_peak = ((current / peak_val) - 1) * 100
+    add_recessions(ax1)
 
-    add_annotation_box(ax,
-        f"Housing starts at {current:.2f}M, down {abs(pct_from_peak):.0f}% from\n{peak_date.strftime('%b %Y')} peak. Leads GDP by 12-18 months.",
-        x=0.50, y=0.15)
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    add_annotation_box(ax1,
+        f"Housing starts ({starts.iloc[-1]:.1f}%) lead GDP ({gdp.iloc[-1]:.1f}%).\nHousing leads by 12-18 months.",
+        x=0.50, y=0.12)
 
     brand_fig(fig, 'Housing Starts: The Long Lead',
-              subtitle='Housing peaks 12-18 months before recession',
-              source='Census Bureau')
+              subtitle='Housing peaks 12-18 months before GDP turns',
+              source='Census Bureau, BEA')
 
     return save_fig(fig, 'chart_06_housing_starts.png')
 
@@ -676,7 +677,7 @@ def chart_07():
     # Use recent quarter data (last available)
     components = ['PCE\n(Consumption)', 'GPDI\n(Investment)', 'Government', 'Net Exports']
     values = [pce.iloc[-1], gpdi.iloc[-1], govt.iloc[-1], netex.iloc[-1]]
-    colors = [COLORS['ocean'], COLORS['dusk'], COLORS['sky'], COLORS['sea']]
+    colors = [COLORS['ocean'], COLORS['dusk'], COLORS['sea'], COLORS['venus']]
 
     bars = ax.bar(components, values, color=colors, edgecolor=THEME['spine'], linewidth=0.5)
 
@@ -713,29 +714,22 @@ def chart_08():
     """Goods GDP vs Services GDP — the divergence."""
     print('\nChart 8: Goods vs Services GDP...')
 
-    # Use goods and services consumption as proxies
-    goods = fetch_fred_yoy('DGDSRC1')  # Real goods consumption
-    services = fetch_fred_yoy('DSERRA3Q086SBEA')  # Real services consumption
+    # Use goods and services consumption as proxies - both quarterly for consistent history
+    goods = fetch_quarterly_as_monthly('DGDSRC1')  # Real goods consumption
+    services = fetch_quarterly_as_monthly('PCESVC96')  # Real PCE services (longer history)
 
-    # If those don't work, fall back to broader measures
-    try:
-        goods_plot = goods.dropna()
-        services_plot = services.dropna()
-    except:
-        goods = fetch_fred_yoy('INDPRO')  # IP as goods proxy
-        services = fetch_quarterly_as_monthly('PCESVC96')  # Real PCE services
-        goods_plot = goods.dropna()
-        services_plot = services.dropna()
+    goods_plot = goods.dropna()
+    services_plot = services.dropna()
 
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
     c_primary, c_secondary = THEME['primary'], THEME['secondary']
 
-    # Goods on LHS (secondary), Services on RHS (primary)
-    ax1.plot(goods_plot.index, goods_plot, color=c_secondary, linewidth=2.5,
-             label=f'Goods YoY ({goods_plot.iloc[-1]:.1f}%)')
-    ax2.plot(services_plot.index, services_plot, color=c_primary, linewidth=2.5,
+    # Services on LHS (primary), Goods on RHS (secondary)
+    ax1.plot(services_plot.index, services_plot, color=c_primary, linewidth=2.5,
              label=f'Services YoY ({services_plot.iloc[-1]:.1f}%)')
+    ax2.plot(goods_plot.index, goods_plot, color=c_secondary, linewidth=2.5,
+             label=f'Goods YoY ({goods_plot.iloc[-1]:.1f}%)')
 
     ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
 
@@ -746,13 +740,13 @@ def chart_08():
     ax1.set_ylim(all_min - pad, all_max + pad)
     ax2.set_ylim(all_min - pad, all_max + pad)
 
-    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    style_dual_ax(ax1, ax2, c_primary, c_secondary)
     common_idx = goods_plot.index.union(services_plot.index)
     set_xlim_to_data(ax1, common_idx)
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
-    add_last_value_label(ax1, goods_plot, color=c_secondary, side='left')
-    add_last_value_label(ax2, services_plot, color=c_primary, side='right')
+    add_last_value_label(ax1, services_plot, color=c_primary, side='left')
+    add_last_value_label(ax2, goods_plot, color=c_secondary, side='right')
 
     add_recessions(ax1)
 
@@ -764,7 +758,7 @@ def chart_08():
     s_last = services_plot.iloc[-1]
     spread = s_last - g_last
     add_annotation_box(ax1,
-        f"Goods-services spread: {spread:.1f} ppts.\nGoods lead, services follow with 6-9 month lag.",
+        f"Goods-services spread: {spread:.1f} ppts.\nGoods lead services by 6-9 months.",
         x=0.50, y=0.92)
 
     brand_fig(fig, 'The Great Divergence: Goods vs Services',

@@ -72,6 +72,15 @@ FRED_CURATED = {
     "PCEPILFE": "Core PCE",
     "MEDCPIM158SFRBCLE": "Median CPI",
     "CORESTICKM159SFRBATL": "Sticky Core CPI",
+    "COREFLEXM159SFRBATL": "Flexible Core CPI",
+
+    # Atlanta Fed Wage Growth Tracker
+    "FRBATLWGT12MMUMHGO": "Atlanta Fed Wage Growth 12M Overall",
+    "FRBATLWGT3MMAUMHWGO": "Atlanta Fed Wage Growth 3M Overall",
+    "FRBATLWGT12MMUMHWGJST": "Atlanta Fed Wage Growth Job Stayers",
+    "FRBATLWGT12MMUMHWGJSW": "Atlanta Fed Wage Growth Job Switchers",
+    "FRBATLWGT12MMUMHWGWD1WP": "Atlanta Fed Wage Growth 1st-25th Pctl",
+    "FRBATLWGT12MMUMHWGWD76WP": "Atlanta Fed Wage Growth 76th-100th Pctl",
 
     # Growth & Activity
     "GDP": "Nominal GDP",
