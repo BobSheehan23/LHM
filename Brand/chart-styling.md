@@ -388,7 +388,7 @@ ax.legend(loc='upper left', **legend_style())
 ### Full Theme Dictionary
 
 ```python
-# Dark theme
+# Dark theme (UPDATED: Ocean is primary for both themes)
 THEME = {
     'bg': '#0A1628',
     'fg': '#e6edf3',
@@ -397,15 +397,16 @@ THEME = {
     'zero_line': '#e6edf3',      # Available but prefer COLORS['doldrums'] for standard zero lines
     'recession': '#ffffff',
     'recession_alpha': 0.06,
-    'brand_color': '#4FC3F7',    # Sky
+    'brand_color': '#0089D1',    # Ocean
     'brand2_color': '#FF6723',   # Dusk
-    'primary': '#4FC3F7',        # Sky
+    'primary': '#0089D1',        # Ocean (ALWAYS primary on both themes)
     'secondary': '#FF6723',      # Dusk
-    'tertiary': '#00BB99',       # Sea
+    'tertiary': '#4FC3F7',       # Sky
+    'quaternary': '#00BB99',     # Sea
     'accent': '#FF2389',         # Venus
     'fill_alpha': 0.20,          # For area fills if needed
     'box_bg': '#0A1628',         # Annotation box background
-    'box_edge': '#4FC3F7',       # Annotation box edge (note: currently hardcoded as Ocean in helper)
+    'box_edge': '#0089D1',       # Ocean (annotation box edge)
     'legend_bg': '#0f1f38',
     'legend_fg': '#e6edf3',
     'mode': 'dark',
