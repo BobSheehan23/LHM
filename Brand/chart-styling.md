@@ -421,7 +421,8 @@ THEME = {
     'brand2_color': '#FF6723',   # Dusk
     'primary': '#0089D1',        # Ocean
     'secondary': '#FF6723',      # Dusk
-    'tertiary': '#00BB99',       # Sea
+    'tertiary': '#4FC3F7',       # Sky (pops against white bg)
+    'quaternary': '#00BB99',     # Sea
     'accent': '#FF2389',         # Venus
     'fill_alpha': 0.15,
     'box_bg': '#ffffff',
