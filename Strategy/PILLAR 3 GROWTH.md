@@ -897,6 +897,38 @@ BEA publishes quarterly GDP by state and MSA. Regional divergence often signals 
 
 ---
 
+### Small Business Growth Indicators
+
+Small businesses (< 500 employees) account for ~45% of GDP and ~47% of private employment. They're more cyclically sensitive than large firms.
+
+| **Indicator** | **Source** | **Frequency** | **What It Measures** | **Access** |
+|---|---|---|---|---|
+| **NFIB Small Business Optimism** | NFIB | Monthly | Sentiment composite (10 components) | [nfib.com/surveys/small-business-economic-trends](https://www.nfib.com/surveys/small-business-economic-trends/) |
+| **NFIB Hiring Plans** | NFIB | Monthly | % planning to add headcount | Same |
+| **NFIB Sales Expectations** | NFIB | Monthly | % expecting higher sales | Same |
+| **NFIB Credit Conditions** | NFIB | Monthly | % reporting credit harder to get | Same |
+| **ADP Small Business Employment** | ADP | Monthly | Payroll growth <50 employees | [adpemploymentreport.com](https://adpemploymentreport.com/) |
+| **Paychex IHS Markit SBI** | Paychex | Monthly | Small business employment index | [paychex.com/employment-watch](https://www.paychex.com/employment-watch) |
+
+**FRED Codes:**
+- NFIB Optimism: Not on FRED (web scrape)
+- ADP: ADPMNUSNERSA (total, not small business specific on FRED)
+
+**Regime Thresholds: NFIB Optimism**
+
+| **Level** | **Regime** | **Historical Context** |
+|---|---|---|
+| > 100 | Expansion | Strong small business confidence |
+| 95-100 | Neutral | Average conditions |
+| 90-95 | Soft | Caution, slowing activity |
+| < 90 | Recession | Historically only seen in recessions |
+
+**Why Small Business Matters:** Small firms are "first in, first out" of recessions. They lack balance sheet cushions, face tighter credit, and can't hoard labor. When NFIB optimism falls below 90 while large-cap earnings hold up, the divergence signals late-cycle fragmentation.
+
+**Current Reading:** NFIB Optimism at ~89 (Dec 2025), below the 90 recession threshold. Small businesses are already feeling the squeeze that hasn't yet shown up in S&P 500 earnings.
+
+---
+
 ## L. ALTERNATIVE GROWTH MEASURES (Beyond Headline GDP)
 
 ### Final Sales vs. GDP
