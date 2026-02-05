@@ -505,7 +505,7 @@ def chart_03():
     avg_last = regional_avg.iloc[-1]
     status = "expansion" if avg_last > 0 else "contraction"
     add_annotation_box(ax,
-        f"Regional avg at {avg_last:.1f}: manufacturing in {status}.\nISM (Jan 2026): 52.6, first expansion in 26 months.",
+        f"Regional avg at {avg_last:.1f}: manufacturing in {status}.\nISM (Jan 2026): 52.6, first expansion in 12 months.",
         x=0.50, y=0.12)
 
     brand_fig(fig, 'Regional Fed Manufacturing Surveys',
@@ -659,21 +659,29 @@ def chart_06():
 # CHART 7: GDP Component Contributions (Stacked)
 # ============================================
 def chart_07():
-    """GDP Component Contributions — simplified bar chart."""
-    print('\nChart 7: GDP Component Contributions...')
+    """GDP Component Contributions — YoY contributions calculated from component levels."""
+    print('\nChart 7: GDP Component Contributions (YoY)...')
 
-    # Fetch GDP components growth rates
-    pce = fetch_quarterly_as_monthly('PCECC96')  # Real PCE
-    gpdi = fetch_quarterly_as_monthly('GPDIC1')  # Real Gross Private Domestic Investment
-    govt = fetch_quarterly_as_monthly('GCEC1')   # Real Government
-    netex = fetch_quarterly_as_monthly('NETEXC')  # Net Exports
+    # Fetch GDP and component LEVELS, then calculate YoY contributions
+    # This matches the YoY framing used throughout the article
+    gdp = fetch_fred('GDPC1', start='2023-01-01')['value']
+    pce = fetch_fred('PCECC96', start='2023-01-01')['value']
+    gpdi = fetch_fred('GPDIC1', start='2023-01-01')['value']
+    govt = fetch_fred('GCEC1', start='2023-01-01')['value']
+    netex = fetch_fred('NETEXC', start='2023-01-01')['value']
 
-    # Get latest values for bar chart
+    # Calculate YoY contributions: (Component change) / (Prior year GDP) * 100
+    # Using 4-quarter lag for YoY comparison
+    prior_gdp = gdp.iloc[-5]  # 4 quarters back
+    pce_contrib = (pce.iloc[-1] - pce.iloc[-5]) / prior_gdp * 100
+    gpdi_contrib = (gpdi.iloc[-1] - gpdi.iloc[-5]) / prior_gdp * 100
+    govt_contrib = (govt.iloc[-1] - govt.iloc[-5]) / prior_gdp * 100
+    netex_contrib = (netex.iloc[-1] - netex.iloc[-5]) / prior_gdp * 100
+
     fig, ax = new_fig()
 
-    # Use recent quarter data (last available)
     components = ['PCE\n(Consumption)', 'GPDI\n(Investment)', 'Government', 'Net Exports']
-    values = [pce.iloc[-1], gpdi.iloc[-1], govt.iloc[-1], netex.iloc[-1]]
+    values = [pce_contrib, gpdi_contrib, govt_contrib, netex_contrib]
     colors = [COLORS['ocean'], COLORS['dusk'], COLORS['sea'], COLORS['venus']]
 
     bars = ax.bar(components, values, color=colors, edgecolor=THEME['spine'], linewidth=0.5)
@@ -681,24 +689,28 @@ def chart_07():
     ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
 
     style_ax(ax, right_primary=False)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}%'))
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:+.1f} pp'))
     ax.tick_params(axis='both', which='both', length=0)
     ax.tick_params(axis='x', labelsize=9)
 
+    # Set y-axis limits to give room for labels
+    ax.set_ylim(-0.3, 2.2)
+
     # Add value labels on bars
     for bar, val in zip(bars, values):
-        ypos = val + 0.3 if val >= 0 else val - 0.5
-        ax.text(bar.get_x() + bar.get_width()/2, ypos, f'{val:.1f}%',
+        ypos = val + 0.08 if val >= 0 else val - 0.12
+        ax.text(bar.get_x() + bar.get_width()/2, ypos, f'{val:+.1f} pp',
                 ha='center', va='bottom' if val >= 0 else 'top',
                 fontsize=10, fontweight='bold', color=THEME['fg'])
 
-    gdp_total = sum(values) * 0.5  # Rough approximation
+    # Calculate total to show in annotation
+    gdp_total = sum(values)
     add_annotation_box(ax,
-        f"GDP growth decomposition by component.\nConsumption (PCE) drives ~68% of GDP.",
-        x=0.25, y=0.45)  # Moved to left middle to avoid bar overlap
+        f"YoY contributions to GDP growth.\nTotal: {gdp_total:+.1f} pp. PCE drives ~68% of GDP.",
+        x=0.52, y=0.92)
 
-    brand_fig(fig, 'GDP Component Contributions',
-              subtitle='What is driving (or dragging) growth?',
+    brand_fig(fig, 'GDP Component Contributions (YoY)',
+              subtitle='What is driving (or dragging) growth? (percentage points)',
               source='BEA')
 
     return save_fig(fig, 'chart_07_gdp_components.png')
