@@ -195,7 +195,7 @@ def chart_zscore_interactive():
 
     # Branding
     brand_fig(fig, 'THE SILENT CAPITULATION', '90-Day Flow Momentum Z-Score', source='Farside Investors')
-    add_annotation_box(ax, "Outflow regime  |  AT ALL-TIME LOWS (-1.93σ)", x=0.5, y=0.03)
+    add_annotation_box(ax, "Outflow regime  |  NEAR ALL-TIME LOWS (-1.93σ)", x=0.5, y=0.03)
 
     # Margins and border
     fig.subplots_adjust(top=0.86, bottom=0.10, left=0.08, right=0.94)

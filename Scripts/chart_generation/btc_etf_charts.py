@@ -737,7 +737,7 @@ def chart_07_flow_zscore_90d():
 
     # Check if near all-time low
     if current_z <= min_z * 0.95:  # Within 5% of ATL
-        note = f"AT ALL-TIME LOW ({current_z:.2f}σ)"
+        note = f"NEAR ALL-TIME LOW ({current_z:.2f}σ)"
     else:
         note = f"ATL: {min_z:.2f}σ on {min_z_date.strftime('%b %d, %Y')}"
 

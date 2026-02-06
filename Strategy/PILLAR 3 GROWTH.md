@@ -1543,8 +1543,13 @@ Growth determines Fed policy response, which determines liquidity.
 | **NY Fed Nowcast** | NY Fed | Weekly | Fridays | Real-time | [newyorkfed.org](https://www.newyorkfed.org/research/policy/nowcast) |
 | **WEI** | NY Fed | Weekly | Fridays | ~1 week | [newyorkfed.org](https://www.newyorkfed.org/research/policy/weekly-economic-index) |
 | **Cass Freight Index** | Cass Info | Monthly | Mid-month | ~15 days | [cassinfo.com](https://www.cassinfo.com/freight-audit-payment/cass-transportation-indexes) |
-| **ATA Truck Tonnage** | ATA | Monthly | ~3rd week | ~20 days | TRUCKD11 |
-| **AAR Rail Traffic** | AAR | Weekly | Wednesdays | ~3 days | [aar.org](https://www.aar.org/data-center/rail-traffic-data/) |
+| **ATA Truck Tonnage** | ATA / BTS | Monthly | ~3rd week | ~20 days | TRUCKD11 |
+| **Rail Freight Carloads** | BTS / AAR | Monthly | ~3rd week | ~20 days | RAILFRTCARLOADSD11 |
+| **Rail Freight Intermodal** | BTS / AAR | Monthly | ~3rd week | ~20 days | RAILFRTINTERMODALD11 |
+| **Real Mfg & Trade Inventories** | Census / FRED | Monthly | ~15th | ~15 days | INVCMRMTSPL |
+| **Real Mfg & Trade Sales** | Census / FRED | Monthly | ~15th | ~15 days | CMRMTSPL |
+| **CEO Confidence** | Conference Board | Quarterly | Varies | Varies | [conference-board.org](https://www.conference-board.org/topics/CEO-Confidence/) |
+| **AAR Rail Traffic (Weekly)** | AAR | Weekly | Wednesdays | ~3 days | [aar.org](https://www.aar.org/data-center/rail-traffic-data/) |
 
 **Release Calendar Strategy:**
 - **Early month:** ISM (1st, 3rd), trade balance (~5th)
