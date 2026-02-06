@@ -984,6 +984,30 @@ Small businesses (< 500 employees) account for ~45% of GDP and ~47% of private e
 
 ---
 
+### CEO Confidence Indices (Non-FRED)
+
+CEO Confidence surveys capture C-suite forward expectations for investment, hiring, and revenue. Unlike PMIs (which survey purchasing managers), these capture board-level strategic intent.
+
+| **Indicator** | **Source** | **Frequency** | **Interpretation** | **Access** |
+|---|---|---|---|---|
+| **Conference Board CEO Confidence** | Conference Board | Quarterly | Large-cap CEO expectations (>50 = optimistic) | [conference-board.org/topics/CEO-Confidence](https://www.conference-board.org/topics/CEO-Confidence/) |
+| **Chief Executive CEO Confidence Index** | Chief Executive Magazine | Monthly | Mid-market CEO expectations | [chiefexecutive.net/ceo-confidence-index](https://chiefexecutive.net/ceo-confidence-index/) |
+
+**NOTE:** Neither CEO Confidence index is available on FRED. Must be sourced directly from the respective publishers.
+
+**Regime Thresholds:**
+
+| **Conference Board CEO Confidence** | **Signal** |
+|---|---|
+| > 60 | Expansion (capex/hiring likely) |
+| 50-60 | Neutral |
+| 40-50 | Pessimistic (investment pullback) |
+| < 40 | Recession-level pessimism (historically only during/near recessions) |
+
+**Cross-Reference:** CEO Confidence tends to track core capital goods orders (ANDENO) directionally. When CEO Confidence drops below 40 while core capex orders are still positive, the survey is leading: CEOs are telegraphing investment cuts before they show up in hard data. When both are negative simultaneously, the capex drought is confirmed and self-reinforcing.
+
+---
+
 ## L. ALTERNATIVE GROWTH MEASURES (Beyond Headline GDP)
 
 ### Final Sales vs. GDP
