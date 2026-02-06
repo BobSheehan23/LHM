@@ -200,9 +200,25 @@ PMIs are **leading indicators** because they survey what managers *plan* to do, 
 
 | **Metric** | **Formula** | **Threshold** | **Signal** |
 |---|---|---|---|
-| **ISM New Orders - Inventory** | New Orders - Inventories | <0 | Demand weaker than supply (bearish) |
+| **ISM New Orders - Inventories Spread** | New Orders - Inventories | <0 | Demand weaker than supply (bearish) |
 | **ISM Mfg-Services Spread** | Mfg PMI - Services PMI | <-10 | Goods weakness spreading |
 | **PMI Momentum (3M Change)** | Current PMI - 3M Ago | <-5 | Rapid deterioration |
+
+**ISM New Orders minus Inventories Spread (Deep Dive):**
+
+This is one of the most powerful derived signals in the growth toolkit. It measures the gap between incoming demand (New Orders) and existing supply (Inventories) within the ISM survey. The spread is computed as a derived series from ISM component data (not available on FRED; ISM data removed from FRED in June 2016).
+
+| **Spread Level** | **Signal** | **Implication** |
+|---|---|---|
+| > +10 | Strong demand, lean inventories | Production ramp likely (IP acceleration) |
+| +5 to +10 | Healthy demand/supply balance | Normal expansion |
+| 0 to +5 | Demand slowing relative to supply | Cautionary |
+| -5 to 0 | Supply exceeding demand | Destocking phase beginning |
+| < -5 | Severe demand shortfall | Inventory liquidation, IP contraction imminent |
+
+**Historical Pattern:** The spread turned negative 3-6 months before every recession since 1990. It's the ISM survey's equivalent of the "canary in the coal mine" because inventories are the last thing managers adjust (they cut orders first, then production, then inventory).
+
+**Cross-Reference:** When ISM New Orders minus Inventories is negative AND the Real Manufacturing & Trade I/S Ratio (INVCMRMTSPL / CMRMTSPL) is rising, the inventory overhang is confirmed by both soft survey data and hard production data. This dual confirmation significantly increases recession probability within 6-9 months.
 
 #### Regime Thresholds: PMIs
 
