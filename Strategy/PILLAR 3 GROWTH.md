@@ -794,22 +794,36 @@ Google Mobility, OpenTable, and TSA data provide real-time activity signals.
 
 ### Freight & Logistics Data (Goods Economy Pulse)
 
-| **Indicator** | **Source** | **Frequency** | **What It Captures** | **Access** |
-|---|---|---|---|---|
-| **Cass Freight Index** | Cass Information Systems | Monthly | Freight shipments and expenditures | [cassinfo.com/freight-audit-payment/cass-transportation-indexes](https://www.cassinfo.com/freight-audit-payment/cass-transportation-indexes) |
-| **ATA Truck Tonnage** | American Trucking Associations | Monthly | Trucking volume | [trucking.org/economics-and-industry-data](https://www.trucking.org/economics-and-industry-data) |
-| **AAR Rail Traffic** | Association of American Railroads | Weekly | Carloads + intermodal | [aar.org/data-center/rail-traffic-data](https://www.aar.org/data-center/rail-traffic-data/) |
-| **Port of LA/Long Beach TEUs** | Port authorities | Monthly | Import/export volume | [portoflosangeles.org/business/statistics](https://www.portoflosangeles.org/business/statistics) |
-| **Drewry Container Index** | Drewry | Weekly | Shipping rates (supply chain stress) | [drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update](https://www.drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update) |
+| **Indicator** | **FRED Code** | **Source** | **Frequency** | **What It Captures** | **Access** |
+|---|---|---|---|---|---|
+| **ATA Truck Tonnage Index** | TRUCKD11 | BTS / ATA | Monthly | Trucking volume (Index 2015=100, SA) | FRED + [trucking.org](https://www.trucking.org/economics-and-industry-data) |
+| **Rail Freight Carloads** | RAILFRTCARLOADSD11 | BTS / AAR | Monthly | Rail carload volume (SA) | FRED |
+| **Rail Freight Intermodal Traffic** | RAILFRTINTERMODALD11 | BTS / AAR | Monthly | Container/trailer rail volume (SA) | FRED |
+| **Transportation Services Index (Freight)** | TSIFRGHT | BTS | Monthly | Composite freight activity index | FRED |
+| **Transportation Services Index (Total)** | TSITTL | BTS | Monthly | Freight + passenger combined | FRED |
+| **Cass Freight Shipments Index** | FRGSHPUSM649NCIS | Cass Information Systems | Monthly | Freight shipments index | FRED + [cassinfo.com](https://www.cassinfo.com/freight-audit-payment/cass-transportation-indexes) |
+| **AAR Rail Traffic (Weekly)** | N/A | AAR | Weekly | Carloads + intermodal (higher frequency) | [aar.org/data-center/rail-traffic-data](https://www.aar.org/data-center/rail-traffic-data/) |
+| **Port of LA/Long Beach TEUs** | N/A | Port authorities | Monthly | Import/export volume | [portoflosangeles.org/business/statistics](https://www.portoflosangeles.org/business/statistics) |
+| **Drewry Container Index** | N/A | Drewry | Weekly | Shipping rates (supply chain stress) | [drewry.co.uk](https://www.drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update) |
 
 **Data Access Notes:**
-- **Cass Freight:** Free monthly reports, highly regarded for trucking/LTL trends.
-- **ATA Truck Tonnage:** Free monthly press release, FRED code: TRUCKD11.
+- **Truck Tonnage (TRUCKD11):** Available on FRED. Index 2015=100, seasonally adjusted. Data from Jan 2000 to present.
+- **Rail Carloads (RAILFRTCARLOADSD11):** Available on FRED. Seasonally adjusted. Data from Jan 2000 to present.
+- **Rail Intermodal (RAILFRTINTERMODALD11):** Available on FRED. Captures container/trailer traffic, which tracks consumer goods and retail supply chains more closely than carloads (which skew toward bulk commodities like coal, grain, chemicals).
+- **Cass Freight (FRGSHPUSM649NCIS):** Available on FRED. Also free monthly reports from Cass, highly regarded for trucking/LTL trends.
 - **AAR Rail:** Free weekly summary, detailed data requires subscription.
 - **Port Data:** Free monthly TEU data from both LA and Long Beach ports.
 - **Drewry:** Headline index free, detailed routes require subscription.
 
-**The Freight Signal:** Freight data leads IP by 1-2 months. When truck tonnage and rail traffic diverge from IP, trust freight (it's harder to manipulate physical shipments).
+**The Freight Signal:** Freight data leads IP by 1-2 months. When truck tonnage and rail traffic diverge from IP, trust freight (it's harder to manipulate physical shipments). Intermodal traffic is particularly useful for tracking consumer goods demand (containers), while carloads track industrial/commodity demand (bulk).
+
+#### Derived Freight Metrics
+
+| **Metric** | **Formula** | **Threshold** | **Signal** |
+|---|---|---|---|
+| **Carload-Intermodal Spread** | Carloads YoY - Intermodal YoY | >+5 ppts | Industrial outperforming consumer (unusual) |
+| **Truck-Rail Divergence** | Truck Tonnage YoY - Rail Carloads YoY | >+5 ppts | Trucking recovering before rail (near-term demand) |
+| **Freight Composite** | Avg(z(TRUCKD11), z(RAILFRTCARLOADSD11), z(FRGSHPUSM649NCIS)) | <-1.0 | Broad goods economy contraction |
 
 **Regime Thresholds:**
 
@@ -818,6 +832,7 @@ Google Mobility, OpenTable, and TSA data provide real-time activity signals.
 | **Cass Shipments YoY** | <-5% | -5% to +3% | >+3% |
 | **Truck Tonnage YoY** | <-3% | -3% to +3% | >+3% |
 | **Rail Carloads YoY** | <-5% | -5% to +2% | >+2% |
+| **Rail Intermodal YoY** | <-5% | -5% to +3% | >+3% |
 
 ---
 

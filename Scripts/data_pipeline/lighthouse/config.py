@@ -469,6 +469,23 @@ FRED_CURATED = {
     # Business Surveys
     "BSCICP02USM460S": "Business Confidence Indicator",
     "BSCICP03USM665S": "Consumer Confidence Indicator OECD",
+
+    # ===== PILLAR 3 (GROWTH) ADDITIONS - Feb 2026 =====
+
+    # Real Manufacturing & Trade (for derived Inventories/Sales Ratio)
+    "INVCMRMTSPL": "Real Manufacturing and Trade Inventories",
+    "CMRMTSPL": "Real Manufacturing and Trade Industries Sales",
+    # NOTE: Real Mfg & Trade I/S Ratio = INVCMRMTSPL / CMRMTSPL (derived)
+
+    # Freight & Logistics
+    "TRUCKD11": "Truck Tonnage Index",
+    "RAILFRTINTERMODALD11": "Rail Freight Intermodal Traffic",
+    # NOTE: RAILFRTCARLOADSD11 already in Freight section above
+
+    # CEO Confidence - NOTE: Not available on FRED
+    # Conference Board CEO Confidence: conference-board.org/topics/CEO-Confidence
+    # Chief Executive CEO Confidence Index: chiefexecutive.net/ceo-confidence-index
+    # Must be sourced directly from those sites
 }
 
 # ==========================================
