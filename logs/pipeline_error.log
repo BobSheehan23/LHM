@@ -4351,3 +4351,99 @@ Crypto total: 431 series, 29,440 observations
 2026-02-08 16:10:19 [INFO]    AVAX: 93 observations
 2026-02-08 16:10:21 [INFO]    NEAR: 93 observations
 2026-02-08 16:10:23 [WARNING] Rate limited, waiting 60s...
+2026-02-08 16:11:25 [INFO]    APT: 93 observations
+2026-02-08 16:11:26 [INFO]    ARB: 93 observations
+2026-02-08 16:11:28 [INFO]    OP: 93 observations
+2026-02-08 16:11:30 [INFO]    MATIC: 3 observations
+2026-02-08 16:11:32 [WARNING] Rate limited, waiting 60s...
+2026-02-08 16:12:35 [INFO]    CRV: 93 observations
+2026-02-08 16:12:35 [INFO]    AAVE: 93 observations
+2026-02-08 16:12:37 [INFO]    GMX: 93 observations
+2026-02-08 16:12:39 [INFO]    LDO: 93 observations
+2026-02-08 16:12:41 [INFO]    RPL: 93 observations
+2026-02-08 16:12:43 [WARNING] Rate limited, waiting 60s...
+2026-02-08 16:13:47 [INFO]    GRT: 93 observations
+2026-02-08 16:13:47 [INFO]    MKR: 93 observations
+2026-02-08 16:13:49 [INFO] Fetching global crypto metrics...
+2026-02-08 16:13:49 [INFO]    Global metrics: 5 series
+2026-02-08 16:13:49 [INFO] 
+Crypto total: 435 series, 29,570 observations
+2026-02-08 16:13:55 [INFO] Found 503 S&P 500 constituents
+2026-02-08 16:13:56 [INFO] Fetching prices for 503 tickers...
+2026-02-08 16:13:56 [INFO]    Batch 1/11: 50 tickers
+2026-02-08 16:14:04 [INFO]    Batch 2/11: 50 tickers
+2026-02-08 16:14:06 [INFO]    Batch 3/11: 50 tickers
+2026-02-08 16:14:08 [INFO]    Batch 4/11: 50 tickers
+2026-02-08 16:14:09 [ERROR] 
+40 Failed downloads:
+2026-02-08 16:14:09 [ERROR] ['EPAM', 'DUK', 'ETN', 'EVRG', 'ELV', 'D', 'EXR', 'FSLR', 'ERIE', 'EBAY', 'ES', 'ECL', 'FIS', 'EXPE', 'FITB', 'EQR', 'EL', 'EXE', 'EXPD', 'EXC', 'EQT', 'EA', 'ESS', 'FRT']: TypeError("'NoneType' object is not subscriptable")
+2026-02-08 16:14:09 [ERROR] ['DG', 'FDX', 'EIX', 'DD', 'DTE', 'EG', 'FE', 'FDS', 'EMR', 'EFX', 'FAST', 'EME', 'FICO', 'ETR', 'XOM', 'DOV']: OperationalError('unable to open database file')
+2026-02-08 16:14:10 [INFO]    Batch 5/11: 50 tickers
+2026-02-08 16:14:11 [ERROR] 
+47 Failed downloads:
+2026-02-08 16:14:11 [ERROR] ['HUBB', 'GRMN', 'FTV', 'GL', 'F', 'GNRC', 'INCY', 'HBAN', 'GEHC', 'IR', 'HPQ', 'HII', 'HSY', 'HAL', 'GD', 'BEN', 'HOLX', 'HIG', 'HLT', 'GM', 'GPN', 'FISV', 'IDXX', 'HON', 'GS', 'ITW', 'HD', 'FTNT']: OperationalError('unable to open database file')
+2026-02-08 16:14:11 [ERROR] ['HCA', 'GPC', 'GE', 'GEN', 'HST', 'FCX', 'DOC', 'GDDY', 'HAS', 'HSIC', 'FOXA', 'HRL', 'GILD', 'FOX', 'IEX', 'HUM', 'HWM', 'HPE', 'GIS']: TypeError("'NoneType' object is not subscriptable")
+2026-02-08 16:14:12 [INFO]    Batch 6/11: 50 tickers
+2026-02-08 16:14:13 [ERROR] 
+50 Failed downloads:
+2026-02-08 16:14:13 [ERROR] ['ICE', 'KLAC', 'LLY', 'LYV', 'LEN', 'KMB', 'IFF', 'JPM', 'KDP', 'KIM', 'KEY', 'KEYS', 'LRCX', 'KVUE', 'LII']: TypeError("'NoneType' object is not subscriptable")
+2026-02-08 16:14:13 [ERROR] ['KR', 'LYB', 'IRM', 'INTU', 'KHC', 'LW', 'JBHT', 'IQV', 'LOW', 'LMT', 'MRSH', 'MPC', 'JCI', 'LH', 'IBKR', 'LIN', 'KMI', 'LVS', 'L', 'IP', 'KKR', 'LHX', 'J', 'MTB', 'LULU', 'MAR', 'ISRG', 'JNJ', 'INTC', 'IVZ', 'INVH', 'PODD', 'JBL', 'JKHY', 'LDOS']: OperationalError('unable to open database file')
+2026-02-08 16:14:14 [INFO]    Batch 7/11: 50 tickers
+2026-02-08 16:14:15 [ERROR] 
+50 Failed downloads:
+2026-02-08 16:14:15 [ERROR] ['NWS', 'ORLY', 'MSFT', 'MCK', 'NSC', 'MDLZ', 'MCD', 'NKE', 'NEE', 'NVR', 'MTD', 'MGM', 'MU', 'MSI', 'NOC', 'NWSA', 'MS', 'NVDA', 'MET', 'NFLX', 'MA', 'MOS', 'OXY', 'MLM', 'TAP', 'NRG', 'MCHP', 'MSCI', 'NTRS', 'NDAQ', 'MNST', 'NDSN', 'MPWR', 'MDT', 'NUE', 'MRNA']: OperationalError('unable to open database file')
+2026-02-08 16:14:15 [ERROR] ['META', 'NI', 'MAS', 'MOH', 'NEM', 'MCO', 'MAA', 'MTCH', 'NCLH', 'NXPI', 'NTAP', 'MKC', 'ODFL', 'MRK']: TypeError("'NoneType' object is not subscriptable")
+2026-02-08 16:14:16 [INFO]    Batch 8/11: 50 tickers
+2026-02-08 16:14:16 [ERROR] 
+50 Failed downloads:
+2026-02-08 16:14:16 [ERROR] ['PCAR', 'RJF', 'PNR', 'PGR', 'OTIS', 'PSA', 'ON', 'PSKY', 'ROK', 'PWR', 'RL', 'PNW', 'PPG', 'PTC', 'PFE', 'PNC', 'RSG', 'QCOM', 'PEP', 'PRU', 'PSX', 'PH', 'PFG', 'PEG', 'PPL', 'REG', 'PLD', 'REGN', 'PKG', 'POOL', 'PG', 'PAYX', 'PLTR', 'ORCL', 'PAYC', 'RVTY', 'HOOD', 'PHM', 'O', 'PM', 'PYPL', 'DGX', 'OMC', 'Q', 'OKE', 'RF', 'PANW']: OperationalError('unable to open database file')
+2026-02-08 16:14:16 [ERROR] ['RMD', 'PCG', 'RTX']: TypeError("'NoneType' object is not subscriptable")
+2026-02-08 16:14:17 [INFO]    Batch 9/11: 50 tickers
+2026-02-08 16:14:18 [ERROR] 
+50 Failed downloads:
+2026-02-08 16:14:18 [ERROR] ['TSCO', 'TGT', 'LUV', 'TMUS', 'TROW', 'TPR', 'SNA', 'ROST', 'TPL', 'SPGI', 'SHW', 'SWKS', 'SW', 'TEL', 'SYF', 'TTD', 'ROP', 'STE', 'SYK', 'RCL', 'CRM', 'TTWO', 'STT', 'SMCI', 'TXN', 'SJM', 'TXT', 'SWK', 'TMO', 'SPG', 'SNPS', 'SO', 'TT', 'SOLV', 'SRE', 'STLD', 'TJX', 'SBUX', 'SYY', 'TDY', 'TKO', 'ROL', 'TRGP', 'STX', 'SNDK']: OperationalError('unable to open database file')
+2026-02-08 16:14:18 [ERROR] ['NOW', 'SBAC', 'TSLA', 'SLB', 'TER']: TypeError("'NoneType' object is not subscriptable")
+2026-02-08 16:14:19 [INFO]    Batch 10/11: 50 tickers
+2026-02-08 16:14:25 [ERROR] 
+50 Failed downloads:
+2026-02-08 16:14:25 [ERROR] ['VLO', 'TFC', 'WMB', 'VRTX', 'UBER', 'WYNN', 'XYL', 'WFC', 'USB', 'URI', 'TDG', 'WAT', 'VICI', 'UHS', 'WAB', 'UDR', 'DIS', 'VLTO', 'XEL', 'WTW', 'WRB', 'WSM', 'TRMB', 'VRSK', 'ULTA', 'VTRS', 'WM', 'GWW', 'VTR', 'VMC', 'TRV', 'UPS', 'UNH', 'VRSN', 'UAL', 'V', 'WMT', 'WST', 'WEC', 'WDC', 'VZ', 'WBD', 'YUM', 'TYL', 'WY', 'VST', 'WDAY', 'TSN']: OperationalError('unable to open database file')
+2026-02-08 16:14:25 [ERROR] ['WELL', 'UNP']: TypeError("'NoneType' object is not subscriptable")
+2026-02-08 16:14:26 [INFO]    Batch 11/11: 3 tickers
+2026-02-08 16:14:26 [ERROR] 
+3 Failed downloads:
+2026-02-08 16:14:26 [ERROR] ['ZBRA', 'ZBH', 'ZTS']: OperationalError('unable to open database file')
+2026-02-08 16:14:27 [INFO]    Got prices for 163 stocks, 751 days
+2026-02-08 16:14:27 [INFO] Computing % above MAs...
+2026-02-08 16:14:27 [INFO] Computing A/D line...
+2026-02-08 16:14:27 [INFO] Computing NH-NL...
+2026-02-08 16:14:27 [INFO] Computing McClellan...
+2026-02-08 16:14:27 [INFO] Computing breadth thrust...
+2026-02-08 16:14:27 [INFO] Storing metrics in database...
+2026-02-08 16:14:28 [ERROR] BREADTH failed: unable to open database file
+2026-02-08 16:14:29 [INFO] Running quality checks on 1821 series...
+2026-02-08 16:15:04 [INFO]    Checked 100 series...
+2026-02-08 16:15:15 [INFO]    Checked 200 series...
+2026-02-08 16:15:57 [INFO]    Checked 300 series...
+2026-02-08 16:16:14 [INFO]    Checked 400 series...
+2026-02-08 16:16:39 [INFO]    Checked 500 series...
+2026-02-08 16:17:12 [INFO]    Checked 600 series...
+2026-02-08 16:18:46 [INFO]    Checked 700 series...
+2026-02-08 16:19:15 [INFO]    Checked 800 series...
+2026-02-08 16:20:01 [INFO]    Checked 900 series...
+2026-02-08 16:20:34 [INFO]    Checked 1000 series...
+2026-02-08 16:20:47 [INFO]    Checked 1100 series...
+2026-02-08 16:20:55 [INFO]    Checked 1200 series...
+2026-02-08 16:21:04 [INFO]    Checked 1300 series...
+2026-02-08 16:22:01 [INFO]    Checked 1400 series...
+2026-02-08 16:22:01 [INFO]    Checked 1500 series...
+2026-02-08 16:22:02 [INFO]    Checked 1600 series...
+2026-02-08 16:22:02 [INFO]    Checked 1700 series...
+2026-02-08 16:22:02 [INFO]    Checked 1800 series...
+2026-02-08 16:22:03 [INFO] 
+--- Quality Summary ---
+2026-02-08 16:22:03 [INFO]    stale: 854
+2026-02-08 16:22:03 [INFO]    good: 561
+2026-02-08 16:22:03 [INFO]    insufficient: 391
+2026-02-08 16:22:03 [INFO]    suspect: 13
+2026-02-08 16:22:03 [INFO]    warning: 2
+2026-02-08 16:22:06 [INFO] Quality flags updated in database.
