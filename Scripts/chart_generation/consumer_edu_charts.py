@@ -357,11 +357,63 @@ def save_fig(fig, filename):
 
 
 # ============================================
-# CHART 1: Real PCE Components (Goods vs Services vs Durables)
+# CHART 1: Real DPI vs Real PCE (Income-Spending Gap) [Article Figure 1]
 # ============================================
 def chart_01():
+    """Real DPI YoY vs Real PCE YoY: the income-spending gap."""
+    print('\nChart 1: Real DPI vs Real PCE (Income vs Spending)...')
+
+    dpi = fetch_fred_yoy('DSPIC96')
+    pce = fetch_fred_yoy('PCEC96')
+
+    # Trim to 2008+ to align with when Real PCE data is meaningful
+    dpi = dpi.loc['2008-01-01':]
+    pce = pce.loc['2008-01-01':]
+
+    fig, ax = new_fig()
+
+    ax.plot(dpi.index, dpi, color=THEME['primary'], linewidth=2.5,
+            label=f'Real DPI YoY ({dpi.iloc[-1]:.1f}%)')
+    ax.plot(pce.index, pce, color=THEME['secondary'], linewidth=2.5,
+            label=f'Real PCE YoY ({pce.iloc[-1]:.1f}%)')
+
+    # Shade the gap when spending exceeds income (unsustainable)
+    common = pd.DataFrame({'dpi': dpi, 'pce': pce}).dropna()
+    ax.fill_between(common.index, common['dpi'], common['pce'],
+                    where=(common['pce'] > common['dpi']),
+                    color=COLORS['dusk'], alpha=0.15, label='Spending > Income (unsustainable)')
+
+    ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    style_single_ax(ax)
+    set_xlim_to_data(ax, dpi.index)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax, dpi, color=THEME['primary'], side='right')
+    add_last_value_label(ax, pce, color=THEME['secondary'], side='right')
+    add_recessions(ax)
+    ax.legend(loc='upper left', **legend_style())
+
+    dpi_last = dpi.iloc[-1]
+    pce_last = pce.iloc[-1]
+    gap = dpi_last - pce_last
+    add_annotation_box(ax,
+        f"Income-Spending Gap: {gap:+.1f}pp.\nWhen spending exceeds income, credit fills the gap.",
+        x=0.52, y=0.92)
+
+    brand_fig(fig, 'Real Disposable Income vs Real Consumer Spending',
+              subtitle='Income vs Credit: Which is driving spending?',
+              source='BEA via FRED')
+
+    return save_fig(fig, 'chart_01_income_vs_spending.png')
+
+
+# ============================================
+# CHART 2: Real PCE Components (Goods vs Services vs Durables) [Article Figure 2]
+# ============================================
+def chart_02():
     """Real PCE Components: Durables, Nondurables, Services YoY."""
-    print('\nChart 1: Real PCE Components...')
+    print('\nChart 2: Real PCE Components...')
 
     # Real PCE total (monthly)
     pce_total = fetch_fred_yoy('PCEC96')
@@ -369,6 +421,10 @@ def chart_01():
     durables = fetch_quarterly_yoy('PCDGCC96')
     nondurables = fetch_quarterly_yoy('PCNDGC96')
     services = fetch_quarterly_yoy('PCESVC96')
+
+    # Start x-axis when quarterly series begin so all lines start together
+    quarterly_start = max(durables.index.min(), nondurables.index.min(), services.index.min())
+    pce_total = pce_total.loc[quarterly_start:]
 
     fig, ax = new_fig()
 
@@ -395,21 +451,69 @@ def chart_01():
     svc_last = services.iloc[-1]
     add_annotation_box(ax,
         f"Durables at {dur_last:.1f}% YoY, Services at {svc_last:.1f}%.\nDurables turn first at cycle inflections.",
-        x=0.55, y=0.12)
+        x=0.52, y=0.92)
 
     brand_fig(fig, 'Personal Consumption Expenditures: Component Breakdown',
               subtitle='Durables lead the cycle, Services lag',
               source='BEA via FRED')
 
-    return save_fig(fig, 'chart_01_pce_components.png')
+    return save_fig(fig, 'chart_02_pce_components.png')
 
 
 # ============================================
-# CHART 2: Personal Saving Rate
+# CHART 3: Durables Leading Services (Cyclical Canary) [Article Figure 3]
 # ============================================
-def chart_02():
+def chart_03():
+    """Durables vs Services PCE YoY: durables lead at cycle turns."""
+    print('\nChart 3: Durables Leading Services...')
+
+    durables = fetch_quarterly_yoy('PCDGCC96')
+    services = fetch_quarterly_yoy('PCESVC96')
+
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_primary, c_secondary = THEME['primary'], THEME['secondary']
+
+    # Services on LHS, Durables on RHS (durables more volatile)
+    ax1.plot(services.index, services, color=c_secondary, linewidth=2.5,
+             label=f'Services YoY ({services.iloc[-1]:.1f}%)')
+    ax2.plot(durables.index, durables, color=c_primary, linewidth=2.5,
+             label=f'Durables YoY ({durables.iloc[-1]:.1f}%)')
+
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    style_dual_ax(ax1, ax2, c_secondary, c_primary)
+    set_xlim_to_data(ax1, durables.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax1, services, color=c_secondary, side='left')
+    add_last_value_label(ax2, durables, color=c_primary, side='right')
+
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
+
+    dur_last = durables.iloc[-1]
+    svc_last = services.iloc[-1]
+    add_annotation_box(ax1,
+        f"Durables ({dur_last:.1f}%) turn before Services ({svc_last:.1f}%).\nThe cyclical canary in the consumer coal mine.",
+        x=0.55, y=0.12)
+
+    brand_fig(fig, 'Durable Goods vs Services Spending',
+              subtitle='Durables turn first at cycle inflections',
+              source='BEA via FRED')
+
+    return save_fig(fig, 'chart_03_durables_vs_services.png')
+
+
+# ============================================
+# CHART 4: Personal Saving Rate [Article Figure 4]
+# ============================================
+def chart_04():
     """Personal Saving Rate with threshold bands."""
-    print('\nChart 2: Personal Saving Rate...')
+    print('\nChart 4: Personal Saving Rate...')
 
     saving = fetch_fred_level('PSAVERT', start='2000-01-01')
 
@@ -457,15 +561,54 @@ def chart_02():
               subtitle='The fuel tank is running low',
               source='BEA via FRED')
 
-    return save_fig(fig, 'chart_02_saving_rate.png')
+    return save_fig(fig, 'chart_04_saving_rate.png')
 
 
 # ============================================
-# CHART 3: Credit Card Delinquencies
+# CHART 5: Consumer Credit Growth (Revolving vs Nonrevolving) [Article Figure 5]
 # ============================================
-def chart_03():
+def chart_05():
+    """Consumer Credit Growth: Revolving vs Nonrevolving YoY."""
+    print('\nChart 5: Consumer Credit Growth...')
+
+    revolving = fetch_fred_yoy('REVOLSL')
+    nonrevolving = fetch_fred_yoy('NONREVSL')
+
+    fig, ax = new_fig()
+
+    ax.plot(revolving.index, revolving, color=THEME['secondary'], linewidth=2.5,
+            label=f'Revolving (Credit Cards) ({revolving.iloc[-1]:.1f}%)')
+    ax.plot(nonrevolving.index, nonrevolving, color=THEME['primary'], linewidth=2.0,
+            label=f'Nonrevolving (Auto, Student) ({nonrevolving.iloc[-1]:.1f}%)')
+
+    ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+
+    style_single_ax(ax)
+    set_xlim_to_data(ax, revolving.index)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax, revolving, color=THEME['secondary'], side='right')
+    add_recessions(ax)
+    ax.legend(loc='upper left', **legend_style())
+
+    rev_last = revolving.iloc[-1]
+    add_annotation_box(ax,
+        f"Revolving credit growing {rev_last:.1f}% YoY.\nCredit substituting for depleted savings.",
+        x=0.52, y=0.98)
+
+    brand_fig(fig, 'Consumer Credit Growth: Revolving vs Nonrevolving',
+              subtitle='Credit cards fill the gap when savings run dry',
+              source='Federal Reserve G.19 via FRED')
+
+    return save_fig(fig, 'chart_05_consumer_credit.png')
+
+
+# ============================================
+# CHART 6: Credit Card Delinquencies [Article Figure 6]
+# ============================================
+def chart_06():
     """Credit Card Delinquency Rate with threshold bands."""
-    print('\nChart 3: Credit Card Delinquencies...')
+    print('\nChart 6: Credit Card Delinquencies...')
 
     # DRCCLACBS is quarterly
     dq = fetch_fred_level('DRCCLACBS', start='2000-01-01')
@@ -504,60 +647,21 @@ def chart_03():
     dq_last = dq.iloc[-1]
     add_annotation_box(ax,
         f"CC delinquency at {dq_last:.1f}%.\nHighest since 2012. Stage 2 credit stress.",
-        x=0.35, y=0.92)
+        x=0.62, y=0.92)
 
     brand_fig(fig, 'Credit Card Delinquency Rate',
               subtitle='When savings run out, credit stress builds',
               source='Federal Reserve via FRED')
 
-    return save_fig(fig, 'chart_03_cc_delinquency.png')
+    return save_fig(fig, 'chart_06_cc_delinquency.png')
 
 
 # ============================================
-# CHART 4: Consumer Credit Growth (Revolving vs Nonrevolving)
+# CHART 7: UMich Consumer Sentiment [Article Figure 7]
 # ============================================
-def chart_04():
-    """Consumer Credit Growth: Revolving vs Nonrevolving YoY."""
-    print('\nChart 4: Consumer Credit Growth...')
-
-    revolving = fetch_fred_yoy('REVOLSL')
-    nonrevolving = fetch_fred_yoy('NONREVSL')
-
-    fig, ax = new_fig()
-
-    ax.plot(revolving.index, revolving, color=THEME['secondary'], linewidth=2.5,
-            label=f'Revolving (Credit Cards) ({revolving.iloc[-1]:.1f}%)')
-    ax.plot(nonrevolving.index, nonrevolving, color=THEME['primary'], linewidth=2.0,
-            label=f'Nonrevolving (Auto, Student) ({nonrevolving.iloc[-1]:.1f}%)')
-
-    ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
-
-    style_single_ax(ax)
-    set_xlim_to_data(ax, revolving.index)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-
-    add_last_value_label(ax, revolving, color=THEME['secondary'], side='right')
-    add_recessions(ax)
-    ax.legend(loc='upper left', **legend_style())
-
-    rev_last = revolving.iloc[-1]
-    add_annotation_box(ax,
-        f"Revolving credit growing {rev_last:.1f}% YoY.\nCredit substituting for depleted savings.",
-        x=0.35, y=0.92)
-
-    brand_fig(fig, 'Consumer Credit Growth: Revolving vs Nonrevolving',
-              subtitle='Credit cards fill the gap when savings run dry',
-              source='Federal Reserve G.19 via FRED')
-
-    return save_fig(fig, 'chart_04_consumer_credit.png')
-
-
-# ============================================
-# CHART 5: UMich Consumer Sentiment
-# ============================================
-def chart_05():
+def chart_07():
     """UMich Consumer Sentiment with threshold bands."""
-    print('\nChart 5: UMich Consumer Sentiment...')
+    print('\nChart 7: UMich Consumer Sentiment...')
 
     umich = fetch_fred_level('UMCSENT', start='2000-01-01')
 
@@ -596,68 +700,21 @@ def chart_05():
     u_last = umich.iloc[-1]
     add_annotation_box(ax,
         f"Sentiment at {u_last:.0f}.\nSustained readings below 65 historically\nprecede or coincide with recessions.",
-        x=0.55, y=0.12)
+        x=0.55, y=0.98)
 
     brand_fig(fig, 'University of Michigan Consumer Sentiment',
               subtitle='Confidence leads spending by 1-3 months',
               source='UMich via FRED')
 
-    return save_fig(fig, 'chart_05_umich_sentiment.png')
+    return save_fig(fig, 'chart_07_umich_sentiment.png')
 
 
 # ============================================
-# CHART 6: Real DPI vs Real PCE (Income-Spending Gap)
+# CHART 8: Aggregate Weekly Payrolls (Emp x Hours x Wages) YoY [Article Figure 8]
 # ============================================
-def chart_06():
-    """Real DPI YoY vs Real PCE YoY: the income-spending gap."""
-    print('\nChart 6: Real DPI vs Real PCE (Income vs Spending)...')
-
-    dpi = fetch_fred_yoy('DSPIC96')
-    pce = fetch_fred_yoy('PCEC96')
-
-    fig, ax = new_fig()
-
-    ax.plot(dpi.index, dpi, color=THEME['primary'], linewidth=2.5,
-            label=f'Real DPI YoY ({dpi.iloc[-1]:.1f}%)')
-    ax.plot(pce.index, pce, color=THEME['secondary'], linewidth=2.5,
-            label=f'Real PCE YoY ({pce.iloc[-1]:.1f}%)')
-
-    # Shade the gap when spending exceeds income (unsustainable)
-    common = pd.DataFrame({'dpi': dpi, 'pce': pce}).dropna()
-    ax.fill_between(common.index, common['dpi'], common['pce'],
-                    where=(common['pce'] > common['dpi']),
-                    color=COLORS['dusk'], alpha=0.15, label='Spending > Income (unsustainable)')
-
-    ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
-
-    style_single_ax(ax)
-    set_xlim_to_data(ax, dpi.index)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-
-    add_last_value_label(ax, dpi, color=THEME['primary'], side='right')
-    add_recessions(ax)
-    ax.legend(loc='upper left', **legend_style())
-
-    dpi_last = dpi.iloc[-1]
-    pce_last = pce.iloc[-1]
-    gap = dpi_last - pce_last
-    add_annotation_box(ax,
-        f"Income-Spending Gap: {gap:+.1f}pp.\nWhen spending exceeds income, credit fills the gap.",
-        x=0.35, y=0.92)
-
-    brand_fig(fig, 'Real Disposable Income vs Real Consumer Spending',
-              subtitle='Income vs Credit: Which is driving spending?',
-              source='BEA via FRED')
-
-    return save_fig(fig, 'chart_06_income_vs_spending.png')
-
-
-# ============================================
-# CHART 7: Aggregate Weekly Payrolls (Emp x Hours x Wages) YoY
-# ============================================
-def chart_07():
+def chart_08():
     """Aggregate Weekly Payrolls: Emp x Hours x AHE, YoY."""
-    print('\nChart 7: Aggregate Payrolls...')
+    print('\nChart 8: Aggregate Payrolls...')
 
     emp = fetch_fred('USPRIV', start='1999-01-01')
     hours = fetch_fred('AWHAETP', start='1999-01-01')
@@ -688,7 +745,7 @@ def chart_07():
 
     ax.plot(common.index, common['nominal'], color=THEME['primary'], linewidth=2.5,
             label=f'Nominal Payrolls YoY ({common["nominal"].iloc[-1]:.1f}%)')
-    ax.plot(common.index, common['real'], color=THEME['tertiary'], linewidth=2.0,
+    ax.plot(common.index, common['real'], color=THEME['secondary'], linewidth=2.0,
             label=f'Real Payrolls YoY ({common["real"].iloc[-1]:.1f}%)', alpha=0.9)
 
     ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
@@ -708,21 +765,21 @@ def chart_07():
     real_last = common['real'].iloc[-1]
     add_annotation_box(ax,
         f"Aggregate payrolls: {nom_last:.1f}% nominal, {real_last:.1f}% real.\nEmployment x Hours x Wages = total income.",
-        x=0.55, y=0.12)
+        x=0.55, y=0.98)
 
     brand_fig(fig, 'Aggregate Weekly Payrolls (Employment x Hours x Wages)',
               subtitle='The paycheck reality behind consumer spending',
               source='BLS via FRED')
 
-    return save_fig(fig, 'chart_07_aggregate_payrolls.png')
+    return save_fig(fig, 'chart_08_aggregate_payrolls.png')
 
 
 # ============================================
-# CHART 8: Household Debt Service Ratio
+# CHART 9: Household Debt Service Ratio [Article Figure 9]
 # ============================================
-def chart_08():
+def chart_09():
     """Household Debt Service Ratio with threshold bands."""
-    print('\nChart 8: Debt Service Ratio...')
+    print('\nChart 9: Debt Service Ratio...')
 
     # TDSP is quarterly
     dsr = fetch_fred_level('TDSP', start='2000-01-01')
@@ -759,63 +816,69 @@ def chart_08():
               subtitle='Payment burden as share of disposable income',
               source='Federal Reserve via FRED')
 
-    return save_fig(fig, 'chart_08_debt_service_ratio.png')
+    return save_fig(fig, 'chart_09_debt_service_ratio.png')
 
 
 # ============================================
-# CHART 9: Durables Leading Services (Cyclical Canary)
-# ============================================
-def chart_09():
-    """Durables vs Services PCE YoY: durables lead at cycle turns."""
-    print('\nChart 9: Durables Leading Services...')
-
-    durables = fetch_quarterly_yoy('PCDGCC96')
-    services = fetch_quarterly_yoy('PCESVC96')
-
-    fig, ax1 = new_fig()
-    ax2 = ax1.twinx()
-    c_primary, c_secondary = THEME['primary'], THEME['secondary']
-
-    # Services on LHS, Durables on RHS (durables more volatile)
-    ax1.plot(services.index, services, color=c_secondary, linewidth=2.5,
-             label=f'Services YoY ({services.iloc[-1]:.1f}%)')
-    ax2.plot(durables.index, durables, color=c_primary, linewidth=2.5,
-             label=f'Durables YoY ({durables.iloc[-1]:.1f}%)')
-
-    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
-
-    style_dual_ax(ax1, ax2, c_secondary, c_primary)
-    set_xlim_to_data(ax1, durables.index)
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-
-    add_last_value_label(ax1, services, color=c_secondary, side='left')
-    add_last_value_label(ax2, durables, color=c_primary, side='right')
-
-    add_recessions(ax1)
-
-    lines1, labels1 = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
-
-    dur_last = durables.iloc[-1]
-    svc_last = services.iloc[-1]
-    add_annotation_box(ax1,
-        f"Durables ({dur_last:.1f}%) turn before Services ({svc_last:.1f}%).\nThe cyclical canary in the consumer coal mine.",
-        x=0.55, y=0.12)
-
-    brand_fig(fig, 'Durable Goods vs Services Spending',
-              subtitle='Durables turn first at cycle inflections',
-              source='BEA via FRED')
-
-    return save_fig(fig, 'chart_09_durables_vs_services.png')
-
-
-# ============================================
-# CHART 10: Consumer Composite Index (CCI)
+# CHART 10: Household Net Worth / DPI Ratio [Article Figure 10]
 # ============================================
 def chart_10():
+    """Household Net Worth to Disposable Income ratio."""
+    print('\nChart 10: Household Net Worth / DPI...')
+
+    # Both quarterly
+    nw = fetch_fred('BOGZ1FL192090005Q', start='2000-01-01')
+    dpi_q = fetch_fred('DPI', start='2000-01-01')
+
+    # Align quarterly data
+    nw_q = nw['value'].resample('QS').last().dropna()
+    dpi_q_resampled = dpi_q['value'].resample('QS').last().dropna()
+
+    # BOGZ1FL192090005Q is in millions, DPI is in billions (SAAR)
+    # Convert NW from millions to billions, then ratio = NW / DPI
+    # Result is a multiple (e.g., 7.5x meaning net worth = 7.5x annual income)
+    common = pd.DataFrame({'nw': nw_q / 1000, 'dpi': dpi_q_resampled}).dropna()
+    common['ratio'] = (common['nw'] / common['dpi'])
+
+    fig, ax = new_fig()
+    c1 = THEME['primary']
+
+    ax.plot(common.index, common['ratio'], color=c1, linewidth=2.5, marker='o', markersize=2,
+            label=f'Net Worth / DPI ({common["ratio"].iloc[-1]:.1f}x)')
+
+    # Historical average
+    avg = common['ratio'].mean()
+    ax.axhline(avg, color=THEME['muted'], linewidth=1.0, linestyle='--', alpha=0.5)
+    ax.text(common.index[2], avg + 0.05, f'Average ({avg:.1f}x)',
+            fontsize=8, color=THEME['muted'], va='bottom', alpha=0.6)
+
+    style_single_ax(ax)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}x'))
+    set_xlim_to_data(ax, common.index)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax, common['ratio'], color=c1, fmt='{:.1f}x', side='right')
+    add_recessions(ax)
+    ax.legend(loc='upper left', **legend_style())
+
+    ratio_last = common['ratio'].iloc[-1]
+    add_annotation_box(ax,
+        f"NW/DPI at {ratio_last:.1f}x.\nAggregate looks strong, but top 10% hold 67%\nof wealth. Bottom 50% have negative net worth.",
+        x=0.52, y=0.98)
+
+    brand_fig(fig, 'Household Net Worth to Disposable Income',
+              subtitle='Aggregate wealth masks distributional reality',
+              source='Federal Reserve Z.1 via FRED')
+
+    return save_fig(fig, 'chart_10_net_worth_dpi.png')
+
+
+# ============================================
+# CHART 11: Consumer Composite Index (CCI) [Article Figure 11]
+# ============================================
+def chart_11():
     """Consumer Composite Index with regime bands."""
-    print('\nChart 10: Consumer Composite Index (CCI)...')
+    print('\nChart 11: Consumer Composite Index (CCI)...')
 
     # Fetch components
     pce = fetch_fred_yoy('PCEC96')                          # Real PCE YoY
@@ -903,61 +966,7 @@ def chart_10():
               subtitle='Synthesizing consumer health into one regime indicator',
               source='FRED, BEA, Federal Reserve, UMich')
 
-    return save_fig(fig, 'chart_10_cci_composite.png')
-
-
-# ============================================
-# CHART 11: Household Net Worth / DPI Ratio
-# ============================================
-def chart_11():
-    """Household Net Worth to Disposable Income ratio."""
-    print('\nChart 11: Household Net Worth / DPI...')
-
-    # Both quarterly
-    nw = fetch_fred('BOGZ1FL192090005Q', start='2000-01-01')
-    dpi_q = fetch_fred('DPI', start='2000-01-01')
-
-    # Align quarterly data
-    nw_q = nw['value'].resample('QS').last().dropna()
-    dpi_q_resampled = dpi_q['value'].resample('QS').last().dropna()
-
-    # BOGZ1FL192090005Q is in millions, DPI is in billions (SAAR)
-    # Convert NW from millions to billions, then ratio = NW / DPI
-    # Result is a multiple (e.g., 7.5x meaning net worth = 7.5x annual income)
-    common = pd.DataFrame({'nw': nw_q / 1000, 'dpi': dpi_q_resampled}).dropna()
-    common['ratio'] = (common['nw'] / common['dpi'])
-
-    fig, ax = new_fig()
-    c1 = THEME['primary']
-
-    ax.plot(common.index, common['ratio'], color=c1, linewidth=2.5, marker='o', markersize=2,
-            label=f'Net Worth / DPI ({common["ratio"].iloc[-1]:.1f}x)')
-
-    # Historical average
-    avg = common['ratio'].mean()
-    ax.axhline(avg, color=THEME['muted'], linewidth=1.0, linestyle='--', alpha=0.5)
-    ax.text(common.index[2], avg + 0.05, f'Average ({avg:.1f}x)',
-            fontsize=8, color=THEME['muted'], va='bottom', alpha=0.6)
-
-    style_single_ax(ax)
-    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.1f}x'))
-    set_xlim_to_data(ax, common.index)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-
-    add_last_value_label(ax, common['ratio'], color=c1, fmt='{:.1f}x', side='right')
-    add_recessions(ax)
-    ax.legend(loc='upper left', **legend_style())
-
-    ratio_last = common['ratio'].iloc[-1]
-    add_annotation_box(ax,
-        f"NW/DPI at {ratio_last:.1f}x.\nAggregate looks strong, but top 10% hold 67%\nof wealth. Bottom 50% have negative net worth.",
-        x=0.35, y=0.12)
-
-    brand_fig(fig, 'Household Net Worth to Disposable Income',
-              subtitle='Aggregate wealth masks distributional reality',
-              source='Federal Reserve Z.1 via FRED')
-
-    return save_fig(fig, 'chart_11_net_worth_dpi.png')
+    return save_fig(fig, 'chart_11_cci_composite.png')
 
 
 # ============================================
