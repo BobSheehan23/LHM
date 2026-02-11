@@ -429,7 +429,7 @@ Hiring Freeze → Layoffs → Income ↓ → Spending ↓ (Reinforcing)
 
 **Current Linkage:** Real PCE at +2.1% YoY (decelerating). Corporate profit growth slowing. S&P 500 earnings revisions turning negative. Hiring already slowing (payrolls +140k vs +200k last year). The transmission is underway.
 
-**Cross-Pillar Signal:** When **CCI < -0.3** (consumer fatigued) AND **LFI > +0.8** (labor fragile), recession probability exceeds 65% within 12 months. Current: **CCI -0.3, LFI +0.93**. **Warning threshold engaged.**
+**Cross-Pillar Signal:** When **CCI < -0.3** (consumer fatigued) AND **LFI > +0.8** (labor fragile), recession probability exceeds 65% within 12 months. Current: **CCI -0.39, LFI +0.93**. **Warning threshold engaged.**
 
 ---
 
@@ -460,7 +460,7 @@ GDP Growth → Investment Response → Hiring → Consumer Income (Reinforcing)
 
 **Current Linkage:** PCE contributing **+1.4 ppts** to GDP (+2.5% total). If consumer slows to +1.5% real, PCE contribution falls to +1.0 ppts. GDP falls to ~2.0%. If consumer stagnates (+0.5%), GDP falls to ~1.0%. Consumer is the margin.
 
-**Cross-Pillar Signal:** When **CCI < -0.5** (consumer stressed) AND **GCI < -0.5** (growth contracting), recession is confirmed. Current: **CCI -0.3, GCI -0.4**. Close to synchronized weakness.
+**Cross-Pillar Signal:** When **CCI < -0.5** (consumer stressed) AND **GCI < -0.5** (growth contracting), recession is confirmed. Current: **CCI -0.39, GCI -0.4**. Close to synchronized weakness.
 
 ---
 
