@@ -527,7 +527,7 @@ Consumer Credit Availability ↓ → Spending ↓ (Reinforcing)
 | **Debt Service Ratio** | 10.8% | >11% = stretched | 🟡 Elevated |
 | **Card Spending YoY%** | +2.8% | <2% = weak | 🟡 Slowing |
 | **Real Retail Sales YoY%** | +0.2% | <0% = contraction | 🟡 Barely positive |
-| **CCI Estimate** | **-0.3** | <-0.5 = stressed | 🟡 **Consumer Fatigued** |
+| **CCI Estimate** | **-0.39** | <-0.5 = stressed | 🟡 **Consumer Fatigued** |
 
 ### Narrative Synthesis
 
