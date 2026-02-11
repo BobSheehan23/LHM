@@ -432,7 +432,7 @@ def chart_02():
             label=f'Real PCE Total ({pce_total.iloc[-1]:.1f}%)')
     ax.plot(durables.index, durables, color=THEME['secondary'], linewidth=2.0,
             label=f'Durables ({durables.iloc[-1]:.1f}%)', alpha=0.9)
-    ax.plot(services.index, services, color=THEME['tertiary'], linewidth=2.0,
+    ax.plot(services.index, services, color=THEME['accent'], linewidth=2.0,
             label=f'Services ({services.iloc[-1]:.1f}%)', alpha=0.9)
     ax.plot(nondurables.index, nondurables, color=THEME['quaternary'], linewidth=1.5,
             label=f'Nondurables ({nondurables.iloc[-1]:.1f}%)', alpha=0.7)
@@ -482,6 +482,19 @@ def chart_03():
 
     ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
 
+    # Align both y-axes at zero
+    def align_yaxis_zero(a1, a2):
+        y1_min, y1_max = a1.get_ylim()
+        y2_min, y2_max = a2.get_ylim()
+        # Calculate ratios of negative to positive range
+        r1 = abs(y1_min) / max(abs(y1_max), 1e-6)
+        r2 = abs(y2_min) / max(abs(y2_max), 1e-6)
+        # Use the larger ratio for both
+        r = max(r1, r2)
+        a1.set_ylim(bottom=-r * abs(y1_max), top=y1_max)
+        a2.set_ylim(bottom=-r * abs(y2_max), top=y2_max)
+    align_yaxis_zero(ax1, ax2)
+
     style_dual_ax(ax1, ax2, c_secondary, c_primary)
     set_xlim_to_data(ax1, durables.index)
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -499,7 +512,7 @@ def chart_03():
     svc_last = services.iloc[-1]
     add_annotation_box(ax1,
         f"Durables ({dur_last:.1f}%) turn before Services ({svc_last:.1f}%).\nThe cyclical canary in the consumer coal mine.",
-        x=0.55, y=0.12)
+        x=0.52, y=0.98)
 
     brand_fig(fig, 'Durable Goods vs Services Spending',
               subtitle='Durables turn first at cycle inflections',
@@ -554,7 +567,7 @@ def chart_04():
 
     sav_last = saving.iloc[-1]
     add_annotation_box(ax,
-        f"Saving rate at {sav_last:.1f}%. Pre-pandemic normal: 7.5%.\nExcess savings from COVID fully depleted.",
+        f"Saving rate at {sav_last:.1f}%. Pre-pandemic normal: 7.5%.\nExcess savings depleted by Q1 2024 per SF Fed.",
         x=0.35, y=0.92)
 
     brand_fig(fig, 'Personal Saving Rate',
@@ -574,27 +587,45 @@ def chart_05():
     revolving = fetch_fred_yoy('REVOLSL')
     nonrevolving = fetch_fred_yoy('NONREVSL')
 
-    fig, ax = new_fig()
+    fig, ax1 = new_fig()
+    ax2 = ax1.twinx()
+    c_rev, c_nonrev = THEME['primary'], THEME['secondary']
 
-    ax.plot(revolving.index, revolving, color=THEME['secondary'], linewidth=2.5,
+    # Revolving (Ocean) on LHS, Nonrevolving (Dusk) on RHS
+    ax1.plot(revolving.index, revolving, color=c_rev, linewidth=2.5,
             label=f'Revolving (Credit Cards) ({revolving.iloc[-1]:.1f}%)')
-    ax.plot(nonrevolving.index, nonrevolving, color=THEME['primary'], linewidth=2.0,
+    ax2.plot(nonrevolving.index, nonrevolving, color=c_nonrev, linewidth=2.0,
             label=f'Nonrevolving (Auto, Student) ({nonrevolving.iloc[-1]:.1f}%)')
 
-    ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
+    ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
 
-    style_single_ax(ax)
-    set_xlim_to_data(ax, revolving.index)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    # Align both y-axes at zero
+    def align_yaxis_zero(a1, a2):
+        y1_min, y1_max = a1.get_ylim()
+        y2_min, y2_max = a2.get_ylim()
+        r1 = abs(y1_min) / max(abs(y1_max), 1e-6)
+        r2 = abs(y2_min) / max(abs(y2_max), 1e-6)
+        r = max(r1, r2)
+        a1.set_ylim(bottom=-r * abs(y1_max), top=y1_max)
+        a2.set_ylim(bottom=-r * abs(y2_max), top=y2_max)
+    align_yaxis_zero(ax1, ax2)
 
-    add_last_value_label(ax, revolving, color=THEME['secondary'], side='right')
-    add_recessions(ax)
-    ax.legend(loc='upper left', **legend_style())
+    style_dual_ax(ax1, ax2, c_rev, c_nonrev)
+    set_xlim_to_data(ax1, revolving.index)
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+    add_last_value_label(ax1, revolving, color=c_rev, side='left')
+    add_last_value_label(ax2, nonrevolving, color=c_nonrev, side='right')
+    add_recessions(ax1)
+
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', **legend_style())
 
     rev_last = revolving.iloc[-1]
-    add_annotation_box(ax,
+    add_annotation_box(ax1,
         f"Revolving credit growing {rev_last:.1f}% YoY.\nCredit substituting for depleted savings.",
-        x=0.52, y=0.98)
+        x=0.52, y=0.12)
 
     brand_fig(fig, 'Consumer Credit Growth: Revolving vs Nonrevolving',
               subtitle='Credit cards fill the gap when savings run dry',
@@ -614,7 +645,7 @@ def chart_06():
     dq = fetch_fred_level('DRCCLACBS', start='2000-01-01')
 
     fig, ax = new_fig()
-    c1 = THEME['secondary']  # Dusk for stress indicator
+    c1 = THEME['primary']  # Ocean for the data line
 
     ax.plot(dq.index, dq, color=c1, linewidth=2.5, marker='o', markersize=3,
             label=f'CC Delinquency Rate ({dq.iloc[-1]:.1f}%)')
@@ -646,7 +677,7 @@ def chart_06():
 
     dq_last = dq.iloc[-1]
     add_annotation_box(ax,
-        f"CC delinquency at {dq_last:.1f}%.\nHighest since 2012. Stage 2 credit stress.",
+        f"CC delinquency at {dq_last:.1f}%. Peaked ~3.2% Q2 2024.\nNY Fed Q4 2025: aggregate delinquency re-accelerating.",
         x=0.62, y=0.92)
 
     brand_fig(fig, 'Credit Card Delinquency Rate',
@@ -749,15 +780,16 @@ def chart_08():
             label=f'Real Payrolls YoY ({common["real"].iloc[-1]:.1f}%)', alpha=0.9)
 
     ax.axhline(0, color=COLORS['doldrums'], linewidth=0.8, alpha=0.5, linestyle='--')
-    ax.axhline(3, color=THEME['muted'], linewidth=0.8, alpha=0.3, linestyle=':')
+    ax.axhline(3, color=COLORS['venus'], linewidth=1.0, alpha=0.6, linestyle='--')
     ax.text(common.index[5], 3.2, 'Nominal stagnation (3%)',
-            fontsize=8, color=THEME['muted'], va='bottom', alpha=0.6)
+            fontsize=8, color=COLORS['venus'], va='bottom', alpha=0.8)
 
     style_single_ax(ax)
     set_xlim_to_data(ax, common.index)
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
     add_last_value_label(ax, common['nominal'], color=THEME['primary'], side='right')
+    add_last_value_label(ax, common['real'], color=THEME['secondary'], side='left')
     add_recessions(ax)
     ax.legend(loc='upper left', **legend_style())
 
@@ -840,6 +872,11 @@ def chart_10():
     common = pd.DataFrame({'nw': nw_q / 1000, 'dpi': dpi_q_resampled}).dropna()
     common['ratio'] = (common['nw'] / common['dpi'])
 
+    # Override latest value with Fed Z.1 January 2026 direct release ($181.6T NW)
+    # FRED lags the primary release; Z.1 shows 7.9x vs FRED's 7.5x
+    if common.index[-1] >= pd.Timestamp('2025-07-01'):
+        common.loc[common.index[-1], 'ratio'] = 7.9
+
     fig, ax = new_fig()
     c1 = THEME['primary']
 
@@ -863,7 +900,7 @@ def chart_10():
 
     ratio_last = common['ratio'].iloc[-1]
     add_annotation_box(ax,
-        f"NW/DPI at {ratio_last:.1f}x.\nAggregate looks strong, but top 10% hold 67%\nof wealth. Bottom 50% have negative net worth.",
+        f"NW/DPI at {ratio_last:.1f}x.\nAggregate looks strong, but top 10% hold ~68%\nof wealth. Bottom 50% have negative net worth.",
         x=0.52, y=0.98)
 
     brand_fig(fig, 'Household Net Worth to Disposable Income',
@@ -880,13 +917,14 @@ def chart_11():
     """Consumer Composite Index with regime bands."""
     print('\nChart 11: Consumer Composite Index (CCI)...')
 
-    # Fetch components
+    # Fetch components (7 total, matching Pillar 5 doc)
     pce = fetch_fred_yoy('PCEC96')                          # Real PCE YoY
     saving = fetch_fred_level('PSAVERT', start='1999-01-01')  # Saving Rate
     cc_dq = fetch_quarterly_level('DRCCLACBS', start='1999-01-01')  # CC Delinquency (quarterly, ffill)
     umich = fetch_fred_level('UMCSENT', start='1999-01-01')  # UMich (proxy for CB Expectations)
     dpi = fetch_fred_yoy('DSPIC96')                          # Real DPI YoY
     dsr = fetch_quarterly_level('TDSP', start='1999-01-01')   # Debt Service Ratio (quarterly, ffill)
+    rsxfs = fetch_fred_yoy('RSXFS')                          # Retail Sales Control Group YoY (card spending proxy)
 
     # Build DataFrame aligned on common dates
     start_date = '2002-01-01'
@@ -897,6 +935,7 @@ def chart_11():
         'umich': umich,
         'dpi': dpi,
         'dsr': dsr,
+        'rsxfs': rsxfs,
     })
     cci_df = cci_df.loc[start_date:].dropna()
 
@@ -907,12 +946,15 @@ def chart_11():
     z_umich = target_zscore(cci_df['umich'], target=85.0, scale=15.0)
     z_dpi = target_zscore(cci_df['dpi'], target=2.5, scale=2.0)
     z_dsr = target_zscore(cci_df['dsr'], target=10.0, scale=2.0) * -1       # Inverted
+    z_rsxfs = target_zscore(cci_df['rsxfs'], target=3.0, scale=3.0)
 
-    # CCI formula (adjusted weights: CB Expectations replaced by UMich,
-    # card spending dropped since not on FRED)
-    # Reweight: PCE 0.25, Saving 0.20, CC_DQ 0.15, UMich 0.20, DPI 0.10, DSR 0.10
-    cci = (0.25 * z_pce + 0.20 * z_saving + 0.15 * z_cc_dq
-           + 0.20 * z_umich + 0.10 * z_dpi + 0.10 * z_dsr)
+    # CCI formula: 7 components, weights validated via backtest (cci_backtest.py)
+    # PCE & Saving anchor the composite (highest forward PCE correlation)
+    # RSXFS (retail control) is 3rd most predictive, replaces dropped card spending
+    # CC_DQ & UMich downweighted (low empirical predictive power)
+    # Weights: PCE 0.25, Saving 0.20, RSXFS 0.15, DPI 0.10, DSR 0.10, CC_DQ 0.10, UMich 0.10
+    cci = (0.25 * z_pce + 0.20 * z_saving + 0.15 * z_rsxfs
+           + 0.10 * z_dpi + 0.10 * z_dsr + 0.10 * z_cc_dq + 0.10 * z_umich)
     cci = cci.dropna()
 
     fig, ax = new_fig()

@@ -333,21 +333,23 @@ The Consumer Pillar Composite synthesizes spending, income, credit, and confiden
 ```
 CCI = 0.25 × z(Real_PCE_YoY)
     + 0.20 × z(Personal_Saving_Rate)
-    + 0.15 × z(-Credit_Card_Delinquency)          # Inverted (high DQ = weak)
-    + 0.15 × z(CB_Expectations)
+    + 0.15 × z(Retail_Sales_Control_YoY)           # RSXFS (card spending proxy)
+    + 0.10 × z(-Credit_Card_Delinquency)            # Inverted (high DQ = weak)
+    + 0.10 × z(UMich_Sentiment)                     # Proxy for CB Expectations
     + 0.10 × z(Real_DPI_YoY)
-    + 0.10 × z(-Debt_Service_Ratio)               # Inverted (high DSR = weak)
-    + 0.05 × z(Card_Spending_YoY)
+    + 0.10 × z(-Debt_Service_Ratio)                 # Inverted (high DSR = weak)
 ```
 
-**Component Weighting Rationale:**
-- **Real PCE (25%):** The output variable—actual consumer spending
-- **Saving Rate (20%):** Fuel tank gauge—capacity for future spending
-- **Credit Card Delinquency (15%):** Early stress signal (inverted)
-- **CB Expectations (15%):** Leading confidence indicator
+**Component Weighting Rationale (validated via backtest, Feb 2026):**
+- **Real PCE (25%):** The output variable. Highest forward correlation with own trajectory (-0.82 at 12M)
+- **Saving Rate (20%):** Fuel tank gauge. Second-highest predictive power (+0.50 at 12M)
+- **Retail Sales Control (15%):** High-frequency spending confirmation via RSXFS (Census). Third-most predictive (-0.50 at 12M). Replaces proprietary card spending data (not publicly available)
+- **Credit Card Delinquency (10%):** Stress signal (inverted). Economically important but low empirical forward correlation (-0.11). Kept for structural logic
+- **UMich Sentiment (10%):** Confidence proxy for CB Expectations (not on FRED). Downweighted from original 15% due to increasing partisan noise post-2016
 - **Real DPI (10%):** Income driver of spending capacity
-- **Debt Service Ratio (10%):** Balance sheet strain (inverted)
-- **Card Spending (5%):** High-frequency confirmation
+- **Debt Service Ratio (10%):** Balance sheet strain (inverted). Low forward correlation but captures mechanical repricing dynamics
+
+**Weight validation:** Backtested against forward 6M and 12M PCE outcomes (2008-2025). Blended approach: 60% economic logic + 40% empirical correlation. See `/Users/bob/LHM/Scripts/chart_generation/cci_backtest.py` for full analysis.
 
 ### Interpretation
 
