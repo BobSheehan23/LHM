@@ -1,5 +1,5 @@
 """
-CLTI Backtest v4: Expanded component set + data-driven weighting
+CLI Backtest v4: Expanded component set + data-driven weighting
 ================================================================
 New components:
   - Reserves as % of Fed assets (TOTRESNS / WALCL) - buffer adequacy
@@ -156,7 +156,7 @@ def score(results):
 
 def main():
     print("=" * 70)
-    print("  CLTI v4: Data-Driven Component Discovery")
+    print("  CLI v4: Data-Driven Component Discovery")
     print("=" * 70)
 
     import sys

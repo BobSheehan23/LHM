@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Generate CLTI Chart: Composite over time with rolling 63D BTC returns
-=====================================================================
-Dual-axis: CLTI (LHS, Dusk) vs Rolling 63D BTC Return (RHS, primary/Ocean/Sky)
-Regime bands on CLTI axis.
+Generate CLI Chart: Composite over time with rolling 63D BTC returns
+====================================================================
+Dual-axis: CLI (LHS, Dusk) vs Rolling 63D BTC Return (RHS, primary/Ocean/Sky)
+Regime bands on CLI axis.
 
 Usage:
-    python clti_chart.py           # both themes
-    python clti_chart.py --dark    # dark only
-    python clti_chart.py --white   # white only
+    python cli_chart.py           # both themes
+    python cli_chart.py --dark    # dark only
+    python cli_chart.py --white   # white only
 """
 
 import os
@@ -24,8 +24,8 @@ from datetime import datetime
 # PATHS
 # ============================================
 BASE_PATH = '/Users/bob/LHM'
-DATA_PATH = f'{BASE_PATH}/Scripts/backtest/clti_chart_data.csv'
-OUTPUT_BASE = f'{BASE_PATH}/Outputs/CLTI_Charts'
+DATA_PATH = f'{BASE_PATH}/Scripts/backtest/cli_chart_data.csv'
+OUTPUT_BASE = f'{BASE_PATH}/Outputs/CLI_Charts'
 
 COLORS = {
     'ocean': '#0089D1',
@@ -224,11 +224,11 @@ def align_yaxis_zero(a1, a2):
 # ============================================
 # MAIN CHART
 # ============================================
-def chart_clti(fwd_days=63):
-    """CLTI vs forward BTC returns, dual-axis with regime bands."""
+def chart_cli(fwd_days=63):
+    """CLI vs forward BTC returns, dual-axis with regime bands."""
     df = pd.read_csv(DATA_PATH, index_col=0, parse_dates=True)
 
-    clti = df['CLTI'].dropna()
+    cli =df['CLI'].dropna()
     btc_price = df['BTC_Price'].dropna()
 
     # Compute FORWARD returns: what BTC did over the NEXT fwd_days from each date
@@ -236,19 +236,19 @@ def chart_clti(fwd_days=63):
     btc_fwd = btc_fwd.dropna()
 
     # Align
-    common = clti.index.intersection(btc_fwd.index)
-    clti_plot = clti.loc[common]
+    common = cli.index.intersection(btc_fwd.index)
+    cli_plot = cli.loc[common]
     btc_plot = btc_fwd.loc[common]
 
     # Current values
-    last_clti = clti.dropna().iloc[-1]
-    if last_clti > 0.45:
+    last_cli = cli.dropna().iloc[-1]
+    if last_cli > 0.45:
         regime = "Q5"
-    elif last_clti > 0.14:
+    elif last_cli > 0.14:
         regime = "Q4"
-    elif last_clti > -0.16:
+    elif last_cli > -0.16:
         regime = "Q3"
-    elif last_clti > -0.57:
+    elif last_cli > -0.57:
         regime = "Q2"
     else:
         regime = "Q1"
@@ -256,10 +256,10 @@ def chart_clti(fwd_days=63):
     fig, ax1 = new_fig()
     ax2 = ax1.twinx()
 
-    c_clti = THEME['secondary']
+    c_cli =THEME['secondary']
     c_btc = THEME['primary']
 
-    # Quintile bands on CLTI (boundaries from data: 20th=-0.57, 40th=-0.16, 60th=0.14, 80th=0.45)
+    # Quintile bands on CLI (boundaries from data: 20th=-0.57, 40th=-0.16, 60th=0.14, 80th=0.45)
     Q1_TOP = -0.57
     Q2_TOP = -0.16
     Q3_TOP = 0.14
@@ -273,7 +273,7 @@ def chart_clti(fwd_days=63):
     # Zero line
     ax1.axhline(0, color=COLORS['doldrums'], linewidth=0.8, linestyle='--', zorder=1)
 
-    # Plot forward BTC returns on RHS (behind CLTI)
+    # Plot forward BTC returns on RHS (behind CLI)
     ax2.plot(btc_plot.index, btc_plot.values, color=c_btc, linewidth=1.2, alpha=0.85,
              label=f'BTC {fwd_days}D Forward Return', zorder=2)
     ax2.fill_between(btc_plot.index, 0, btc_plot.values,
@@ -281,9 +281,9 @@ def chart_clti(fwd_days=63):
     ax2.fill_between(btc_plot.index, 0, btc_plot.values,
                      where=btc_plot.values < 0, color=COLORS['port'], alpha=0.08, zorder=1)
 
-    # Plot CLTI on LHS (foreground)
-    ax1.plot(clti_plot.index, clti_plot.values, color=c_clti, linewidth=2.0,
-             label=f'CLTI ({last_clti:+.2f}, {regime})', zorder=5)
+    # Plot CLI on LHS (foreground)
+    ax1.plot(cli_plot.index, cli_plot.values, color=c_cli, linewidth=2.0,
+             label=f'CLI ({last_cli:+.2f}, {regime})', zorder=5)
 
     # Quintile threshold lines
     for thresh in [Q1_TOP, Q2_TOP, Q3_TOP, Q4_TOP]:
@@ -303,12 +303,12 @@ def chart_clti(fwd_days=63):
     ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{x:.0f}%'))
 
     align_yaxis_zero(ax1, ax2)
-    style_dual_ax(ax1, ax2, c_clti, c_btc)
-    set_xlim_to_data(ax1, clti_plot.index)
+    style_dual_ax(ax1, ax2, c_cli, c_btc)
+    set_xlim_to_data(ax1, cli_plot.index)
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 
     # Pills
-    add_last_value_label(ax1, clti_plot, color=c_clti, fmt='{:+.2f}', side='left')
+    add_last_value_label(ax1, cli_plot, color=c_cli, fmt='{:+.2f}', side='left')
     add_last_value_label(ax2, btc_plot, color=c_btc, fmt='{:+.0f}%', side='right')
 
     # Legend
@@ -318,7 +318,7 @@ def chart_clti(fwd_days=63):
 
     # Box 1 (top-right area): What is this
     box1_text = ('Weighted composite across 3\n'
-                 'liquidity transmission channels:\n'
+                 'liquidity impulse channels:\n'
                  '  \u2022 Dollar Momentum\n'
                  '  \u2022 Reserve Dynamics\n'
                  '  \u2022 Stablecoin Flows')
@@ -336,7 +336,7 @@ def chart_clti(fwd_days=63):
                      ' Q3:                   +1.0%    1.20x\n'
                      ' Q2:                   +0.5%    1.11x\n'
                      ' Q1 (Weakest):         -4.8%    0.45x\n\n'
-                     f'Q5-Q1: +13.4% (t=14.2, p<0.0001) | n={len(clti_plot):,}')
+                     f'Q5-Q1: +13.4% (t=14.2, p<0.0001) | n={len(cli_plot):,}')
     elif fwd_days == 42:
         box2_text = (f'{fwd_days}D Fwd Returns:   Avg Ret  Slugging\n'
                      ' Q5 (Strongest):      +14.3%    4.50x\n'
@@ -344,7 +344,7 @@ def chart_clti(fwd_days=63):
                      ' Q3:                   +3.9%    1.56x\n'
                      ' Q2:                   -0.2%    0.97x\n'
                      ' Q1 (Weakest):         -7.8%    0.43x\n\n'
-                     f'Q5-Q1: +22.1% (t=15.6, p<0.0001) | n={len(clti_plot):,}')
+                     f'Q5-Q1: +22.1% (t=15.6, p<0.0001) | n={len(cli_plot):,}')
     else:
         box2_text = (f'{fwd_days}D Fwd Returns:   Avg Ret  Slugging\n'
                      ' Q5 (Strongest):      +17.2%    3.70x\n'
@@ -352,7 +352,7 @@ def chart_clti(fwd_days=63):
                      ' Q3:                   +9.0%    2.45x\n'
                      ' Q2:                   -2.1%    0.82x\n'
                      ' Q1 (Weakest):         -9.8%    0.39x\n\n'
-                     f'Q5-Q1: +27.0% (t=15.0, p<0.0001) | n={len(clti_plot):,}')
+                     f'Q5-Q1: +27.0% (t=15.0, p<0.0001) | n={len(cli_plot):,}')
 
     ax1.text(0.55, 0.03, box2_text, transform=ax1.transAxes,
              fontsize=9.5, color=THEME['fg'], ha='center', va='bottom',
@@ -363,14 +363,14 @@ def chart_clti(fwd_days=63):
 
     # Branding
     brand_fig(fig,
-              'Crypto-Liquidity Transmission Index',
-              f'CLTI vs {fwd_days}-Day Forward BTC Returns',
+              'Crypto Liquidity Impulse',
+              f'CLI vs {fwd_days}-Day Forward BTC Returns',
               'FRED, DefiLlama, Yahoo Finance')
 
-    save_fig(fig, f'clti_vs_btc_fwd{fwd_days}d.png')
+    save_fig(fig, f'cli_vs_btc_fwd{fwd_days}d.png')
 
 
-def chart_clti_regime_bars():
+def chart_cli_regime_bars():
     """Bar chart: quintile regime forward returns."""
     fig, ax = new_fig()
 
@@ -412,7 +412,7 @@ def chart_clti_regime_bars():
     ax.legend(loc='upper left', **legend_style())
 
     # Annotation box
-    ann_text = ('Weighted composite across 3 liquidity transmission channels:\n'
+    ann_text = ('Weighted composite across 3 liquidity impulse channels:\n'
                 'Dollar Momentum | Reserve Dynamics | Stablecoin Flows\n\n'
                 'Q5-Q1 Spread:                Slugging (Q1 / Q5):\n'
                 '21D: +13.4%  (t = 14.2)      0.45x  /  4.81x\n'
@@ -427,11 +427,11 @@ def chart_clti_regime_bars():
                       alpha=0.92, linewidth=1.5))
 
     brand_fig(fig,
-              'Crypto-Liquidity Transmission Index',
-              'Average BTC Forward Returns by CLTI Quintile (2018-2025)',
+              'Crypto Liquidity Impulse',
+              'Average BTC Forward Returns by CLI Quintile (2018-2025)',
               'Lighthouse Macro Backtest')
 
-    save_fig(fig, 'clti_regime_bars.png')
+    save_fig(fig, 'cli_regime_bars.png')
 
 
 def main():
@@ -444,10 +444,10 @@ def main():
     for mode in themes:
         print(f'\n  === {mode.upper()} THEME ===')
         set_theme(mode)
-        chart_clti(fwd_days=21)
-        chart_clti(fwd_days=42)
-        chart_clti(fwd_days=63)
-        chart_clti_regime_bars()
+        chart_cli(fwd_days=21)
+        chart_cli(fwd_days=42)
+        chart_cli(fwd_days=63)
+        chart_cli_regime_bars()
 
 
 if __name__ == '__main__':

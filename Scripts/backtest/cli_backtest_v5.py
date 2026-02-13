@@ -1,5 +1,5 @@
 """
-CLTI Backtest v5: Final optimization and presentation
+CLI Backtest v5: Final optimization and presentation
 ======================================================
 v4 found the winning structure:
   Dollar 6-month change (inverted) + Reserve ratio dynamics
@@ -162,7 +162,7 @@ def print_tercile(results, label=""):
 
 def main():
     print("="*70)
-    print("  CLTI v5: Final Optimization & Presentation")
+    print("  CLI v5: Final Optimization & Presentation")
     print("="*70)
 
     btc = fetch_btc()

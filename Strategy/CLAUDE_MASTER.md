@@ -1,6 +1,6 @@
 # LIGHTHOUSE MACRO - MASTER CONTEXT
 
-**LAST_SYNC:** 2026-02-06
+**LAST_SYNC:** 2026-02-13
 **Version:** 4.0
 
 ---

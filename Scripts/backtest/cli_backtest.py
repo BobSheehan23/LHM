@@ -1,5 +1,5 @@
 """
-CLTI Backtest: Crypto-Liquidity Transmission Index
+CLI Backtest: Crypto Liquidity Impulse
 ===================================================
 Tests whether a composite of macro liquidity, US plumbing, and crypto-native
 signals has predictive power for BTC forward returns.
@@ -158,7 +158,7 @@ def zscore_rolling(series, window=504):
 
 
 def build_components(conn, btc, stablecoins, iorb, api_key):
-    """Build all CLTI components and merge into a single DataFrame."""
+    """Build all CLI components and merge into a single DataFrame."""
 
     # Load from DB
     m2 = load_series(conn, 'M2SL')
@@ -248,8 +248,8 @@ def build_components(conn, btc, stablecoins, iorb, api_key):
     return components
 
 
-def compute_clti(df, has_c5=True):
-    """Compute the CLTI composite from z-scored components."""
+def compute_cli(df, has_c5=True):
+    """Compute the CLI composite from z-scored components."""
 
     # Z-score each component
     comp_cols = ['C1_M2_Momentum', 'C2_Dollar_Inv', 'C3_NetLiq_Impulse', 'C4_Funding_Stress_Inv']
@@ -279,12 +279,12 @@ def compute_clti(df, has_c5=True):
             'z_C4_Funding_Stress_Inv': 0.20,
         }
 
-    clti = pd.Series(0.0, index=df.index)
+    cli = pd.Series(0.0, index=df.index)
     for col, w in weights.items():
         if col in z_df.columns:
-            clti += w * z_df[col]
+            cli += w * z_df[col]
 
-    return clti, z_df
+    return cli, z_df
 
 
 def forward_returns(prices, horizons=[5, 10, 21, 63]):
@@ -295,10 +295,10 @@ def forward_returns(prices, horizons=[5, 10, 21, 63]):
     return fwd
 
 
-def quintile_analysis(clti, fwd_returns, horizon_col, label="CLTI"):
+def quintile_analysis(cli, fwd_returns, horizon_col, label="CLI"):
     """Quintile sort analysis."""
     df = pd.DataFrame({
-        'clti': clti,
+        'cli': cli,
         'fwd': fwd_returns[horizon_col]
     }).dropna()
 
@@ -306,7 +306,7 @@ def quintile_analysis(clti, fwd_returns, horizon_col, label="CLTI"):
         print(f"  Insufficient data for quintile analysis ({len(df)} obs)")
         return None
 
-    df['quintile'] = pd.qcut(df['clti'], 5, labels=['Q1(Low)', 'Q2', 'Q3', 'Q4', 'Q5(High)'])
+    df['quintile'] = pd.qcut(df['cli'], 5, labels=['Q1(Low)', 'Q2', 'Q3', 'Q4', 'Q5(High)'])
 
     results = df.groupby('quintile')['fwd'].agg(['mean', 'std', 'count'])
     results['mean_pct'] = results['mean'] * 100
@@ -327,10 +327,10 @@ def quintile_analysis(clti, fwd_returns, horizon_col, label="CLTI"):
     }
 
 
-def regime_analysis(clti, fwd_returns, horizon_col, thresholds=(-0.5, 0.5)):
+def regime_analysis(cli, fwd_returns, horizon_col, thresholds=(-0.5, 0.5)):
     """Regime analysis (Scarce / Neutral / Ample)."""
     df = pd.DataFrame({
-        'clti': clti,
+        'cli': cli,
         'fwd': fwd_returns[horizon_col]
     }).dropna()
 
@@ -339,9 +339,9 @@ def regime_analysis(clti, fwd_returns, horizon_col, thresholds=(-0.5, 0.5)):
         return None
 
     conditions = [
-        df['clti'] < thresholds[0],
-        (df['clti'] >= thresholds[0]) & (df['clti'] <= thresholds[1]),
-        df['clti'] > thresholds[1],
+        df['cli'] < thresholds[0],
+        (df['cli'] >= thresholds[0]) & (df['cli'] <= thresholds[1]),
+        df['cli'] > thresholds[1],
     ]
     labels = ['Contracting', 'Neutral', 'Expanding']
     df['regime'] = np.select(conditions, labels, default='Neutral')
@@ -368,22 +368,22 @@ def regime_analysis(clti, fwd_returns, horizon_col, thresholds=(-0.5, 0.5)):
     }
 
 
-def extreme_decile_analysis(clti, fwd_returns, horizon_col):
+def extreme_decile_analysis(cli, fwd_returns, horizon_col):
     """Top/Bottom 10% extreme analysis."""
     df = pd.DataFrame({
-        'clti': clti,
+        'cli': cli,
         'fwd': fwd_returns[horizon_col]
     }).dropna()
 
     if len(df) < 50:
         return None
 
-    bottom_10 = df['clti'].quantile(0.10)
-    top_10 = df['clti'].quantile(0.90)
+    bottom_10 = df['cli'].quantile(0.10)
+    top_10 = df['cli'].quantile(0.90)
 
-    bottom = df[df['clti'] <= bottom_10]['fwd']
-    middle = df[(df['clti'] > bottom_10) & (df['clti'] < top_10)]['fwd']
-    top = df[df['clti'] >= top_10]['fwd']
+    bottom = df[df['cli'] <= bottom_10]['fwd']
+    middle = df[(df['cli'] > bottom_10) & (df['cli'] < top_10)]['fwd']
+    top = df[df['cli'] >= top_10]['fwd']
 
     if len(top) > 5 and len(bottom) > 5:
         t_stat, p_val = stats.ttest_ind(top, bottom, equal_var=False)
@@ -401,14 +401,14 @@ def extreme_decile_analysis(clti, fwd_returns, horizon_col):
     }
 
 
-def rolling_correlation(clti, btc_returns, window=252):
+def rolling_correlation(cli, btc_returns, window=252):
     """Rolling correlation stability check."""
     df = pd.DataFrame({
-        'clti': clti,
+        'cli': cli,
         'btc_ret': btc_returns
     }).dropna()
 
-    rolling_corr = df['clti'].rolling(window, min_periods=63).corr(df['btc_ret'])
+    rolling_corr = df['cli'].rolling(window, min_periods=63).corr(df['btc_ret'])
 
     return {
         'mean': rolling_corr.mean(),
@@ -466,7 +466,7 @@ def print_results(label, quintile_res, regime_res, extreme_res, corr_res):
 
 def main():
     print("=" * 70)
-    print("  CLTI BACKTEST: Crypto-Liquidity Transmission Index")
+    print("  CLI BACKTEST: Crypto Liquidity Impulse")
     print("  Lighthouse Macro | 2026-02-12")
     print("=" * 70)
 
@@ -500,15 +500,15 @@ def main():
 
     has_c5 = 'C5_Stablecoin_Momentum' in components.columns and components['C5_Stablecoin_Momentum'].dropna().shape[0] > 100
 
-    # Compute CLTI
-    clti, z_components = compute_clti(components, has_c5=has_c5)
-    clti.name = 'CLTI'
+    # Compute CLI
+    cli, z_components = compute_cli(components, has_c5=has_c5)
+    cli.name = 'CLI'
 
-    valid_clti = clti.dropna()
-    print(f"\nCLTI computed: {len(valid_clti)} valid observations")
-    print(f"  Range: {valid_clti.index.min().date()} to {valid_clti.index.max().date()}")
-    print(f"  Mean: {valid_clti.mean():.3f}, Std: {valid_clti.std():.3f}")
-    print(f"  Current value: {valid_clti.iloc[-1]:.3f}")
+    valid_cli = cli.dropna()
+    print(f"\nCLI computed: {len(valid_cli)} valid observations")
+    print(f"  Range: {valid_cli.index.min().date()} to {valid_cli.index.max().date()}")
+    print(f"  Mean: {valid_cli.mean():.3f}, Std: {valid_cli.std():.3f}")
+    print(f"  Current value: {valid_cli.iloc[-1]:.3f}")
 
     # Forward returns
     btc_prices = components['BTC'].dropna()
@@ -526,16 +526,16 @@ def main():
 
     print("\n")
     print("#" * 70)
-    print("  RESULTS: FULL CLTI COMPOSITE")
+    print("  RESULTS: FULL CLI COMPOSITE")
     print("#" * 70)
 
     for horizon_col, horizon_label in horizons.items():
-        label = f"CLTI → BTC {horizon_label} Returns"
+        label = f"CLI → BTC {horizon_label} Returns"
 
-        q_res = quintile_analysis(clti, fwd, horizon_col, "CLTI")
-        r_res = regime_analysis(clti, fwd, horizon_col)
-        e_res = extreme_decile_analysis(clti, fwd, horizon_col)
-        c_res = rolling_correlation(clti, btc_21d_ret) if horizon_col == 'fwd_21d' else None
+        q_res = quintile_analysis(cli, fwd, horizon_col, "CLI")
+        r_res = regime_analysis(cli, fwd, horizon_col)
+        e_res = extreme_decile_analysis(cli, fwd, horizon_col)
+        c_res = rolling_correlation(cli, btc_21d_ret) if horizon_col == 'fwd_21d' else None
 
         print_results(label, q_res, r_res, e_res, c_res)
 
@@ -567,21 +567,21 @@ def main():
 
     print("\n\n")
     print("#" * 70)
-    print("  RESULTS: 4-COMPONENT CLTI (No Stablecoins, Longer History)")
+    print("  RESULTS: 4-COMPONENT CLI (No Stablecoins, Longer History)")
     print("#" * 70)
 
-    clti_4, _ = compute_clti(components, has_c5=False)
-    clti_4.name = 'CLTI_4comp'
+    cli_4, _ = compute_cli(components, has_c5=False)
+    cli_4.name = 'CLI_4comp'
 
-    valid_4 = clti_4.dropna()
-    print(f"\n  4-Component CLTI: {len(valid_4)} valid obs")
+    valid_4 = cli_4.dropna()
+    print(f"\n  4-Component CLI: {len(valid_4)} valid obs")
     print(f"  Range: {valid_4.index.min().date()} to {valid_4.index.max().date()}")
 
     for horizon_col, horizon_label in horizons.items():
-        label = f"CLTI (4-comp) → BTC {horizon_label} Returns"
-        q_res = quintile_analysis(clti_4, fwd, horizon_col)
-        r_res = regime_analysis(clti_4, fwd, horizon_col)
-        e_res = extreme_decile_analysis(clti_4, fwd, horizon_col)
+        label = f"CLI (4-comp) → BTC {horizon_label} Returns"
+        q_res = quintile_analysis(cli_4, fwd, horizon_col)
+        r_res = regime_analysis(cli_4, fwd, horizon_col)
+        e_res = extreme_decile_analysis(cli_4, fwd, horizon_col)
         print_results(label, q_res, r_res, e_res, None)
 
     # ===== MONOTONICITY CHECK =====
@@ -592,10 +592,10 @@ def main():
     print("#" * 70)
 
     for horizon_col, horizon_label in horizons.items():
-        df_check = pd.DataFrame({'clti': clti, 'fwd': fwd[horizon_col]}).dropna()
+        df_check = pd.DataFrame({'cli': cli, 'fwd': fwd[horizon_col]}).dropna()
         if len(df_check) < 50:
             continue
-        df_check['quintile'] = pd.qcut(df_check['clti'], 5, labels=[1, 2, 3, 4, 5])
+        df_check['quintile'] = pd.qcut(df_check['cli'], 5, labels=[1, 2, 3, 4, 5])
         means = df_check.groupby('quintile')['fwd'].mean()
         is_monotonic = all(means.iloc[i] <= means.iloc[i+1] for i in range(len(means)-1))
         print(f"  {horizon_label}: {'MONOTONIC ✓' if is_monotonic else 'NOT MONOTONIC ✗'}")

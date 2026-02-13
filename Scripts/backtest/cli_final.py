@@ -1,5 +1,5 @@
 """
-CLTI Final: Robustness tests + presentation outputs
+CLI Final: Robustness tests + presentation outputs
 ====================================================
 Tests:
   1. Winsorized z-scores (cap +/-3)
@@ -160,7 +160,7 @@ def print_quintile(results, label=""):
 
 def main():
     print("="*70)
-    print("  CLTI FINAL: Robustness & Presentation")
+    print("  CLI FINAL: Robustness & Presentation")
     print("="*70)
 
     btc = fetch_btc()
@@ -275,17 +275,17 @@ def main():
 
     # Align
     chart_df = pd.DataFrame({
-        'CLTI': final_comp,
+        'CLI': final_comp,
         'BTC_63d_Ret': btc_63d,
         'BTC_Price': btc['BTC']
     }).dropna()
 
     # Export for charting
-    out_path = '/Users/bob/LHM/Scripts/backtest/clti_chart_data.csv'
+    out_path = '/Users/bob/LHM/Scripts/backtest/cli_chart_data.csv'
     chart_df.to_csv(out_path)
     print(f"  Exported {len(chart_df)} rows to {out_path}")
     print(f"  Date range: {chart_df.index[0].strftime('%Y-%m-%d')} to {chart_df.index[-1].strftime('%Y-%m-%d')}")
-    print(f"  Current CLTI: {chart_df['CLTI'].iloc[-1]:.3f}")
+    print(f"  Current CLI: {chart_df['CLI'].iloc[-1]:.3f}")
 
     # ================================================================
     # REGIME STATS FOR PRESENTATION

@@ -1,5 +1,5 @@
 """
-CLTI: Win/loss asymmetry and risk-adjusted metrics by quintile
+CLI: Win/loss asymmetry and risk-adjusted metrics by quintile
 """
 import sqlite3
 import pandas as pd
@@ -82,16 +82,16 @@ def main():
     raw['ResRatio_RoC'] = rr / rr.shift(63) - 1
 
     z = {k: z_expanding(v) for k, v in raw.items()}
-    clti = (0.20 * z['DollarYoY'] + 0.50 * z['ResRatio_RoC'] +
+    cli =(0.20 * z['DollarYoY'] + 0.50 * z['ResRatio_RoC'] +
             0.15 * z['StableBTC_RoC'] + 0.15 * z['ResRatio']).dropna()
 
     print("="*80)
-    print("  CLTI: WIN/LOSS ASYMMETRY & RISK-ADJUSTED METRICS")
+    print("  CLI: WIN/LOSS ASYMMETRY & RISK-ADJUSTED METRICS")
     print("="*80)
 
     for hz in [21, 42, 63]:
         fwd = btc_ret.rolling(hz).sum().shift(-hz) * 100
-        df = pd.DataFrame({'sig': clti, 'fwd': fwd}).dropna()
+        df = pd.DataFrame({'sig': cli, 'fwd': fwd}).dropna()
         df['q'] = pd.qcut(df['sig'], 5, labels=False, duplicates='drop') + 1
 
         print(f"\n  {hz}D FORWARD RETURNS:")

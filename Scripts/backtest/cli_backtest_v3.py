@@ -1,5 +1,5 @@
 """
-CLTI Backtest v3: Fix SOFR inversion, test Dollar YoY, iterate to monotonic
+CLI Backtest v3: Fix SOFR inversion, test Dollar YoY, iterate to monotonic
 ============================================================================
 Key changes from v2:
   - Drop C4a (SOFR-IORB spread) - working backwards, poisoning composite
@@ -146,7 +146,7 @@ def test_composite(composite, fwd, label="", verbose=True):
 
 def main():
     print("=" * 70)
-    print("  CLTI BACKTEST v3: Fixing SOFR, Optimizing Weights")
+    print("  CLI BACKTEST v3: Fixing SOFR, Optimizing Weights")
     print("  Lighthouse Macro | 2026-02-12")
     print("=" * 70)
 

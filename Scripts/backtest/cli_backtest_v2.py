@@ -1,5 +1,5 @@
 """
-CLTI Backtest v2: Crypto-Liquidity Transmission Index
+CLI Backtest v2: Crypto Liquidity Impulse
 =====================================================
 Iterative build with stablecoins from DefiLlama.
 Tests multiple weight configurations, component combinations,
@@ -342,7 +342,7 @@ def score_composite(results):
 
 def main():
     print("=" * 70)
-    print("  CLTI BACKTEST v2: Iterative Optimization")
+    print("  CLI BACKTEST v2: Iterative Optimization")
     print("  Lighthouse Macro | 2026-02-12")
     print("=" * 70)
 
